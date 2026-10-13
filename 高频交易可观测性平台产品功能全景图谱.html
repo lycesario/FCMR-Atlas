@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高频交易可观测性平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>高频交易可观测性平台全景</b>
+    <span>高频交易可观测性平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>高频交易可观测性平台产品功能全景图谱</h1>
+    <p>高频交易可观测性平台不是「多装几个仪表盘」，而是一套<b>把每一毫秒变成可举证事实</b>的测量基础设施：从 tick-to-trade 的全链路时间戳打点，到 PTP 与硬件时间戳构建的全网唯一时间轴，再到订单级 trace、尾延迟分析、SLO 治理与审计留痕。本图谱以 <b>18</b> 个功能域、<b>54</b> 个能力簇、<b>247</b> 个功能点，拆开测量、归因、治理与合规四层结构。判断这套平台成色，不看它平时多快，看它<b>出事那次能不能把「慢在哪一跳」举证到第三方认可</b>。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">17 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线，是<b>先把时间变成事实，再把事实变成决策</b>。用 PTP 与硬件时间戳建立全网唯一时间轴，用无侵入采集与高基数时序存储把每一笔订单的每一跳延迟留成可比对的数据，再通过尾延迟分析、SLO 治理与审计留痕，把观测结论直接接入发布门禁、容量决策与监管举证。它卖的不是图表，而是<b>可举证的事实与由此产生的组织动作</b>。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）测量基础层</td><td>全链路延迟度量、时钟同步与硬件时间戳、微秒级指标采集、无侵入遥测采集、高基数时序存储</td><td>这一层决定数字可不可信：时间是唯一事实源，采集不能改变被测对象，存储决定能看多细、能回溯多久——三层任一失守，上层全部归零</td></tr>
+<tr><td>第2层（d6–d10）关联归因层</td><td>分布式订单链路追踪、尾延迟与抖动分析、队列积压与背压观测、网络与网卡层观测、异常检测与告警归因</td><td>把分散在多个系统的指标还原成一笔订单的完整路径与最早前兆，回答「慢在哪一跳、为什么慢」，而不是只回答「确实慢了」</td></tr>
+<tr><td>第3层（d11–d14）运营治理层</td><td>SLO 与错误预算治理、性能画像与发布回归门禁、可视化与自助下钻、遥测数据治理与成本控制</td><td>把观测结论变成组织动作：预算约束发布节奏、门禁阻断劣化版本、视图拉齐角色认知、治理压住失控成本</td></tr>
+<tr><td>第4层（d15–d18）合规与规模化层</td><td>订单生命周期审计留痕、火焰图与 CPU 及 off-CPU 剖析、降采样与热温冷分层、跨场所合成监控与对标</td><td>这一层决定平台能否长期存在：可举证、可剖析、可负担、可对外对标——缺任何一项，前几层的价值都会在一年内被质疑</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br><b>一、时钟必须先于平台存在</b>——没有可举证的同步时钟，任何延迟数字都无法互信，多机房分析甚至会得出方向相反的结论；<br><b>二、延迟口径必须先冻结</b>——测量点、订单终态、分位与抖动定义不锁死，跨团队数字永远无法对话，会议会耗在定义上；<br><b>三、采集开销必须先用压测证明</b>——不能证明「不劣化主路径」的观测，本质上是把观测工具变成新的故障源。</div>
+    <div class="danger"><b>死亡陷阱：把「曲线越来越平滑、告警越来越安静」当成成功信号。</b><br>当 SLO 靠排除窗口达标、高基数标签被悄悄砍掉、采样率在上线后被下调却无人记录、内核旁路切换后部分路径已不再被观测时，图表会变得漂亮而稳定——而事故窗口恰好落在那段「安静」里。<b>可观测性的失败不是没有数据，而是数据看起来很干净却已经不再覆盖真实路径</b>；更危险的是，这种失败在监管问询或客户投诉之前不会产生任何告警。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断前沿方向落地优先级，只看一条标准：<b>它能否把「不可举证」变成「可举证」</b>。凡是能把延迟、时钟与订单终态变成第三方可复核证据的方向（硬件时间戳、PTP 审计、不可篡改留痕、网卡与 PTP 联合标定）优先级最高；只提升内部体验而不改变举证能力的方向（更炫的视图、更复杂的归因模型）应排在其后；而那些依赖竞争对手共享数据或行业统一约定的方向（跨场所统一时间轴、可观测性数据合约），技术可行但商业与合规门槛高于近期收益，只适合中立第三方或平台团队长期投入。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>订单（Order）</td><td>从网关收单到清算交收的全生命周期实体，是链路追踪、审计留痕与对账三方共用的关联锚点</td><td>订单是唯一能把指标、trace、审计与对账串起来的实体；订单维度一旦断裂，所有观测结论都只能停在聚合层，事故复盘与监管举证会同时失效</td></tr>
+<tr><td>时间戳（Timestamp）</td><td>带时钟源、精度等级与同步状态的纳秒级定点记录，分硬件时间戳与软件时间戳两类</td><td>时间戳是所有延迟数字的度量基准；来源混淆或同步状态不明会让同一指标出现系统性偏差，跨机房对比与先后因果推断直接失真</td></tr>
+<tr><td>Span（追踪片段）</td><td>以订单状态跃迁为单位的最小观测单元，携带订单 ID、策略、席位与标准化原因码</td><td>span 粒度定义了平台「能看到什么」；过粗会漏掉等待时间，过细会放大开销与基数，两者都会让排查动线在中途断掉</td></tr>
+<tr><td>延迟预算（Latency Budget）</td><td>按模块切分的允许耗时上限及其实时占用，是回归门禁、告警判据与容量决策的共同依据</td><td>没有预算就没有「是否异常」的判据，告警会退化成看趋势、优化会集中到已合格的模块，劣化会随版本无声累积到无法回滚</td></tr>
+<tr><td>时间轴（Time Axis）</td><td>由 PTP 与硬件时间戳构建的全网唯一时间基准，含偏移量、holdover 状态与失锁记录</td><td>多机房各自为政的时钟会让因果关系颠倒；失锁期间的数据若被照常参与比较，会产出看起来合理但方向相反的结论，且无从察觉</td></tr>
+<tr><td>错误预算（Error Budget）</td><td>由 SLO 推导出的允许不达标额度，用于约束发布节奏、扩容优先级与资源分配</td><td>错误预算是观测唯一能约束组织行为的货币；一旦被排除规则架空，SLO 就退化成装饰性指标，团队会持续踩线直到客户流失或监管介入</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域是四个监管域的交汇点：<b>交易行为监管</b>（MiFID II RTS 6 算法交易与 RTS 25 时钟精度、SEC Rule 613 CAT 逐笔报送、CFTC 自动化交易监督）、<b>记录保存与取证</b>（SEC 17a-4 的 WORM 要求、MiFID II 五年留痕、交易所技术审计）、<b>运营韧性与第三方风险</b>（EU DORA 的 ICT 风险管理与事件报告、关键信息基础设施保护、等保与供应链安全）、<b>数据与隐私</b>（个人信息保护、数据出境评估、跨境展业的数据本地化与脱敏）。境内还需叠加证券期货业信息技术管理要求，以及不得为虚拟货币交易提供技术服务的明确禁令。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br><b>一、时钟精度必须可举证</b>——不是「我们部署了 PTP」，而是能出具偏移记录、失锁事件与校准证明，否则任何延迟承诺与时间结论都不被采信；<br><b>二、留痕必须不可篡改且口径与报送一致</b>——内部口径与监管报送口径的差异若不书面说明，会被直接认定为瞒报，而举证窗口通常很短；<br><b>三、保留期必须取监管要求的并集</b>——按成本单方面缩短保留期或提前销毁记录，省下的存储费远低于合规瑕疵的代价，且属于典型的不可逆错误。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：先立时间轴——部署双 Grandmaster 与硬件时间戳，完成偏移监测、失锁告警与时钟审计报告，让后续所有数字拥有共同基准</li><li>第二步：再定口径——冻结测量点、订单状态机与终态、分位与抖动定义，形成可版本化的指标字典与模块级延迟预算表</li><li>第三步：打通链路——以订单 ID 关联网关、风控、撮合与清算，先覆盖核心撮合路径，再扩到行情分发、风控与清算环节</li><li>第四步：接入决策——把尾延迟与 SLO 接入发布门禁、容量规划与熔断策略，让观测产生可追溯、可复盘的组织动作</li><li>第五步：治理与对标——上线基数拦截、分层采样与成本归因，并以合成探针建立跨场所质量对标基线，进入常态运营</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：交易所与交易场所自研中台——以撮合稳定性与监管举证为第一目标，核心是硬件时间戳与全量留痕，采购以外围工具与咨询为主</li><li>路径 B：券商与期货公司——以极速交易链路监控与发布门禁为第一目标，优先接入延迟预算与订单重放，兼顾经纪业务的席位级视图与信创适配</li><li>路径 C：境外持牌虚拟资产与衍生品场所——以 MiCA 与 DORA 韧性、SFC 与 MAS 的记录保存要求为第一目标，优先做时钟举证、审计留痕与报送链路</li><li>路径 D：买方机构与做市商——以跨场所质量对标与遥测成本治理为第一目标，优先部署合成与被动探针并接入中立对标网络，核心采集保持自建</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点，是<b>同一个第一资产：可举证的统一时间轴</b>。无论目标是稳定性、合规还是跨场所对标，只要时钟无法举证，延迟度量、留痕与对标都会在同一处失效——它也是四类客户中最难被替换、最难被自研绕开的一层能力，因此时间基础设施永远第一个建、最后一个换。</div>
+  </section>
+
+  <footer>
+    <p>高频交易可观测性平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "全景总览与本质主线"],
+ ["s1", "平台形态与商业本质"],
+ ["s2", "功能域全景（18 域）"],
+ ["s3", "前沿方向与落地优先级"],
+ ["s4", "关键对象与观测中心"],
+ ["s5", "硬规则与死亡红线"],
+ ["s6", "指标体系"],
+ ["s7", "监管与合规"],
+ ["s8", "产品机会"],
+ ["s9", "落地路线"]
+];
+const PLAYERS = [
+ ["交易所自研可观测中台", "Nasdaq、CME、Coinbase 自建遥测栈", "上交所与深交所技术公司自研监控体系、券商自研极速交易监控", "不对外销售，用可观测性换取撮合稳定性、容量判断与监管举证能力"],
+ ["通用可观测 SaaS", "Datadog、Chronosphere、Honeycomb、New Relic", "阿里云 ARMS、腾讯云可观测平台、观测云", "按主机数、指标基数与事件量订阅，高基数场景毛利极佳但极易失控"],
+ ["开源可观测栈集成", "Grafana + Prometheus + Tempo + Pyroscope、VictoriaMetrics、ClickHouse", "麒麟信安、星环科技等信创监控栈、OpenObserve 社区版", "开源获客、企业版与托管服务变现，靠集成能力与信创适配拿单"],
+ ["时序数据库与流式分析引擎", "KX kdb+、ClickHouse、QuestDB、TimescaleDB", "TDengine、DolphinDB、阿里云 Lindorm", "卖引擎与查询性能，按节点、容量或摄入口径授权，替换成本高"],
+ ["网络与网卡硬件旁路观测", "Solarflare Onload、AMD Alveo、NVIDIA BlueField DPU、Napatech", "暂无对等产品，网卡与 DPU 观测长期由境外厂商主导", "以硬件时间戳与旁路采集锁定微秒级事实源，与低延迟硬件捆绑销售"],
+ ["交易链路专项 APM", "ITRS Geneos、Corvil（Pico）、ExtraHop、Broadcom 交易监控", "恒生电子、金证股份、顶点软件的极速交易监控模块", "与低延迟网关和网卡捆绑，按链路条数与交易席位收费，替换成本极高"],
+ ["全链路追踪与订单级溯源", "Datadog APM、Honeycomb、Jaeger、Dynatrace", "腾讯云 TAPM、阿里云 ARMS、博睿数据 Bonree", "以订单为单位的可追溯性是事故复盘与监管问询的通用货币，按 span 量与事件量计费"],
+ ["日志与事件管道", "Splunk、Elastic/OpenSearch、Datadog Logs、Cribl", "日志易、腾讯云 CLS、华为云 LTS", "按摄入量计费，管道治理与降本能力直接决定续费与毛利"],
+ ["可观测性咨询与托管服务", "Pico、Quod Financial、交易所技术咨询团队", "金融科技系统集成商、信创迁移服务商", "交付方法论与合规口径，比软件更难被替换，按人天与年度服务订阅"],
+ ["合规留痕与时钟审计服务", "Nasdaq CAT 报送链路、MiFID II RTS 6 合规工具、交易所审计服务", "证券期货业信息技术审计服务商、交易所技术公司", "把监管义务转成不可绕过的产品约束，形成年度续费刚需与审计粘性"],
+ ["混合分层架构（自研 + 开源 + SaaS）", "Coinbase、Binance、Robinhood 的混合遥测栈", "券商与期货公司自研为主、辅以开源商用版", "微秒级路径用自研与硬件、业务级用 SaaS，分层采购是当下最主流的落地形态"],
+ ["硬件时钟与时间基础设施", "Microchip 与 Meinberg PTP Grandmaster、Safran、Orolia", "北斗与 GPS 授时厂商、华为 1588v2 时钟设备", "时间即事实源，同步精度本身就是被认证的产品参数，是所有延迟承诺的前置条件"]
+];
+const DOMAINS = [
+ ["d1", "全链路延迟度量", "End-to-End Latency Instrumentation", "核心", "把从行情接入到成交回报的每一跳时间都变成可比对的事实，让「慢」可以被定位到具体一跳，而不是停留在被感知的层面。", [["分段延迟打点", [["tick-to-trade 分解", "必须把「行情到达网卡」「策略收到」「订单发出」「成交回报」拆成独立时间点；只测端到端总延迟时，劣化无从归因到行情侧还是交易侧，定位要多花数小时且结论仍是猜想", "Corvil、ITRS Geneos、Datadog"], ["订单全生命周期时间戳", "每个状态跃迁都要落一个带硬件时间戳的事件；漏打点会让一笔订单出现无法解释的时间空洞，事故复盘只能靠推定，而推定结论在争议订单面前毫无证明力", "Nasdaq、kdb+、Coinbase 自研"], ["一跳一跳的延迟预算", "延迟必须按模块切分并给出允许上限；没有预算就没有「这一跳是否异常」的判据，告警会退化成看趋势，优化也会集中到已经合格的模块上", "Chronosphere、Datadog"], ["冷热路径分别计量", "撮合主路径与风控、清算路径的允许延迟相差一到两个数量级，混在同一张图上必然被噪声淹没，导致真正慢的那一跳长期不可见", "Datadog、Grafana"], ["时间戳来源标注", "每个延迟数字必须标明来自软件时间戳还是硬件时间戳；混用会让同一指标出现系统性偏差，跨机房对比与版本对比同时失效", "Solarflare Onload、NVIDIA BlueField"]]], ["尾延迟与业务损失对齐", [["P50、P99 与 P999 同时输出", "只看 P50 会漏掉代价最大的那一小部分请求；撮合场景里 P999 才决定滑点与撤单失败率，只报均值等于隐藏最贵的风险", "Datadog、Honeycomb"], ["尾延迟按订单类型切分", "市价单与被动限价单的尾延迟成因完全不同；不切分时优化一个策略会静默劣化另一类订单，且双方各自都看不到自己的劣化", "Datadog、kdb+"], ["延迟直方图而非平均值", "平均值无法还原长尾形状；只有可合并的高精度直方图才能给出跨窗口、跨版本可比的 P999，用平均值做容量决策会系统性低估风险", "Honeycomb、Prometheus"], ["超阈值订单逐笔留存", "必须能把最慢的若干笔订单原样调出来重放；只保留聚合值等于主动放弃事故证据，监管问询时无法自证", "Datadog、Splunk"], ["以损失而非毫秒设阈值", "阈值应换算为滑点或放弃成交的机会成本；纯毫秒阈值在低波动时段会造成大量无效告警，在极端行情下又会集体失灵", "内部系统、ITRS Geneos"]]], ["基准与回归基线", [["同口径历史基线", "基线的采集点、时钟源与部署形态必须随基线一起锁定；任一项变化都会让回归比较失去意义，却仍然产出一张看起来正常的对比图", "Datadog、Chronosphere"], ["按时段与波动区间分层基线", "开盘与极端行情下延迟天然抬升，用全天均值做基线会常态化误报，最终导致真实劣化被噪声淹没", "kdb+、Grafana"], ["按引擎版本切基线", "必须按撮合引擎版本切换基线，才能在发布后数分钟内看出劣化；否则劣化会被归因到「行情太猛」而长期存活", "内部系统、Dynatrace"], ["跨场所对标口径对齐", "与外部场所比较时必须先对齐「测的是哪个点」；口径不齐的对标数字会误导迁移与采购决策，把本地问题判成交易所问题", "Corvil、Pico"], ["容量与延迟拐点标注", "记录吞吐上升导致延迟非线性抬升的拐点；没有拐点数据就无法判断还能加多少负载，扩容只能靠猜", "Datadog、ITRS Geneos"]]]]],
+ ["d2", "时钟同步与硬件时间戳", "Clock Synchronization and Hardware Timestamping", "核心", "用 PTP 与网卡、FPGA 硬件打点建立全网唯一时间轴，是所有延迟数字能够互信、所有结论能够被举证的地基。", [["时间同步基础设施", [["PTP 主从与双源冗余", "必须部署双 Grandmaster 并持续监测偏移；单源故障会造成全网时间轴漂移，所有延迟数字同时失真，而且没有任何一条告警会告诉你", "Meinberg、Microchip、Safran"], ["偏移量与频率偏差监控", "持续监测每台机器的时钟偏移与频率偏差；偏移超阈值时必须自动给该节点的延迟数据降权或打标，否则错误数据会以正常身份进入决策", "Meinberg、ITRS Geneos"], ["GNSS 保持与失锁策略", "卫星失锁后必须进入 holdover 并立即告警；失锁期间的时间戳不可用于跨机房比较，累计漂移可在数小时内达到毫秒级", "Orolia、北斗授时设备"], ["时间源分级与可信标记", "把硬件时间戳、PTP 同步时间与 NTP 时间分为不同可信等级；混用会让合规取证时整体数据被质疑，而问题只出在其中一小部分", "Nasdaq、交易所审计"], ["同步故障与业务降级联动", "时钟异常应触发交易降级或拒单策略；带错误时间戳成交会把风险推到清算日才暴露，届时已无法回溯修正", "内部系统、交易所风控"]]], ["硬件时间戳打点", [["网卡侧收发包时间戳", "必须在网卡或 PHY 层打时间戳以避开内核协议栈排队误差；软件时间戳在高负载下偏差可达毫秒级，足以颠倒快慢结论", "Solarflare Onload、Napatech"], ["FPGA 内核打点", "在 FPGA 内部对行情解析与订单生成打点；这是目前唯一能测到亚微秒一跳的手段，用软件方式声称亚微秒精度无法通过客户压测", "AMD Alveo、交易所 FPGA 网关"], ["时间戳持久化格式统一", "统一为带时区与分辨率的定点纳秒整数；用浮点或字符串会造成精度丢失与排序错误，且错误往往在跨年数据对比时才暴露", "kdb+、ClickHouse"], ["硬件时钟频率校准", "网卡时钟频率随温度漂移，需定期校准并记录；不校准会让长时间窗口内的间隔测量累积误差，把慢机器测成快机器", "Solarflare、Meinberg"], ["时间戳不可回填原则", "时间戳一旦写入不得回填或覆盖；回填会让审计链断裂，监管问询时无法自证，且从数据本身看不出来", "内部系统、合规审计工具"]]], ["统一时间轴与取证", [["跨机房统一时间轴", "多机房必须归一到同一时间轴；各自为政的本地时钟会让跨机房的因果关系颠倒，得出的复盘结论方向完全相反", "Meinberg、Corvil"], ["时间戳溯源元数据", "每批数据要记录时钟源、同步状态与精度等级；缺失溯源的数据在日常分析中完好无损，在争议中却不具备任何证明力", "Nasdaq、合规审计"], ["逐笔全序与时间排序", "撮合与清算记录必须可按时间全序重放，且排序必须稳定；排序不稳定会让同一份数据重放出两个不同结论", "kdb+、交易所技术公司"], ["跨源关联的时间容差声明", "跨源关联必须显式声明容差（如正负数十微秒）；无容差的关联会漏掉真实关联，同时制造大量假关联，污染归因结果", "TRM Labs、kdb+"], ["监管时钟精度举证", "需能出具同步精度证明与校准记录；无法举证时，任何对外承诺的延迟指标都不被采信，SLA 条款也失去执行基础", "MiFID II RTS 25 合规工具、交易所审计"]]]]],
+ ["d3", "微秒级指标采集与埋点", "Microsecond Metrics Instrumentation", "核心", "在十微秒量级上无阻塞地产出 order ack、撮合匹配、行情分发等指标，并且保证采集本身不成为新的延迟源。", [["核心交易指标", [["order ack 延迟", "从网关收单到风控放行并回 ack 的耗时必须单独计量；与撮合延迟混算会掩盖风控侧劣化，而风控劣化往往才是拒单率上升的真正原因", "ITRS Geneos、Corvil"], ["撮合匹配延迟", "按订单簿深度分层统计撮合耗时；不分层时订单簿膨胀带来的劣化会被平均值抹平，直到极端行情才集中爆发", "kdb+、交易所技术公司"], ["行情分发延迟", "必须分别测「交易所发出」与「客户端收到」两端；只测一端无法区分是交易场所变慢还是本地链路退化，双方会互相归责", "Corvil、Pico"], ["撤单与改单延迟", "撤单延迟需单独设 SLO；极端行情下撤单失败比成交慢更致命，因为它意味着风险敞口无法按预期收缩", "内部系统、ITRS Geneos"], ["策略决策耗时", "策略内部计算耗时必须与网络耗时分离；混算会让策略团队与网络团队互相指责，优化方向从一开始就错了", "Dynatrace、Honeycomb"]]], ["指标产生方式", [["无锁 ring buffer 采集", "采集写入必须无锁，否则高并发下采集本身产生抖动，而抖动会被当成业务劣化去排查，浪费最宝贵的事故窗口", "eBPF、DPDK、Intel TBB"], ["每线程本地聚合", "指标先线程本地聚合再落盘；全局锁聚合在百万 TPS 下会成为整条链路的瓶颈，且瓶颈位置与业务无关", "Prometheus client、内部系统"], ["固定边界精度直方图", "使用预设边界的直方图以保证可合并与跨版本可比；自定义桶会让历史曲线无法与新曲线合并，等于丢掉全部历史基线", "Prometheus、Datadog"], ["标签基数预算前置约束", "每个指标必须声明允许的标签基数上限并在采集入口校验；不设上限的标签（如订单 ID）会直接压垮存储并引发全局写入拒绝", "Chronosphere、Datadog"], ["指标口径版本化", "口径变更必须带版本号并写入指标字典；静默改口径会让历史曲线出现无法解释的断点，进而引出基于错误前提的架构决策", "内部系统、Grafana"]]], ["指标质量与可信", [["采集丢失率可观测", "采集端必须上报丢失与丢弃计数；丢失不可见的指标会让容量判断系统性偏低，且偏差随流量增长而扩大", "Prometheus、Chronosphere"], ["背压下按优先级丢样", "存储或网络受限时必须显式声明丢弃优先级；随机丢弃会同时污染基线与告警，让两者都失去参考价值", "Cribl、Datadog"], ["指标点绑定时钟状态", "每个指标点需带采集时刻的时钟同步状态；失同步时段的数据必须可被过滤，否则会被永久混入历史基线", "Meinberg、ITRS Geneos"], ["指标与 trace 双向互跳", "从异常指标必须能一键跳到对应订单的 trace；不能互跳会让定位在多个工具间反复切换，自助排查沦为少数专家的特权", "Datadog、Honeycomb"], ["采集开销自监控", "采集自身 CPU 与内存开销必须持续监控并设阈值；开销失控会把观测工具变成故障源，而且故障原因会被归到业务代码上", "eBPF、Datadog"]]]]],
+ ["d4", "无侵入遥测采集架构", "Non-intrusive Telemetry Collection", "核心", "用 eBPF 内核态观测、DPDK 旁路与共享内存 ring buffer 在不改业务代码的前提下取走数据，且不引入可测得的延迟抖动。", [["内核态与旁路采集", [["eBPF 内核态无侵入观测", "用 eBPF 抓取系统调用与网络栈事件而无需改业务代码；但必须限定采集点集合，否则 verifier 限制与运行开销会同时失控", "eBPF 与 Pixie、Datadog"], ["DPDK 旁路数据面采集", "在旁路网卡上镜像流量做解析，完全不进主路径；镜像口配置错误会静默丢包，让你以为没有流量而不是以为配置错了", "DPDK、Napatech"], ["共享内存 ring buffer", "生产者与消费者通过无锁共享内存通信；队列满时必须可观测丢弃计数，否则数据静默缺失而所有下游统计仍然「看起来正常」", "Intel DPDK、内部系统"], ["零拷贝序列化", "采用 FlatBuffers、Cap'n Proto 等零拷贝格式；反射式序列化在微秒级路径上会成为主要开销，且开销随字段数增长", "FlatBuffers、Cap'n Proto"], ["内核旁路共存观测", "Onload、DPDK 等内核旁路方案下传统工具直接失效，必须使用配套的旁路可观测接口；否则性能优化做完，观测同时变成盲区", "Solarflare Onload、AMD Alveo"]]], ["采集模式与流量控制", [["采样与全量双模式切换", "正常运行走采样，进入异常窗口自动切全量；切换必须不重启进程且触发条件可预设，手工切换必然错过事故最关键的数十秒", "Datadog、Cribl"], ["动态降级与保底采集", "负载过高时按优先级降级而非停采；完全停采会让事故最关键时刻没有数据，而这段空白事后无法补救", "Cribl、Chronosphere"], ["本地缓冲与断网续传", "采集端必须具备磁盘缓冲与重传能力；断网窗口的数据丢失往往正是事故窗口，也是最需要证据的那一段", "Fluent Bit、Vector"], ["采集配置与探针版本管理", "采集配置与探针版本必须与引擎版本绑定记录；版本错配会产出错误口径的数据，且从数据本身看不出错", "Datadog、Grafana Agent"], ["采集影响量化验证", "必须用 A/B 压测证明引入采集后的延迟劣化在阈值内；没有验证的「无侵入」只是声称，客户第一次极端行情就会推翻它", "内部系统、Corvil"]]], ["多源接入与规范化", [["统一事件模型", "所有来源归一为带时间戳、来源与实体键的事件；缺实体键的数据无法与订单关联，只能停在聚合层无法归因到具体订单", "宽事件架构、ClickHouse"], ["FIX、ITCH 与 OUCH 报文解析", "需支持主流交易协议解析并统一字段语义；解析口径不一致会让跨场所对标出现系统性偏差，且偏差方向恒定难以发现", "Corvil、交易所技术公司"], ["包级与应用事件对齐", "网络包记录与应用事件必须可对齐到同一订单；无法对齐时排障只能二选一，而真正的问题常常跨在两者之间", "ExtraHop、Corvil"], ["解析失败可观测", "解析失败必须计数并可采样留样；静默丢弃畸形包会掩盖上游协议变更，直到某天发现整类消息全部缺失", "Datadog、Elastic"], ["数据血缘与来源标识", "每条数据标明采集路径与转换链；血缘缺失时无法判断某个数字是否可信，治理与审计都无从下手", "Cribl、OpenLineage"]]]]],
+ ["d5", "高基数时序存储引擎", "High-Cardinality Time-Series Storage", "核心", "在百万级 series 与秒级千万点写入下仍保持秒级查询，决定平台能看多细、能回溯多久、以及账单能涨到多高。", [["写入与索引", [["百万级活跃 series", "必须支持百万级活跃 series 且内存可控；倒排索引设计不当会在基数上升时先崩索引再崩写入，故障表现与业务完全无关", "Prometheus、VictoriaMetrics"], ["秒级千万点写入", "写入必须批量且对存储顺序友好；逐点写入在千万点每秒下必然积压，积压会一路回溯污染采集端", "ClickHouse、TDengine"], ["高基数标签策略", "订单 ID、会话 ID 这类高基数标签必须走 trace 或日志而非指标；放错位置会直接拖垮指标存储，且拖垮的是全平台而非单个租户", "Chronosphere、Datadog"], ["乱序与迟到数据写入", "必须支持迟到数据写入与修正；直接拒绝会让跨境与多机房数据长期存在缺口，而缺口在图上只表现为「曲线偏低」", "VictoriaMetrics、ClickHouse"], ["写入幂等与去重", "重传必须幂等；不幂等会让延迟统计被重复数据拉偏，且重复率越高偏差越大，正好在最需要准确时最不准", "ClickHouse、kdb+"]]], ["查询与降采样", [["降采样预聚合", "热层保留原始精度、温冷层按时间桶预聚合；不做预聚合的查询会随保留期增长而线性变慢，最终没人愿意查历史", "Prometheus、Thanos"], ["多维下钻查询", "必须支持按订单、席位、策略与机房快速下钻；查询需有谓词下推与分区裁剪，否则一次下钻就会扫描全量数据", "ClickHouse、kdb+"], ["近似与精确查询分层", "基数极高的分布统计允许 HLL 近似；但合规口径的计数必须精确，用近似值做监管计数会构成少报", "Datadog、ClickHouse"], ["查询资源隔离", "探索式长查询不得影响告警查询；不做隔离时长查询会拖垮实时面板，让值班人员在故障期间失去视图", "Chronosphere、Grafana"], ["扫描量与成本提示", "查询前需提示预计扫描量与成本；无提示会让用户无意间发起全量扫描，一次误操作即可产生可观账单", "Datadog、Chronosphere"]]], ["保留与分层", [["热温冷分层与保留策略", "按 0 到 7 天热、7 天到 1 年温、1 年以上冷分层；分层策略必须与合规保留期取并集，按成本单方面缩短会留下合规瑕疵", "S3 对象存储、ClickHouse"], ["合规保留期与可举证删除", "必须支持按监管要求保留 5 到 7 年并可举证到期删除；随意删除与超期不删都会成为审计问题", "MiFID II 留痕、SEC 17a-4"], ["冷数据可查性抽检", "冷层数据必须定期抽检可读并记录结果；从未验证的归档等于没有归档，直到监管问询那天才发现", "S3 Glacier、内部系统"], ["压缩与编码选择", "时间戳与浮点需使用列式压缩（Delta-of-delta、Gorilla 类编码）；编码选错会让存储成本成倍增长且查询更慢", "ClickHouse、TimescaleDB"], ["跨层查询透明性", "用户查询不应关心数据在哪一层；但跨层查询必须给出明确的延迟与一致性预期，否则用户会把异步取回当成系统故障", "Thanos、ClickHouse"]]]]],
+ ["d6", "分布式订单链路追踪", "Order-level Distributed Tracing", "核心", "以订单 ID 为关联键贯通网关、风控、撮合与清算，把分散在多个系统的 span 还原成一笔订单的完整可复盘路径。", [["关联标识与传播", [["订单 ID 作为关联键", "跨网关、风控、撮合与清算必须以订单 ID 贯穿；只在单系统内生成 ID 会让链路在系统边界处断裂，而每个系统单独看都完全正常", "Jaeger、Datadog APM"], ["trace 上下文无侵入传播", "上下文需通过协议头或共享内存传播且不改变业务语义；为传上下文而破坏协议兼容会直接引发生产故障，代价远高于观测收益", "OpenTelemetry、FIX 扩展字段"], ["多层级单号映射", "客户单号、交易所单号与内部单号必须建立映射表；映射缺失时与交易所对账无法对齐，争议订单只能靠时间戳人工猜", "交易所技术公司、内部系统"], ["策略与席位维度绑定", "trace 必须携带策略 ID 与席位信息；缺失时只能回答「哪里慢」，无法回答「谁慢」，而后者才是业务方真正要的答案", "Datadog、内部系统"], ["跨机房 trace 合并", "跨机房需容忍本机时钟偏差并用逻辑时钟辅助排序；只靠本地时间合并会拼出错误顺序，得出方向相反的因果结论", "Jaeger、内部系统"]]], ["Span 建模与语义", [["span 粒度与开销平衡", "span 过细会放大开销与存储，过粗会丢掉等待时间；需按关键状态跃迁定义最小 span 集，这一定义一旦漂移历史数据就不再可比", "OpenTelemetry、Honeycomb"], ["状态跃迁即 span", "每笔订单的状态变更都必须产生 span；否则「等待中」的时间无法归因，而大部分延迟恰恰发生在等待里", "内部系统、Dynatrace"], ["异步与队列跨越显式建模", "通过队列的异步跳转需显式建立父子关系；隐式断链会让链路看起来凭空消失，排查人员在错误的系统里消耗数小时", "OpenTelemetry、Jaeger"], ["错误与拒绝原因标注", "拒单、风控拦截与超时必须在 span 上带标准原因码；原因码缺失会让复盘只能猜，且同类问题无法聚合统计", "内部系统、风控类工具"], ["span 属性白名单", "span 属性必须限定白名单并做基数校验；任意属性会让存储成本与查询性能同时失控，且失控往往一次上线就完成", "Honeycomb、Chronosphere"]]], ["采样与全量追溯", [["尾采样策略", "必须按错误与超阈值延迟做尾采样以保留全部有价值的慢请求；头部采样会先把慢请求丢掉，剩下的样本恰好证明不了任何问题", "Honeycomb、Datadog"], ["全量追溯窗口与合规留存", "事故窗口需可切换到全量并单独延长保留；与常规采样数据分开存储与计费，避免常态成本被少数事故拉高", "内部系统、Splunk"], ["采样率变更可追溯", "采样率变化必须记录并可标注在图表上；否则曲线断层会被误读为性能突变，引发基于错误前提的架构整改", "Datadog、Grafana"], ["trace 与指标双向跳转", "必须能从慢订单 trace 跳到该类人群的指标；单向跳转会中断排查动线，用户只得回到起点重新筛选", "Datadog、Honeycomb"], ["trace 重放与因果分析", "支持按时间轴重放一笔订单的跨服务过程；不支持重放的 trace 只能看不能推理，无法回答「如果当时不这样会怎样」", "Jaeger、内部系统"]]]]],
+ ["d7", "尾延迟与抖动分析", "Tail Latency and Jitter Analysis", "成长", "专门量化 P99 与 P999 以及抖动分布，把「少数订单有多慢」换算成可排优先级的业务损失。", [["分布与分位统计", [["高精度可合并分位计算", "分位必须用可合并的固定边界直方图计算；用采样近似在 P999 上误差极大，而 P999 恰好是撮合场景唯一重要的分位", "HdrHistogram、Prometheus"], ["固定窗口与滚动分位并存", "需同时提供固定窗口与滚动分位；只看固定窗口会错过尖峰出现的准确时刻，无法与变更事件对齐", "Datadog、Grafana"], ["分组分位对比", "必须按订单类型、策略与席位分组对比；不分组时一个坏策略会污染整体分位，让所有人一起背锅而真正的问题方无人发现", "kdb+、Honeycomb"], ["分位置信区间", "低样本量的高分位必须给出置信区间；小样本的高分位极易制造假警报，反复误报会让团队整体降低对告警的信任", "内部系统、Prometheus"], ["长尾订单原始序列留存", "必须保留最慢订单的原始时间序列；没有原始序列就无法复盘尾延迟成因，只能得到一个「当时确实很慢」的结论", "Datadog、kdb+"]]], ["抖动与稳定性度量", [["jitter 口径统一定义", "必须明确 jitter 是相邻间隔标准差还是分位差；口径不统一会让两个团队的数字永远无法对话，会议会耗在定义而不是问题上", "Corvil、ITRS Geneos"], ["抖动与负载相关性曲线", "需给出抖动随吞吐变化的曲线；无曲线时无法判断抖动是容量问题还是代码问题，扩容与重构之间会选错", "Datadog、内部系统"], ["延迟尖峰与 GC、分配事件对齐", "把延迟尖峰与 GC 及内存分配事件在同一时间轴上对齐；HFT 场景下多数毫秒级抖动来自内存管理而非网络", "Pyroscope、Dynatrace"], ["调度延迟与 CPU 亲和性", "记录线程调度等待与 CPU 迁移；未绑核的进程会出现无法解释的毫秒级尖峰，而所有业务指标看起来都正常", "eBPF、perf"], ["尖峰持续时长与频次", "尖峰必须同时报持续时长与发生频率；只报最大值会让偶发尖峰与常态劣化无法区分，而两者的处置方式完全相反", "Datadog、Grafana"]]], ["波动率自适应阈值", [["按波动率动态调阈", "行情波动率上升时延迟基线自然抬升，阈值必须自适应；固定阈值会造成大量无效告警，并掩盖真正的代码劣化", "内部系统、Datadog"], ["极端行情时段单独标记", "极端行情时段应在图上标记并单独评估；混入日常统计会同时抬高基线并掩盖劣化，双向失真", "kdb+、Grafana"], ["尾延迟与业务损失映射", "把 P999 换算为滑点或放弃成交比例；不换算就无法排优先级，延迟问题会长期排在功能需求之后", "内部系统、交易所风控"], ["尖峰归因结论留痕", "每次尖峰的归因结论需沉淀为可检索的知识条目；不沉淀会让同类尖峰每隔几个月从零排查一次", "内部系统、故障复盘工具"]]]]],
+ ["d8", "队列积压与背压观测", "Queue Depth and Backpressure Observability", "成长", "把积压深度、速率差与背压传递路径变成可观测的前兆信号，让系统在下游熔断之前先看到压力。", [["队列深度与速率", [["积压深度与增速同时观测", "必须同时看深度与增速；只看深度会错过缓慢累积型崩溃，这类故障在触发前几分钟看起来完全正常", "Prometheus、内部系统"], ["生产者与消费者速率差", "需直接呈现入队与出队速率差；速率差比深度更早暴露瓶颈，且能指出瓶颈是在上游放量还是下游变慢", "Kafka 监控、Datadog"], ["队列等待时长分位", "队列等待时间必须按分位输出；均值会掩盖少数订单的长等待，而这些订单正是撤单失败与滑点的主要来源", "Datadog、kdb+"], ["多级队列分别观测", "网关、风控与撮合各段队列必须分别观测；合并观测只能得到一个总水位，定位不到瓶颈段，扩容会加在错误的位置", "内部系统、Grafana"], ["队列水位上限与容量余量", "必须定义水位上限并给出剩余余量；无上限概念的队列在突发流量下会无界增长直到内存耗尽", "Kafka、RabbitMQ"]]], ["背压与流控", [["背压信号逐级传递", "背压必须逐级向上传递到入口；只在下游丢弃会让上游继续放量，形成级联积压并最终一次性雪崩式拒单", "内部系统、Envoy"], ["限流与拒单策略观测", "限流触发与拒单必须与业务指标联动；否则看不到限流对成交的伤害，限流参数会被一路收紧直到客户投诉", "Envoy、内部系统"], ["熔断触发与恢复过程", "熔断需带触发条件与恢复策略的完整观测；只看熔断状态无法判断是否过早熔断，而过早熔断的损失常常大于故障本身", "Hystrix 类、内部系统"], ["丢弃优先级与影响评估", "丢弃必须带优先级与业务影响标注；平均丢弃数字无法反映损失，丢一批做市商心跳和丢一批行情重传的代价完全不同", "Cribl、内部系统"], ["流控参数变更留痕", "限流阈值变更必须记录版本与生效时间；变更与尖峰在时间上错配时，没有留痕就无法排除「人改坏了」这一最常见的假设", "内部系统、变更管理"]]], ["积压与下游联动", [["积压与延迟同轴分析", "积压数据必须与延迟曲线同轴呈现；分离查看会得出错误因果，把结果当成原因", "Datadog、Grafana"], ["队列溢出丢包与网卡丢包区分", "队列满导致的丢包必须与网卡丢包严格区分；混淆会把容量问题误判为网络故障，排查方向完全走偏", "Napatech、ExtraHop"], ["积压排空时间预估", "给出积压排空所需时间的估计；无法预估时运维只能盲目扩缩容，扩容量与真实缺口经常相差数倍", "内部系统、Datadog"], ["慢消费者识别", "定位消费最慢的分区或席位；不定位就只能整体扩容，用数倍成本解决单点问题", "Kafka 监控、内部系统"]]]]],
+ ["d9", "网络与网卡层观测", "Network and NIC Observability", "成长", "把丢包、重传、RTT 抖动与 RDMA 拥塞这些发生在网卡与线路上的根因，变成应用层可以看到的事实。", [["链路质量指标", [["应用路径真实 RTT", "必须测量业务实际路径的 RTT 并区分排队延迟与传播延迟；只测 ICMP 得到的数字与业务路径不符，据此优化会南辕北辙", "Corvil、ExtraHop"], ["丢包与重传率按连接细分", "重传率需按连接与目的端细分；只看全局重传率会漏掉单条关键链路，而一条关键链路足以决定整体尾延迟", "eBPF、ExtraHop"], ["乱序与重复包监控", "乱序会在内核重组中引入额外延迟且不报错；不监控会形成长期不可见的隐性延迟，最终被误判为应用变慢", "Napatech、Corvil"], ["带宽利用率与微突发", "需区分平均利用率与微突发；微突发是低平均利用率下仍发生丢包的主因，只看均值会认为链路毫无压力", "Napatech、Solarflare"], ["分段定位本地网卡、同机房交换与跨机房线路", "必须能判断问题出在本地网卡、同机房交换还是跨机房线路；不分段只能靠猜，且猜错会同时得罪三个团队", "Corvil、Pico"]]], ["网卡与协议卸载", [["多队列中断分布均衡", "需观察多队列中断分布；中断集中在一个核会造成单核饱和与抖动，表现为「CPU 整体很闲但延迟很高」", "eBPF、Solarflare"], ["内核旁路模式专用探针", "Onload 与 DPDK 模式下必须使用专用探针；用传统工具会观测不到真实路径，得出「没有流量」的错误结论", "Solarflare Onload、DPDK"], ["DPU 卸载路径观测", "DPU 卸载后的流量在主核不可见，必须在 DPU 侧采集；否则数据凭空消失，而主机的所有指标都显示正常", "NVIDIA BlueField、AMD Alveo"], ["硬件时间戳丢点与回退", "网卡时间戳可能丢点或回退，必须监控并剔除异常样本；不剔除会让单次时间戳异常污染整段窗口的分位统计", "Solarflare、Napatech"], ["IRQ 与软中断开销", "软中断峰值会抢占交易线程，必须按核统计；不做核级统计会把软中断抖动归因到业务代码", "perf、eBPF"]]], ["拓扑与连通性", [["拓扑自动发现与变更感知", "交易链路拓扑变更需自动感知；手工维护的拓扑图在第一次扩容后即失效，而失效的拓扑会让排查从一开始就找错方向", "Datadog NPM、ExtraHop"], ["多路径与故障切换观测", "需观测主备路径切换及切换耗时；切换期间的抖动常被误判为代码劣化，导致把时间花在错误的代码路径上", "内部系统、Corvil"], ["跨机房专线质量", "专线质量需与业务延迟联动展示；只报网络指标无法判断业务影响，网络团队与业务团队会对同一现象给出相反结论", "Pico、Corvil"], ["网卡固件与驱动版本纳管", "固件与驱动版本必须纳入观测与变更记录；版本回归通常表现为无法解释的丢包，且只在特定流量形态下出现", "Napatech、内部系统"]]]]],
+ ["d10", "异常检测与告警归因", "Anomaly Detection and Alerting Attribution", "成长", "把延迟尖峰与积压异常自动归因到具体一跳或资源，替代靠人肉翻仪表盘的分钟级响应。", [["检测算法与策略", [["静态阈值与动态基线分工", "静态阈值适合硬上限，动态基线适合周期性指标；用错会造成持续漏报或持续噪声，且两类错误都会削弱团队信任", "Datadog、Chronosphere"], ["同比环比与周期建模", "日内与周内周期必须建模；忽略周期会把开盘的正常抬升当成故障，每天早盘固定误报一次", "Datadog、Grafana"], ["多指标联合检测", "延迟、积压与丢包需联合判定；单指标判定会产生大量孤立告警，每条都指向不同团队且都无法独立解释现象", "内部系统、Datadog"], ["变化点检测", "用变化点检测识别趋势突变；纯阈值会漏掉缓慢劣化，而缓慢劣化累积数周后才爆发时已难以回溯起点", "Chronosphere、内部系统"], ["告警聚合与误报抑制", "同源告警必须聚合并抑制；不聚合会在一次故障中产生上千条通知，把值班人员的注意力完全淹没", "Datadog、PagerDuty"]]], ["告警治理", [["告警分级与升级路径", "按业务影响分级并定义升级时限；全部同级等于没有优先级，最重要的那条会排在最后被处理", "PagerDuty、内部系统"], ["告警可执行性要求", "每条告警必须附带下一步动作与责任团队；不可执行的告警应当被删除而不是被静默，否则会持续消耗注意力", "Datadog、内部系统"], ["告警噪声预算", "团队需有告警量预算并定期复盘；噪声失控会导致告警疲劳，真实故障被习惯性忽略", "PagerDuty、内部系统"], ["变更窗口自动静默与留痕", "变更窗口需自动静默并留记录；手工静默常被遗忘导致长期失效，静默一旦覆盖事故窗口就再也无法解释", "PagerDuty、内部系统"], ["告警与最近变更自动关联", "告警必须自动关联最近变更；不关联会把五分钟定位变成一小时排查，且结论通常仍指向错误方向", "Datadog、内部系统"]]], ["归因与处置", [["延迟尖峰自动归因", "自动定位到具体一跳或资源并给出置信度；只报警不归因仍需人工翻图，值班质量完全取决于个人经验", "Datadog Watchdog、Dynatrace"], ["根因候选排序", "给出按证据强度排序的根因候选而非单一结论；在复杂链路中单一根因结论常常是错的，且错误结论会引发错误整改", "Dynatrace、Honeycomb"], ["告警触发时自动快照", "告警触发时自动抓取全量快照与堆栈；事后补抓已错过现场，而现场正是唯一能解释尖峰的证据", "Datadog、内部系统"], ["处置动作与执行回执", "支持一键扩容与切流并记录回执；无回执的自动化无法判断是否真正生效，也无法判断故障是否被自动化掩盖", "内部系统、PagerDuty"]]]]],
+ ["d11", "SLO 与错误预算治理", "SLO and Error Budget Governance", "成长", "用可量化的错误预算约束发布与扩容节奏，让可观测性产出决策而不只是产出图表。", [["SLO 定义", [["延迟 SLO 口径明确", "需明确是达标率还是分位阈值达标；两种口径对团队行为的影响完全不同，一种追求减少坏请求，另一种追求压低整体分位", "Datadog SLO、内部系统"], ["按业务重要性分级", "核心撮合路径与辅助查询必须使用不同 SLO；统一 SLO 会让资源分配失真，把预算花在无人感知的路径上", "内部系统、Grafana"], ["SLO 对齐用户可感知结果", "SLO 应绑定到交易员可感知的结果；纯内部指标达标但体验变差是最典型的失败形态，且分歧极难澄清", "Honeycomb、内部系统"], ["测量窗口与滚动窗口选择", "窗口选择同时影响灵敏度与稳定性；窗口过短会频繁假报警，过长会掩盖持续劣化", "Datadog、Prometheus"], ["排除规则的正当性与留痕", "计划内维护的排除需有明确规则并留痕；滥用排除会让 SLO 失真，而失真从数字上完全看不出来", "内部系统、Datadog"]]], ["错误预算运营", [["预算燃烧速率告警", "用燃烧速率而非瞬时达标率告警；瞬时达标会漏掉快速消耗，等到达标率下降时预算已经烧完", "Datadog、Chronosphere"], ["多窗口燃烧策略", "长窗口看趋势、短窗口看突发，两者缺一不可；只用单窗口无法兼顾漏报与误报", "SRE 实践、Datadog"], ["预算耗尽触发发布冻结", "预算耗尽应触发发布冻结或加严评审；不联动则 SLO 只是装饰，团队会在长期不达标的情况下继续按原节奏发布", "内部系统、CI 集成"], ["预算消耗归因", "预算消耗需归因到版本、策略或场所；不归因就无法阻止同一原因重复消耗预算", "内部系统、Datadog"], ["预算趋势驱动容量规划", "预算趋势应用于容量规划；只看当前达标率会不断踩线扩容，永远处在被动状态", "内部系统、Datadog"]]], ["度量与复盘", [["SLO 报告周期化", "定期出具 SLO 报告并与业务方对齐；不定期出具会导致口径在各团队间缓慢漂移，一年后无人能解释历史数字", "内部系统、Grafana"], ["达标率与业务损失映射", "把达标率换算为业务损失；不换算无法争取资源，技术健康度在预算会上永远排在营收之后", "内部系统、交易所风控"], ["SLO 阈值变更需审批留痕", "SLO 阈值变更需审批并保留版本；随意放宽会让整套治理失效，且放宽动作往往发生在预算即将耗尽时", "内部系统、变更管理"], ["跨团队共享 SLO 边界", "跨团队链路需明确责任边界与交接口径；模糊边界会让问题在团队之间来回踢，直到影响扩大到无法忽视", "内部系统、Datadog"]]]]],
+ ["d12", "性能画像与发布回归门禁", "Performance Profiling and Regression Gates", "成长", "把延迟预算拆解到模块并卡在发布流水线上，阻止「功能通过、延迟劣化」的版本进入生产。", [["延迟预算与分解", [["模块级延迟预算", "给每个模块分配延迟预算并设上限；无预算时优化没有优先级，性能工作会永远排在功能需求之后", "内部系统、Datadog"], ["预算占用实时可视化", "实时展示各模块预算占用；不展示时优化容易集中在已经合格的模块上，因为优化的成本最低", "内部系统、Grafana"], ["预算超支预警前置", "接近预算上限即预警而非等超支后告警；事后预警已经没有优化窗口，只能带着超支上线", "内部系统、Datadog"], ["预算与架构决策绑定", "架构变更必须重新分配预算；不重分配会让预算与实际结构脱节，预算表会在几次重构后彻底失效", "内部系统、架构评审"], ["预算分解到具体资源", "预算需与 CPU、内存、网络资源对应；不对应则优化无从下手，只能停留在「这一跳很慢」", "Dynatrace、内部系统"]]], ["发布前性能验证", [["基准压测门禁", "发布前必须跑固定场景压测并与基线比较；跳过门禁会把劣化直接带到生产，且劣化通常不会触发任何功能测试", "CI 集成、内部系统"], ["劣化超阈值即阻断", "劣化超阈值必须阻断发布而不是提示；提示型门禁在实际排期压力下会被选择性忽略", "CI 集成、内部系统"], ["压测场景覆盖极端行情", "压测需覆盖开盘与极端波动场景；只测稳态会漏掉最危险的场景，而事故几乎都发生在这些场景", "内部系统、kdb+"], ["生产流量回放验证", "用脱敏后的生产流量回放验证；合成流量无法覆盖真实分布，尤其是撤单风暴这类只在真实市场出现的形态", "内部系统、Corvil"], ["门禁结果与代码版本绑定", "每次门禁结果需与代码版本绑定留存；不绑定无法追责，也无法在事后判断劣化具体引入于哪个提交", "CI 集成、内部系统"]]], ["发布后回归观察", [["金丝雀延迟对比与显著性", "新旧版本延迟需按同一口径对比并给出统计显著性；不对比等于盲发，不判显著性等于把噪声当结论", "内部系统、Datadog"], ["自动回滚触发条件", "延迟劣化超阈值应自动回滚；人工判断会显著延长劣化窗口，而窗口长度直接等于业务损失", "内部系统、CI"], ["版本维度基线切换与保留", "发布后基线需按版本切换并保留旧基线；不保留会失去对比基准，下一次劣化将无法判断相对谁而言", "内部系统、Chronosphere"], ["回归结论沉淀", "每次回归的根因与修复需沉淀为可检索条目；不沉淀会让同类性能问题反复发生，且每次都像第一次遇到", "内部系统、复盘工具"]]]]],
+ ["d13", "可视化与自助下钻", "Visualization and Self-service Drilldown", "成熟", "让交易员、运维与研发在同一份事实上按订单、席位与策略自助下钻，把沟通成本从会议转移到图表。", [["角色化视图", [["交易员视图", "面向交易员展示席位延迟与成交质量；展示过多技术指标会导致无人使用，视图最终沦为演示材料", "Grafana、内部系统"], ["运维视图", "面向运维展示容量、告警与资源水位；缺少容量视图会让运维长期处于被动救火状态", "Grafana、Datadog"], ["研发视图", "面向研发展示 trace 与剖析入口；缺少自助入口会让研发把问题全部转给运维，问题在转手中老化", "Honeycomb、Pyroscope"], ["管理层视图", "面向管理层展示 SLO 与业务损失；不展示损失无法获得投入，可观测性会持续被当成成本项", "内部系统、Grafana"]]], ["下钻与联动", [["指标到 trace 一键跳转", "必须一键可达；多步跳转会让自助排查在实际使用中几乎不被采用", "Datadog、Honeycomb"], ["图上标注事件与变更", "发布与配置变更需标注在同一时间轴上；不标注会让曲线看起来毫无原因，归因只能靠回忆", "Datadog、内部系统"], ["多维度筛选与视图保存", "常用筛选需可保存为视图并共享；不可保存会重复劳动，自助查询会退化回找人代查", "Grafana、Datadog"], ["跨机房并排对比视图", "同一视图需支持多机房并排对比；并排才能发现单机房偏移，而单机房偏移常常是重大事故的早期形态", "Grafana、内部系统"]]], ["查询与协作", [["查询模板与参数化", "常用查询需模板化以降低门槛；门槛过高会让自助度仅停留在少数专家，平台价值被单点依赖限制", "Grafana、内部系统"], ["带时间范围的共享链接与快照", "需支持带时间范围的分享链接与快照；只发截图会丢失可交互性，接收方无法自行验证结论", "Grafana、Datadog"], ["值班大屏与稳定刷新", "值班场景需专用大屏且刷新稳定；刷新抖动会造成误判，把渲染问题当成业务问题", "Grafana、内部系统"], ["告警通知内嵌关键图表", "告警通知需内嵌关键图表；不带图会让值班人员必须打开电脑，夜间响应时间成倍延长", "PagerDuty、内部系统"]]]]],
+ ["d14", "遥测数据治理与成本控制", "Telemetry Governance and Cost Control", "成熟", "对指标基数、日志采样与保留期做统一治理，把可观测账单从失控增长压回可预算且可解释的区间。", [["基数与标签治理", [["高基数标签入口拦截", "在采集入口拒绝高基数标签并在 CI 中做契约校验；入口不拦会一路污染到存储，届时清理需要跨团队数周", "Chronosphere、Datadog"], ["标签命名与字典维护", "标签需统一命名并维护可检索字典；命名混乱会让查询无法复用，每个新人都要重新摸索一遍", "内部系统、OpenTelemetry 语义约定"], ["指标生命周期管理", "指标的新增、改名与下线必须走流程；无流程的指标只增不减，三年后基数会达到无法清理的程度", "Chronosphere、内部系统"], ["基数成本可视化", "按指标维度展示基数与对应成本；不展示成本无法推动治理，任何人都没有节约的动机", "Datadog、Chronosphere"]]], ["采样与保留治理", [["分层采样策略", "按数据类型定义采样率与保留期；统一采样率会同时造成高价值数据缺失与低价值数据冗余", "Cribl、内部系统"], ["保留期与合规要求取并集", "保留期需与监管要求取并集；按成本单方面缩短会造成合规瑕疵，而省下的存储费远低于违规代价", "SEC 17a-4、MiFID II 留痕要求"], ["冷归档成本模型", "归档需有明确成本模型与取回时延预期；无模型的归档会在真正需要时不可用，反而不如当初不归档", "S3 Glacier、内部系统"], ["数据删除与合规响应", "需支持按主体或订单删除并留存审计记录；不支持会让合规响应超期，成为监管检查中的直接扣分项", "内部系统、合规工具"]]], ["管道与成本优化", [["管道侧过滤与削峰", "在管道侧过滤无价值数据以降低后端成本；在后端过滤时摄入成本已经发生，优化空间所剩无几", "Cribl、Vector"], ["重复与冗余数据识别", "识别重复上报并去重；重复数据会让成本与统计同时失真，且失真在图上表现为「延迟变差」", "Cribl、内部系统"], ["成本按团队归因", "账单需按团队与策略归因并定期公示；不归因无法形成节约激励，成本会持续向不付费的使用方集中", "内部系统、Datadog"], ["成本日报与异常波动告警", "成本异常需当日预警；基数爆炸可在一天内产生数月量级的账单，且从系统指标上完全看不出来", "Datadog、Chronosphere"]]]]],
+ ["d15", "订单生命周期审计留痕", "Order Lifecycle Audit Trail", "成熟", "把逐笔全序与时间戳按监管保留期固化为不可篡改的记录，让事故复盘与监管问询可以被举证而不是靠记忆。", [["逐笔全序记录", [["逐笔全序与全局序号", "每笔记录需带不可回退的全局序号；序号断裂或重排时无法重放，争议订单只能靠时间戳近似对齐", "kdb+、交易所技术公司"], ["状态机与终态定义", "终态必须是已清算已交收而非已成交；简化状态机导致账实不符，且通常只在跨系统对账与提现环节暴露", "内部系统、清算系统"], ["记录不可篡改", "需用哈希链或 WORM 存储保证不可篡改；可篡改的日志在监管争议中不具备证明力，等于没有留痕", "SEC 17a-4、WORM 存储"], ["时间戳与时钟举证", "记录需携带时钟源与精度等级信息；缺失时钟溯源时，任何延迟承诺与时间结论都不被采信", "MiFID II RTS 25、交易所审计"]]], ["合规报送与举证", [["内部口径与报送口径差异说明", "报送口径与内部口径需对齐并书面记录差异原因；不说明会被质疑瞒报，且补说明的窗口通常很短", "SEC CAT、MiFID II 报送要求"], ["问询响应时效保障", "需支持在监管时限内导出完整记录；手工导出无法保证时效，且导出过程本身容易出错", "内部系统、交易所审计"], ["留存期限与销毁审计", "到期销毁必须留审计记录；无记录无法证明合规，也无法证明超期数据已被清理", "SEC 17a-4、内部系统"], ["向第三方审计方导出", "需支持向审计方提供可验证、可读的导出格式；格式不可读在监管视角等同于不配合", "合规审计工具、内部系统"]]], ["内部复盘使用", [["按订单号重放", "支持按订单号重放全链路过程；不能重放时复盘只能依靠回忆，而回忆在压力下系统性不可靠", "内部系统、Jaeger"], ["跨系统自动对账", "与交易所、清算方对账需可自动比对并输出差异集；手工对账会掩盖小额差异，而小额差异会累积成重大差错", "内部系统、清算系统"], ["争议订单标准取证流程", "争议订单需有标准取证流程与时限定义；临时组织会同时延误时效并导致证据不完整", "内部系统、合规工具"], ["根因结论归档并与订单关联", "重大事故结论需归档并与相关订单关联；不关联会让知识无法复用，同类事故反复从零排查", "内部系统、复盘工具"]]]]],
+ ["d16", "火焰图与 CPU 与 off-CPU 剖析", "Flamegraph and CPU plus off-CPU Profiling", "成熟", "用 on-CPU 与 off-CPU 火焰图解释「CPU 没满但延迟很高」，把锁竞争与调度等待变成可视化事实。", [["on-CPU 剖析", [["持续采样剖析", "以低频率持续采样而非仅在事故时开启；事故时开启往往来不及，真正的现场在开启前已经过去", "Pyroscope、perf"], ["火焰图按版本对比", "按版本对比火焰图差异并高亮变化函数；不对比无法确认劣化位置，只能凭代码常识猜测", "Pyroscope、Dynatrace"], ["符号与内联正确解析", "需正确解析符号与内联信息；符号缺失会让火焰图退化为地址列表，对业务团队完全不可读", "perf、Pyroscope"], ["剖析开销硬上限", "剖析开销需有硬上限并在超限时自动降频；剖析自身不能成为延迟源，否则观测与优化互相抵消", "perf、Pyroscope"]]], ["off-CPU 与等待分析", [["off-CPU 火焰图", "必须观测线程阻塞与等待；只看 on-CPU 会得出「CPU 空闲所以无问题」的错误结论，而大部分延迟就发生在等待里", "eBPF、offcputime"], ["锁竞争与临界区定位", "定位锁竞争与过长临界区；这是 HFT 毫秒级尖峰最常见的来源，且从业务指标上完全看不见", "eBPF、perf"], ["调度等待与跨核迁移", "记录调度等待时长与跨核迁移次数；跨 NUMA 迁移会显著抬升延迟，且表现为随机出现的尾部尖峰", "perf、内部系统"], ["缺页与 IO 等待", "记录缺页与 IO 等待事件；冷启动缺页是首笔订单明显变慢的常见原因，而它只发生一次极难复现", "eBPF、内部系统"]]], ["资源与瓶颈画像", [["CPU 缓存命中与 NUMA 本地性", "需观测缓存未命中率与 NUMA 本地性；这是低延迟优化的核心事实，缺少它优化只能靠试", "perf、内部系统"], ["内存分配画像", "按分配点统计分配次数与大小分布；频繁小分配会带来不可预测抖动，且抖动幅度随行情活跃度变化", "Pyroscope、内存分析工具"], ["中断与抢占干扰记录", "记录中断与抢占对交易线程的干扰；不记录时会把外部干扰归因到业务代码，导致无意义的代码重构", "perf、eBPF"], ["画像与延迟尖峰时间对齐", "剖析画像必须与延迟尖峰在同一时间轴上对齐；不对齐的画像只是静态快照，无法解释某一分钟为什么慢", "Pyroscope、Datadog"]]]]],
+ ["d17", "降采样与热温冷分层", "Downsampling and Hot Warm Cold Tiering", "成熟", "按时间与精度把数据分成热温冷三层并在层间自动迁移，在成本与回溯能力之间做可控取舍。", [["分层策略", [["热层保留原始精度", "前 7 天保留原始粒度以支撑逐笔排查；热层一旦降采样，事故窗口的逐笔证据将永久消失", "ClickHouse、Prometheus"], ["温层按时间桶预聚合", "7 天到 1 年按分钟或小时桶聚合；不聚合的查询会随数据量线性变慢，最终无人查询历史", "Thanos、ClickHouse"], ["冷层低成本存储与摘要索引", "1 年以上落对象存储并保留摘要与索引；冷层必须仍可检索摘要，否则归档形同删除", "S3、ClickHouse"], ["分层迁移自动化与积压监控", "分层迁移必须自动执行并监控积压；人工迁移必然滞后，滞后会让热层提前打满", "内部系统、Chronosphere"], ["分层边界容量预警", "分层边界需有容量预警；边界打满会导致写入失败，而失败首先表现为数据缺口而非报错", "内部系统、Datadog"]]], ["降采样正确性", [["降采样语义显式声明", "max、avg 与 P99 降采样语义完全不同必须声明；不声明会让用户误读曲线，把聚合后的 P99 当成原始 P99", "Prometheus、Datadog"], ["分位不可跨层混算", "聚合后的分位不可再做平均；混算会得到数学上错误的分位，而错误结果看起来完全合理", "Prometheus、HdrHistogram"], ["告警基于原始数据而非降采样", "告警必须基于原始数据；降采样会平滑掉尖峰，导致最需要报警的短促故障稳定漏报", "Chronosphere、内部系统"], ["降采样不可逆性说明", "明确声明降采样不可逆并保留少量原始抽样；不说明会让用户以为随时可回到细节，在事故复盘时才失望", "内部系统、ClickHouse"], ["历史口径变更标注", "降采样口径变更需记录并标注在图表上；不标注会造成曲线断层被误读为性能突变", "内部系统、Grafana"]]], ["成本与可用性", [["存储成本按层分摊", "按层统计成本并分摊到团队；不分摊无法推动治理，也无法判断分层策略本身是否划算", "内部系统、Datadog"], ["冷层取回时延预期", "明确冷层取回时延并给出异步取回流程；不明确会让用户把正常的异步等待当成系统故障上报", "S3 Glacier、内部系统"], ["分层故障降级策略", "温冷层不可用时应降级为仅热层可查并明确告警；不降级会造成整个查询面不可用，把小故障放大成全局故障", "内部系统、Thanos"]]]]],
+ ["d18", "跨场所合成监控与对标", "Synthetic Monitoring and Venue Benchmarking", "成长", "用合成订单与被动探针持续测量多交易所与多机房的实际体验，把「我们慢」变成「我们比谁慢多少」。", [["合成探针", [["合成订单探针", "以固定节奏下单并测量真实往返；纯被动观测无法覆盖无流量时段，而无流量时段正是验证环境质量的最佳窗口", "Corvil、Pico"], ["被动行情探针", "被动接收行情并测量分发延迟；与合成订单探针互补，可分离出「接收慢」与「往返慢」两类问题", "Corvil、Datadog"], ["探针与生产同网络路径", "探针必须从与策略相同的网络路径与网段发起；不同路径的测量结果没有参考价值，会得出与实际相反的对标结论", "Pico、Corvil"], ["探针开销与隔离", "探针需与生产负载隔离且开销可忽略；探针自身抖动会直接污染对标结论，且污染方向难以察觉", "内部系统、Corvil"]]], ["多场所对标", [["测量点口径归一化", "必须在对齐测量点定义后再做对比；口径不齐的对标会误导迁移与采购决策，把本地问题判成场所问题", "Corvil、Pico"], ["按场所与机房对比并校验显著性", "按交易所与机房维度对比并给出统计显著性；无显著性校验的对比会得出随机结论，且极易被单次异常拉偏", "内部系统、kdb+"], ["对标差异换算为业务量", "把延迟差异换算为成交率与滑点差异；不换算无法支撑决策，对标报告会沦为排名表", "内部系统、交易所风控"], ["单一场所质量趋势追踪", "追踪单一场所质量的时间趋势而非静态排名；不追踪趋势只能看到名次变化，看不到自身在恶化", "内部系统、Corvil"]]], ["体验与容量验证", [["端到端体验基线", "建立从客户端到成交的完整体验基线；不建立基线无法感知缓慢劣化，等客户反馈时已劣化数月", "Datadog、Corvil"], ["扩容效果同口径验证", "扩容前后必须在同一口径下验证效果；不验证可能只是流量自然下降，导致扩容结论完全错误", "内部系统、Grafana"], ["专线与云供应商可举证评估", "对专线与云供应商提供可举证的量化评估；不可举证则采购无依据，续约谈判没有筹码", "Pico、内部系统"], ["故障注入验证观测覆盖度", "用故障注入验证观测覆盖度而非只验证系统韧性；不演练无法确认观测是否真的能看到这类故障", "混沌工程工具、内部系统"]]]]]
+];
+const FRONTIER = [
+ ["eBPF 全栈无侵入采集", "live", "Kernel 5.x 以后 kprobe 与 tracepoint 已可稳定抓取网络栈与调度事件，Datadog、Pixie、Cilium 均已产品化；HFT 场景的残留难点在 verifier 限制与开销控制", "把 eBPF 探针做成与低延迟网卡共存的开箱能力，按主机与链路收费"],
+ ["PTP 与硬件时间戳合规化", "live", "IEEE 1588 与 MiFID II RTS 25 对时钟精度已有明确要求，主流交易所普遍部署双 Grandmaster；产品化的关键是把精度举证变成可导出的审计报告", "时间同步审计报告即服务，按机器数量与年度订阅收费"],
+ ["高基数时序数据库", "live", "Chronosphere、VictoriaMetrics 与 ClickHouse 已在百万级 series 场景实现商业化，成本模型与迁移路径清晰", "面向交易场景的高基数优化版引擎，按 series 数量与摄入量订阅"],
+ ["订单级分布式追踪", "live", "OpenTelemetry 生态成熟，交易场所开始以订单 ID 贯穿链路；真正的难点在微秒级开销控制而非协议适配", "交易链路 trace 插件加订单重放工作台，按链路条数与席位收费"],
+ ["尾延迟与 SLO 治理", "live", "SLO 与错误预算已是主流工程实践，Datadog SLO 与 Grafana 均已产品化", "把 SLO 换算为交易损失的治理订阅，按业务单元收取"],
+ ["性能回归门禁", "live", "CI 中嵌入性能门禁在互联网公司与交易所自研体系中已落地并形成惯例", "交易场景专用压测与门禁套件，按流水线条数与席位收费"],
+ ["遥测成本治理与 FinOps", "live", "Chronosphere 与 Cribl 已把可观测成本治理做成核心卖点，节省效果可量化", "面向持牌交易场所的可观测 FinOps 服务，按节省额分成加基础订阅"],
+ ["合成流量与真实流量回放", "live", "流量回放已是发布验证的常规手段，交易场景有 Corvil 一类成熟工具", "生产流量脱敏回放服务，按回放次数与数据量收费"],
+ ["DPU 与 IPU 卸载观测", "pilot", "NVIDIA BlueField 与 AMD Alveo 已在云与交易场景试点，观测探针需与卸载路径配套设计，尚无标准形态", "DPU 侧遥测代理，随硬件与整机方案绑定销售"],
+ ["DPDK 旁路采集", "pilot", "DPDK 在交易网关与采集探针中已有大量实装，但工具链碎片化、与内核原生工具不兼容", "旁路采集一体机，按带宽与端口数收费"],
+ ["off-CPU 与锁竞争常态剖析", "pilot", "eBPF off-CPU 剖析工具已可用（offcputime、Parca、Pyroscope），但生产常开仍受开销与符号化能力限制", "低开销常开剖析服务，按 CPU 核数订阅"],
+ ["多场所合成订单对标", "pilot", "Pico 与 Corvil 已有商业服务，但多为定制交付，标准化与自助化程度低", "自助式场所对标看板，按场所数与探针数收费"],
+ ["延迟预算与架构门禁", "pilot", "延迟预算概念在交易所自研体系中已实际使用，跨团队工具化与流程化仍然稀缺", "延迟预算管理与架构评审工作流，按团队数订阅"],
+ ["AI 归因与根因候选排序", "pilot", "Dynatrace Davis 与 Datadog Watchdog 已具备自动根因能力，但交易场景的高噪声与低容错特性仍未充分验证", "交易专用归因模型与置信度框架，按事件量收费"],
+ ["可观测性驱动的自动降级与熔断", "pilot", "用观测数据触发交易降级已有交易所实践，但触发门槛与责任界定缺少行业共识", "观测驱动的自动降级网关，按链路与策略数授权"],
+ ["时钟异常自动降权数据", "explore", "把时钟异常与延迟数据可信度联动尚无成熟产品，需要交易所级别的口径约定与监管认可", "可信度标记与数据过滤网关，随平台模块销售"],
+ ["FPGA 内埋点标准化", "explore", "交易所 FPGA 网关内部有埋点实践，但缺少跨厂商统一的埋点定义与导出口径", "FPGA 遥测 IP 核，按授权与核数收费"],
+ ["订单生命周期可验证留痕", "explore", "哈希链与 WORM 存储技术可用，但与交易留痕标准结合的产品与规范仍然空缺", "审计级留痕服务，按订单量与留存年限收费"],
+ ["跨场所统一时间轴", "explore", "统一时间轴涉及竞争对手之间的数据共享，商业与合规障碍大于技术障碍", "中立第三方对标网络，仅适合由中立机构长期运营"],
+ ["可观测性数据合约与指标注册", "explore", "用数据合约约束指标语义已在部分平台团队试点，交易领域口径尚未标准化", "指标语义注册中心与契约校验服务，按指标数与团队数收费"],
+ ["波动率自适应观测策略", "explore", "波动率驱动的采集与告警自适应仍在研究阶段，需要与风控系统深度联动才能闭环", "波动率联动采集策略引擎，按策略数与数据量收费"],
+ ["纳秒级网卡与 PTP 联合标定", "explore", "网卡时间戳与 PTP 联合标定精度可达纳秒级，但产品化封装与验收方法缺失", "纳秒级链路标定与验收服务，按链路与交付次数收费"]
+];
+const MIDS = [
+ ["全链路延迟度量中心", "维护分段延迟口径与模块级预算分解，产出全网可比的延迟事实", "分段打点、预算分解、口径版本管理、跨机房口径对齐"],
+ ["时钟与时间戳中心", "提供全网唯一时间轴并保证每个时间戳均可举证", "PTP 主从与双源冗余、偏移与失锁监测、硬件时间戳接入、时钟审计报告生成"],
+ ["指标采集中心", "在微秒级路径上无阻塞地产出指标且拒绝成为新的瓶颈", "无锁 ring buffer、每线程本地聚合、固定边界精度直方图、标签基数预算"],
+ ["遥测采集中心", "在不改业务代码的前提下取走多源数据并保证不劣化主路径", "eBPF 与 DPDK 探针、共享内存 ring buffer、零拷贝序列化、采样与全量切换"],
+ ["时序存储中心", "在百万级 series 与千万点每秒写入下提供秒级查询", "高基数索引、批量写入、降采样预聚合、分层保留与合规留存"],
+ ["链路追踪中心", "以订单 ID 贯通网关、风控、撮合与清算并还原完整路径", "上下文无侵入传播、span 语义建模、尾采样、订单重放与因果分析"],
+ ["尾延迟分析中心", "量化 P50 至 P999 与抖动分布并映射为业务损失", "高精度可合并分位、抖动建模、分组对比、尖峰与 GC 事件对齐"],
+ ["队列与背压中心", "观测积压深度与速率差，在下游熔断之前发出前兆预警", "队列水位与余量、入出队速率差、背压传递链路、慢消费者识别"],
+ ["网络观测中心", "定位丢包、重传、RTT 抖动与网卡层根因并分段归责", "应用路径 RTT、网卡与 DPU 专用探针、拓扑自动发现、专线质量与切换观测"],
+ ["告警与归因中心", "把异常转成可执行告警并自动给出排序后的根因候选", "动态基线与变化点检测、告警聚合抑制、自动归因、触发时快照留存"],
+ ["SLO 治理中心", "用错误预算约束发布与扩容节奏，让观测产出决策", "SLO 口径定义、燃烧速率告警、预算归因、发布冻结联动与周期报告"],
+ ["性能门禁中心", "把延迟预算卡在发布流水线上，阻止劣化版本上线", "基准压测门禁、生产流量回放、劣化自动阻断、金丝雀对比与自动回滚"],
+ ["可视化中心", "让不同角色在同一份事实上自助下钻并共享结论", "角色化视图、指标到 trace 一键跳转、事件与变更标注、共享链接与快照"],
+ ["遥测治理中心", "把可观测成本压回可预算区间并建立团队节约激励", "基数入口拦截、分层采样策略、管道过滤削峰、成本归因与异常波动告警"],
+ ["审计留痕中心", "把逐笔全序与时间戳固化为可举证的记录资产", "全局序号与稳定排序、不可篡改与 WORM 存储、报送口径对齐、争议订单取证流程"],
+ ["剖析中心", "解释「CPU 没满但延迟很高」这一最常见的困惑", "持续采样剖析、off-CPU 火焰图、锁竞争与临界区分析、画像与延迟尖峰时间对齐"],
+ ["分层存储中心", "在成本与回溯能力之间做出可控且可解释的取舍", "热温冷分层策略、降采样语义声明、层间迁移与积压监控、冷层取回时延管理"],
+ ["跨场所对标中心", "把「我们慢」变成「我们比谁慢多少、在哪个场所慢」", "合成与被动探针、测量点口径归一、显著性校验、场所质量趋势追踪"]
+];
+const RULES = [
+ ["时间戳必须来自同步时钟且精度可举证", "未同步或无法举证的时钟会让所有延迟数字失去可比性，事故复盘与监管问询时结论会被整体推翻；典型场景是多机房扩容后新增机器未纳入 PTP 从钟，数月无人发现"],
+ ["「已成交」不是订单终态", "真正的终态是已清算已交收；把成交当终态会让账实不符推迟到 T+1 对账才暴露，而测试环境几乎不可能复现这类差异"],
+ ["逐笔全序的序号不可回退不可重排", "序号断裂或重排会让重放结论自相矛盾，争议订单无法取证；典型场景是双活切换后两台写入端各自发出一段序号并互相覆盖"],
+ ["延迟预算必须按模块封顶", "没有模块级上限时优化没有优先级，一次看似无害的功能上线可以把撮合跳延迟抬高一倍，并且没有任何告警会指出是谁造成的"],
+ ["高基数标签不得进入指标维度", "把订单 ID 放进指标标签会在数小时内撑爆 series 上限，引发全平台写入拒绝而不是局部降级，故障范围远超单个团队"],
+ ["采集不得改变主路径延迟", "采集若引入可测得的抖动，就把观测工具本身变成故障源；典型场景是首次全量开启抓包的大流量早盘，采集直接触发延迟尖峰"],
+ ["告警必须可执行且绑定责任团队", "不可执行的告警会被系统性忽略，真实故障淹没在噪声里；典型场景是告警量在一个季度内翻三倍之后，值班人员开始批量静默"],
+ ["降采样数据不得用于合规计数", "降采样会平滑尖峰并丢失订单级细节，用它做监管计数会形成少报，且事后无法自证；典型场景是冷层数据被直接用于年度报送"],
+ ["熔断阈值变更必须留痕并与观测联动", "阈值被悄悄放宽会让熔断在最需要时失效；事故复盘时无法判断究竟是阈值问题还是容量问题，整改方向只能靠猜"],
+ ["时钟失锁期间数据不得跨机房比较", "holdover 期间累计漂移可达毫秒级，跨机房因果推断会完全颠倒；典型场景是卫星失锁后无人察觉的数小时内产出的全部分析结论"],
+ ["审计记录必须不可篡改且到期方可销毁", "WORM 与哈希链缺失时日志在监管争议中没有证明力；提前删除构成合规瑕疵，而超期不删同样是审计问题"],
+ ["SLO 排除规则不得滥用", "用排除窗口掩盖真实劣化会让错误预算彻底失去约束力，团队会持续踩线直到客户投诉或交易所介入"],
+ ["采样率变更必须记录并标注", "静默改采样率造成的曲线断层会被误读为性能突变，从而引发基于错误前提的架构整改，代价以人月计"],
+ ["内核旁路模式必须使用配套观测手段", "Onload 与 DPDK 下传统工具失效会让关键路径变成观测盲区；典型场景是性能优化切换到内核旁路之后，观测能力同时归零"],
+ ["背压必须逐级传递到入口", "只在下游丢弃会让上游继续放量，形成级联积压并最终一次性雪崩式拒单，损失远大于提前限流"],
+ ["发布门禁必须阻断而非提示", "提示型门禁在实际排期压力下会被选择性忽略，性能劣化会随版本持续累积，直到某次发布后无法回滚"],
+ ["跨场所对标必须对齐测量点口径", "口径不齐的对标会误导迁移与采购决策，把本可自行修复的本地问题归因为交易所侧问题，错过真实优化机会"]
+];
+const KPIS = [
+ ["延迟分位指标", "tick-to-trade、order ack、撮合匹配与行情分发的 P50、P99 与 P999，按订单类型、策略与席位分组"],
+ ["抖动与稳定性指标", "相邻间隔标准差、尖峰频次与持续时长、GC 与调度等待次数，用于区分常态抖动与异常抖动"],
+ ["吞吐与容量指标", "每秒订单数、成交笔数、行情消息速率、队列水位与容量余量，用于判断延迟劣化的容量成因"],
+ ["积压与背压指标", "队列深度与增速、入出队速率差、队列等待时长分位、丢弃与拒单计数、背压传递路径命中情况"],
+ ["网络与链路指标", "RTT、丢包与重传率、乱序与重复包、带宽微突发、IRQ 与软中断开销、网卡时间戳丢点次数"],
+ ["时钟与时间质量指标", "PTP 偏移与频率偏差、holdover 时长、失锁次数、时间戳精度等级分布、硬件与软件时间戳占比"],
+ ["资源与剖析指标", "CPU 缓存未命中率、NUMA 本地性、锁竞争时长、off-CPU 等待时长、内存分配速率与缺页次数"],
+ ["业务与合规指标", "SLO 达标率与错误预算余额、报送时效达成率、审计完整性校验通过率、争议取证平均耗时"]
+];
+const LIC_CN = [
+ ["网络安全法、数据安全法、个人信息保护法", "为境内证券期货机构与持牌交易场所提供可观测性与运维数据分析服务", "数据需境内存储，个人金融信息需脱敏与最小化，跨境传输须完成安全评估"],
+ ["证券期货业信息安全管理办法", "为券商与期货公司提供交易链路监控、容量管理与故障响应服务", "需满足行业技术规范与事件报告要求，重大故障须在规定时限内上报"],
+ ["网络安全等级保护 2.0 三级", "为金融机构提供监控平台、日志集中管理与审计留痕", "平台需通过等保测评，具备完整审计日志、访问控制与最小权限能力"],
+ ["商用密码与密评要求", "提供审计留痕与完整性校验类产品", "审计记录需支持国密算法签名与完整性校验，需通过密评或提供合规说明"],
+ ["信创与国产化替代要求", "向党政机关与金融机构提供可观测平台", "需适配国产 CPU（鲲鹏、飞腾、海光）与国产操作系统（麒麟、统信）及国产时序数据库"],
+ ["交易所技术规范与接入管理", "为交易所会员提供行情与报单链路监控探针", "探针接入需符合交易所技术规范，不得影响交易所系统，需提前报备并接受测试"],
+ ["关于进一步防范和处置虚拟货币交易炒作风险的通知", "不得为虚拟货币交易、撮合与清算提供任何技术服务", "产品不得包含面向虚拟货币场所的报单探针、撮合监控或行情分发能力"],
+ ["证券期货业信息技术审计与记录保存要求", "为机构提供订单生命周期审计留痕与争议取证", "留存期限需满足行业要求，记录不可篡改且可按订单号完整导出"],
+ ["期货交易所与期货公司信息技术管理规定", "为期货极速交易链路提供微秒级延迟度量", "需支持交易所统一时钟与时间同步要求，延迟数据需可溯源至时钟源与精度等级"],
+ ["个人信息保护法（员工与客户行为数据）", "分析交易席位与操作行为数据", "席位与人员行为分析需取得合法性基础并限定用途，不得未经同意用于二次目的"],
+ ["关键信息基础设施安全保护条例", "为被认定为关键信息基础设施运营者的机构提供监控与告警", "需满足关基运营者的供应链安全、漏洞管理与安全审查要求"],
+ ["证券期货业网络安全事件报告与调查处理办法", "提供告警、事件响应与时间线留存能力", "需支持按监管时限生成事件报告，并保留完整时间线与可举证证据"],
+ ["数据出境安全评估与标准合同办法", "跨境展业机构的境内监控数据管理", "境内产生的交易与监控数据原则上不得出境，确需出境须完成安全评估或签订标准合同"],
+ ["信创目录与国产时序数据库选型", "提供监控数据存储与查询能力", "优先选用入围信创目录的产品，并需提供与现网环境的兼容性测试证明"],
+ ["证券基金经营机构信息技术管理办法", "为资管与基金公司提供交易与运维监控服务", "需纳入机构信息技术治理与外包管理，明确服务等级、数据边界与退出机制"],
+ ["区块链信息服务管理规定（如涉链上数据观测）", "对公链数据做观测与索引（不涉及虚拟货币交易业务）", "仅可开展链上数据技术研究与信息服务，须完成备案且不得提供交易、兑付或撮合功能"]
+];
+const LIC_INTL = [
+ ["欧盟 MiCA（2025 全面生效）与 ESMA 技术标准", "为欧盟境内 CASP 与交易场所提供交易可观测性与留痕服务", "需满足 DORA 的 ICT 韧性与事件报告及第三方风险管理要求，时钟精度需符合 RTS 25"],
+ ["MiFID II 与 MiFIR（RTS 6 算法交易、RTS 25 时钟精度）", "为算法交易与高频交易客户提供延迟度量与合规留痕", "需支持算法交易年度自评、时钟同步精度举证与订单记录五年留存"],
+ ["美国 SEC Rule 613（CAT）与 Rule 17a-4", "为美国经纪商与交易所提供逐笔留痕与监管报送链路", "记录需 WORM 存储、可按时限报送，并满足 CAT 字段要求与时钟精度要求"],
+ ["美国 CFTC 与 NFA 自动化交易规则", "为美国期货与衍生品交易商提供监控与风控联动能力", "需支持自动化交易监督、熔断触发留痕与阈值变更审计"],
+ ["英国 FCA SYSC 与算法交易要求", "为英国交易场所与会员提供可观测平台", "需满足 FCA 对算法交易控制、事件报告与外包管理的要求"],
+ ["新加坡 MAS 支付服务法与证券期货法", "为新加坡持牌交易场所提供交易监控与留痕服务", "需满足 MAS 技术风险管理指引与外包通知要求，数据需符合本地化与安全要求"],
+ ["香港 SFC 虚拟资产交易平台牌照与操守准则", "为持牌虚拟资产交易平台提供交易可观测与审计留痕", "需满足 SFC 对系统与监控、时钟同步、记录保存及网络安全的要求"],
+ ["瑞士 FINMA 与日本 JFSA、FIEA 交易规则", "为当地交易场所与券商提供低延迟监控与留痕服务", "需满足当地记录保存年限、算法交易报备与客户资产隔离相关要求"],
+ ["ISO 27001、SOC 2 Type II 与 NIST SP 800-53", "向全球金融机构交付可观测平台", "需提供安全认证与审计报告，满足第三方风险管理与供应链安全审查"]
+];
+const OPPS = [
+ ["微秒级无侵入采集一体机", "通用 APM 在 HFT 场景开销过高且口径不符，客户自研成本极高", "以网卡旁路加 eBPF 双模探针切入，先在单机房核心链路做试点再扩至全场链路"],
+ ["纳秒级时间戳与时钟审计", "时钟精度举证是合规刚需，但市场上缺少开箱可用的审计与举证产品", "以时钟审计报告加双 Grandmaster 部署服务切入，与合规留痕模块捆绑销售"],
+ ["订单级 trace 与重放工作台", "现有追踪工具不理解订单状态机，无法回答「这笔单卡在哪」", "以订单 ID 关联插件加重放工作台切入交易与风控团队，按链路条数收费"],
+ ["延迟预算与发布门禁", "交易所自研体系已有实践，但缺少通用工具与流程化产品", "以延迟预算管理加 CI 门禁切入研发流程，从发布质量而非监控视角进入"],
+ ["高基数场景成本治理", "可观测账单在交易场景增长失控，且缺少按交易语义的治理工具", "以基数入口拦截、分层采样与成本归因切入 FinOps 预算，按节省额分成"],
+ ["尾延迟到损失的换算模型", "延迟数字无法说服业务方投入，技术团队长期缺少议价语言", "以滑点损失模型加 SLO 报告切入业务决策层，把观测变成经营工具"],
+ ["跨场所对标网络", "单方测量无法回答「谁更快、在哪个环节慢」，买方机构缺少中立口径", "以中立探针网络加标准化口径切入买方机构与做市商，按场所数与探针数收费"],
+ ["内核旁路与 DPU 观测", "客户切换到 Onload、DPDK 或 DPU 之后出现观测盲区，传统工具集体失效", "以旁路探针与 DPU 侧遥测代理切入已上低延迟硬件的机构，随硬件方案绑定"],
+ ["off-CPU 与锁竞争常态剖析", "毫秒级尖峰多来自锁竞争与调度等待而非业务逻辑，现有工具难以常开", "以低开销常开剖析服务切入撮合与风控团队，按核数订阅并附带调优服务"],
+ ["审计级留痕与取证服务", "内部留痕难以应对监管时限与举证要求，导出与校验成本高", "以 WORM 留痕加标准取证工作流切入合规部门，与时钟审计组合成合规套件"],
+ ["波动率自适应观测与熔断联动", "极端行情下静态阈值同时导致误报与漏报，观测与风控脱节", "以波动率联动的采集与阈值引擎切入风控，把观测直接接入降级与熔断决策"],
+ ["可观测性数据合约与指标注册", "指标口径漂移使跨团队数字无法对话，治理缺乏抓手", "以指标注册中心加契约校验切入平台工程团队，从口径治理扩展到全链路治理"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：高频交易可观测性 / 低延迟交易监控 / tick-to-trade 延迟度量 / PTP 时钟同步 / eBPF 无侵入遥测`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

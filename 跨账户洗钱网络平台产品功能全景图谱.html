@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨账户洗钱网络平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>跨账户洗钱网络平台全景</b>
+    <span>跨账户洗钱网络平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>跨账户洗钱网络平台产品功能全景图谱</h1>
+    <p>把风控的最小单元从<b>一个可疑账户</b>换成<b>一张可举证的资金网络</b>：以 18 个功能域、54 个功能簇、252 个功能点，覆盖洗钱网络形态建模、图社区发现与环路蛇形检测、跨账户跨链跨桥跨混币器的统一图谱、跨链资金亲密度（时空对齐与扣除手续费的金额反推）、多波段周期取证、网络风险计量与传播预测、网络级批量冻结与跨机构联防联控、以及团伙型可疑活动报告与执法举证的完整链路。<b>单账户风控看得见异常，网络风控才看得见一伙人。</b></p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">23 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线，是把风险判定的最小单元从「一个账户」升级为「一张资金网络」：先建跨主体统一图谱、再聚网络、再按时间波段取证、最后按网络批量处置与举证。单账户体系回答「这笔交易异常吗」，网络体系回答「这几百个账户是不是同一伙人、他们现在走到了洗钱的哪一步、冻结哪一条边才能止血」。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）网络形态与主体归一</td><td>洗钱网络形态知识建模、关联账户组识别与主体归并、跨主体统一资金图谱、场外跑分与担保平台变现网络、跨链桥与混币器还原</td><td>把链上地址、法币账户、桥与混币服务的身份残片连同对手的编排手法一起归一成一张带时间的关系图，解决「这是不是一张网络、由谁组成」的看见问题</td></tr>
+<tr><td>第2层（d6–d10）网络识别与图算法</td><td>图社区发现与网络聚类、资金环路与蛇形链路检测、星型归集与树形裂变形态识别、图神经网络节点分类与链路预测、跨链资金亲密度与时空金额匹配</td><td>把关联边聚成可命名、可处置的网络，并在桥与混币这两个断点上用时空对齐与金额反推把链路接回来，解决「网络边界在哪、链路断在哪」的发现问题</td></tr>
+<tr><td>第3层（d11–d14）时间取证与风险计量</td><td>多波段洗钱周期识别、网络风险计量与中心度评分、风险传导与传播路径预测、网络结构可视化与调查工作台</td><td>把网络放进时间轴并量化为可排序的风险数字，预测资金下一步流向、锁定止血的那一条边，解决「他现在在第几波段、该冻结哪里」的度量问题</td></tr>
+<tr><td>第4层（d15–d18）处置、报送与对抗治理</td><td>网络级批量冻结与处置编排、团伙型可疑活动报告与执法举证输出、跨机构联防联控与旅行规则协作、对抗演化跟踪与标签治理</td><td>把网络风险分编排成原子可回滚的跨机构动作，把结论翻译成监管与执法认可的材料，并持续运营会过期的标签，解决「谁去抓、凭什么抓、明天还对不对」的存续问题</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note"><b>三件事必须先于产品存在：</b><br>① <b>跨主体统一图谱与关联键口径</b>——链上地址、法币出入金账户、桥与混币服务必须有归一化规则与关联强度分级，否则网络永远聚不起来；<br>② <b>图、规则与数据的三重版本绑定</b>——任何一次网络级冻结都必须能回答监管的「当时为什么这么判」，这是自动化处置的准入条件；<br>③ <b>处置前置授权与跨机构同步通道</b>——盗币到洗白最快仅二十余分钟、跨链桥能在分钟级穿透多条公链，没有预授权与同步冻结，制度上就无法执法。</div>
+    <div class="danger"><b>死亡陷阱：把「网络数量与冻结金额暴涨」当成能力变好。</b><br>分辨率放宽、弱关联权重调高之后，网络数与冻结笔数都会成倍增长，看起来是「识别能力上了一个台阶」，实际往往是把同一 NAT 出口、同一云服务商的正常用户聚成了网络，代价是批量误冻、集中客诉与合规团队从此不敢再用自动化。<br>真正的成功信号是<b>网络稳定度、复核推翻率与跨链还原的分段置信度</b>，而不是网络数量、告警总量与冻结笔数。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断一个前沿方向是否值得先落地，只看一条标准：<b>它产出的结论能不能在跨链之后仍然标明自己的置信度，并落成带证据标识的可回滚动作</b>。只能给出相似度或传播分数、无法绑定证据与置信度分级的方向（纯图模型召回、纯情报驱动告警、纯混币进出配对）只适合做候选召回层；只有当方向能落成「分段置信的证据 + 可减污的传播分 + 可回滚的跨机构动作」时，才具备处置级落地优先级。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>洗钱网络（Laundering Network）</td><td>一组通过共享关联键并呈现分层、归集或裂变等编排形态的高置信度账户与地址集合，需带网络稳定度、角色结构与可复现的聚类参数</td><td>网络是处置、评分与报送的共同口径，定义不稳会让同一批人今天被整网冻结、明天被整网放行，合规链条无法自洽</td></tr>
+<tr><td>关联键（Linkage Key）</td><td>用于判定「属不属于同一主体」的最小可比对标识，如链上地址、出入金账户、设备指纹、同源助记词与交易模式指纹，需做归一化、掩码与哈希一致化</td><td>关联键错一次整张图结构性失真：同一主体被拆散会永久漏网络，不同主体被并合会批量误伤，而后者几乎不可逆</td></tr>
+<tr><td>跨链亲密度（Cross-Chain Intimacy）</td><td>桥两侧两笔资金属同一笔钱的置信度，由时空对齐窗口、扣除手续费后的金额反推与对手方重复度共同构成</td><td>亲密度是跨链证据的唯一量化表达，不给分级就无法在报告里表达不确定性，会把低置信配对当成确定结论写进处置决定</td></tr>
+<tr><td>洗钱波段（Laundering Band）</td><td>盗币后零至五天的极速分层、六至十天的跨链碎片化、二十至四十五天的担保平台变现这三个阶段，含在途网络的波段进度估计</td><td>波段是决定动作时机的唯一依据，估错会导致冻结过早误伤或过晚失效，而变现一旦完成资金几乎无法追回</td></tr>
+<tr><td>网络风险分（Network Risk Score）</td><td>落在一张网络上的可排序风险数字，由结构紧密度、对手方风险、资金集中度与时序协同度四维构成并绑定处置动作</td><td>分不可解释则监管不接受自动化冻结；分不校准则阈值只能拍脑袋；分映射不到动作就只是仪表盘，不会拦截任何一笔资金</td></tr>
+<tr><td>证据链（Evidence Chain）</td><td>从原始链上数据与区块高度，到关联边、到分段置信度、到处置动作与图式证据的可追溯链条，含时间戳、三重版本与保管链</td><td>证据链断一次，即使最严重的网络案件也无法在法庭与监管问询中立住，全部调查工作归零</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">跨账户洗钱网络平台处在四个监管域的交汇点：<b>反洗钱与可疑活动报送域</b>（FATF 建议 15 与 16 及旅行规则、美国 BSA 与可疑活动报告、人民银行反洗钱办法）、<b>制裁与混币服务治理域</b>（OFAC 与特别指定国民名单、混币服务地址拦截、名单分钟级生效）、<b>数据保护与跨境传输域</b>（个人信息保护法与通用数据保护条例，链上地址与设备画像的合法性基础、跨机构共享与出境需去标识化、隐私计算或标准合同）、<b>虚拟资产与支付牌照域</b>（欧盟加密资产市场监管、新加坡支付服务法、香港证监会虚拟资产交易平台双牌照与穿透式监管、迪拜虚拟资产监管局、韩国特定金融信息法）。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn"><b>三条最常被低估的红线：</b><br>① <b>混币后结论的确定性表达</b>——混币后追踪准确率从约百分之八十九降至约百分之十一，仍以同等确定性输出会把无辜地址列入黑名单并写入可疑活动报告，构成可被直接处罚的错报；<br>② <b>可疑活动报告的积压与漏报</b>——已有机构因报告完全缺失被罚数亿美元、因报告积压被罚上亿美元，而跨账户场景要求网络级叙事，机构普遍只有单账户模板；<br>③ <b>跨机构协作与数据出境的授权边界</b>——账户级明细共享与跨境线索交换若无授权、去标识化、隐私计算或标准合同支撑，风控能力再强也在违法，且会同时承担泄密责任。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：冻结跨主体关联键与图谱本体口径——先统一链上地址、法币出入金账户、桥与混币服务的归一化规则与关联强度分级，再谈算法</li><li>第二步：建跨账户跨链统一图谱并跑通第一张已知网络——把 d1 到 d6 打通，让网络可聚类、可命名、可复现、可解释</li><li>第三步：把跨链断点接回来——桥事件解析、确认时延对齐、扣除手续费的金额反推与分段置信度输出，跨链证据必须带不确定性</li><li>第四步：接时间取证与网络级处置——多波段周期判断、中心度与止损边选择、预授权加事后复核的批量冻结与跨机构同步，处置与举证同批交付</li><li>第五步：补合规与对抗治理——网络型报送、图式证据成卷、跨机构协作边界、标签生命周期与三重版本审计，让判定可复现、可审计、可申诉</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：从跨链追踪与亲密度图谱切入——已有链上数据能力的团队，先做桥接点穿透与混币还原，用可举证的跨链证据包打开司法与合规双客群</li><li>路径 B：从场外跑分与法币通道切入——支付与银行侧团队，先做跑分团队、卡农与担保平台识别，用变现环节最接近真实身份这一点换取执法协作与预算</li><li>路径 C：从网络聚类与调查工作台切入——合规与案管团队，先做社区发现与图谱工作台，用调查工时压缩与网络级叙事证明价值</li><li>路径 D：从网络型报送与跨机构协作切入——持牌机构与联盟运营方，先做网络叙事模板与协作报文融合，用报送及时率与联合拦截金额换取预算</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点，也是这个产品的<b>第一资产</b>：<b>一套可复现的跨主体统一图谱</b>。关联键归一规范、桥与混币的一等节点建模与分段置信度、以及图与规则与数据的三重版本——没有这三样，无论从哪条路径切入，最终都会退化成「只能报警告、不能整网处置、也不敢整网举证」的地址清单工具。</div>
+  </section>
+
+  <footer>
+    <p>跨账户洗钱网络平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "全景主线"],
+ ["s1", "平台形态"],
+ ["s2", "功能域全景"],
+ ["s3", "前沿方向"],
+ ["s4", "关键对象"],
+ ["s5", "能力中心"],
+ ["s6", "风险红线"],
+ ["s7", "监管合规"],
+ ["s8", "指标体系"],
+ ["s9", "机会与切入"]
+];
+const PLAYERS = [
+ ["链上资金网络图谱与调查平台", "Chainalysis Reactor / TRM Labs", "欧科云链 OKLink 链上天眼（面向司法协作场景）", "按案件或席位订阅，卖的是把可疑地址还原成一张可举证的团伙网络，客单价随跨链覆盖度提升"],
+ ["网络级 KYT 与实时筛查", "Chainalysis KYT / Elliptic Lens", "欧科云链 Onchain AML", "按交易量计费，把网络级风险分做成每笔交易都要调用的基础设施"],
+ ["跨链取证与追踪", "TRM Labs Phoenix / Elliptic Nexus", "暂无规模化国产对标，多为联盟链内审计工具", "按链数与地址规模订阅，跨链桥与混币器覆盖率决定议价权"],
+ ["混币器与匿名服务行为识别", "Elliptic Discovery / Chainalysis", "暂无公开对标产品", "按服务清单与更新频率订阅，卖的是名单更新速度与形态识别能力而非名单本身"],
+ ["跨链亲密度与金额匹配分析", "AnChain.AI / TRM Labs", "公安涉币资金分析平台（限办案用途）", "按分析任务与链数计费，卖的是桥接点穿透率与时空对齐精度"],
+ ["OTC 与法币出入金网络监测", "Chainalysis / MistTrack", "邦盛科技、同盾科技（支付侧）", "按商户与对手方规模计费，价值在于跑分团队与担保平台的可视化"],
+ ["交易所与支付机构反洗钱监控", "Solidus Labs / Featurespace", "恒生电子、宇信科技反洗钱系统", "按机构规模许可加实施费，卖的是现场检查时的通行证与审计留痕"],
+ ["团伙型可疑活动报送", "NICE Actimize / Oracle FCCM", "对接人民银行反洗钱监测分析二代系统的报送产品", "按报送量与席位收费，监管罚则是最强付费驱动力"],
+ ["网络风险分与传播引擎", "TRM Labs / Solidus Labs", "同盾科技（资金网络风险方向）", "按评分调用量计费，卖的是可解释的传播路径与可绑定的处置动作"],
+ ["图数据库与图谱计算底座", "Neo4j GDS / TigerGraph", "蚂蚁 TuGraph、星环科技 StellarDB", "按节点规模与集群许可收费，议价权来自跨链图查询的高分位性能"],
+ ["跨机构情报协作与旅行规则网络", "Notabene / Sygna / TRM Travel Rule", "暂无境内对标产品，涉币跨境协作受严格限制", "按机构接入数与报文量收费，网络效应是唯一护城河"],
+ ["执法与司法协作取证平台", "Chainalysis Reactor / TRM Forensics", "美亚柏科、公安涉币资金分析平台", "按案件授权收费，卖的是可采信与保管链，单价高但复制性弱"]
+];
+const DOMAINS = [
+ ["d1", "洗钱网络形态知识建模", "Network Morphology Knowledge Modeling", "核心", "这个功能域在产品上的本质，是把对手的资金编排手法固化成一套带版本、可校准、可映射到算法的形态知识库，让检测从此有本体可依而不是靠人凭经验看图。", [["网络拓扑形态库", [["分层账户组形态", "分层账户组是最基础也最常见的洗钱形态，识别不到它意味着后续所有算法都建在错误的本体上；典型场景是三层以上转账后资金在末端取现，而每一层都在不同机构，单机构视角永远只看到中间一跳", "Chainalysis Reactor / TRM Labs"], ["星型归集与树形裂变形态", "星型归集（多入一）与树形裂变（一入多）在一张网络里往往成对出现，只建单侧形态库会把同一张网络的入口与出口当成两个独立团伙，处置时两边都抓不住", "TRM Labs / Elliptic Navigator"], ["蛇形链路形态", "蛇形链路刻意在多个地址之间往复跳转以拉长路径、躲开跳数阈值，形态库缺失时它会被误判为正常的高频转账商户，是最容易被放过的职业化手法", "Chainalysis / OKLink 链上天眼"], ["环路与对冲形态", "资金绕行一圈回到原点用于伪造成交与洗白来源，与正常清算闭环极难区分，形态定义必须同时带金额约束与时间约束，否则第一次上线就会把清算链路全部标黑", "Neo4j GDS / Elliptic Navigator"], ["形态组合与演进版本", "真实网络会把分层、蛇形、归集混用，形态库必须支持组合与版本演进，单形态静态库在对手换一次手法后即失效，而失效时不会有任何告警", "TRM Labs / Chainalysis"]]], ["服务生态与角色建模", [["跑分与场外经纪人角色", "跑分团队与 OTC 经纪人是链上资金与法币之间的关键中间层，不建角色模型就无法定位真实受益人，处置入口只能停在末端卡农身上", "Chainalysis / MistTrack"], ["担保平台与变现通道", "担保平台常处于洗钱链路的终点，缺失该角色会让整条链路在变现环节断掉，拦截金额归零，且事后无法补建因为资金已完成交换", "Chainalysis / OKLink 链上天眼"], ["混币与跨链桥服务清单", "混币器替代品与新型跨链桥持续涌现，清单不做版本化与有效期管理会让识别能力静默过期，团队看到的仍是三个月前的地图", "Elliptic Discovery / TRM Labs"], ["中文洗钱网络的地域与语言特征", "中文网络的联络渠道、话术习惯与支付工具与欧美黑产差异显著，直接套用海外形态库会系统性漏报，是境内场景最常见的结构性缺陷", "OKLink 链上天眼 / 公安涉币资金分析实践"], ["归集与再分发服务中心角色", "归集与再分发常由专门的钱骡团队承担，把该角色写成普通账户会让真正的核心协调者长期被当成末端处理，案件规模被严重低估", "TRM Labs / Chainalysis"]]], ["形态知识工程化", [["形态与算法映射", "每种形态必须绑定对应的检测算法与召回口径，缺失映射会让形态库沦为文档，出现「有形态库但没人用」这一最常见的失败形态", "TRM Labs / Neo4j GDS"], ["形态标签的复现口径", "形态标签必须携带判定依据与版本号，否则同一批数据两次标注得出不同形态，监管要求复现时无法自证，全部自动处置失去合规基础", "Chainalysis / Oracle FCCM"], ["形态库热更新与同步延迟", "新形态从出现到入库通常滞后十二至七十二小时，这段窗口内的误报与漏报必须被显式度量并公示，否则团队会误以为覆盖率一直是一百分", "Elliptic / TRM Labs"], ["形态覆盖率度量", "已知案件中被形态库覆盖的比例直接决定漏报敞口，不度量覆盖率就无法论证形态库是否值得继续投入，也无法向监管证明控制有效", "Chainalysis / NICE Actimize"]]]]],
+ ["d2", "关联账户组识别与主体归并", "Linked Account Cluster Recognition and Entity Resolution", "核心", "这个功能域在产品上的本质，是把链上地址、法币账户、设备与钱包这些身份残片归一成可举证的主体，让「这几个地址是不是同一伙人」从推断变成带置信度的边。", [["关联键归一与抽取", [["链上地址与法币账户关联键", "同一主体往往同时持有链上地址与法币出入金账户，缺少跨域关联键会让洗钱网络在链上链下交界处被切成两半，两半各自都看起来像正常业务", "Chainalysis / TRM Labs"], ["关联键的哈希与掩码一致化", "银行卡与手机号在不同系统中以掩码、哈希、大小写变体形态出现，不做一致化会让同一主体被拆成多个孤立节点，且系统不会报任何错，问题要等到团伙漏掉才暴露", "Chainalysis / Sumsub"], ["设备与钱包地址关联", "移动端钱包与设备指纹的组合比纯地址关联稳定得多，忽略设备维度会漏掉最活跃的一批操作账户，而操作账户恰恰是定位团伙的抓手", "Sardine / Chainalysis"], ["跨链地址同主体归并", "同一主体在多条链上使用同源助记词或高度一致的交互模式，缺跨链归并会把一个网络拆成七条链上的七个孤立团伙，跨链形态永远聚不起来", "TRM Phoenix / Elliptic Nexus"], ["关联键稀有度加权", "交易所热钱包、桥合约与公共基础设施天然共享大量关联键，不做稀有度逆频率加权会把整个生态聚成一个团伙，首轮处置即全量误伤", "TRM Labs / Quantexa"]]], ["账户组聚类与稳定度", [["同源助记词与派生路径", "同一助记词派生的地址组属于最高置信度的同主体证据，漏掉它会让最强证据无法进入报告，举证时只能退回到时间相关性这类弱证据", "Chainalysis / Elliptic Nexus"], ["转账模式相似度聚类", "交互时间、金额尾数与对手方集合的相似度可作为弱关联，权重设高会把同一交易所的用户聚成团伙，设低又聚不出任何东西，必须分档输出", "MistTrack / Quantexa"], ["账户组稳定度评分", "跨月重算后成员重叠度低于阈值的账户组不得作为处置依据，不稳定聚类是批量误冻的最大来源，且往往在第二轮重算时才被发现", "Neo4j GDS / NICE Actimize"], ["归并结果可回滚", "实体归并容易、拆分极难，误归并会污染下游全部评分与处置，因此每次归并必须留可回滚日志与确认人，否则一次事故无法收敛", "Neo4j / TigerGraph"], ["多对多阈值与高基数白名单", "一个地址挂数千个对手方在交易所属正常、在个人钱包属异常，阈值必须按主体类型区分并允许白名单化，否则头部机构会长期占据风险榜首", "Chainalysis KYT / Sardine"]]], ["主体画像与去匿名", [["链上与链下身份拼接", "通过出入金时间与金额把链上地址与交易所 KYC 身份拼接是去匿名的核心路径，拼接错序会让「同一人的不同时期」被当成两个主体，历史行为全部断裂", "Chainalysis / 同盾科技"], ["交易所存款地址归集", "交易所为每个用户生成专属存款地址，该地址是链上地址通向实名身份的最强锚点，不建库等于主动放弃最有效的定位路径", "Chainalysis / OKLink 链上天眼"], ["匿名服务的反查", "通过混币器两侧的金额分层与时间对齐反查主体，比单纯依赖混币器黑名单有效得多，只做名单匹配会把所有混币用户统一标黑", "Elliptic / TRM Labs"], ["归并置信度分级披露", "举证材料中每一条归并都必须标注置信度与依据，把推测写成事实会被辩方一次性推翻全部结论，且无法就单点错误做局部更正", "Elliptic Navigator / TRM Forensics"]]]]],
+ ["d3", "跨主体统一资金图谱", "Unified Cross-Subject Fund Graph", "核心", "这个功能域在产品上的本质，是把跨账户、跨链地址、跨链桥与混币器串进同一张带时间的图，让资金在网络中的每一次移动都留在同一个可查询、可举证的空间里。", [["跨域图谱本体", [["跨账户与跨链统一节点模型", "把账户、链上地址、桥合约、混币服务混为一类节点会让图算法失去拓扑语义，社区发现会把桥的流量误判成团伙，误报规模随桥交易量线性增长", "TRM Phoenix / Chainalysis"], ["桥接点一等公民化", "跨链桥是链与链之间的唯一通道，把桥当作边而非节点会让跨链关系无法被查询，跨链分析在桥处结构性断链，表现为高风险资金凭空消失且无告警", "TRM Phoenix / Elliptic Nexus"], ["混币器进出配对节点", "混币器两侧必须建模为可配对的进出节点集合，只标黑而不支持配对会让混币之后的资金无法接续，整条链路在混币处终止", "Chainalysis / Elliptic Discovery"], ["时间维度边", "缺时间边的图无法回答「他们什么时候一起动」，这是洗钱网络举证在法庭与监管问询中被质疑的首要原因，也是区分曾经关联与现在关联的唯一依据", "Elliptic Navigator / TRM Labs"], ["图本体版本化", "监管问询要求复现「当时看到的图」，本体若发生变更而不版本化，三年前的判定依据就无法重建，自动化处置随之失去合规基础", "Oracle FCCM / Chainalysis"]]], ["资金流还原", [["跨链桥穿透", "跨链桥五分钟即可穿透多条公链，单链追踪必在桥接点断链，断链后下游全部分析失效，而且这个失效是静默的，往往数月后才被案件暴露", "TRM Phoenix / Chainalysis"], ["混币后置信度衰减建模", "混币后追踪准确率从约百分之八十九降至约百分之十一，报告不显式标注衰减会把无辜地址写进黑名单，并随可疑活动报告一并构成可处罚的错报", "Chainalysis / Elliptic"], ["找零输出与金额尾数匹配", "UTXO 的找零输出与金额独特尾数是最硬的关联特征之一，忽略尾数会丢掉可以直接进入法庭的举证材料，只剩下时间相关性的弱论证", "TRM Labs / OKLink 链上天眼"], ["稳定币桥接节点", "稳定币已是法币与链上之间的主枢纽，不单独建库并跟踪其对手方集合，跨账户分析会在稳定币处断流，而稳定币恰恰是当前洗钱资金的主流载体", "TRM Labs / Elliptic"], ["法币侧出入金归集", "法币出金账户往往比链上地址更接近真实身份，放弃法币侧等于放弃最有效的定位路径，链上追踪再精确也只能停在卡农层级", "Chainalysis / 同盾科技"]]], ["图谱分层与性能", [["热温冷冰四层存储映射", "热数据零至七天需毫秒级、冷数据一至七年分钟级，混层存储会让在线判定被历史查询拖垮，团队会误以为需要扩容而不是分层", "ClickHouse / AWS S3"], ["宽事件架构与列式分析", "跨账户网络查询需要宽事件加列式 OLAP 支撑，关系型点查在团伙规模查询上必然超时，且超时随网络规模非线性恶化", "ClickHouse / TRM Phoenix"], ["图查询预计算与缓存", "跨主体图查询在多源 JOIN 下可超一点三五秒，需内存缓存与流式预计算才能压到百毫秒级，否则在线判定只能降级或放弃", "TRM Phoenix / ClickHouse"], ["图谱快照与全量校准", "全量重算成本高、纯增量会让社区漂移累积，必须固定周期做全量校准，否则网络边界会缓慢失真到无人能够解释", "TigerGraph / 星环科技 StellarDB"]]]]],
+ ["d4", "场外跑分与担保平台变现网络", "OTC Runner Networks and Guarantee Platform Cash-Out", "成长", "这个功能域在产品上的本质，是盯住资金离开链上、进入法币的那一段，因为变现环节是所有洗钱网络最接近真实身份的必经之路。", [["法币通道与跑分网络", [["跑分团队识别", "跑分团队以大量个人银行卡分流资金，特征是小额高频且与上游同步，只按单卡监控完全不可见，这是支付侧在当前最主要的漏损口", "邦盛科技 / 同盾科技"], ["卡农与借卡网络", "被借卡的卡农与出资主犯必须区分处置，区分依据是卡农通常零收益且首次参与，不区分会引发大量申诉并让主犯在申诉流程中被一并解冻", "Sardine / 邦盛科技"], ["银行卡共用与虚拟卡号", "同一实卡派生的多个虚拟卡号是强团伙信号，不建映射会把一个卡农网络算成一批互不相关的独立账户，网络规模被严重低估", "Sardine / 支付机构风控实践"], ["出入金同步脉冲", "网络成员的出入金呈同步脉冲而非线性分布，单账户维度完全不可见，是识别跑分网络性价比最高的信号", "Featurespace / NICE Actimize"], ["个人收款码承接大额", "用个人收款码承接跑分资金是境内典型形态，需在支付侧识别个人码的高频大额异动，否则最危险的一段通道在监管视野之外", "支付机构风控实践 / 邦盛科技"]]], ["担保平台与变现环节", [["担保平台地址库", "担保平台是洗钱链路的常见终点，不建专库就无法回答「钱最后去哪了」，拦截金额会归零，且资金一旦完成交换几乎不可能追回", "Chainalysis / MistTrack"], ["变现节奏识别", "变现往往在盗币后二十至四十五天集中发生，节奏识别比单笔金额更能定位变现窗口，也直接决定执法与冻结的时机选择", "TRM Labs / Chainalysis"], ["场外经纪人的对手方集合", "经纪人的对手方集合是网络扩展的最佳入口，据此可从一个经纪人扩展出整张网络，是最节约算力的扩张路径", "Chainalysis / OKLink 链上天眼"], ["变现渠道的跨境属性", "变现渠道常跨境切换以规避单一辖区冻结，需标注辖区并联动跨境协作，否则处置只能停在一侧且会提前惊动对手", "Chainalysis / TRM Labs"], ["担保账户的资金停留特征", "担保账户的资金停留时长明显长于过账账户，停留时长是区分担保与纯过账的最低成本特征，无需复杂模型即可先筛一轮", "Featurespace / 邦盛科技"]]], ["法币与链上交界治理", [["出入金对手方画像", "同一法币账户的链上对手方集合可反向刻画该账户风险等级，链下机构据此可在开户与首笔交易前就完成拦截", "Chainalysis / 同盾科技"], ["场外商户白名单治理", "正规 OTC 商户与洗钱经纪人的行为高度相似，白名单必须定期复核与自动过期，否则会演变成系统性绕过的绿色通道", "Chainalysis / NICE Actimize"], ["大额与频次双阈值", "境外三千至一万美元阈值与境内支付限额口径不同，需双阈值并行并按辖区映射，口径混用会造成某辖区被系统性认定漏报", "FinCEN BSA / NICE Actimize"], ["出入金账户的关联冻结", "法币侧与链上侧须同步冻结，只冻一侧会立刻把资金赶到另一侧，这是最常见的处置失败形态，且失败时不会有任何告警", "Fireblocks / Chainalysis"]]]]],
+ ["d5", "跨链桥与混币器还原", "Cross-Chain Bridge and Mixer Reconstruction", "核心", "这个功能域在产品上的本质，是在对手专门用来切断追踪的两个断点上把链路接回来，并诚实地标出接回之后置信度下降了多少。", [["跨链桥穿透", [["跨链桥事件解析", "不同桥的事件字段、资产映射与确认规则差异极大，解析不全会让资金在桥上凭空消失且不产生任何告警，是最危险的静默漏报", "TRM Phoenix / Elliptic Nexus"], ["桥接确认时延对齐", "不同链与不同桥的确认时延不同，不按实际确认时间对齐会把跨链关联排成错误的先后顺序，从而把资金流向判断反", "Chainalysis / TRM Labs"], ["原子交换的同主体证据", "原子交换使两侧资产在同区块内同步移动，是极高置信度的同主体证据，比时间相关性可靠一个量级，不用它等于自降证据等级", "TRM Phoenix / Chainalysis"], ["流动性池式桥的净额混淆", "流动性池式桥把多笔资金混在一起，需按份额与时间窗口做还原，否则会把桥的全部用户互相污染，一次标记就是一次大规模误伤", "Elliptic / TRM Labs"], ["新型桥的快速覆盖", "新桥从上线到被收录通常滞后数日，这段时间的跨链资金完全不可见，是当前跨链分析最大的结构性盲区", "TRM Labs / Elliptic"]]], ["混币与匿名服务", [["混币器类型区分", "中心化混币、CoinJoin 与隐私池的技术原理与还原难度完全不同，统一处理会让最可还原的一类被放弃，同时把最不可还原的一类当成可确定", "Elliptic / Chainalysis"], ["隐私池与合规池区分", "部分隐私方案内置合规白名单，与纯匿名服务同等标记会误伤合规用户并引发监管争议，也会削弱报告在法庭上的可信度", "Elliptic Discovery / Chainalysis"], ["金额分层与进出配对", "按金额分层做进出配对是混币后还原的主要手段，配对必须给出置信度而非布尔结果，否则会把巧合当成关联写进报告", "TRM Labs / Chainalysis"], ["名单外替代品发现", "混币替代品已超过数十个且持续增长，名单式识别必然滞后，必须按行为特征识别未入名单的服务，这是当前对抗的主战场", "Elliptic / TRM Labs"], ["混币与桥的组合链路", "混币后立刻过桥是当前最主流的规避组合，只单看混币或单看桥都会在组合处断链，而组合恰恰是对手的默认动作", "Chainalysis / TRM Phoenix"]]], ["还原置信度与披露", [["还原链路的分段置信度", "跨链还原链路必须逐段标注置信度，只给单一结论会把低置信段的风险传播到全链路，最终结论的可信度被最弱一环决定", "Elliptic Navigator / TRM Forensics"], ["不确定性的可视化表达", "图上需用虚线或灰度表达低置信关联，全实线表达会让调查员误以为结论确定，进而在执法材料中给出过度确定的判断", "Chainalysis Reactor / Elliptic"], ["桥与混币的对手方影响面", "标注某桥或混币服务的下游影响面，处置前可预估波及账户数，避免一次冻结波及数千个正常用户并演变为公开事件", "NICE Actimize / Fireblocks"], ["跨链证据的保管链", "跨链证据涉及多个链上数据源，需记录抓取时点、区块高度与节点来源，否则证据在法庭上无法复现，整份材料的可采性被动摇", "TRM Forensics / 美亚柏科"]]]]],
+ ["d6", "图社区发现与网络聚类", "Graph Community Detection and Network Clustering", "成长", "这个功能域在产品上的本质，是把千万条关联边聚成有限个可命名、可复现、可处置的网络档案，而不是给出一张永远读不完的大图。", [["聚类算法工程化", [["分辨率参数标定", "分辨率过低会把整家交易所用户聚成一个网络、过高则碎成孤点，参数必须按业务粒度标定并纳入版本管理，否则首次接入真实数据就全量误伤", "Neo4j GDS / TigerGraph"], ["有向图语义保留", "资金流是有向的，当作无向图会丢掉谁给谁钱的语义，核心协调者与末端钱骡无法区分，处置动作必然错配", "Chainalysis / TRM Labs"], ["加权与弱边抑制", "不加权会被海量弱边淹没，结果退化成按地域聚类，看似有网络实则全是地理巧合，团队会一直以为自己发现了大量团伙", "Quantexa / TRM Labs"], ["算法确定性保证", "标签传播在超大图上存在随机性，同一份数据两次跑出不同网络，监管要求复现时无法自证，整条自动化处置链失去合规基础", "Neo4j GDS / TigerGraph"], ["增量与全量重算节奏", "纯增量会让社区漂移累积，必须固定周期做全量校准，否则网络边界会缓慢失真到无法解释，且失真过程没有告警", "TigerGraph / 星环科技 StellarDB"]]], ["网络核心与角色刻画", [["中介中心性识别核心协调者", "真实案件中数十个关联账户往往只有两三个核心协调者，中介中心性比度中心性更能命中他们，用错指标会一直盯着钱骡而放过主犯", "Chainalysis Reactor / TRM Labs"], ["角色分类", "出资、操作、取现、宣发四类角色不区分就无法差异化处置，会把被借卡的卡农与出资主犯同等冻结，引发大量申诉", "Featurespace / 邦盛科技"], ["桥节点识别", "连接两个网络的桥节点最有价值同时也是误伤概率最高的节点，必须双重人工确认后才可处置，自动处置在此处风险最高", "TRM Labs / Quantexa"], ["网络规模与成熟度推断", "三人临时团伙与两百人职业网络的处置完全不同，规模推断错误会浪费绝大部分尽调资源，也会让真正的大案被当成小案结案", "Chainalysis / NICE Actimize"], ["网络档案化", "网络需成为可复用资产，包含命名、画像、历史行为与关联证据，否则每次调查都从零开始，团队永远长不出记忆", "TRM Labs / Elliptic Navigator"]]], ["聚类质量控制", [["网络稳定度评分", "跨月重算重叠度低于阈值的网络不得据以冻结账户，不稳定聚类是误伤的最大来源，且误伤会在冻结之后才显现", "Neo4j GDS / Quantexa"], ["聚类基线对比", "无基线时无法判断「这次多出三百个网络」是模型变好还是数据变脏，基线是聚类上线的前置条件而非可选项", "NICE Actimize / 恒生电子"], ["人工标注回流", "调查员确认或否定的网络必须回流为标签，否则模型永远停在初版，人工判断的价值被一次性消耗掉", "Chainalysis / Featurespace"], ["聚类解释输出", "每个网络必须能输出「为什么他们在一起」的前三条边，不可解释的网络在监管问询中站不住，也无法进入司法举证材料", "Elliptic Navigator / TRM Labs"]]]]],
+ ["d7", "资金环路与蛇形链路检测", "Fund Cycle and Serpentine Chain Detection", "成长", "这个功能域在产品上的本质，是识别对手用来伪造来源与拉长路径的两种刻意编排，并从大量正常清算与做市流量中把这两类刻意动作分离出来。", [["环路检测", [["环路的时间窗约束", "无时间约束的环检测会把跨年的正常清算闭环识别成洗钱环，环必须同时带时间与金额双重约束，否则第一次跑全量就会把清算通道全部标黑", "Chainalysis / Elliptic Navigator"], ["简单环与复杂环区分", "简单环与含分叉的复杂环处置含义完全不同，不区分会放过真正的循环过账，也会把正常的三角对账结构误判为洗钱", "Neo4j GDS / TigerGraph"], ["金额递减与守恒判别", "洗钱环通常因层层抽成而金额递减，金额严格守恒的环更可能是清算或对账链路，这一条判别能挡掉大部分误报", "TRM Labs / Chainalysis"], ["环枚举剪枝", "大图上环数量指数级增长，需按最大环长与最小权重剪枝，否则算力会被无意义的短环耗尽，真正的大环永远算不出来", "TigerGraph / 星环科技 StellarDB"], ["跨链环识别", "资金可经桥回到原链形成跨链闭环，单链检测天然看不见跨链环，而跨链闭环恰恰是当前职业化网络最常用的手法", "TRM Phoenix / Chainalysis"]]], ["蛇形与碎片化链路", [["蛇形链路检测", "蛇形链路用多次往复跳转拉长路径以躲避跳数阈值，必须按路径形态而非跳数判断，按跳数判断等于对手加两跳就绕过", "Chainalysis / OKLink 链上天眼"], ["碎片化分发识别", "把一笔大额拆成大量小额分散到多个地址是洗钱中段的标准动作，只按单笔金额监控会完全漏报，而这正是当前最常见的规避方式", "TRM Labs / Elliptic"], ["跨链碎片化波段对齐", "六至十天窗口内的跨链碎片化是典型第二波段，规则必须与该波段节奏对齐，规则与对手节奏错位等于持续漏报", "TRM Labs / Chainalysis"], ["手数拆分与层数控制", "刻意控制每层金额与层数以规避阈值是职业化网络的标志，阈值若不与层数联动则形同虚设", "TRM Labs / 邦盛科技"], ["与做市套利路径的区分", "做市与套利同样产生大量往复路径，需按对手方集合与盈亏结构区分，否则会把做市商标成洗钱网络，误伤成本极高", "Chainalysis / Elliptic Navigator"]]], ["路径还原与图谱证据", [["路径还原的完整性", "路径还原必须覆盖进出两端，只还原中间段无法回答资金来源与去向，举证材料因不完整而被整体质疑", "Chainalysis / Elliptic Navigator"], ["蛇形链路的可视化", "蛇形在力导向布局下会纠缠成一团无法辨认，需专用路径布局才能让调查员与法官看懂，否则证据无法有效呈现", "Neo4j Bloom / Chainalysis Reactor"], ["候选路径与置信度排序", "同一笔资金可能存在多条候选路径，只给一条会误导结论，必须输出候选路径及各自置信度并按可信度排序", "TRM Labs / Elliptic Navigator"], ["与商业闭环的排除论证", "需能输出为何不是正常商业闭环的排除论证，只证有罪不证排除在争议案件中极易被整体驳回", "NICE Actimize / TRM Forensics"]]]]],
+ ["d8", "星型归集与树形裂变形态识别", "Star Aggregation and Tree Fan-Out Pattern Recognition", "成长", "这个功能域在产品上的本质，是识别资金网络的入口与出口这两个结构性关节，因为拿住归集端与分发端就等于拿住了整张网络的两个处置闸门。", [["星型归集网络", [["归集地址识别", "高频多入、低频少出、余额波动小是归集地址的三个典型特征，缺任何一项都会与正常备付金账户混淆，进而全量误报", "Chainalysis / Elliptic Discovery"], ["归集时刻批量化", "归集常集中在固定时刻由脚本批处理，是低成本强特征，比复杂模型更早发现问题，也是唯一不需要标注数据就能用的信号", "同盾科技 / Sardine"], ["归集层的多级结构", "归集往往分多级进行（先分散归集再汇总），只识别单级会在第二级断链，而第二级通常才是最接近核心协调者的一层", "Chainalysis / TRM Labs"], ["交易所热钱包误判规避", "交易所热钱包同样高频多入少出，不做白名单会全网点误报，把最大的合规主体标成头号黑产，产品公信力一次即失", "Chainalysis / TRM Labs"], ["归集与分发的配对", "归集端与分发端必须配对成完整网络，只建归集侧无法回答资金如何再分发，处置时也找不到阻断点", "Elliptic Discovery / Chainalysis"]]], ["树形裂变分发", [["裂变层级与宽度度量", "层数超过五层且宽度超过二十是职业化网络特征，阈值不做行业校准会产生大量误报，最终没人敢用这条规则", "Chainalysis / Elliptic"], ["分发末端的取现与变现", "树形末端往往直接对接取现与变现，末端识别是定位真实受益人的关键，停在中间层等于放弃处置入口", "OKLink 链上天眼 / 公安涉币资金分析实践"], ["分发节奏的速度分层", "零至五天的极速分层与二十至四十五天的变现是两种完全不同的节奏，节奏混用会让规则与对手错位", "TRM Labs / Chainalysis"], ["裂变网络的账户池轮换", "被封后立刻换一批地址继续作业，需以资金与设备关联把轮换池识别为同一主体，否则封号只是替对手做清理", "Sardine / 同盾科技"], ["树形与星型的组合识别", "真实网络中星型与树形成对出现，单侧建模会把同一张网络的入口与出口当成两个独立团伙，两边各自处置都不完整", "TRM Labs / Elliptic Discovery"]]], ["形态判定的质量与阈值", [["形态判定阈值行业校准", "支付、交易所与法币通道的正常资金结构差异极大，通用阈值会在某条业务线全量误报，同行校准是上线前置条件", "Sardine / 邦盛科技"], ["形态与主体类型绑定", "同一形态在个人与机构主体上的含义完全不同，不绑定主体类型会把做市商与托管机构当成洗钱网络", "Chainalysis / NICE Actimize"], ["形态告警的网络级聚合", "同一网络上千个地址同时命中会产生告警风暴，必须按网络聚合为一条事件，否则调查团队直接瘫痪", "NICE Actimize / 恒生电子"], ["形态命中的证据快照", "命中时需固化当时的子图、参数与数据版本，事后再重建会因数据变化而无法复现，复现失败等于结论不可举证", "Oracle FCCM / ClickHouse"]]]]],
+ ["d9", "图神经网络节点分类与链路预测", "GNN Node Classification and Link Prediction", "成长", "这个功能域在产品上的本质，是把图的拓扑压成可计算的向量用于发现未知与补齐缺失，但必须老老实实定位在召回层，绝不越过举证这条线。", [["图模型选型与训练", [["邻居采样偏差", "全图卷积在大规模图上不可训，采样偏差会系统性低估长尾网络，让规模最大的网络反而最晚被发现，这是最反直觉的失效形态", "PyG / DGL"], ["异构图建模", "账户、地址、桥、混币服务是异构节点，同构化建模会丢失类型语义，把桥的巨大流量与真实团伙混为一谈", "蚂蚁 TuGraph / 蚂蚁图学习"], ["时序图网络", "静态图忽略先后顺序，只有时序图网络才能捕捉分层先后与资金接力方向，静态模型会把因果倒置", "TigerGraph / 星环科技 StellarDB"], ["归纳式推断能力", "新地址必须可被归纳式推断，直推式模型一上线即失效，离线指标再好看在真实新案上也毫无意义", "Sardine / Chainalysis"], ["图数据泄漏防护", "训练图若包含未来边会导致线下指标虚高、上线暴跌，这是图模型最常见的翻车方式且极难在离线阶段察觉", "DGL / PyG"]]], ["节点分类与链路预测", [["节点风险分类", "把地址分类为交易所、桥、混币、钱骡与普通用户是多个算法共用的前置能力，分类错误会污染整条下游链路", "Chainalysis / TRM Labs"], ["链路预测用于补全", "匿名地址之间的缺失边可用链路预测补全，但预测边绝不能直接作为处置依据，只能作为调查线索，越界即构成过度执法", "TRM Labs / Elliptic Nexus"], ["未知服务识别", "新出现的混币与桥可先用链路预测找候选再人工确认，这是跟上对抗演化节奏的关键手段，纯名单方式必然滞后", "Elliptic Discovery / TRM Labs"], ["标签稀缺与弱监督", "链上绝大部分地址无实名关联，必须用弱监督与远程监督，等干净标签等于永远不上线，风控能力永久停留在地面", "Chainalysis / TRM Labs"], ["模型与规则的分工", "图模型负责召回可疑候选、规则负责给出可举证判定，两者互相替代会导致要么漏报要么无法举证", "Chainalysis / TRM Labs"]]], ["工程化与可解释", [["推理延迟预算", "合规判定目标在百毫秒级，图推理需预计算加缓存，不能实时跑多层传播，否则整条判定链路必然超时降级", "ClickHouse / TRM Phoenix"], ["可解释近邻", "只给相似度分数无法举证，必须列出相似的具体理由边与共同关联键，否则结果不能进入任何报告", "Elliptic Navigator / TRM Labs"], ["嵌入漂移监控", "嵌入空间随数据分布漂移会导致近邻结果突变，必须持续监控并设阈值告警，否则召回质量会静默劣化", "Featurespace / NICE Actimize"], ["灰度与影子模式", "新模型需影子运行对比旧模型差异，直接切换会造成处置结果突变并引发批量申诉", "Featurespace / Sardine"]]]]],
+ ["d10", "跨链资金亲密度与时空金额匹配", "Cross-Chain Fund Intimacy and Spatiotemporal Amount Matching", "核心", "这个功能域在产品上的本质，是用时间对齐与金额反算两条独立证据链，把桥两侧看似无关的两笔资金判成同一笔钱，并量化这份判断的可信度。", [["时空对齐", [["三十秒级时空对齐窗口", "跨链转移需在时间上严格对齐，窗口过松会把巧合当关联、过紧会漏掉变速混币，容差不能是拍出来的唯一值", "TRM Phoenix / Chainalysis"], ["确认时延归一", "各链出块与确认时间不同，不归一化会把正确配对排在候选之外，进而把最关键的跨链证据漏掉", "TRM Labs / Elliptic Nexus"], ["跨链时序因果校验", "必须先锁定再铸出，逆序配对属于数据错误，不校验会产生大量伪关联并污染整张亲密度图谱", "TRM Phoenix / Chainalysis"], ["跨机构时钟源统一", "跨机构时间戳不一致会让秒级对齐失效，需统一时钟源并记录偏差量作为证据附注，否则对齐结论无法律意义", "TRM Labs / 高频交易时钟同步实践"], ["对齐窗口分链路标定", "不同桥与不同链的时延分布不同，容差必须分链路标定，全局单一容差值必然在部分链路上失效", "Chainalysis / TRM Labs"]]], ["金额特征匹配", [["扣除手续费的金额反算", "跨链转移手续费在百分之零点零一至零点三之间，需反算还原原始金额才能匹配，不反算会大面积漏配", "TRM Labs / Chainalysis"], ["金额尾数唯一性匹配", "独特尾数是最强匹配特征，但需按小数精度与舍入规则处理，否则会因精度问题丢掉最关键的匹配", "TRM Labs / OKLink 链上天眼"], ["拆分与合并后的金额组合对齐", "一笔拆成多笔或反之一笔由多笔汇成会破坏一对一匹配，需支持一对多与多对一的组合搜索", "TRM Phoenix / Elliptic Nexus"], ["金额相似度概率建模", "金额匹配需给出概率化打分而非布尔判定，否则无法与时间证据融合，也无法在报告中表达不确定性", "Elliptic Nexus / TRM Labs"], ["稳定币与主流币精度差异", "不同代币精度差异会导致金额比较出现系统性偏差，不按精度归一化会产生大量假匹配并放大误报", "Chainalysis / Elliptic"]]], ["亲密度图谱构建与应用", [["亲密度权重定义", "亲密度需综合时间接近度、金额匹配度与对手方重复度，单维度定义会让图谱退化为简单邻接表，失去区分能力", "TRM Phoenix / Elliptic Nexus"], ["亲密度阈值的置信分级", "不同亲密度对应不同证据强度，不分级会把弱关联写进处置与报送，进而形成可被处罚的错误报送", "Elliptic Navigator / TRM Forensics"], ["亲密度与网络聚类的耦合", "亲密度高但社区不同的边应被单独复核，这类边往往就是跨网络的真实桥梁，也是最有价值也最危险的线索", "Chainalysis / TRM Labs"], ["亲密度图谱的可视化表达", "亲密度需用粗细与颜色表达，全同表达会让调查员无法判断哪条边可信，图再大也读不出结论", "Chainalysis Reactor / Neo4j Bloom"]]]]],
+ ["d11", "多波段洗钱周期识别", "Multi-Band Money Laundering Cycle Detection", "成长", "这个功能域在产品上的本质，是把对手的洗钱过程读成有时间刻度的事件序列，因为只有知道他现在处在第几波段，才能决定该做什么动作。", [["波段划分与阶段对齐", [["三波段周期切分", "盗币后零至五天极速分层、六至十天跨链碎片化、二十至四十五天变现是当前标准周期，不按波段切分就找不到检测时机", "TRM Labs / Chainalysis"], ["波段与规则的阶段对齐", "检测规则必须与对手所处阶段对齐，规则与节奏错位等于持续漏报，也是最常见的能力空转形态", "TRM Labs / Chainalysis"], ["极速窗口的分钟级响应", "盗币到洗白最快仅二十余分钟，第一波段窗口只有分钟级，人工审批在制度上根本无法执法", "TRM Phoenix / Chainalysis"], ["波段迁移的个体差异", "并非所有网络都遵循标准周期，需按网络规模与成熟度做周期个性化，套用统一周期会系统性误判阶段", "Chainalysis / Elliptic Nexus"], ["波段进度估计", "对在途网络估计当前所处波段是决定处置动作的关键输入，估错会导致冻结过早误伤或过晚失效", "TRM Labs / Elliptic Nexus"]]], ["事件级时间取证", [["关键事件时间线", "把入侵、转移、分层、跨链、变现五类事件排入同一时间线，是执法协作材料的主干，缺任何一类都无法形成完整叙事", "TRM Forensics / Chainalysis Reactor"], ["攻击路径与洗钱路径分离", "入侵与洗钱常由不同团队承担，混为一条路径会导致误判主体并把非核心人员当成主犯处置", "Chainalysis / TRM Labs"], ["首次转移时间戳取证", "首次转移时间戳是立案与冻结时效的关键证据，必须带区块高度与节点来源，缺来源的时间戳在法庭上可被质疑", "TRM Forensics / 美亚柏科"], ["长周期案件的时间轴压缩", "数月至数年的案件需按事件密度压缩时间轴，全线性展示会让调查员看不到关键窗口，关键证据被淹没在平庸数据里", "Chainalysis Reactor / Elliptic Navigator"], ["节假日与时区效应", "变现节点常刻意错开监管与银行工作时段，不考虑时区与节假日会低估变现意图并错过布防窗口", "NICE Actimize / TRM Labs"]]], ["周期模型与预测", [["周期阶段预测", "基于前序行为预测下一步是过桥还是变现，可提前布防，这是主动防御与被动追踪的分水岭", "TRM Labs / Chainalysis"], ["周期与网络成熟度耦合", "成熟网络会故意拖长周期以规避短期规则，周期模型必须按成熟度分层，否则会被对手用节奏直接绕过", "Chainalysis / Elliptic Nexus"], ["周期突变检测", "周期突然缩短往往意味着临检或紧急套现，是最高优先级信号，也是资金即将外逃的最后提示", "TRM Phoenix / Featurespace"], ["历史周期样本库", "以历史案件沉淀周期样本是周期模型唯一的训练来源，样本不足时预测不可用，不能靠模型自我推断", "Chainalysis Reactor / 公安涉币资金分析实践"]]]]],
+ ["d12", "网络风险计量与中心度评分", "Network Risk Quantification and Centrality Scoring", "核心", "这个功能域在产品上的本质，是把一张网络的拓扑结构翻译成可排序、可分层、可直接绑定处置动作的风险数字，并且这个数字要能被逐条拆开讲清楚。", [["网络结构度量", [["中心度指标体系", "度中心、中介中心与接近中心回答的是不同问题，混用会把高流量交易所与核心协调者混为一谈，处置对象随之错配", "Neo4j GDS / TigerGraph"], ["资金集中度", "资金集中度反映网络是分散过账还是单点归集，是判断处置入口的核心度量，集中度高时冻结单点即可止血", "Chainalysis / Elliptic Discovery"], ["网络紧密度与边密度", "紧密度高的网络成员间互转频繁，处置任一点都会打草惊蛇，必须整网同时动作，单点处置会让资金立刻绕路", "TRM Labs / Chainalysis"], ["网络规模与资金规模分离", "大量小额账户构成的大网络危害可能高于少数大额账户，只按金额排序会严重低估规模化跑分网络的真实危害", "NICE Actimize / 邦盛科技"], ["结构度量与时间快照绑定", "中心度随时间剧烈变化，不绑定时间快照的度量无法复现，也就无法在事后解释为什么当时冻结了这些人", "ClickHouse / Oracle FCCM"]]], ["网络级风险评分", [["网络分维度拆解", "网络分应拆为结构紧密度、对手方风险、资金集中度、时序协同度四个维度，单一总分无法指导差异化处置", "Featurespace / NICE Actimize"], ["网络分与个体分关系", "网络分不等于成员分之和，需区分网络最大风险与网络风险均值，前者适合冻结、后者适合加强尽调", "Featurespace / NICE Actimize"], ["分数校准与概率化", "分数需映射为可校准的概率才能与业务阈值和成本模型对接，否则阈值只能靠拍脑袋设定", "Featurespace ARIC / TRM Labs"], ["评分时效", "事后分无法阻止分钟级洗白，实时分必须与流式预计算结合，T 加一评分在处置场景几乎没有价值", "TRM Phoenix / ClickHouse"], ["评分可解释性", "评分必须能拆解为贡献边与贡献节点列表，否则调查员与监管都无法接受自动化冻结，模型再准也无法投产", "Chainalysis / Quantexa"]]], ["阈值、动作与验证", [["阈值分层与动作映射", "无动作映射的风险分只是好看的仪表盘，必须显式绑定限流、加强尽调、冻结三档动作", "Sardine / 同盾科技"], ["动态风险阈值", "波动率超百分之八自动降权、制裁名单更新瞬时收紧是领先实践，静态阈值在极端行情下必然失效并批量误报", "TRM Labs / Chainalysis"], ["分数稳定性与抖动", "日间抖动过大说明模型不稳，会让合规团队彻底不信任系统并回退到人工，产品价值随之归零", "NICE Actimize / 恒生电子"], ["回溯测试与提前天数", "用历史网络回溯检验能提前多少天发现，提前天数是产品价值最有说服力的数字，也是预算审批的核心论据", "Featurespace / NICE Actimize"]]]]],
+ ["d13", "风险传导与传播路径预测", "Risk Propagation and Pathway Prediction", "成长", "这个功能域在产品上的本质，是把一笔已确认的污染沿着网络的边有方向、有衰减、有边界地传开，并预测它下一步会走向哪里，同时保证传出去的每一分都可以减回去。", [["传播模型与衰减", [["顺向与逆向传播语义分离", "资金顺向污染出金方、逆向污染入金方，语义完全不同，混用会把受害者标成黑产，造成二次伤害并直接升级为监管投诉", "Chainalysis / TRM Labs"], ["传播衰减因子", "无衰减传播两次跳转即可把半个市场染黑，衰减必须同时考虑边强度与时间衰减，否则风控等于自毁可用性", "Elliptic Navigator / TRM Labs"], ["跳数与地平线剪枝", "跳数不受限时所有节点分数会收敛到同一值，图完全失去区分度，排序失效意味着处置只能靠人工翻名单", "TigerGraph / Neo4j GDS"], ["时间衰减窗口", "数年前的往来不应与昨天等权，缺时间衰减会让老账户永久背负污点，且没有任何机制能够还它清白", "TRM Labs / Chainalysis"], ["归因与分配规则", "按金额比例归因还是按流入顺序归因，直接决定可冻结金额是否合法，归因规则错会导致冻结被认定越权", "Elliptic Navigator / TRM Forensics"]]], ["传播路径预测", [["下一步转移预测", "预测资金下一步流向可在阻断窗口内提前布防，这是主动防御与被动追踪的分水岭，也是把处置从分钟级拉长到小时级的关键", "TRM Labs / Chainalysis"], ["候选路径排序", "同一笔资金可能有多条候选路径，需按置信度排序并输出前三，只给一条会误导处置方向", "Elliptic Nexus / TRM Labs"], ["变现端点预测", "预测变现通道可提前与场外与担保平台联动，比事后追查更有效，因为变现一旦完成资金几乎无法追回", "Chainalysis / MistTrack"], ["路径预测与预警名单联动", "预测结果可驱动跨机构预警名单，但必须与人工确认结合，否则会把无辜地址列入名单并造成连锁误伤", "Fireblocks / Chainalysis"], ["预测精度的持续回测", "路径预测必须持续回测，无回测的预测会长期停留在可用性很差的初始版本，团队还会误以为它已经可靠", "Featurespace / TRM Labs"]]], ["传染阻断与减污", [["阻断点选择", "止血应切在网络与外部市场的连接边而非网络内部边，切内部边只会让资金绕路，拦截金额为零", "Chainalysis / TRM Labs"], ["关键节点保护", "对做市商与清算通道等高价值正常节点的误传染成本极高，需建立高信任白名单免疫机制", "Chainalysis / Elliptic Discovery"], ["反向免疫与减污", "账户被证清白后必须可减污，否则一次误判就永久封杀客户，且没有任何补偿路径，客诉必然升级", "Elliptic Navigator / TRM Labs"], ["阻断副作用评估", "冻结一个归集地址可能同时冻结数百个正常收款人，处置前必须预评估影响面并准备批量解冻预案", "NICE Actimize / Fireblocks"]]]]],
+ ["d14", "网络结构可视化与调查工作台", "Network Visualization and Investigation Workbench", "成熟", "这个功能域在产品上的本质，是把算法结论交到调查员手里，让下钻、检索、协作与案卷状态在同一个工作台里闭环，而不是让分析师在十几个系统之间搬运数据。", [["图谱交互与下钻", [["万级节点渲染性能", "超过万级节点的网络需聚合与分层渲染，否则浏览器直接卡死，工作台在高价值大案上最先失效，而那正是最需要它的时刻", "Chainalysis Reactor / Neo4j Bloom"], ["一键下钻与展开", "从网络到个体需一键下钻并保持上下文，否则调查员反复重建视图，效率损失远大于算法差距", "TRM Labs / Elliptic Navigator"], ["布局算法可切换", "力导向布局在大图上不稳定，需提供分层、时间轴与路径三种布局切换，单一布局会让关键结构永远看不清", "TigerGraph / Neo4j GDS"], ["视图与查询互相转换", "可视化视图需可保存为查询语句才能复用与自动化，否则每次调查都是纯手工劳动", "Elliptic Navigator / Quantexa"], ["多屏与协作视图", "大案需图谱、流水、时间轴同屏对照，单屏工作台会让调查员依赖截图与聊天工具传递证据，过程中极易出错", "Chainalysis / NICE Actimize"]]], ["检索与订阅", [["多键模糊检索", "地址、标签、别名与案件号检索是日常入口，缺任一维度都会出现查不到人的情况，这也是工作台最容易被吐槽的功能", "Chainalysis / OKLink 链上天眼"], ["图模式查询语言", "需支持找两点之间所有三跳路径这类查询，这是分析师的刚需，不支持就只能导出数据到外部工具", "Neo4j Cypher / TigerGraph GSQL"], ["保存搜索与订阅推送", "对高危形态订阅并推送新命中，否则风控只能被动响应，网络早已完成变现", "NICE Actimize / TRM Labs"], ["结果排序与相关性", "相关性需包含关联强度而非仅时间，否则最关键的边会被埋在时间排序末尾，调查从最有价值处开始变成从最新处开始", "Quantexa / Elliptic Navigator"], ["查询性能与缓存", "跨链图查询在冷数据上可超过一秒，需内存缓存与流式预计算，否则交互体验会让人放弃使用", "ClickHouse / TRM Phoenix"]]], ["协作与案卷", [["案卷状态机", "从线索到结案需全流程状态机，缺状态机就无法度量调查周期，也无法识别积压发生在哪一环", "NICE Actimize / 宇信科技"], ["权限与最小可见", "跨机构与跨团队的数据可见性需最小化，内部泄露在金融场景中与外部攻击同等危险，且更难追责", "Oracle FCCM / Sumsub"], ["外部协作沙箱与时限授权", "与外部律师、审计与执法协作需沙箱环境与时限授权，长期开权限是内控缺陷的常见形态", "Oracle FCCM"], ["案卷版本冻结", "提交后的案卷应冻结版本，避免举证期间被修改，否则整份材料的可信度归零", "Oracle FCCM / TRM Forensics"]]]]],
+ ["d15", "网络级批量冻结与处置编排", "Network-Level Bulk Freeze and Disposition Orchestration", "成熟", "这个功能域在产品上的本质，是把网络风险分编排成一组原子、可逆、可回滚的动作，并确保跨机构的动作在同一秒内同时生效。", [["处置动作与授权", [["动作分级与可逆优先", "观察、限流、加强尽调在前，冻结放在最后，顺序错会让可用性先于风险崩掉", "Chainalysis / NICE Actimize"], ["网络级批量原子处置", "一次冻结整网需原子化执行，部分失败会立刻把剩余资金赶出场，这是处置失败率最高的场景", "Fireblocks / Chainalysis"], ["处置前置授权", "分钟级窗口意味着冻结不能等人工审批，必须预授权加事后复核，审批链条设计错等于主动放弃阻断能力", "TRM Phoenix / Fireblocks"], ["跨机构同步冻结", "只冻一侧会把资金立刻赶到另一侧，需交易所、桥方与支付机构同步动作，不同步的冻结只是给对手让路", "Chainalysis / TRM Labs"], ["解冻与恢复流程", "解冻需可审计路径与时限承诺，否则合规部门从此不敢批准任何冻结，自动化处置名存实亡", "Elliptic Navigator / NICE Actimize"]]], ["编排与联动", [["跨系统联动", "处置不联动下游会造成冻结了但交易还在跑、尽调要求没落到开户流程，等于处置半失效", "Fireblocks / Chainalysis KYT"], ["幂等与重放保护", "重复触发处置会误冻无关账户，编排必须幂等并防重放，重试机制设计不当会造成批量误伤", "Fireblocks / Chainalysis"], ["编排回滚", "错误编排需可整体回滚并记录影响面，无回滚的编排系统在生产环境不可接受", "NICE Actimize / Fireblocks"], ["工单编排与分级时限", "网络案卷复杂度差异极大，需按复杂度分级设置时限，一刀切时限必然造成积压", "NICE Actimize / 宇信科技"], ["处置与客户沟通模板", "批量冻结的话术与时限需预置并本地化，否则客服与投诉量会瞬间击穿组织", "NICE Actimize"]]], ["效果度量与迭代", [["处置命中率", "被处置账户最终确认违规的比例过低说明误伤严重，命中率决定自动化处置能否扩张", "NICE Actimize / 同盾科技"], ["资金拦截金额", "实际拦截的涉黑资金规模是最直接的价值指标，也是向董事会证明投入的唯一硬数字", "Chainalysis / TRM Labs"], ["外逃率", "处置时仍有资金成功离场即为失败，需逐案度量外逃金额与路径，否则团队会系统性高估自己的表现", "TRM Phoenix / Chainalysis"], ["客户体验损耗", "误冻造成的流失与补偿需计入成本模型，不计入会导致阈值越调越松或越调越紧", "Stripe Radar / Adyen"]]]]],
+ ["d16", "团伙型可疑活动报告与执法举证输出", "Gang-Level SARs and Law Enforcement Evidence Output", "成熟", "这个功能域在产品上的本质，是把内部的网络结论翻译成监管与执法认可的语言和结构，并对报送时限、完整性与保密义务负责到底。", [["报送组包", [["网络型可疑活动叙事", "叙述需按网络结构写清成员、角色与资金路径，单账户叙事无法呈现协同，监管无法据此立案", "FinCEN SAR / NICE Actimize"], ["多主体单报与多报选择", "同一网络合并为一份还是拆成多份取决于报送地规则，选错会造成监管侧关联缺失，且属于系统性错误", "FinCEN / Oracle FCCM"], ["阈值与报送时限", "监管阈值与报送时限是硬约束，逾期本身即违规，与是否真的存在犯罪无关", "FinCEN BSA / Oracle FCCM"], ["报送字段与身份口径一致", "关联主体标识需与 KYC 系统一致，不一致会导致监管侧无法串联同一主体，报送价值大打折扣", "Oracle FCCM / 人民银行反洗钱系统"], ["回执与补正闭环", "报送后回执与补正需闭环，缺回执无法证明已履行义务，检查时等同于未报送", "NICE Actimize / Oracle FCCM"]]], ["执法协作与证据", [["网络结构图示证据", "执法最需要一张能看懂的图，需输出结构化图示加说明而非地址清单，清单式材料在实践中几乎无法直接使用", "Chainalysis Reactor / TRM Forensics"], ["电子数据取证规范", "取证需符合电子数据取证规范与保管链要求，否则法庭不可采，技术能力再强也无法转化", "美亚柏科 / TRM Forensics"], ["调证材料清单化", "输出可直接用于调证的账户与主体清单，含时间范围与币种，否则线索无法落地", "公安涉币资金分析实践 / Chainalysis"], ["跨境协作与司法互助", "跨境案件需通过司法互助或情报机构渠道，未经授权交换本身即违法", "Egmont Group 机制 / Oracle FCCM"], ["情报与证据的分界", "情报线索不得作为证据提交，两者混装会被辩方质疑并削弱整份材料", "TRM Forensics / NICE Actimize"]]], ["质量与防积压", [["报送积压治理", "大型支付机构因申报积压被处以巨额罚款，积压是监管眼中最典型的系统性缺陷信号", "Block 与 Cash App 处罚案例 / NICE Actimize"], ["叙事质量评审", "智能起草的案件叙事必须人工评审，交易所因缺乏申报被罚数亿美元，量的缺失比质的瑕疵更致命", "KuCoin 处罚案例 / Oracle FCCM"], ["重复报送去重与防漏报", "同一网络多源告警会重复报送，需去重但绝不能漏报，去重逻辑写错会直接构成漏报", "NICE Actimize / 恒生电子"], ["报送保密义务", "可疑活动报告不得向客户泄露是被罚高频点，一线培训不到位最容易在沟通中泄露", "FinCEN / Oracle FCCM"]]]]],
+ ["d17", "跨机构联防联控与旅行规则协作", "Cross-Institution Joint Defense and Travel Rule Collaboration", "成熟", "这个功能域在产品上的本质，是把单机构看得见的半张网络拼成全貌，而这个拼图必须在双方都不交出明细的前提下完成。", [["跨机构协作机制", [["风险标签互换口径统一", "机构间标签口径不一致会让互换互相放大噪声，必须先统一关联键与时间窗，否则联盟只会让误报更多", "TRM Labs / Notabene"], ["隐私计算下的联合建模", "账户级明细共享受合规限制，需以隐私计算在不出明细的前提下完成网络碰撞，否则联盟风控永远停在口号层", "蚂蚁摩斯 / 微众银行隐私计算"], ["联防联控的动作协同", "发现同一网络后需约定谁先冻结与如何同步，无协同会让资金在机构间被抢先转移", "Chainalysis / Fireblocks"], ["情报共享的授权边界", "跨机构共享需符合本地法律授权与数据保护要求，未经授权共享本身即违法", "FATF 建议 15 与 16 / Oracle FCCM"], ["联盟接入的收益量化", "机构接入联盟需看到明确收益，缺少收益量化会让联盟停在口号层，也会让先接入者觉得自己被搭便车", "Notabene / TRM Labs"]]], ["旅行规则数据协作", [["发起方与受益方信息传递", "旅行规则要求随交易传递发起方与受益方信息，关联网络体系须能输出可传递的主体标识", "FATF 建议 16 / Notabene"], ["阈值与辖区差异映射", "各辖区生效阈值不同（如美国三千美元），口径不映射会造成某辖区被认定漏报", "FATF / Oracle FCCM"], ["未托管钱包信息补齐", "转出到未托管钱包时需收集并验证受益人信息，缺规则会让自托管通道成为合规缺口", "FATF / TRM Labs"], ["报文标准与互操作", "报文标准不统一会让信息在机构间丢失，互操作失败等于规则未落地", "Notabene / Sygna"], ["协作报文与自身图谱融合", "外部报文需并入自身网络图谱才能与链上行为碰撞，独立报文库的价值不足十分之一", "Quantexa / TRM Labs"]]], ["辖区与执法协同", [["多辖区同时报送", "跨境网络需向多国金融情报机构报送，口径差异需映射，映射错会在某辖区被认定漏报", "FATF / NICE Actimize"], ["分级披露边界", "向执法可提供全量、向同业只能给标签，分级不清会同时构成违法与泄密", "Oracle FCCM / TRM Forensics"], ["跨境数据传输合规", "跨境协作中的数据出境需安全评估或标准合同，可疑活动类数据原则上不出境", "个人信息出境标准合同办法 / Oracle FCCM"], ["制裁名单的多辖区差异", "不同辖区名单范围不同，只按一套名单筛查会在特定辖区构成违规", "OFAC / Elliptic Discovery"]]]]],
+ ["d18", "对抗演化跟踪与标签治理", "Adversarial Evolution Tracking and Label Governance", "成熟", "这个功能域在产品上的本质，是把标签、规则与模型当成有生命周期的资产来运营，因为在这个领域里，昨天的正确答案就是明天的漏报来源。", [["服务标签生命周期", [["新混币器与新桥的发现", "新服务从出现到入库通常滞后十二至七十二小时，这段窗口的误报与漏报必须被显式度量，否则团队会误以为覆盖率始终饱和", "Elliptic Discovery / TRM Labs"], ["标签延迟与误报治理", "标签上线前后判定口径会突变，需双跑对比并公示影响面，否则客户会收到莫名其妙的冻结并提供不出解释", "Chainalysis / NICE Actimize"], ["标签有效期与复核", "标签需带有效期与来源，长期不复核会把已关闭的服务永久标黑，误伤会随时间无声累积", "Elliptic Discovery / Chainalysis"], ["误标申诉与更正通道", "被误标的交易所与商户需要更正通道，无通道会把合作伙伴推向竞品并损害自身数据覆盖率", "Chainalysis / TRM Labs"], ["标签来源分级", "自研、同业共享、开源情报与执法通报的可信度不同，不分级会让低可信情报驱动高代价的处置", "TRM Labs / Elliptic Discovery"]]], ["对抗演化跟踪", [["规避手法的模式迁移", "对手会从被拦手法迁移到新手法，需按月统计手法分布变化，无统计则永远慢对手一拍", "Chainalysis / TRM Labs"], ["新服务模式的形态归纳", "聚合器、意图桥与新型跨链服务不断出现，需先按行为形态归类再补充名单，否则永远在追一个已经过时的清单", "Elliptic Discovery / TRM Labs"], ["混币后追踪准确率监控", "准确率会随服务升级持续下降，不监控会把衰减后的结论当成确定结论使用，进而在报告中给出过度确定的判断", "Chainalysis / Elliptic Discovery"], ["对抗样本与模型鲁棒性", "对手会用微小交易扰动规避模型，需做对抗训练与鲁棒性测试，否则模型在半年内即静默失效", "DGL / 安全实践"], ["情报时效与衰减", "情报有效期短，过期情报必须降权，用一年前的情报做处置会制造大量误伤", "TRM Labs / Elliptic Discovery"]]], ["模型与规则治理", [["规则版本管理", "规则需版本化并支持按时间点回放，否则无法回答当时为什么这么判，监管问询必然失守", "Oracle FCCM / NICE Actimize"], ["数据版本与快照绑定", "数据快照与模型版本必须绑定，缺一则不可复现，复现失败等于全部自动化判定不可举证", "ClickHouse / NICE Actimize"], ["变更影响评估", "规则上线前需评估影响账户数，避免一次性误冻数万账户，影响评估是变更审批的核心附件", "NICE Actimize / 恒生电子"], ["独立验证与模型卡", "模型需独立验证并附模型卡说明用途与适用边界，自查不算数，缺模型卡等同于无法证明模型受控", "欧盟人工智能法案 / Oracle FCCM"]]]]]
+];
+const FRONTIER = [
+ ["全域跨链原子化关联图谱", "live", "主流厂商已实现跨链原子化关联与毫秒级整体筛查，跨链桥分钟级即可穿透多条公链", "把桥接点做成一等节点并输出跨链同主体证据包，按案件授权收费"],
+ ["混币服务替代品行为识别", "live", "混币替代品数量持续增长且混币后追踪准确率大幅衰减，名单式识别必然滞后", "以进出模式与金额分层等形态特征识别未入名单的服务，输出置信度而非黑白名单"],
+ ["网络级风险计量与中心度评分", "live", "网络与群体级评分在银行侧与交易所侧已有规模化落地，多数以网络标签形态存在", "以百毫秒级判定提供网络风险分接口与处置动作映射"],
+ ["网络结构可视化与调查工作台", "live", "头部厂商已提供万级节点的图谱渲染、下钻与取证导出能力", "面向司法取证的本地化回放器，强调保管链与可采性"],
+ ["跨链资金亲密度图谱", "live", "时空对齐与扣除手续费的金额反算已是成熟工程实践，跨链亲密度成为标准能力", "把亲密度阈值做成分级证据输出，按链与链路标定容差并对外售卖"],
+ ["团伙型可疑活动报告组包", "pilot", "监管要求网络级叙事，多数机构仍停留在单账户报送，智能起草尚未规模化验证", "网络叙事模板库加智能起草加双人复核工作流，按报送量计费"],
+ ["多波段洗钱周期识别与阶段预测", "pilot", "三波段周期已有行业共识并用于威胁情报，用于实时处置决策仍属试点", "按波段输出处置建议的周期引擎，与冻结审批流程绑定"],
+ ["图神经网络节点分类与链路预测", "pilot", "图模型在风控侧已有落地，但受标签稀缺与可解释性约束，尚未成为主力判定", "以候选召回定位切入作为规则引擎上游，避开可解释性硬约束"],
+ ["风险传导与传播路径预测", "pilot", "传播算法有实现，减污与恢复路径普遍缺失，误伤后没有恢复机制", "做可撤销的传染分，记录污染来源并提供减污申请与审计"],
+ ["网络级批量冻结与跨机构同步处置", "live", "交易所与桥方之间的同步冻结已有实践，跨机构协同仍依赖人工对接", "网络级原子处置中间件，把跨机构同步冻结编排成幂等流程"],
+ ["跨机构隐私计算联合碰撞", "pilot", "隐私计算平台成熟，但用于跨机构网络碰撞的规模化案例有限", "以不出明细比对网络为卖点，接入多家机构构建风险标签联盟"],
+ ["旅行规则报文协作网络", "live", "主要辖区已强制随交易传递发起方与受益方信息，报文网络已有商业产品", "把协作报文并入自身网络的关联层，实现报文与行为双源碰撞"],
+ ["新混币器与新桥的快速标签更新", "live", "服务清单更新与同步延迟治理已是厂商核心竞争力，标签时效直接影响误报", "以十二至七十二小时延迟为可度量 SLA 出售标签新鲜度"],
+ ["标签延迟导致的误报治理", "pilot", "标签上线前后判定口径突变问题已被识别，双跑与影响面公示尚未标准化", "标签灰度与影响面预演产品，把误标申诉与更正通道做成一等流程"],
+ ["隐私池与合规池的区分识别", "explore", "隐私方案内置合规白名单与纯匿名服务在技术上仍难自动区分", "输出隐私方案的类型判定与依据，帮助机构避免误伤合规隐私用户"],
+ ["意图桥与聚合器的形态识别", "explore", "意图桥、聚合器与新型跨链服务不断出现，行为形态尚无统一定义", "以行为形态先行归类新服务，为名单更新争取时间窗"],
+ ["跨链数据源多活与证据可复现", "pilot", "依赖单一节点服务商的机构在故障期整条跨链分析停摆，尚无成熟多活产品", "多源链上数据冗余加数据缺口标注，面向取证场景保证可复现"],
+ ["制裁名单瞬时收紧与影响面预演", "live", "名单更新瞬时生效已是领先机构实践，多源名单服务成熟", "名单变更影响面实时预演，降低突发冻结对客户的冲击"],
+ ["网络级举证材料自动成卷", "pilot", "证据成卷能显著压缩调查工时，可采性与保管链要求使自动化程度受限", "按网络自动生成证据卷并绑定保管链，面向执法与内部合规双客群"],
+ ["多智能体协同调查与取证", "pilot", "行业普遍将当前阶段视为智能体接管合规流程的元年，产品仍以试点与助手形态为主", "调查智能体编排层，把追踪、取证、起草拆成可审计的多智能体"],
+ ["暗网与社媒情报实时融合", "pilot", "情报融合已有实践，但可信度分级与采集合规边界未标准化", "情报可信度评分加实体并入同一图谱，做情报与行为的双源碰撞"],
+ ["跨机构网络标签互认", "explore", "机构间标签口径不一致，互认需先统一关联键与时间窗，尚无行业标准", "先统一关联键规范，再以隐私计算互换网络标签的联盟图谱"],
+ ["监管问询的时间点还原", "pilot", "问询时限硬性且涉及图与模型与数据三重版本还原，多数机构靠人工拼凑", "按任意历史时点重建图、分数与规则版本的时间点还原服务"]
+];
+const MIDS = [
+ ["形态知识中心", "把对手的资金编排手法固化为带版本、可校准、可映射算法的形态知识库", "形态组合与演进管理、真实案件倒推校准、形态与算法映射、覆盖率度量、同步延迟公示"],
+ ["主体归并中心", "把链上地址、法币账户、设备与钱包的残片归一成带置信度的可举证主体", "关联键归一与一致化、稀有度逆频率加权、同源助记词归并、归并可回滚日志、置信度分级"],
+ ["统一图谱中心", "维护跨账户、跨链地址、跨链桥与混币器的统一图谱本体与存储分层", "桥接点节点化、混币进出配对建模、时间维度边、四层存储映射、图本体与快照版本化"],
+ ["法币通道中心", "盯住资金离开链上进入法币的那一段，识别跑分团队、卡农与担保平台", "个人码大额异动识别、卡农与主犯区分、虚拟卡号映射、同步脉冲检测、出入金对手方画像"],
+ ["跨链还原中心", "在桥与混币两个断点上把链路接回来，并诚实标注置信度衰减", "桥事件解析、确认时延对齐、原子交换证据提取、手续费反算、分段置信度输出"],
+ ["网络聚类中心", "把关联边聚成可命名、可复现、可处置的网络档案并刻画角色", "分辨率标定、有向图语义保留、中介中心性核心识别、网络稳定度评分、聚类解释输出"],
+ ["路径形态中心", "识别环路、蛇形与碎片化等刻意编排的路径形态，并与正常清算做市区分", "环枚举剪枝、金额递减判别、蛇形形态识别、碎片化波段对齐、路径完整还原"],
+ ["归集分发中心", "识别网络的入口与出口两个结构性关节，形成可处置的闸门清单", "归集三特征识别、归集时刻批量化、多级归集还原、裂变层级宽度度量、交易所热钱包白名单"],
+ ["图模型中心", "训练与迭代网络识别所需的图模型与表征，定位为召回层而非判定层", "异构图建模、时序图网络、归纳式推断、邻居采样纠偏、训练与图快照绑定"],
+ ["跨链亲密度中心", "用时间对齐与金额反算判定桥两侧是否同一笔资金，并量化可信度", "三十秒级时空对齐、确认时延归一、手续费反算、金额组合匹配、亲密度权重与分级"],
+ ["周期取证中心", "把洗钱过程读成有时间刻度的事件序列，判断在途网络所处波段", "三波段切分、波段进度估计、关键事件时间线、首次转移时间戳取证、长周期时间轴压缩"],
+ ["网络计量中心", "把网络拓扑翻译成可排序、可分层、可绑定动作的风险数字", "中心度体系、资金集中度、四维网络分拆解、分数校准与概率化、动态阈值与动作映射"],
+ ["传播预测中心", "把污染有方向有衰减地传开并预测下一步流向，同时保证可减污", "顺逆向语义分离、衰减与时间窗口、跳数剪枝、归因分配规则、候选路径排序"],
+ ["调查工作台中心", "为调查员提供高可用高性能的图查询与协作环境", "万级节点渲染、下钻展开、图模式查询、多屏协作视图、案卷状态机与版本冻结"],
+ ["处置编排中心", "把网络风险分编排为原子、可逆、可回滚的处置动作并跨机构同步", "动作分级与可逆优先、网络级原子处置、预授权加事后复核、幂等与防重放、跨系统联动回滚"],
+ ["报送举证中心", "把网络结论翻译成监管与执法认可的语言与结构并保证时效完整", "网络型叙事模板、多辖区口径映射、时限与回执闭环、图式证据成卷、保管链与保密切分"],
+ ["跨机构协作中心", "在双方都不交出明细的前提下把各自的半张网络拼成全貌", "标签口径统一、隐私计算碰撞、同步处置协同、旅行规则报文融合、分级披露边界"],
+ ["演化治理中心", "把标签、规则与模型当成有生命周期的资产运营并治理同步延迟", "标签有效期与来源分级、误标申诉通道、形态归纳承接新服务、三重版本绑定、独立验证与模型卡"]
+];
+const RULES = [
+ ["只在单账户维度做风险判定", "洗钱网络的最小可识别单位就是账户组与网络，单账户视角下分层、归集与跑分全部不可见；典型场景是五十余个关联账户跨境分层转移数百万美元而每个账户都合规"],
+ ["关联键不做归一化就直接归并", "同一主体的手机号与卡号以哈希、掩码、大小写变体出现时会被拆成多个孤立节点，网络永远聚不起来且系统不报任何错；典型触发是接入一家格式不同的新数据源"],
+ ["把弱关联当强关联使用", "一次会把整个写字楼或整个 NAT 出口后的主体并成一个网络并批量冻结，后果是集中客诉与监管投诉；共享出口在企业网络与云环境中极为常见"],
+ ["资金追踪在跨链桥节点断链", "桥接点断链后所有下游分析与传播失效，表现为高风险资金凭空消失，属于最危险的静默漏报，且往往数月后才被案件暴露"],
+ ["忽略混币后的追踪置信度衰减", "混币后追踪准确率从约百分之八十九降至约百分之十一，仍以同等确定性输出结论会把无辜地址列入黑名单并写入可疑活动报告，构成可被直接处罚的错报"],
+ ["跨链时空对齐容差取全局单值", "不同桥与不同链的确认时延分布差异极大，单值容差必然在部分链路大面积漏配、在另一些链路大量假匹配，而两种错误都不会报错"],
+ ["网络聚类结果不可复现", "随机性未固定的聚类在两次运行中产出不同网络，监管要求复现时无法自证，整条自动化处置链失去合规基础"],
+ ["社区发现沿用默认分辨率参数", "分辨率过低会把整家交易所用户聚成一个网络、过高则碎成孤点，问题通常在首次接入真实数据时暴露，首轮处置即全量误伤"],
+ ["风险传播不做跳数与衰减约束", "两次跳转即可把半个市场染黑，所有节点分数收敛失去区分度，系统退化为全部拦截，业务被迫停摆"],
+ ["冻结归集地址前不评估影响面", "一个归集地址下游可能挂着数百个正常收款人，处置前不预估影响面会同时冻结大量无辜账户，且缺乏批量解冻预案"],
+ ["网络级冻结不具备原子性", "部分成功部分失败会立刻把剩余资金赶出场，冻了一半是处置失败率最高的场景，且失败过程往往没有告警"],
+ ["只冻链上一侧不做跨机构同步", "只冻一侧会把资金立刻赶到另一侧，等同于给对手让路，是跨账户处置最常见的失败形态"],
+ ["标签更新延迟十二至七十二小时而不度量", "这段窗口内新混币器与新桥的资金完全不可见，团队却以为覆盖率饱和，漏报在无感知中持续累积"],
+ ["自动化处置无前置授权也无事后复核", "等审批必然资金外逃，但无复核的自动冻结一旦批量误伤，处罚与客诉成本远高于拦截收益，两种错误都会导致自动化被上级叫停"],
+ ["可疑活动报告积压或漏报", "多家机构因报告积压或完全缺失被处以数亿美元罚款，报送时效与完整性是监管最高频也最重的处罚点"],
+ ["用低置信度的混币还原结论直接驱动处置", "把概率性配对当作确定结论使用，一旦配对错误就是一次无依据冻结，且会在冻结之后才被发现"]
+];
+const KPIS = [
+ ["网络覆盖与召回", "高风险网络中被系统发现的占比，以及新网络首现曝光率，直接决定漏报风险与监管处罚敞口"],
+ ["关联与归并准确率", "关联边精确率与召回率、误归并率、主体归并可回滚成功率，是整张图谱可信度的根指标"],
+ ["跨链还原质量", "桥接点穿透率、混币后仍可解释的资金占比、分段置信度分布、未还原缺口量，决定跨链结论能否进入举证"],
+ ["时效与窗口", "从资金发生到判定输出的端到端延迟、网络首次曝光提前天数、极速波段内的拦截成功率"],
+ ["图谱规模与性能", "节点与边规模、跨链图查询高分位延迟、热温冷冰分层命中率、图谱重算周期与稳定性"],
+ ["决策质量", "网络级误伤率、复核推翻率、告警聚合度（网络级事件数与地址级告警数之比）、冻结资金拦截金额与外逃率"],
+ ["合规报送", "可疑活动报告及时率与积压量、回执与补正闭环率、多辖区口径一致率、旅行规则报文传递成功率"],
+ ["演化与治理", "标签平均更新延迟（十二至七十二小时）、标签影响面预演覆盖率、规则模型数据三重版本可复现率、独立验证通过率"]
+];
+const LIC_CN = [
+ ["反电信网络诈骗法与反洗钱法", "可为金融机构与支付机构提供涉诈资金链分析、账户关联与网络识别系统建设", "不可为虚拟货币交易、兑换、代币发行提供任何服务，不得为境外交易平台提供境内用户导流或技术支持"],
+ ["人民银行金融机构反洗钱与反恐怖融资监督管理办法", "面向银行与支付机构的可疑交易监测、关联分析与报送系统建设", "涉币数据不得作为唯一报送依据，报送字段需符合反洗钱监测分析系统规范"],
+ ["数据安全法与个人信息保护法", "在授权与最小必要前提下的关联分析与设备画像", "设备指纹与生物特征属敏感个人信息需单独同意，跨机构共享须去标识化或采用隐私计算"],
+ ["网络安全法与网络安全等级保护制度", "承载金融风控数据的系统建设与运营", "涉关键信息基础设施时须通过等级保护三级以上测评，网络日志留存不少于六个月"],
+ ["区块链信息服务管理规定", "区块链数据查询与链上风险标签等备案类服务", "须完成区块链信息服务备案，不得提供面向境内用户的链上交易撮合或代币相关功能"],
+ ["公安机关涉虚拟货币犯罪资金分析协作机制", "为侦查机关提供链上资金追踪、网络关系分析与电子数据取证支持", "仅限司法办案用途，数据不得商用，取证流程须符合电子数据取证规范"],
+ ["非银行支付机构监督管理条例", "支付机构侧的商户与账户网络风控、跑分与卡农识别", "不得为虚拟货币交易提供支付通道，实名与限额要求须符合支付机构监管规定"],
+ ["外汇管理与跨境资金流动监管", "跨境交易对手方筛查与关联主体识别", "涉币跨境资金不得作为合规跨境支付依据，跨境数据传输须通过安全评估或标准合同"],
+ ["银行保险机构关联交易与集团客户管理", "集团客户关联方识别与资金网络穿透", "关联方认定口径须与监管口径一致，不得仅以关联度为由歧视性拒绝服务"],
+ ["证券期货业反洗钱与客户身份识别规定", "证券与基金侧账户关联分析及异常交易协同检测", "不得开展虚拟货币相关资产管理或代币化证券业务"],
+ ["个人信息出境标准合同办法", "跨境网络调查中的必要数据出境", "出境须完成标准合同备案或安全评估，可疑活动报告类数据原则上不出境"],
+ ["反有组织犯罪法", "涉黑涉恶资金网络识别与线索移送", "线索须移送有权机关，不得自行处置或对外披露"],
+ ["金融监管总局银行保险机构操作风险管理办法", "网络风控模型治理、规则版本管理与审计留痕", "模型须可解释可回溯，重大规则变更须报备并留存影响评估"],
+ ["征信业管理条例", "关联主体信用信息使用（仅限持牌征信机构）", "非持牌机构不得从事征信业务，网络关联分析结果不得作为征信产品对外输出"],
+ ["生成式人工智能服务管理与算法备案要求", "人工智能辅助网络调查与自动报告生成", "生成式算法须完成备案与内容标识，不得使用未备案模型处理客户个人信息"],
+ ["金融消费者权益保护与投诉处理机制", "误伤申诉受理、冻结告知与解冻时限管理", "网络级批量处置须有告知与申诉通道，超时限未处理将计入监管投诉考核"]
+];
+const LIC_INTL = [
+ ["FATF 建议 15 与 16 及旅行规则", "随交易传递发起方与受益方信息，跨机构与跨辖区协作", "发起方与受益方信息须随交易传递，关联网络体系须能输出可传递的主体标识"],
+ ["美国 FinCEN 反洗钱规则与可疑活动报告要求", "持牌机构下的可疑活动报告与阈值累计监控", "可疑活动报告负有保密义务，积压与漏报是最高频处罚点，多家机构因此被罚数亿美元"],
+ ["美国 OFAC 制裁与特别指定国民名单", "制裁筛查、间接关联披露与名单瞬时更新", "名单更新须分钟级生效，涉及混币服务地址的拦截缺失曾是罚金主要来源"],
+ ["欧盟加密资产市场监管与数字运营韧性法案", "加密资产服务商牌照、最低资本要求、旅行规则全量身份识别与运营韧性", "须同时满足资本、治理与信息通信技术韧性要求，网络分析系统属关键信息通信技术资产"],
+ ["新加坡支付服务法与数字代币服务提供者要求", "主要支付机构牌照下的跨账户与跨境风险监测", "须满足技术风险管理与外包指引，跨境数据流动须符合个人数据保护法"],
+ ["香港证监会虚拟资产交易平台双牌照与穿透式监管", "平台客户关联识别与网络风险监控", "须实施穿透式监管即同一控制人合并计算，客户资产须与自有资产隔离"],
+ ["韩国特定金融信息法（虚拟资产用户保护法）", "实名验证账户下的可疑交易报告义务", "须使用实名确认账户，未按规定申报经营将承担刑事责任"],
+ ["迪拜虚拟资产监管局与阿布扎比全球市场虚拟资产框架", "虚拟资产活动许可下的合规与市场监督", "须满足合规与风险管理规则手册，营销与客户适当性受严格约束"],
+ ["欧盟人工智能法案与通用数据保护条例", "网络分析中的画像使用合法性基础与高风险人工智能系统要求", "画像须完成合法利益评估，跨境传输须签署标准合同条款，高风险系统须留存技术文档"]
+];
+const OPPS = [
+ ["网络型可疑活动报告组包与叙事生成", "监管要求网络级叙事，机构普遍只有单账户模板，缺少网络结构表达能力", "以网络叙事模板库加证据自动成卷作为报送产品，先接两三家持牌机构验证"],
+ ["跨机构隐私计算网络碰撞", "跨机构共享明细受合规限制，联盟风控停在口号层，缺少可落地技术方案", "以不出明细比对网络为卖点，先建区域风险标签联盟并统一关联键规范"],
+ ["跨链同主体证据包", "跨链桥与混币两侧的证据分散在多家工具，取证方需人工拼接且法庭采信门槛高", "输出标准化跨链同主体证据包含保管链与分段置信度，面向司法与合规双客群"],
+ ["标签延迟与误报治理", "新混币器与新桥的标签滞后十二至七十二小时，这段窗口的误报与漏报无人度量", "以标签新鲜度为可度量服务水平出售标签更新与影响面预演能力"],
+ ["混币后置信度衰减的显式披露", "大多数产品仍以同等确定性输出混币后结论，错报风险被系统性掩盖", "把分段置信度做成报告与图谱的一等字段，卖点是敢承认不确定性"],
+ ["可撤销的风险传染分与减污", "传播算法只会加污不会减污，误伤后没有恢复路径，合规团队不敢自动化", "做污染来源可追、加减污申请可审的传染分服务，卖点是敢用"],
+ ["多波段周期引擎与处置建议", "三波段周期已有行业共识，但用于实时处置决策仍属试点，缺少产品化载体", "按波段输出处置建议的周期引擎，与冻结审批流程绑定，按案件授权收费"],
+ ["网络级原子处置中间件", "跨机构同步冻结依赖人工对接，部分失败会立刻把资金赶出场", "提供网络级原子处置中间件，把跨机构同步冻结编排成幂等可回滚流程"],
+ ["跨链数据源多活与证据可复现", "依赖单一节点服务商的机构在故障期整条跨链分析停摆，取证结论无法复现", "多源链上数据冗余加数据缺口标注，面向取证场景保证可复现"],
+ ["调查智能体编排与审计", "单智能体全能既失控又无法审计，多智能体调查尚缺编排与权限标准", "提供智能体编排层与工具调用审计，先做追踪、取证、起草三类智能体"],
+ ["监管问询时间点还原", "问询要求还原当时看到的图与分数，图、规则与数据无版本化的机构基本无法作答", "提供按任意历史时点重建网络、分数与规则版本的服务，按问询次数计费"],
+ ["网络结构图示证据与执法交付", "执法最需要一张能看懂的图，行业普遍交付地址清单，可用性极差", "把网络结构图示做成标准交付物，附保管链与置信度标注，面向执法协作场景"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：跨账户洗钱网络平台 / 资金网络识别与团伙举证 / 跨链亲密度与混币还原`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

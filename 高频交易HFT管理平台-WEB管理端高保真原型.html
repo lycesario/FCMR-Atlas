@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HyperDesk · HFT 运营中台 高保真原型</title>
+<style>/* ============================================================
+   HyperDesk · HFT 运营中台 · B 端设计系统
+   参考：交易所运营管理端框架 · 数据驱动渲染 · 业务闭环
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+html[data-theme="dark"]{
+  --bg:#080b12; --bg2:#0b0e16; --panel:#10141d; --panel2:#151a26; --elev:#1a2130;
+  --line:#1d2432; --line2:#273045;
+  --ink:#e9edf5; --ink2:#9aa6bb; --ink3:#607089;
+  --brand:#2f7cf6; --brand2:#7b5cff; --brand-bg:rgba(47,124,246,.13);
+  --teal:#00d6a4; --teal-bg:rgba(0,214,164,.10);
+  --gold:#f0b90b; --gold-bg:rgba(240,185,11,.10);
+  --ok:#0ecb81; --ok-bg:rgba(14,203,129,.10);
+  --bad:#f6465d; --bad-bg:rgba(246,70,93,.10);
+  --violet:#a78bfa; --violet-bg:rgba(167,139,250,.12);
+  --shadow:0 14px 44px rgba(0,0,0,.5);
+}
+html[data-theme="light"]{
+  --bg:#f3f5fa; --bg2:#edf0f6; --panel:#ffffff; --panel2:#f7f9fd; --elev:#ffffff;
+  --line:#e3e8f1; --line2:#d3dbe8;
+  --ink:#18202f; --ink2:#57627a; --ink3:#93a0b5;
+  --brand:#1f6ae0; --brand2:#6a4de0; --brand-bg:rgba(31,106,224,.09);
+  --teal:#0a9c7c; --teal-bg:rgba(0,214,164,.10);
+  --gold:#a97c08; --gold-bg:rgba(240,185,11,.12);
+  --ok:#0aa56a; --ok-bg:rgba(14,203,129,.10);
+  --bad:#dd3350; --bad-bg:rgba(246,70,93,.08);
+  --violet:#7a5cd6; --violet-bg:rgba(122,92,214,.10);
+  --shadow:0 12px 34px rgba(25,35,70,.12);
+}
+html,body{height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased}
+b{font-weight:650}em{font-style:normal}a{color:inherit;text-decoration:none;cursor:pointer}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.hash{font-family:var(--mono);font-size:11px;color:var(--brand);word-break:break-all}
+.hash:before{content:"0x";opacity:.6}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px;border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ---------- 布局骨架 ---------- */
+.wb{display:flex;height:100vh;overflow:hidden}
+.side{width:238px;flex:0 0 238px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:30;transition:margin-left .25s}
+.wb.folded .side{margin-left:-238px}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.content{flex:1;overflow-y:auto;padding:22px 26px 70px;position:relative}
+.content.noscroll{overflow:hidden}
+
+/* ---------- 侧栏 ---------- */
+.side-brand{display:flex;align-items:center;gap:10px;padding:16px 16px 12px}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px;flex:0 0 34px;box-shadow:0 6px 16px rgba(47,124,246,.35)}
+.side-brand b{font-size:14.5px;letter-spacing:.2px;display:block}
+.side-brand em{font-size:10.5px;color:var(--ink3);display:block;margin-top:1px}
+.chain-chip{margin:2px 14px 8px;display:flex;align-items:center;gap:7px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:7px 10px;font-size:11px;color:var(--ink2)}
+.chain-chip i{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);animation:pulse 1.8s infinite}
+.chain-chip .num{margin-left:auto;color:var(--ink3);font-size:10px}
+.role-switch{margin:4px 12px 8px;position:relative}
+.role-switch select{width:100%;appearance:none;background:var(--elev);border:1px solid var(--line2);color:var(--ink);border-radius:9px;padding:7px 26px 7px 10px;font-size:12px;font-family:inherit;cursor:pointer}
+.role-switch:after{content:"▾";position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--ink3);pointer-events:none;font-size:11px}
+.role-switch .rs-lb{font-size:10px;color:var(--ink3);letter-spacing:1.5px;margin-bottom:5px;text-transform:uppercase}
+.side-nav{flex:1;overflow-y:auto;padding:4px 10px 14px}
+.nav-group{font-size:10px;color:var(--ink3);letter-spacing:1.6px;text-transform:uppercase;padding:14px 8px 5px;display:flex;flex-direction:column;gap:2px}
+.nav-group .ng-d{font-size:10px;color:var(--ink3);letter-spacing:.2px;text-transform:none;opacity:.75;font-weight:400}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8.5px 10px;border-radius:9px;color:var(--ink2);font-size:13px;cursor:pointer;margin:1px 0;position:relative;transition:background .15s,color .15s}
+.nav-item:hover{background:var(--panel2);color:var(--ink)}
+.nav-item.on{background:var(--brand-bg);color:var(--ink);font-weight:600}
+.nav-item.on:before{content:"";position:absolute;left:-10px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--brand)}
+.nav-item .ni{width:18px;text-align:center;font-size:14px;flex:0 0 18px}
+.nav-item .cnt{margin-left:auto;font-size:10px;background:var(--bad-bg);color:var(--bad);padding:1px 6px;border-radius:8px;font-family:var(--mono)}
+.nav-item.locked{opacity:.38;cursor:not-allowed}
+.nav-item.locked:hover{background:none;color:var(--ink2)}
+.nav-lock-hint{font-size:9.5px;color:var(--ink3);letter-spacing:1.2px;padding:14px 8px 4px;text-transform:uppercase;border-top:1px dashed var(--line);margin-top:10px}
+.side-foot{border-top:1px solid var(--line);padding:10px 14px 12px}
+.env-chip{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--ink3);margin-bottom:9px}
+.env-chip i{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 6px var(--ok)}
+.side-user{display:flex;align-items:center;gap:9px}
+.uav{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700;flex:0 0 30px}
+.side-user b{font-size:12.5px;display:block}
+.side-user em{font-size:10.5px;color:var(--ink3);display:block}
+
+/* ---------- 顶栏（一级菜单） ---------- */
+.topbar{height:54px;flex:0 0 54px;border-bottom:1px solid var(--line);background:var(--panel);display:flex;align-items:center;gap:12px;padding:0 16px;z-index:40}
+.topnav{display:flex;align-items:center;gap:1px;overflow-x:auto;flex:1 1 auto;min-width:0;scrollbar-width:none}
+.topnav::-webkit-scrollbar{display:none}
+.tn-item{position:relative;display:flex;align-items:center;gap:6px;padding:7px 11px;border-radius:9px;color:var(--ink2);font-size:12.5px;font-weight:550;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s;flex:0 0 auto}
+.tn-item:hover{color:var(--ink);background:var(--panel2)}
+.tn-item.on{color:var(--brand);background:var(--brand-bg);font-weight:650}
+.tn-item.on:after{content:"";position:absolute;left:13px;right:13px;bottom:-10px;height:2.5px;border-radius:2px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.tn-item .tn-badge{font-style:normal;min-width:16px;height:16px;border-radius:8px;background:var(--bad);color:#fff;font-size:9.5px;font-weight:700;display:grid;place-items:center;padding:0 4px;font-family:var(--mono)}
+.top-search{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:6px 12px;color:var(--ink3);font-size:12px;cursor:pointer;flex:0 1 auto;width:250px;min-width:0;overflow:hidden}
+.top-search .ph{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-search:hover{border-color:var(--line2)}
+.top-search kbd{margin-left:auto;font-family:var(--mono);font-size:10px;background:var(--elev);border:1px solid var(--line2);border-radius:5px;padding:1px 5px;color:var(--ink3)}
+.top-acts{display:flex;gap:8px;align-items:center}
+
+/* ---------- 副栏（面包屑） ---------- */
+.subbar{height:38px;flex:0 0 38px;display:flex;align-items:center;gap:10px;padding:0 22px;border-bottom:1px solid var(--line);background:var(--bg2);font-size:12px;color:var(--ink2)}
+.sub-sp{flex:1}
+.crumb{display:flex;align-items:center;gap:7px;font-size:12.5px;min-width:0}
+.crumb .cb-g{color:var(--ink3);font-weight:500;white-space:nowrap}
+.crumb .cb-sep{color:var(--ink3);font-style:normal;opacity:.6}
+.crumb b{font-weight:650;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub-right{display:flex;align-items:center;gap:14px;font-size:11px;color:var(--ink3);white-space:nowrap}
+.sub-right .cb-env{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:10px;letter-spacing:.5px}
+
+/* ---------- 通用元件 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line2);background:var(--elev);color:var(--ink);border-radius:9px;padding:7px 14px;font-size:12.5px;font-family:inherit;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn:hover{border-color:var(--brand);color:var(--brand)}
+.btn.p{background:linear-gradient(135deg,var(--brand),var(--brand2));border-color:transparent;color:#fff}
+.btn.p:hover{filter:brightness(1.1);color:#fff}
+.btn.danger{background:var(--bad-bg);border-color:rgba(246,70,93,.35);color:var(--bad)}
+.btn.danger:hover{border-color:var(--bad)}
+.btn.teal{background:var(--teal-bg);border-color:rgba(0,214,164,.35);color:var(--teal)}
+.btn.sm{padding:4px 10px;font-size:11.5px;border-radius:7px}
+.btn.lg{padding:9px 20px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;padding:2px 8px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+.tag.b{background:var(--brand-bg);color:var(--brand);border-color:transparent}
+.tag.ok{background:var(--ok-bg);color:var(--ok);border-color:transparent}
+.tag.bad{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.tag.warn{background:var(--gold-bg);color:var(--gold);border-color:transparent}
+.tag.teal{background:var(--teal-bg);color:var(--teal);border-color:transparent}
+.tag.v{background:var(--violet-bg);color:var(--violet);border-color:transparent}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.dot.ok{background:var(--ok)}.dot.bad{background:var(--bad)}.dot.warn{background:var(--gold)}.dot.idle{background:var(--ink3)}
+
+/* 面板 */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.panel-h{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:650}
+.panel-h .sub{font-size:11px;color:var(--ink3);font-weight:400;margin-left:auto;display:flex;gap:8px;align-items:center}
+.panel-b{padding:16px}
+.panel-b.tight{padding:0}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi .k-lb{font-size:11px;color:var(--ink3);display:flex;align-items:center;gap:6px}
+.kpi .k-v{font-size:24px;font-weight:750;letter-spacing:-.8px;margin-top:5px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.kpi .k-foot{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:11px;color:var(--ink3)}
+.k-pair{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;color:var(--ink3);border:1px dashed var(--line2);border-radius:5px;padding:1px 6px}
+
+/* 表格 */
+table.dt{width:100%;border-collapse:collapse;font-size:12.3px}
+.dt th{text-align:left;font-size:10.5px;color:var(--ink3);font-weight:600;letter-spacing:.6px;padding:9px 14px;border-bottom:1px solid var(--line);background:var(--panel2);position:sticky;top:0;z-index:2;white-space:nowrap}
+.dt td{padding:9.5px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.dt tbody tr{transition:background .12s}
+.dt tbody tr:hover{background:var(--panel2)}
+.dt tbody tr:last-child td{border-bottom:none}
+.dt .r{text-align:right}
+.dt .c{text-align:center}
+.dt .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.dt .link{color:var(--brand);cursor:pointer;font-weight:550}
+.dt .link:hover{text-decoration:underline}
+.tbar{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tbar .sp{flex:1}
+.inp{background:var(--panel2);border:1px solid var(--line2);color:var(--ink);border-radius:8px;padding:6.5px 11px;font-size:12.3px;font-family:inherit;outline:none;transition:border .15s}
+.inp:focus{border-color:var(--brand)}
+.inp::placeholder{color:var(--ink3)}
+select.inp{cursor:pointer}
+.fld{display:flex;flex-direction:column;gap:5px;margin-bottom:13px}
+.fld>label{font-size:11.5px;color:var(--ink2);font-weight:550}
+.fld .hint{font-size:10.5px;color:var(--ink3)}
+.fld .req:after{content:" *";color:var(--bad)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.g23{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+.g32{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+
+/* 分页 */
+.pager{display:flex;align-items:center;gap:6px;padding:11px 14px;font-size:11.5px;color:var(--ink3)}
+.pager .pg{min-width:26px;height:26px;border:1px solid var(--line2);border-radius:7px;display:grid;place-items:center;cursor:pointer;background:var(--elev);font-family:var(--mono)}
+.pager .pg.on{background:var(--brand-bg);border-color:var(--brand);color:var(--brand);font-weight:650}
+
+/* 状态机 / 流程 */
+.stepper{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding:6px 0}
+.stepper .stp{display:flex;flex-direction:column;align-items:center;min-width:96px;flex:1;position:relative}
+.stepper .stp:before{content:"";position:absolute;top:11px;left:-50%;right:50%;height:2px;background:var(--line2)}
+.stepper .stp:first-child:before{display:none}
+.stepper .stp.done:before{background:var(--ok)}
+.stepper .stp .si{width:23px;height:23px;border-radius:50%;background:var(--elev);border:2px solid var(--line2);display:grid;place-items:center;font-size:10.5px;font-family:var(--mono);position:relative;z-index:1;color:var(--ink3)}
+.stepper .stp.done .si{background:var(--ok);border-color:var(--ok);color:#fff}
+.stepper .stp.act .si{border-color:var(--brand);color:var(--brand);box-shadow:0 0 0 4px var(--brand-bg)}
+.stepper .stp.bad .si{border-color:var(--bad);color:var(--bad)}
+.stepper .stp span{font-size:10.5px;color:var(--ink3);margin-top:7px;text-align:center;line-height:1.4}
+.stepper .stp.act span{color:var(--ink);font-weight:600}
+
+/* 时间线 */
+.tl{position:relative;padding-left:18px}
+.tl:before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:1.5px;background:var(--line2)}
+.tl-item{position:relative;padding:0 0 15px 10px}
+.tl-item:before{content:"";position:absolute;left:-17px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--ink3);border:2px solid var(--panel)}
+.tl-item.ok:before{background:var(--ok)}
+.tl-item.warn:before{background:var(--gold)}
+.tl-item.bad:before{background:var(--bad)}
+.tl-item.brand:before{background:var(--brand)}
+.tl-item .tl-t{font-size:12px;font-weight:600}
+.tl-item .tl-d{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.65}
+
+/* 提示条 */
+.note{display:flex;gap:9px;border-radius:10px;padding:10px 13px;font-size:12px;line-height:1.7;margin-bottom:12px;border:1px solid}
+.note .ni{font-size:13px;flex:0 0 16px}
+.note.info{background:var(--brand-bg);border-color:rgba(47,124,246,.25);color:var(--ink)}
+.note.ok{background:var(--ok-bg);border-color:rgba(14,203,129,.25);color:var(--ink)}
+.note.warn{background:var(--gold-bg);border-color:rgba(240,185,11,.3);color:var(--ink)}
+.note.bad{background:var(--bad-bg);border-color:rgba(246,70,93,.3);color:var(--ink)}
+.note b{font-weight:650}
+
+/* 合规标注（16 条致命规则浮点） */
+.rule-anno{display:none;border:1.5px dashed var(--gold);background:var(--gold-bg);border-radius:10px;padding:9px 13px;font-size:11.5px;color:var(--ink);line-height:1.7;margin:8px 0}
+.rule-anno b{color:var(--gold)}
+.wb.rule-on .rule-anno{display:block}
+.wb.rule-on [data-rulechip]{outline:1.5px dashed var(--gold);outline-offset:2px;border-radius:6px}
+
+/* 抽屉 */
+.drawer-mask,.modal-mask,.pal-mask{position:fixed;inset:0;background:rgba(4,6,12,.6);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .22s;z-index:80}
+.drawer-mask.on,.modal-mask.on,.pal-mask.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:-580px;width:580px;max-width:94vw;height:100vh;background:var(--panel);border-left:1px solid var(--line2);z-index:90;transition:right .26s cubic-bezier(.3,.9,.3,1);display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.drawer.on{right:0}
+.drawer-h{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--line)}
+.drawer-h b{font-size:14.5px}
+.drawer-h .x{margin-left:auto;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;cursor:pointer;color:var(--ink3);border:1px solid var(--line)}
+.drawer-h .x:hover{color:var(--ink);border-color:var(--line2)}
+.drawer-b{flex:1;overflow-y:auto;padding:18px 20px 30px}
+.drawer-f{border-top:1px solid var(--line);padding:13px 20px;display:flex;gap:9px;background:var(--panel)}
+
+/* 模态 */
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%) scale(.97);width:470px;max-width:92vw;background:var(--panel);border:1px solid var(--line2);border-radius:16px;z-index:95;opacity:0;pointer-events:none;transition:.2s;box-shadow:var(--shadow)}
+.modal.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.modal-h{padding:16px 20px 0;font-size:15px;font-weight:700}
+.modal-b{padding:14px 20px}
+.modal-f{padding:0 20px 18px;display:flex;gap:9px;justify-content:flex-end}
+
+/* ⌘K 面板 */
+.palette{position:fixed;left:50%;top:14vh;transform:translateX(-50%) scale(.98);width:560px;max-width:92vw;background:var(--panel);border:1px solid var(--line2);border-radius:16px;z-index:95;opacity:0;pointer-events:none;transition:.18s;box-shadow:var(--shadow);overflow:hidden}
+.palette.on{opacity:1;pointer-events:auto;transform:translateX(-50%) scale(1)}
+.palette .pal-in{width:100%;background:transparent;border:none;outline:none;color:var(--ink);font-size:14.5px;padding:16px 20px;border-bottom:1px solid var(--line);font-family:inherit}
+.pal-list{max-height:46vh;overflow-y:auto;padding:8px}
+.pal-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;cursor:pointer;font-size:12.8px;color:var(--ink2)}
+.pal-item:hover,.pal-item.on{background:var(--brand-bg);color:var(--ink)}
+.pal-item .pi{width:20px;text-align:center}
+.pal-item .pk{margin-left:auto;font-size:10px;color:var(--ink3);font-family:var(--mono)}
+.pal-empty{padding:26px;text-align:center;color:var(--ink3);font-size:12.5px}
+
+/* Toast */
+.toasts{position:fixed;top:16px;right:18px;z-index:120;display:flex;flex-direction:column;gap:9px;max-width:380px}
+.toast{display:flex;gap:9px;align-items:flex-start;background:var(--elev);border:1px solid var(--line2);border-left:3px solid var(--brand);border-radius:11px;padding:11px 15px;font-size:12.5px;box-shadow:var(--shadow);animation:tin .25s ease-out;line-height:1.6}
+.toast.ok{border-left-color:var(--ok)}
+.toast.bad{border-left-color:var(--bad)}
+.toast.warn{border-left-color:var(--gold)}
+@keyframes tin{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* 杂项 */
+.sec-title{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px}
+.sec-title:first-child{margin-top:0}
+.sec-title b{font-size:15px;font-weight:700}
+.sec-title em{font-size:11.5px;color:var(--ink3)}
+.sec-title .sp{flex:1}
+.muted{color:var(--ink3)}
+.small{font-size:11.5px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.divider{height:1px;background:var(--line);margin:14px 0}
+.kv{display:flex;justify-content:space-between;gap:14px;padding:7px 0;font-size:12.3px;border-bottom:1px dashed var(--line)}
+.kv:last-child{border-bottom:none}
+.kv .k{color:var(--ink3);flex:0 0 auto}
+.kv .v{text-align:right;word-break:break-all}
+.avatar{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;flex:0 0 28px}
+.progress{height:6px;border-radius:4px;background:var(--panel2);overflow:hidden}
+.progress i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.progress.ok i{background:var(--ok)}
+.progress.warn i{background:var(--gold)}
+.progress.bad i{background:var(--bad)}
+.switch{width:34px;height:19px;border-radius:12px;background:var(--line2);position:relative;cursor:pointer;transition:.18s;flex:0 0 34px}
+.switch:after{content:"";position:absolute;left:2px;top:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:.18s}
+.switch.on{background:var(--ok)}
+.switch.on:after{left:17px}
+.banner-live{display:flex;align-items:center;gap:7px;font-size:10.5px;color:var(--ok)}
+.banner-live i{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 1.6s infinite}
+.rate-lb{font-size:11px;color:var(--ink3);display:flex;justify-content:space-between;margin-bottom:4px}
+.risk-meter{height:7px;border-radius:5px;background:linear-gradient(90deg,var(--ok),var(--gold) 55%,var(--bad));position:relative;margin:6px 0 2px}
+.risk-meter i{position:absolute;top:-3.5px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--bad);transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.chart-box{position:relative}
+.chart-box canvas{display:block;width:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink3)}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+.chain-pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;padding:2px 8px;border-radius:20px;border:1px solid var(--line2);background:var(--panel2);font-family:var(--mono);color:var(--ink2)}
+.chain-pill i{width:8px;height:8px;border-radius:50%}
+.stack-vis{display:flex;flex-direction:column;gap:6px}
+.sv-row{display:grid;grid-template-columns:88px 1fr 46px;align-items:center;gap:10px;font-size:11.5px;color:var(--ink2)}
+.sv-bar{height:16px;border-radius:5px;background:var(--panel2);overflow:hidden}
+.sv-bar i{display:block;height:100%;border-radius:5px}
+.heat{display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
+.heat i{aspect-ratio:1;border-radius:3px;background:var(--panel2)}
+@media (max-width:1100px){.grid4{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr 1fr}.g23,.g32{grid-template-columns:1fr}}
+@media (max-width:960px){.top-search{min-width:0}.top-search .ph{display:none}.sub-right .cb-env{display:none}}
+
+/* ---------- 安全登录门 ---------- */
+.login-mask{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
+  background:radial-gradient(1200px 700px at 20% -10%,rgba(47,124,246,.16),transparent 60%),
+             radial-gradient(900px 600px at 90% 110%,rgba(123,92,255,.12),transparent 55%),
+             var(--bg);
+  transition:opacity .45s,visibility .45s}
+.login-mask.bye{opacity:0;visibility:hidden}
+.login-card{width:410px;max-width:92vw;background:var(--panel);border:1px solid var(--line2);border-radius:20px;padding:30px 30px 22px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:loginIn .5s cubic-bezier(.2,.9,.3,1)}
+@keyframes loginIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+.login-brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.login-brand b{font-size:16.5px;display:block;letter-spacing:.2px}
+.login-brand em{font-size:11px;color:var(--ink3);display:block;margin-top:2px}
+.brand-mark.lg{width:42px;height:42px;flex:0 0 42px;border-radius:12px;font-size:20px}
+.login-note{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink2);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:8px 12px;margin-bottom:16px}
+.login-hint{margin-top:2px}
+.login-foot{margin-top:14px;text-align:center;line-height:1.7}
+
+/* 顶栏图标 & 通知中心 */
+.tb-icon{position:relative;width:32px;height:32px;border:1px solid var(--line);background:var(--panel2);color:var(--ink2);border-radius:9px;font-size:14px;cursor:pointer;display:grid;place-items:center;transition:.15s;font-family:inherit}
+.tb-icon:hover{color:var(--ink);border-color:var(--brand)}
+.tb-icon.on{color:var(--gold);border-color:var(--gold)}
+.bell-wrap{position:relative}
+.bell-badge{display:none;position:absolute;top:-5px;right:-5px;min-width:16px;height:16px;border-radius:9px;background:var(--bad);color:#fff;font-size:9.5px;font-weight:700;place-items:center;padding:0 4px;font-style:normal}
+.bell-panel{position:absolute;right:0;top:42px;width:360px;background:var(--panel);border:1px solid var(--line2);border-radius:14px;box-shadow:var(--shadow);z-index:60;opacity:0;pointer-events:none;transform:translateY(-6px);transition:.2s}
+.bell-panel.on{opacity:1;pointer-events:auto;transform:none}
+.bp-h{display:flex;align-items:center;padding:12px 15px;border-bottom:1px solid var(--line);font-weight:650;font-size:13px}
+.bp-h .sp{flex:1}
+.bp-h a{font-size:11px;color:var(--brand);font-weight:500}
+.bp-list{max-height:340px;overflow-y:auto}
+.bp-item{display:flex;gap:10px;padding:11px 15px;border-bottom:1px solid var(--line);font-size:12px}
+.bp-item:last-child{border-bottom:none}
+.bp-item .bi{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:14px;flex:0 0 30px}
+.bp-item .bt{font-weight:600}
+.bp-item .bd{color:var(--ink3);font-size:11px;margin-top:1px;line-height:1.6}
+.bp-item .bm{margin-left:auto;font-size:10px;color:var(--ink3);white-space:nowrap}
+
+/* 双栏 grid 页面布局工具 */
+.tools-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.mini-tag{font-size:10px;padding:1px 7px;border-radius:5px;background:var(--panel2);border:1px solid var(--line);color:var(--ink3);font-family:var(--mono)}
+</style>
+</head>
+<body>
+
+<style>
+/* HyperDesk 附加组件 */
+.kill-big{width:100%;padding:20px;border-radius:16px;background:var(--bad-bg);border:2px solid var(--bad);color:var(--bad);font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;transition:.15s;letter-spacing:2px}
+.kill-big:hover{background:var(--bad);color:#fff;box-shadow:0 10px 30px rgba(246,70,93,.35)}
+.skew-wrap{height:12px;border-radius:6px;background:var(--panel2);position:relative;overflow:hidden}
+.skew-wrap:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1.5px;background:var(--line2);z-index:2}
+.skew-wrap i{position:absolute;top:0;bottom:0;border-radius:6px}
+.lat-seg{display:flex;height:14px;border-radius:6px;overflow:hidden;background:var(--panel2)}
+.lat-seg i{height:100%}
+</style>
+
+<div class="login-mask" id="loginMask">
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="brand-mark lg">H</span>
+      <div><b>HyperDesk Console</b><em>高频交易 HFT 运营中台 · v1.0</em></div>
+    </div>
+    <div class="login-note"><span>🛡</span><span>前置风控不可绕过（R01）· Kill Switch / 限额放宽强制 2FA · 全量操作只追加审计。</span></div>
+    <div class="fld"><label>员工账号</label><input class="inp" value="lu.zeming@hyperdesk.risk" readonly></div>
+    <div class="fld"><label>动态口令（TOTP）</label><input class="inp mono" value="517 340" readonly></div>
+    <div class="login-hint small muted">强制 2FA + FIDO2 硬件密钥 · 托管机房操作双人复核 · 会话空闲 15 分钟自动锁屏</div>
+    <button class="btn p lg" style="width:100%;margin-top:14px" data-act="do-login">安全登录 →</button>
+    <div class="login-foot small muted">仅限策略接入 / 实时风控 / 交易所监察 / 平台管理员工 · 异地登录即时告警</div>
+  </div>
+</div>
+
+<div class="wb" id="wb">
+  <aside class="side" id="side">
+    <div class="side-brand">
+      <span class="brand-mark">H</span>
+      <div class="sb-txt"><b>HyperDesk Console</b><em>HFT 运营中台 v1.0</em></div>
+    </div>
+    <div class="chain-chip"><i></i><span>PROD · 报单消息流</span><span class="num" id="blockNum">1,842,033</span></div>
+    <div class="role-switch" id="roleSwitch"></div>
+    <nav class="side-nav" id="sideNav"></nav>
+    <div class="side-foot">
+      <div class="env-chip"><i></i><span class="sb-txt">生产环境 · 只读演示</span></div>
+      <div class="side-user"><span class="uav">陆</span><div class="sb-txt"><b>陆则明</b><em id="sideRoleName">实时风控官</em></div></div>
+    </div>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <button class="tb-icon" data-act="fold" title="折叠侧栏">☰</button>
+      <nav class="topnav" id="topNav"></nav>
+      <div class="top-search" data-act="palette">
+        <span>🔍</span><span class="ph">搜索策略 / 熔断案 / 致命规则 / 页面…</span><kbd>⌘K</kbd>
+      </div>
+      <div class="top-acts">
+        <span class="bell-wrap">
+          <button class="tb-icon" data-act="bell" title="通知中心">🔔<i class="bell-badge" id="bellBadge"></i></button>
+          <div class="bell-panel" id="bellPanel"></div>
+        </span>
+        <button class="tb-icon" data-act="rule-toggle" title="红线标注：页面浮现致命规则落点">⚑</button>
+        <button class="tb-icon" data-act="theme" title="深浅主题">◐</button>
+      </div>
+    </header>
+    <div class="subbar">
+      <div class="crumb" id="crumb"></div>
+      <div class="sub-sp"></div>
+      <div class="sub-right" id="subRight"></div>
+    </div>
+    <main class="content" id="content"></main>
+  </div>
+</div>
+<div class="drawer-mask" data-dmask></div>
+<aside class="drawer" id="drawer"></aside>
+<div class="modal-mask" data-mmask></div>
+<div class="modal" id="modal"></div>
+<div class="pal-mask" data-pmask></div>
+<div class="palette" id="palette">
+  <input class="pal-in" id="palInput" placeholder="搜索页面 / 策略 / 熔断案 / 致命规则…（↑↓ 选择 · Enter 跳转）">
+  <div class="pal-list" id="palList"></div>
+</div>
+<div class="toasts" id="toasts"></div>
+<script>
+/* ======================= 数据层 =======================
+   范围锚点：《高频交易HFT平台产品功能全景图谱》18 功能域 · 251 功能点
+             16 条致命规则（业务规则暗礁）· 8 类指标
+   ============================================================ */
+
+/* ---------- 角色（RBAC 最小权限） ---------- */
+const ROLES = {
+  admin:   {n:'平台管理员',   u:'林奕辰', desc:'全部权限，限额放宽 / Kill Switch 需 2FA + 审批'},
+  onboard: {n:'策略接入经理', u:'沈知远', desc:'策略接入 / 席位与 FIX 会话 / 托管申请，无风控处置权'},
+  risk:    {n:'实时风控官',   u:'陆则明', desc:'限额调整 / 熔断 / Kill Switch / 复盘归因结论'},
+  surveil: {n:'交易所监察',   u:'顾清桐', desc:'异常报价认定 / 合规报送 / 审计调阅，无策略操作权'}
+};
+
+/* ---------- 导航（顶栏一级组 → 侧栏二级页） ---------- */
+const NAV = [
+  {g:'总览', d:'驾驶舱 · 延迟 · 告警', items:[
+    {id:'dash',    n:'HFT 总览',        i:'◎', roles:'all'},
+    {id:'latency', n:'延迟观测',        i:'⏱', roles:'all'},
+    {id:'alarms',  n:'告警中心',        i:'⚡', roles:'all', badge:()=>STATE.alarms.filter(a=>a.st==='new').length},
+  ]},
+  {g:'策略运营', d:'接入 · 做市 · 套利', items:[
+    {id:'intake',  n:'策略接入与审核',  i:'⊕', roles:'all', badge:()=>STATE.intake.filter(k=>k.st==='审核中').length},
+    {id:'mm',      n:'做市策略监控',    i:'⇔', roles:'all'},
+    {id:'arb',     n:'套利策略监控',    i:'⇄', roles:'all'},
+  ]},
+  {g:'实时风控', d:'限额 · Kill Switch · 熔断', items:[
+    {id:'limits',  n:'实时限额',        i:'▦', roles:'all'},
+    {id:'kill',    n:'Kill Switch',     i:'⏻', roles:'all'},
+    {id:'breaker', n:'熔断与冷静期',    i:'⌁', roles:'all', badge:()=>STATE.incidents.filter(x=>x.st!=='已闭环').length},
+    {id:'quote',   n:'异常报价检测',    i:'⚑', roles:'all', badge:()=>STATE.quoteAnom.filter(q=>q.st==='待处置').length},
+  ]},
+  {g:'基础设施', d:'机房 · 费率', items:[
+    {id:'colo',    n:'席位资源与机房',  i:'▤', roles:'all'},
+    {id:'fees',    n:'费用与返佣',      i:'％', roles:'all'},
+  ]},
+  {g:'合规治理', d:'报送 · 复盘 · 审计', items:[
+    {id:'regrep',  n:'合规报送',        i:'⇪', roles:'admin,risk,surveil'},
+    {id:'pm',      n:'复盘归因',        i:'◔', roles:'all'},
+    {id:'audit',   n:'操作审计',        i:'☰', roles:'all', badge:()=>STATE.audit.length},
+  ]},
+  {g:'系统', d:'权限', items:[
+    {id:'rbac',    n:'角色与权限',      i:'⚙', roles:'admin'},
+  ]}
+];
+const ALL_NAV = NAV.flatMap(g=>g.items.map(i=>i.id));
+
+/* ---------- 致命规则（图谱 16 条业务规则暗礁） ---------- */
+const ARULES = [
+  {id:'R01', t:'前置风控不可绕过', why:'事后风控在高频场景等于没有风控：一条策略出现误循环后数秒内即可打满全场流动性并建立巨额敞口。', how:'限额页展示报单前校验链路位置（组包前）与校验耗时占比，Kill Switch 为链路内硬开关。', where:'limits'},
+  {id:'R02', t:'单笔报单量必须设硬上限', why:'缺少上限时一个手误的数量级就会瞬间建立与账户资本完全不成比例的仓位，测试环境几乎无法覆盖。', how:'限额页展示单笔上限与 Fat Finger 拦截记录，调整单笔上限强制 2FA。', where:'limits'},
+  {id:'R03', t:'委托终态不是已成交', why:'把已成交当终态会让账务与持仓在清算被拒时长期错位，成交后清算失败但系统认为已完成。', how:'复盘归因页展示委托状态机：已成交 → 已清算 → 已交收，清算拒绝回流未完成态。', where:'pm'},
+  {id:'R04', t:'交易所费率与限速变更必须当日生效', why:'费率或限速改变后策略边际利润可能为负，未同步会导致连续亏损数天且极难归因。', how:'费用与返佣页提供「费率变更当日重算」动作，重算覆盖全部策略盈亏口径。', where:'fees'},
+  {id:'R05', t:'时钟不可信则一切归因不可信', why:'时钟漂移不造成功能错误，只让延迟分析与合规留痕整体失真，通常在被监管问询时才暴露。', how:'延迟观测页展示 PTP 偏移监控与主备时钟源健康，偏移超阈值即告警。', where:'latency'},
+  {id:'R06', t:'订单簿缺口必须整段作废', why:'忽略序号缺口会得到一个持续存在幽灵档位的看似正确的订单簿，据此报价会持续在错误价位成交。', how:'套利监控页展示行情缺口检测：缺 1 条即整段作废并拉快照，幽灵价差熔断案佐证。', where:'arb'},
+  {id:'R07', t:'自成交防范必须与返佣规则联合设计', why:'返佣激励会提高自成交概率，防范配置错误会同时触发合规处罚与资金损失。', how:'费用页展示返佣依赖度与 STP 拦截联动；套利页记录双腿同价位 STP 拦截。', where:'fees'},
+  {id:'R08', t:'改单等价于撤单加新单', why:'误以为改单保持队列位置会导致高频改单策略系统性丧失优先级，成交率长期低于模型预期。', how:'异常报价页对疲劳报价（高频改单）设报撤比阈值 20:1 监控并要求解释。', where:'quote'},
+  {id:'R09', t:'主备链路切换必须保证不重发', why:'切换窗口继续发单会产生重复委托，轻则超仓重则触发限速封禁，典型于网络频繁抖动时。', how:'机房页展示主备链路（光纤/微波）与切换演练：序号连续、无重复委托校验。', where:'colo'},
+  {id:'R10', t:'多场所敞口必须全局计算', why:'各场所独立计算会低估总敞口，两个场所各自接近限额而合计已超风控上限。', how:'限额页展示全局敞口仪表（跨场所合计），单场所仪表旁强制显示全局占比。', where:'limits'},
+  {id:'R11', t:'回测必须模拟队列位置', why:'忽略排队会系统性高估被动成交率，上线后策略从高夏普变成低成交低收益。', how:'策略接入审核清单强制勾选「回测含队列位置与部分成交建模」，缺失即驳回。', where:'intake'},
+  {id:'R12', t:'生产参数必须与实验记录绑定', why:'参数无法追溯时既无法归因盈亏，也无法在策略失效时快速判断是参数问题还是市场变化。', how:'接入审核与复盘页展示参数版本绑定；GRID-FUT-08 案例即参数缺失的反面教材。', where:'pm'},
+  {id:'R13', t:'撮合与清算必须分层', why:'把成交当成交割会让系统在结算失败时仍认为资金已到位，极端行情下形成连锁穿仓。', how:'复盘页委托状态机区分撮合层与清算层；套利页展示结算时滞造成的资金缺口监控。', where:'arb'},
+  {id:'R14', t:'保证金必须与波动率联动', why:'静态保证金在波动率跃升时会被瞬间击穿，单一价格源被大额卖盘打崩后触发连锁清算。', how:'熔断页展示波动率联动保证金状态：波动率越阈值自动提高保证金要求并降频。', where:'breaker'},
+  {id:'R15', t:'硬件实现必须与软件参考实现对拍', why:'硬件与软件的位级差异在正常行情不可见，只在极端行情造成错误风控决策与巨额错单。', how:'延迟观测页展示 FPGA 风控卸载路径的软硬对拍状态（逐位一致 · 基线版本绑定）。', where:'latency'},
+  {id:'R16', t:'风控放宽必须审批且可回滚', why:'随意放宽风控是事故最常见的共同前置条件，缺少审批与回滚能力等于敞口失控。', how:'限额页放宽操作强制 2FA + 审批 + 保留回滚；复盘建议的限额调整走同一通道。', where:'limits'}
+];
+
+/* ---------- 指标体系（成对展示） ---------- */
+const METRICS = [
+  {a:'成交比（fill rate）', av:'29.4%', b:'报撤比', bv:'8.2:1', note:'成交质量 × 异常申报监控（20:1 阈值）'},
+  {a:'tick-to-trade P99', av:'78μs', b:'风控耗时占比', bv:'6.4%', note:'延迟预算 × 前置校验成本'},
+  {a:'限额拦截率', av:'99.2%', b:'误杀率', bv:'0.31%', note:'只看拦截数会掩盖误杀造成的收益损失'},
+  {a:'Maker 返佣净额', av:'+$60.5K/月', b:'返佣依赖度', bv:'11.8%', note:'成本 × 结构性风险（费率变更即失效）'},
+  {a:'场所断连（30d）', av:'2 次 · 11s', b:'切换成功率', bv:'100%', note:'可用性成对（R09 不重发）'},
+  {a:'每百万成交成本', av:'$18.4', b:'单位延迟收益弹性', bv:'1.9x', note:'商业口径成对'}
+];
+
+/* ---------- 审计引擎 ---------- */
+function auditEntry(act, target, detail, level){
+  STATE.audit.unshift({t:nowTime(), op:ROLES[STATE.role].u, role:ROLES[STATE.role].n,
+    act, target, detail, level: level||'info', ip:'10.24.6.'+(20+STATE.audit.length%40)});
+}
+
+/* ---------- 业务 mock 数据 ---------- */
+const STATE = {
+  role:'admin', route:'dash', audit:[], bellRead:false,
+  kill:{global:false},
+  loop:{pmDone:false, limitApplied:false},
+  strategies:[
+    {id:'MM-BTC-01', n:'BTC/USDT 双边做市', type:'做市', venue:'OKX · Binance', st:'运行中', pnl:412880, ops:'1,842/s', fill:'31.2%', latP99:'42μs', skew:2.4, vpin:0.72, width:'2.1bp', owner:'沈知远', ver:'v3.4.1', seat:'RJ-T2-A07', fix:'FIX4.2 · 会话×2 在线'},
+    {id:'MM-ETH-02', n:'ETH 永续库存偏斜做市', type:'做市', venue:'Binance', st:'运行中', pnl:268104, ops:'1,204/s', fill:'28.6%', latP99:'47μs', skew:-5.1, vpin:0.41, width:'2.4bp', owner:'沈知远', ver:'v2.9.0', seat:'RJ-T2-A08', fix:'FIX4.2 · 会话×1 在线'},
+    {id:'ARB-CX-03', n:'跨所价差套利 OKX↔Bybit', type:'套利', venue:'OKX · Bybit', st:'运行中', pnl:151220, ops:'312/s', fill:'64.8%', latP99:'3.1ms', skew:0.8, vpin:0.22, width:'—', owner:'沈知远', ver:'v1.8.3', seat:'RJ-T2-B03', fix:'WS 行情 + FIX 报单'},
+    {id:'ARB-FR-04', n:'永续资金费率套利', type:'套利', venue:'Binance · OKX', st:'运行中', pnl:88410, ops:'86/s', fill:'92.1%', latP99:'8.4ms', skew:-1.2, vpin:0.18, width:'—', owner:'沈知远', ver:'v1.2.7', seat:'RJ-T2-B03', fix:'REST 兜底链路'},
+    {id:'EXEC-TWAP-05', n:'机构母单 TWAP 执行', type:'执行', venue:'OKX', st:'运行中', pnl:36240, ops:'54/s', fill:'88.4%', latP99:'12ms', skew:0, vpin:0.09, width:'—', owner:'沈知远', ver:'v4.0.1', seat:'SG-DC1-C02', fix:'FIX4.4'},
+    {id:'STAT-COINT-06', n:'统计套利 · 协整对 BTC/ETH', type:'套利', venue:'OKX · Bybit', st:'影子运行', pnl:0, ops:'（对拍）', fill:'—', latP99:'4.2ms', skew:0, vpin:0.20, width:'—', owner:'沈知远', ver:'v0.9.2-rc', seat:'待分配', fix:'影子会话（不下单）'},
+    {id:'GRID-FUT-08', n:'期货网格 · 高频挂撤', type:'投机', venue:'Binance USDT 永续', st:'已熔断', pnl:-61204, ops:'0/s（已停）', fill:'6.2%', latP99:'58μs', skew:9.6, vpin:0.66, width:'—', owner:'周子衡', ver:'v0.7.4', seat:'RJ-T2-B05', fix:'FIX4.2 · 已断开'}
+  ],
+  intake:[
+    {id:'INT-2026-027', strat:'MM-DOGE-09 · DOGE 永续双边做市', owner:'沈知远', seat:'申请 RJ-T2-B06 · 功耗余量 5.6kW', fix:'FIX4.2 会话已建 · 接入白名单已批', colo:'东京 LD4 · 交叉连接 2 条', shadow:'影子运行 5 日 · 信号对拍偏差 0.31%（达标 <0.5%）', risk:'单笔上限 ¥20万 · 频率 600/s · STP Cancel Newest · 延迟预算 80μs · 回测含队列位置建模（R11）· 参数版本 EXP-2026-131（R12）', st:'审核中', t:'09:12'},
+    {id:'INT-2026-026', strat:'STAT-COINT-06 · 协整统计套利', owner:'沈知远', seat:'待分配（批准后分配）', fix:'影子会话', colo:'东京 LD4', shadow:'影子运行中（第 2 日）· 协整关系检验通过', risk:'回测已含队列位置与部分成交建模（R11）· 单笔上限 ¥20万', st:'影子运行', t:'昨日'},
+    {id:'INT-2026-024', strat:'GRID-FUT-08 · 期货网格高频挂撤', owner:'周子衡', seat:'RJ-T2-B05', fix:'FIX4.2', colo:'东京 LD4', shadow:'影子运行 3 日 · 对拍偏差 1.2%（未达标仍上线 ← 教训案例）', risk:'单笔上限 ¥50万 · 频率 1,500/s · 生产参数未与实验记录绑定（R12 违反）', st:'已上线', t:'09-21', bad:true},
+    {id:'INT-2026-019', strat:'GRID-ALT-11 · 网格变体', owner:'周子衡', seat:'-', fix:'-', colo:'-', shadow:'回测未模拟队列位置（R11）· 被动成交率虚高 3.1 倍', risk:'—', st:'已驳回', t:'09-18'}
+  ],
+  limits:{
+    global:{rate:12000, rateUsed:8240, mult:5, multUsed:3.2, maxPos:25000000, posUsed:18400000, singleMax:500000, ffBlocked:3},
+    rows:[
+      {strat:'MM-BTC-01', rate:2000, used:1842, mult:'5.0x', pos:'$8.2M / $10M', single:'$50万'},
+      {strat:'MM-ETH-02', rate:1500, used:1204, mult:'5.0x', pos:'$5.6M / $8M', single:'$50万'},
+      {strat:'ARB-CX-03', rate:400, used:312, mult:'4.0x', pos:'$3.1M / $4M', single:'$20万'},
+      {strat:'ARB-FR-04', rate:120, used:86, mult:'3.0x', pos:'$1.2M / $2M', single:'$20万'},
+      {strat:'EXEC-TWAP-05', rate:80, used:54, mult:'2.0x', pos:'$0.3M / $0.5M', single:'$10万'},
+      {strat:'GRID-FUT-08', rate:900, used:0, mult:'5.0x', pos:'$0 / $2M', single:'$50万', adj:true}
+    ]
+  },
+  incidents:[
+    {id:'BR-2026-0926-01', strat:'GRID-FUT-08', trigger:'订单频率 3,120/s 超限额 108% · 报撤比 41:1', sev:'严重', st:'熔断执行', t:'10:42', cooldown:'冷静期 30min（至 11:12）· 已自动撤全 4,212 挂单 · 库存偏移 +9.6% 待对冲回收', step:2},
+    {id:'BR-2026-0925-02', strat:'MM-ETH-02', trigger:'tick-to-trade P99 连续 5min 超延迟预算 25%（NUMA 跨节点）', sev:'警告', st:'已闭环', t:'昨日 14:08', cooldown:'自动降频 20% 运行 1h 后恢复 · 绑核修复后 P99 回落 47μs', step:4},
+    {id:'BR-2026-0924-01', strat:'ARB-CX-03', trigger:'Bybit 行情序号缺口 → 幽灵价差 22bp 触发虚假套利信号', sev:'警告', st:'已闭环', t:'09-24 09:51', cooldown:'缺口簿整段作废 + 快照重建（R06）· 双腿自动撤单', step:4}
+  ],
+  quoteAnom:[
+    {id:'QA-0926-07', strat:'MM-BTC-01', type:'宽报价', detail:'买卖价差 18bp（基线 2.1bp），行情缺口后未收敛 · VPIN 毒性 0.72', act:'建议：毒性撤离 + 加宽价差 + 降挂单规模', st:'待处置', t:'11:02'},
+    {id:'QA-0926-06', strat:'MM-ETH-02', type:'疲劳报价', detail:'改单 320/s 持续 12min · 报撤比 41:1 超 20:1 监控阈值（R08：改单=撤+新，队列位置已反复清零）', act:'建议：限流 50% + 出具报撤比说明', st:'处置中', t:'10:55'},
+    {id:'QA-0926-05', strat:'ARB-CX-03', type:'自成交风险', detail:'双腿在 OKX 同价位对冲 · STP Cancel Newest 拦截 2 次（R07 返佣激励下风险上升）', act:'已自动拦截 · 建议错开价位 ±1 tick', st:'已关闭', t:'09:40'},
+    {id:'QA-0925-12', strat:'GRID-FUT-08', type:'报撤比异常', detail:'撤单率 99.3% · 触发虚假申报预警并关联交易所问询', act:'已关联熔断案 BR-2026-0926-01 · 待合规说明', st:'已关闭', t:'昨日'}
+  ],
+  spreads:[
+    {pair:'BTC/USDT', a:'OKX 67,204.5', b:'Bybit 67,188.0', bp:'4.9bp', cost:'2.6bp', net:'+2.3bp', st:'可捕'},
+    {pair:'ETH/USDT', a:'OKX 2,618.40', b:'Bybit 2,617.95', bp:'1.7bp', cost:'2.2bp', net:'-0.5bp', st:'不可捕'},
+    {pair:'SOL/USDT', a:'OKX 148.62', b:'Bybit 148.31', bp:'20.9bp', cost:'6.4bp', net:'+14.5bp', st:'可捕 · 深度受限'},
+    {pair:'DOGE/USDT', a:'OKX 0.16204', b:'Bybit 0.16198', bp:'3.7bp', cost:'4.1bp', net:'-0.4bp', st:'不可捕'}
+  ],
+  racks:[
+    {rack:'RJ-T2-A07', venue:'东京 LD4 · OKX 撮合同楼', power:8.2, powerMax:10, xconn:12, lat:'主：光纤 0.38ms 跨城', backup:'备：微波 0.21ms · 自动切换', st:'运行中'},
+    {rack:'RJ-T2-A08', venue:'东京 LD4 · Binance 撮合同楼', power:7.6, powerMax:10, xconn:8, lat:'主：光纤 0.38ms 跨城', backup:'备：微波 0.22ms · 自动切换', st:'运行中'},
+    {rack:'RJ-T2-B03', venue:'东京 LD4 · Bybit 接入', power:5.1, powerMax:8, xconn:6, lat:'主：光纤 0.41ms 跨城', backup:'备：光纤二径 0.52ms', st:'运行中'},
+    {rack:'RJ-T2-B05', venue:'东京 LD4 · 通用接入', power:2.4, powerMax:8, xconn:2, lat:'—', backup:'—', st:'已断开（GRID-FUT-08）'},
+    {rack:'SG-DC1-C02', venue:'新加坡 · 备份席位', power:1.8, powerMax:6, xconn:2, lat:'热备（不承接流量）', backup:'—', st:'热备'}
+  ],
+  fees:[
+    {venue:'Binance', tier:'VIP-5', maker:'-0.01%', taker:'0.036%', rebate:'+$41,204 / 月', vol:'$2.14B', st:'正常'},
+    {venue:'OKX', tier:'LV4', maker:'0.000%', taker:'0.045%', rebate:'$0（零费档）', vol:'$1.62B', st:'正常'},
+    {venue:'Bybit', tier:'PM1', maker:'-0.005%', taker:'0.040%', rebate:'+$12,880 / 月', vol:'$0.86B', st:'正常'},
+    {venue:'Hyperliquid', tier:'做市计划 M2', maker:'0.001%', taker:'0.035%', rebate:'积分 + 返佣 $6,410 / 月', vol:'$0.31B', st:'观察 · 费率变更跟踪中'}
+  ],
+  regrep:[
+    {id:'CAT-0926-118', type:'程序化交易信息报送', scope:'账户 8841 · 全量报单与撤单明细（穿透式）', due:'当日 24:00', st:'已报送', t:'11:30'},
+    {id:'CAT-0926-117', type:'异常报撤情况说明', scope:'GRID-FUT-08 撤单率 99.3% 情况说明（关联熔断案）', due:'T+1', st:'撰写中', t:'10:58'},
+    {id:'CAT-0925-104', type:'时钟与延迟证据包', scope:'PTP 偏移曲线 + tick-to-trade 分位 + 硬件时间戳链（R05）', due:'按需（监管调取）', st:'已报送', t:'昨日'},
+    {id:'CAT-0925-099', type:'策略参数变更报备', scope:'MM-BTC-01 v3.4.0 → v3.4.1 · 报价宽度与库存偏斜参数', due:'变更前', st:'已报送', t:'昨日'}
+  ],
+  pms:[
+    {id:'PM-2026-006', incident:'BR-2026-0926-01 · GRID-FUT-08 熔断', pnl:-61204, split:{spread:-3120, inv:-18204, adverse:-9880, fee:-30000}, root:'挂撤循环未对接行情降级信号；实盘参数未与实验记录绑定（R12）· 回测未模拟队列位置（R11）导致成交率误判', sug:'订单频率限额 1,500/s → 900/s；上线前强制影子对拍达标（偏差 <0.5%）', st:'归因中'},
+    {id:'PM-2026-005', incident:'BR-2026-0925-02 · MM-ETH-02 延迟抖动', pnl:2140, split:{spread:4200, inv:-880, adverse:-620, fee:-560}, root:'NUMA 跨节点访问导致解码段 P99 +18μs（R15 关联：软硬路径需对拍）', sug:'绑核 + 本地内存分配 · 已提交低延迟工程中心并完成回归基线', st:'已闭环'},
+    {id:'PM-2026-004', incident:'BR-2026-0924-01 · ARB-CX-03 幽灵价差', pnl:-4210, split:{spread:-1180, inv:-2140, adverse:-510, fee:-380}, root:'Bybit 行情序号缺口未整段作废，合成簿残留幽灵档位（R06）', sug:'缺口检测阈值：缺 1 条即作废 + 快照重建 · 已上线并回放验证', st:'已闭环'}
+  ],
+  alarms:[
+    {id:'AL-0926-14', sys:'实时限额', sev:'严重', msg:'GRID-FUT-08 订单频率 3,120/s 超限 108%，自动熔断已执行（BR-2026-0926-01）', t:'10:42', st:'acked'},
+    {id:'AL-0926-13', sys:'异常报价', sev:'警告', msg:'MM-BTC-01 宽报价 18bp · VPIN 0.72，建议毒性撤离', t:'11:02', st:'new'},
+    {id:'AL-0926-12', sys:'延迟观测', sev:'警告', msg:'tick-to-trade P99 92μs 超预算 80μs（解码段 +18μs · NUMA）', t:'10:31', st:'new'},
+    {id:'AL-0926-11', sys:'机房设施', sev:'提示', msg:'RJ-T2-A07 功耗 8.2kW 达上限 82%，建议均衡迁移', t:'09:48', st:'done'}
+  ],
+  notifications:[
+    {i:'⏻', c:'var(--bad-bg);color:var(--bad)', t:'GRID-FUT-08 已自动熔断', d:'频率超限 108% · 冷静期至 11:12 · 待复盘归因 → 限额调整', m:'10:42'},
+    {i:'⚑', c:'var(--gold-bg);color:var(--gold)', t:'宽报价异常 1 条待处置', d:'MM-BTC-01 · 18bp · VPIN 0.72', m:'11:02'},
+    {i:'⊕', c:'var(--brand-bg);color:var(--brand)', t:'策略接入审核 1 单', d:'MM-DOGE-09 影子对拍达标 · 待审批', m:'09:12'},
+    {i:'⇪', c:'var(--teal-bg);color:var(--teal)', t:'异常报撤说明待报送', d:'CAT-0926-117 · T+1 截止', m:'10:58'}
+  ]
+};
+function nowTime(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+
+/* ======================= 框架层 ======================= */
+const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const GROUPS = NAV.map(g=>g.g);
+
+function toast(msg, type){
+  const t = document.createElement('div');
+  t.className = 'toast ' + (type||'');
+  t.innerHTML = msg;
+  $('#toasts').appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='.3s';setTimeout(()=>t.remove(),320);}, 3600);
+}
+function openDrawer(html){ $('#drawer').innerHTML = html; $('#drawer').classList.add('on'); $('[data-dmask]').classList.add('on'); $('#content').classList.add('noscroll'); }
+function closeDrawer(){ $('#drawer').classList.remove('on'); $('[data-dmask]').classList.remove('on'); $('#content').classList.remove('noscroll'); }
+function openModal(title, body, footer){
+  $('#modal').innerHTML = `<div class="modal-h">${esc(title)}</div><div class="modal-b">${body}</div><div class="modal-f">${footer||'<button class="btn" data-act="m-cancel">取消</button><button class="btn p" data-act="m-ok">确认</button>'}</div>`;
+  $('#modal').classList.add('on'); $('[data-mmask]').classList.add('on');
+}
+function closeModal(){ $('#modal').classList.remove('on'); $('[data-mmask]').classList.remove('on'); }
+/* 2FA + 审计确认：敏感操作统一入口 */
+function confirm2fa(title, html, okLabel, onOk, ruleId){
+  openModal('敏感操作 · '+title, `<div class="note warn"><span class="ni">🔐</span><span>此操作强制 <b>2FA + 审计留痕</b>${ruleId?`，对应致命规则 <b>${ruleId}</b>`:''}。输入动态口令以继续。</span></div>
+    ${html||''}
+    <div class="fld"><label>动态口令（TOTP）</label><input class="inp mono" id="totpIn" placeholder="6 位数字" maxlength="6"></div>`,
+    `<button class="btn" data-act="m-cancel">取消</button><button class="btn p" id="mOkBtn">${okLabel||'确认执行'}</button>`);
+  $('#mOkBtn').onclick = ()=>{
+    const v = ($('#totpIn')?.value||'').trim();
+    if(v.length!==6){ toast('⚠️ 请输入 6 位动态口令（演示可任意 6 位）','warn'); return; }
+    closeModal(); onOk && onOk();
+  };
+}
+function pushAudit(act, target, detail, level){
+  auditEntry(act, target, detail, level);
+  if(STATE.route==='audit') render();
+  syncBell();
+}
+
+/* ---------- 通知中心 ---------- */
+function syncBell(){
+  const unread = STATE.notifications.length;
+  const b = $('#bellBadge');
+  if(unread && !STATE.bellRead){ b.style.display='grid'; b.textContent=unread; } else b.style.display='none';
+}
+function renderBell(){
+  $('#bellPanel').innerHTML = `<div class="bp-h"><b>通知中心</b><span class="sp"></span><a data-act="bell-read">全部已读</a></div>
+  <div class="bp-list">${STATE.notifications.map(n=>`
+    <div class="bp-item"><span class="bi" style="${n.c}">${n.i}</span>
+      <div style="flex:1;min-width:0"><div class="bt">${esc(n.t)}</div><div class="bd">${esc(n.d)}</div></div>
+      <span class="bm">${esc(n.m)}</span></div>`).join('')}</div>`;
+  $$('[data-act="bell-read"]').forEach(a=>a.onclick=()=>{ STATE.bellRead=true; syncBell(); toast('已全部标记为已读','ok'); });
+}
+
+/* ---------- 导航渲染 ---------- */
+function canNav(id){
+  const item = NAV.flatMap(g=>g.items).find(i=>i.id===id);
+  return item && (item.roles==='all' || item.roles.split(',').includes(STATE.role));
+}
+function renderNav(){
+  const group = NAV.find(g=>g.items.some(i=>i.id===STATE.route)) || NAV[0];
+  $('#sideNav').innerHTML = group.items.map(it=>{
+    const locked = !canNav(it.id);
+    const badge = it.badge ? it.badge() : 0;
+    return `<a class="nav-item ${STATE.route===it.id?'on':''} ${locked?'locked':''}" data-nav="${it.id}">
+      <span class="ni">${it.i}</span><span>${esc(it.n)}</span>
+      ${locked?'<span class="cnt" style="background:var(--panel2);color:var(--ink3)">锁</span>':(badge?`<span class="cnt">${badge}</span>`:'')}
+    </a>`;
+  }).join('') + (group.items.some(i=>!canNav(i.id)) ? `<div class="nav-lock-hint">部分菜单因角色权限置灰 · 切换角色查看</div>` : '');
+  $$('#sideNav [data-nav]').forEach(a=>a.onclick=()=>go(a.dataset.nav));
+  $('#topNav').innerHTML = GROUPS.map((g,i)=>{
+    const grp = NAV[i];
+    const on = grp.items.some(it=>it.id===STATE.route);
+    const locked = !grp.items.some(it=>canNav(it.id));
+    const totalBadge = grp.items.reduce((s,it)=>s+(it.badge?it.badge():0),0);
+    return `<span class="tn-item ${on?'on':''} ${locked?'dim':''}" data-grp="${i}">${esc(g)}${totalBadge?`<i class="tn-badge">${totalBadge}</i>`:''}</span>`;
+  }).join('');
+  $$('#topNav [data-grp]').forEach(a=>a.onclick=()=>goGroup(+a.dataset.grp));
+  const it = NAV.flatMap(g=>g.items).find(i=>i.id===STATE.route);
+  $('#crumb').innerHTML = `<span class="cb-g">${esc(group.g)}</span><i class="cb-sep">/</i><b>${esc(it?it.n:'')}</b>`;
+  $('#subRight').innerHTML = `<span class="cb-role">👤 ${esc(ROLES[STATE.role].n)} · ${esc(ROLES[STATE.role].u)}</span><span class="cb-env">PROD · 只读演示</span>`;
+  $('#sideRoleName').textContent = ROLES[STATE.role].n;
+}
+function goGroup(idx){
+  const grp = NAV[idx];
+  const first = grp.items.find(it=>canNav(it.id));
+  if(first) go(first.id);
+  else toast(`⚠️ 当前角色「${ROLES[STATE.role].n}」无该组任何权限（最小权限）`,'warn');
+}
+function go(id){
+  if(!canNav(id)){
+    toast(`⛔ 越权拦截：当前角色「${ROLES[STATE.role].n}」无权访问「${(NAV.flatMap(g=>g.items).find(i=>i.id===id)||{}).n||id}」，已写入审计。`,'bad');
+    pushAudit('越权访问拦截', id, 'RBAC 最小权限拦截');
+    return;
+  }
+  STATE.route = id;
+  render();
+  $('#content').scrollTop = 0;
+}
+
+/* ---------- 通用渲染小件 ---------- */
+function kpiCard(lb, v, foot, extra){ return `<div class="kpi"><div class="k-lb">${lb}</div><div class="k-v">${v}</div><div class="k-foot">${foot||''}</div>${extra||''}</div>`; }
+function tags(st){
+  const map = {'运行中':'ok','已上线':'ok','正常':'ok','已闭环':'ok','已报送':'ok','已关闭':'ok','热备':'b','已执行':'ok','可捕':'ok','影子运行':'b','审核中':'b','撰写中':'warn','归因中':'warn','处置中':'warn','观察':'warn','待执行':'warn','熔断执行':'bad','待处置':'bad','已熔断':'bad','已暂停':'bad','已驳回':'bad','已断开':'bad','不可捕':'', '（对拍）':'b'};
+  return `<span class="tag ${map[st]||''}">${esc(st)}</span>`;
+}
+function sevTag(s){ return `<span class="tag ${s==='严重'?'bad':s==='高'?'bad':s==='中'?'warn':'b'}">${esc(s)}</span>`; }
+function riskTag(v){
+  const lv = v>=80?'严重':v>=60?'高':v>=40?'中':'低';
+  return `<span class="tag ${v>=80?'bad':v>=60?'warn':v>=40?'warn':'ok'}">${lv} ${v}</span>`;
+}
+function panel(title, sub, body, tight){ return `<div class="panel"><div class="panel-h">${title}<span class="sub">${sub||''}</span></div><div class="panel-b ${tight?'tight':''}">${body}</div></div>`; }
+function tableHTML(headers, rows, opts){
+  opts = opts||{};
+  return `<table class="dt"><thead><tr>${headers.map(h=>`<th class="${h.r?'r':''}">${typeof h==='string'?esc(h):(h.t||'')}</th>`).join('')}</tr></thead>
+  <tbody>${rows.map(r=>`<tr class="${opts.rowlink?'rowlink':''}">${r.map(c=>`<td class="${c&&c.r?'r':''}">${c.v!=null?c.v:c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+function ruleAnno(rule){ return rule?`<div class="rule-anno"><b>⚑ ${rule.id} · ${esc(rule.t)}</b> — ${esc(rule.why)}<br><b>原型落点：</b>${esc(rule.how)}</div>`:''; }
+function statusStepper(steps, cur, badIdx){
+  return `<div class="stepper">${steps.map((s,i)=>`<div class="stp ${i<cur?'done':i===cur?(badIdx===cur?'bad':'act'):''}"><span class="si">${i<cur?'✓':i+1}</span><span>${esc(s)}</span></div>`).join('')}</div>`;
+}
+function rulechip(id){ const r = ARULES.find(r=>r.id===id); return r?`<span data-rulechip style="cursor:help" title="${esc(r.t)}：${esc(r.why)}"><span class="mini-tag">⚑ ${r.id}</span></span>`:''; }
+function gauge(lb, used, max, unit, fmt){
+  const p = Math.min(100, used/max*100);
+  const cls = p>90?'bad':p>75?'warn':'ok';
+  const fu = fmt||(x=>Number(x).toLocaleString('en-US'));
+  return `<div style="margin-bottom:12px"><div class="rate-lb"><span>${lb}</span><span class="mono">${fu(used)} / ${fu(max)} ${unit} · ${p.toFixed(0)}%</span></div><div class="progress ${cls}"><i style="width:${p}%"></i></div></div>`;
+}
+function skewBar(v){
+  const w = Math.min(48, Math.abs(v)*3.2);
+  const col = v>=0 ? 'var(--gold)' : 'var(--bad)';
+  const pos = v>=0 ? `left:50%;width:${w}%` : `left:${50-w}%;width:${w}%`;
+  return `<div class="skew-wrap"><i style="${pos};background:${col}"></i></div>`;
+}
+function splitBar(sp){
+  const items=[['价差捕获',sp.spread,'var(--teal)'],['库存盈亏',sp.inv,'var(--brand)'],['逆向选择',sp.adverse,'var(--gold)'],['手续费',sp.fee,'var(--ink3)']];
+  const tot = items.reduce((s,x)=>s+Math.abs(x[1]),0)||1;
+  return items.map(([lb,v,col])=>{
+    const p = Math.abs(v)/tot*100;
+    return `<div style="margin-bottom:6px"><div class="rate-lb"><span>${lb}</span><span class="mono">${v>=0?'+':'-'}$${Math.abs(v).toLocaleString()}</span></div><div class="progress"><i style="width:${p}%;background:${col}"></i></div></div>`;
+  }).join('');
+}
+function fmtPnl(v){ return (v>=0?'+$':'-$') + Math.abs(v).toLocaleString('en-US'); }
+
+/* ---------- ⌘K ---------- */
+let palIdx = 0, palItems = [];
+function palSearch(q){
+  q = q.trim().toLowerCase();
+  palItems = [];
+  NAV.flatMap(g=>g.items).forEach(it=>{ if(!q || it.n.toLowerCase().includes(q) || it.id.includes(q)) palItems.push({t:it.n, s:'页面', go:()=>go(it.id)}); });
+  ARULES.forEach(r=>{ if(q && (r.t.toLowerCase().includes(q)||r.id.toLowerCase().includes(q))) palItems.push({t:`⚑ ${r.id} ${r.t}`, s:'致命规则', go:()=>go(r.where)}); });
+  STATE.strategies.forEach(s=>{ if(q && (s.n.toLowerCase().includes(q)||s.id.toLowerCase().includes(q))) palItems.push({t:`${s.id} ${s.n}`, s:'策略', go:()=>go('dash')}); });
+  STATE.incidents.forEach(c=>{ if(q && c.id.toLowerCase().includes(q)) palItems.push({t:`${c.id} ${c.strat}`, s:'熔断案', go:()=>{go('breaker');}}); });
+  renderPal();
+}
+function renderPal(){
+  $('#palList').innerHTML = palItems.length ? palItems.map((it,i)=>`<div class="pal-item ${i===palIdx?'on':''}" data-pi="${i}"><span class="pi">${it.s==='页面'?'▸':it.s==='致命规则'?'⚑':it.s==='策略'?'◎':'⌁'}</span><span>${esc(it.t)}</span><span class="pk">${esc(it.s)}</span></div>`).join('')
+    : `<div class="pal-empty">没有匹配结果。试试：限额 / GRID / Kill</div>`;
+  $$('#palList [data-pi]').forEach(el=>el.onclick=()=>{ palItems[+el.dataset.pi].go(); closePalette(); });
+}
+function openPalette(){ $('#palette').classList.add('on'); $('[data-pmask]').classList.add('on'); $('#palInput').value=''; palSearch(''); palIdx=0; setTimeout(()=>$('#palInput').focus(),50); }
+function closePalette(){ $('#palette').classList.remove('on'); $('[data-pmask]').classList.remove('on'); }
+
+/* ---------- 主渲染 ---------- */
+const RENDER = {};
+function render(){
+  renderNav();
+  const fn = RENDER[STATE.route];
+  $('#content').innerHTML = fn ? fn() : '<div class="note bad">页面未实现</div>';
+  $$('[data-strat-view]').forEach(el=>el.onclick=()=>openStrat(el.dataset.stratView));
+  $$('[data-int-view]').forEach(el=>el.onclick=()=>openIntake(el.dataset.intView));
+  if(RENDER['_after_'+STATE.route]) RENDER['_after_'+STATE.route]();
+}
+function switchRole(r){
+  STATE.role = r;
+  if(!canNav(STATE.route)) STATE.route='dash';
+  renderNav(); render();
+  toast(`已切换角色：<b>${ROLES[r].n}（${ROLES[r].u}）</b><br><span class="muted small">${esc(ROLES[r].desc)}</span>`);
+  pushAudit('角色切换', ROLES[r].n, 'RBAC 会话切换');
+}
+function renderRoleSwitch(){
+  $('#roleSwitch').innerHTML = `<div class="rs-lb">角色视角（RBAC）</div>
+  <select id="roleSel">${Object.entries(ROLES).map(([k,v])=>`<option value="${k}" ${STATE.role===k?'selected':''}>${v.n} · ${v.u}</option>`).join('')}</select>`;
+  $('#roleSel').onchange = e=>switchRole(e.target.value);
+}
+
+/* ---------- 画布小图 ---------- */
+function lineChart(canvas, data, color, fill){
+  const dpr = window.devicePixelRatio||1, w = canvas.clientWidth, h = canvas.clientHeight;
+  canvas.width = w*dpr; canvas.height = h*dpr;
+  const ctx = canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  const max = Math.max(...data)*1.15, min = Math.min(...data)*0.85;
+  const X = i=>i/(data.length-1)*(w-4)+2, Y = v=>h-4-((v-min)/(max-min||1))*(h-10);
+  const grad = ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,(color||'#2f7cf6')+'44'); grad.addColorStop(1,(color||'#2f7cf6')+'00');
+  ctx.beginPath();
+  data.forEach((v,i)=>i?ctx.lineTo(X(i),Y(v)):ctx.moveTo(X(i),Y(v)));
+  ctx.strokeStyle = color||'#2f7cf6'; ctx.lineWidth = 1.8; ctx.stroke();
+  ctx.lineTo(X(data.length-1),h); ctx.lineTo(X(0),h); ctx.closePath();
+  ctx.fillStyle = fill===false?'transparent':grad; ctx.fill();
+}
+function multiLine(canvas, series){
+  const dpr = window.devicePixelRatio||1, w = canvas.clientWidth, h = canvas.clientHeight;
+  canvas.width = w*dpr; canvas.height = h*dpr;
+  const ctx = canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  const all = series.flatMap(s=>s.data);
+  const max = Math.max(...all)*1.04, min = Math.min(...all)*0.96;
+  const X = i=>i/(series[0].data.length-1)*(w-4)+2, Y = v=>h-4-((v-min)/(max-min||1))*(h-10);
+  series.forEach(s=>{ ctx.beginPath(); s.data.forEach((v,i)=>i?ctx.lineTo(X(i),Y(v)):ctx.moveTo(X(i),Y(v))); ctx.strokeStyle=s.color; ctx.lineWidth=1.8; ctx.stroke(); });
+}
+
+/* ======================= 页面渲染 ======================= */
+
+/* ---------- HFT 总览 ---------- */
+RENDER.dash = ()=>{
+  const active = STATE.strategies.filter(s=>s.st==='运行中').length;
+  const pend = STATE.alarms.filter(a=>a.st==='new').length + STATE.quoteAnom.filter(q=>q.st==='待处置').length;
+  const loopCur = STATE.loop.limitApplied?4:STATE.loop.pmDone?3:2;
+  return `
+  <div class="note info"><span class="ni">◎</span><span><b>HyperDesk · HFT 运营中台</b> — 策略接入 → 实时限额监控 → 熔断 / Kill Switch → 复盘归因 → 限额规则调整。当前闭环：<b>GRID-FUT-08 熔断中，待复盘归因与限额调整</b>。${rulechip('R01')}${rulechip('R10')}</span></div>
+  <div class="kpis">
+    ${kpiCard('活跃策略','7 / 8','<span class="tag bad">GRID-FUT-08 熔断</span>')}
+    ${kpiCard('今日 PnL','+$895,650','<span class="tag ok">扣除费率口径</span>')}
+    ${kpiCard('挂单量','42.8 万','<span class="tag b">5 场所 · 4,212 熔断已撤</span>')}
+    ${kpiCard('成交比 <span class="k-pair">×报撤比</span>','29.4%','<span class="tag ok">阈值 20:1</span><span>8.2:1</span>')}
+    ${kpiCard('tick-to-trade P99','78μs','<span class="tag teal">预算 80μs</span>')}
+    ${kpiCard('待处置事项',String(pend),`<span class="tag bad">报价 1</span><span class="tag warn">告警 2</span>`)}
+  </div>
+  <div class="g23" style="margin-top:14px">
+    ${panel('今日 PnL 实时曲线（$K · 扣费口径）','<span class="banner-live"><i></i>流式</span>',`
+      <div class="chart-box"><canvas id="cv-pnl" style="height:150px"></canvas></div>
+      <div class="legend" style="margin-top:8px"><span><i style="background:var(--teal)"></i>累计 PnL</span><span class="muted">GRID-FUT-08 10:42 熔断后回撤止于 -$61.2K</span></div>`)}
+    ${panel('实时风控实况','',`
+      <div class="kv"><span class="k">前置校验拦截（今日）</span><span class="v num">214 次</span></div>
+      <div class="kv"><span class="k">Fat Finger 拦截</span><span class="v num">3 次 ${rulechip('R02')}</span></div>
+      <div class="kv"><span class="k">熔断中策略</span><span class="v"><span class="tag bad">1 · GRID-FUT-08</span></span></div>
+      <div class="kv"><span class="k">Kill Switch 全局</span><span class="v"><span class="tag ${STATE.kill.global?'bad':'ok'}">${STATE.kill.global?'已触发 · 全停':'未激活'}</span></span></div>
+      <div class="kv"><span class="k">异常报价待处置</span><span class="v"><span class="tag warn">1 条</span></span></div>`)}
+  </div>
+  <div class="sec-title"><b>业务闭环进度</b><em>上线审核 → 限额监控 → 熔断 / Kill Switch → 复盘归因 → 限额调整</em><span class="sp"></span><a class="link" data-go="breaker">进入熔断页 →</a></div>
+  ${panel('', statusStepper(['策略上线审核','实时限额监控','触发熔断 / Kill Switch','复盘归因','限额规则调整'], loopCur)+
+    '<div class="small muted" style="padding:10px 14px">GRID-FUT-08：09-21 上线（对拍未达标）→ 10:42 频率超限自动熔断 → 复盘归因 → 限额 1,500/s 调整为 900/s → 恢复运行。','')}
+  <div class="sec-title"><b>指标体系（成对展示）</b><em>质量指标必须成对，单边指标会掩盖误杀与依赖风险</em></div>
+  <div class="kpis">${METRICS.map(m=>`
+    <div class="kpi"><div class="k-lb">${esc(m.a)} <span class="k-pair">×${esc(m.b)}</span></div>
+      <div class="k-v" style="font-size:19px">${esc(m.av)} <span style="font-size:11px;color:var(--ink3);font-weight:400">vs</span> ${esc(m.bv)}</div>
+      <div class="k-foot">${esc(m.note)}</div></div>`).join('')}
+  </div>`;
+};
+RENDER['_after_dash'] = ()=>{
+  const c = $('#cv-pnl'); if(c) lineChart(c, [12,18,15,24,30,28,36,42,45,41,46,52,58], '#00d6a4');
+};
+
+/* ---------- 延迟观测 ---------- */
+const LAT_SEG = [
+  {n:'行情入站', v:14, budget:15},
+  {n:'解码', v:22, budget:12},
+  {n:'信号计算', v:16, budget:18},
+  {n:'前置风控', v:6, budget:8},
+  {n:'组包', v:9, budget:10},
+  {n:'发出', v:11, budget:12}
+];
+RENDER.latency = ()=>{
+  const total = LAT_SEG.reduce((s,x)=>s+x.v,0);
+  const cols = ['var(--brand)','var(--bad)','var(--brand2)','var(--teal)','var(--violet)','var(--ink3)'];
+  let acc=0; const segs = LAT_SEG.map(s=>{const l=acc; acc+=s.v; return `<i style="width:${s.v}%;background:${s.v>s.budget?'var(--bad)':cols[LAT_SEG.indexOf(s)]}" title="${esc(s.n)} ${s.v}μs"></i>`;}).join('');
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R05'))}
+  ${ruleAnno(ARULES.find(r=>r.id==='R15'))}
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('tick-to-trade P50','38μs','<span class="tag ok">预算内</span>')}
+    ${kpiCard('tick-to-trade P99','78μs','<span class="tag teal">预算 80μs</span>')}
+    ${kpiCard('tick-to-trade P99.9','142μs','<span class="tag warn">抖动监控中</span>')}
+    ${kpiCard('PTP 时钟偏移','+12ns','<span class="tag ok">GNSS 双源 · 铷钟保持</span>')}
+  </div>
+  <div class="g23">
+  ${panel('tick-to-trade 预算分解（P99 · 总 78μs / 预算 75μs）','解码段超预算为当前瓶颈',`
+    <div class="lat-seg" style="margin-bottom:10px">${segs}</div>
+    ${LAT_SEG.map(s=>`<div class="kv"><span class="k">${esc(s.n)}${s.v>s.budget?' <span class="tag bad">超预算</span>':''}</span><span class="v mono">${s.v}μs / 预算 ${s.budget}μs</span></div>`).join('')}
+    <div class="small muted" style="margin-top:8px">只测端到端无法定位瓶颈：均值正常而 P99 恶化是最常见失效模式，必须分段落度量并留存分布。</div>`)}
+  ${panel('时钟与时序治理','',`
+    <div class="kv"><span class="k">主时钟源</span><span class="v">GNSS #1 · PTP 硬件打戳</span></div>
+    <div class="kv"><span class="k">备时钟源</span><span class="v">GNSS #2 · 铷钟保持</span></div>
+    <div class="kv"><span class="k">偏移告警阈值</span><span class="v mono">±100ns（当前 +12ns）</span></div>
+    <div class="kv"><span class="k">事件时间 / 处理时间</span><span class="v"><span class="tag ok">双时间戳记录</span></span></div>
+    <div class="kv"><span class="k">FPGA 风控卸载对拍</span><span class="v"><span class="tag ok">逐位一致 · v2.3 基线</span></span></div>
+    <div class="kv"><span class="k">合规留痕绑定</span><span class="v"><span class="tag ok">时钟可信 → 留痕可信</span></span></div>
+    <div class="note warn" style="margin-top:10px"><span class="ni">⏱</span><span>时钟漂移不影响功能，只会让延迟归因与监管举证整体失真 —— 通常在被问询时才暴露（R05）。</span></div>`)}
+  </div>
+  <div class="sec-title"><b>P99 趋势（近 10 个 5min 窗口 · μs）</b><em>昨日延迟抖动熔断案 BR-2026-0925-02 已闭环</em></div>
+  ${panel('','<span class="banner-live"><i></i>流式</span>',`<div class="chart-box"><canvas id="cv-lat" style="height:140px"></canvas></div>`,'')}`;
+};
+RENDER['_after_latency'] = ()=>{ const c=$('#cv-lat'); if(c) lineChart(c,[64,68,72,70,75,78,84,92,86,78],'#2f7cf6'); };
+
+/* ---------- 策略接入与审核 ---------- */
+function openIntake(id){
+  const k = STATE.intake.find(x=>x.id===id); if(!k) return;
+  const canApprove = ['admin','onboard'].includes(STATE.role);
+  openDrawer(`
+    <div class="drawer-h"><b>策略接入审核 · ${esc(k.id)}</b><span class="x" data-act="d-close">✕</span></div>
+    <div class="drawer-b">
+      <div class="kv"><span class="k">策略</span><span class="v"><b>${esc(k.strat)}</b></span></div>
+      <div class="kv"><span class="k">申请人</span><span class="v">${esc(k.owner)}</span></div>
+      <div class="kv"><span class="k">席位 / 机柜</span><span class="v">${esc(k.seat)} ${rulechip('R09')}</span></div>
+      <div class="kv"><span class="k">协议 / 会话</span><span class="v">${esc(k.fix)}</span></div>
+      <div class="kv"><span class="k">托管接入</span><span class="v">${esc(k.colo)}</span></div>
+      <div class="kv"><span class="k">影子运行对拍</span><span class="v">${esc(k.shadow)}</span></div>
+      <div class="kv"><span class="k">风控配置</span><span class="v small">${esc(k.risk)}</span></div>
+      <div class="divider"></div>
+      ${ruleAnno(ARULES.find(r=>r.id==='R11'))}
+      ${ruleAnno(ARULES.find(r=>r.id==='R12'))}
+      <div class="sec-title" style="margin-top:8px"><b>接入流水线</b></div>
+      ${statusStepper(['提交申请','策略尽调','风控校验','影子对拍','审批','上线'], k.st==='审核中'?4:5, k.st==='审核中'?4:99)}
+      ${k.st==='审核中'?(canApprove?`
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn p" id="intPass">✓ 批准并分配席位</button>
+        <button class="btn danger" id="intReject">✕ 驳回（需理由）</button>
+      </div>`:'<div class="note warn" style="margin-top:10px"><span class="ni">🔒</span><span>当前角色无审批权（接入审批限平台管理员 / 策略接入经理）。</span></div>')
+      :`<div class="note info" style="margin-top:10px"><span class="ni">☰</span><span>当前状态：<b>${esc(k.st)}</b>${k.bad?' · 该策略上线后触发熔断案 BR-2026-0926-01，教训见复盘归因。':''}</span></div>`}
+    </div>`);
+  const pass = $('#intPass');
+  if(pass) pass.onclick = ()=>confirm2fa('批准 '+k.id+' 上线',
+    `<div class="note ok"><span class="ni">⊕</span><span>批准后将执行：<b>席位激活 → FIX 会话上线 → 前置风控限额下发（R01 不可绕过）→ 灰度放量 10% → 全量</b>。</span></div>
+     <div class="kv"><span class="k">风控配置核对</span><span class="v small">单笔上限 / 频率 / STP / 参数版本绑定 均已勾选（R11 · R12）</span></div>`,
+    '2FA 确认上线', ()=>{
+      k.st='已上线';
+      pushAudit('策略接入批准', k.id, k.strat+' · 限额已下发 · 灰度 10% 起步','ok');
+      closeDrawer(); render(); toast('✓ MM-DOGE-09 已上线：前置限额已下发，灰度 10% 放量中','ok');
+    }, 'R01/R11/R12');
+  const rej = $('#intReject');
+  if(rej) rej.onclick = ()=>{
+    k.st='已驳回';
+    pushAudit('策略接入驳回', k.id, '审核驳回 · 理由留痕','warn');
+    closeDrawer(); render(); toast('已驳回并写入审计','ok');
+  };
+}
+RENDER.intake = ()=>{
+  const rows = STATE.intake;
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R11'))}
+  ${ruleAnno(ARULES.find(r=>r.id==='R12'))}
+  <div class="note info"><span class="ni">⊕</span><span><b>策略上线审核是闭环的起点。</b>席位 / FIX 会话 / 托管机房（colocation）与前置风控限额在同一次审批中绑定下发 —— 没有限额的策略不允许接入报单链路。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('审核中', String(rows.filter(k=>k.st==='审核中').length), '<span class="tag bad">SLA 2 工作日</span>')}
+    ${kpiCard('影子运行','2','<span class="tag b">对拍偏差 <0.5% 达标</span>')}
+    ${kpiCard('30 日上线','4','<span class="tag warn">1 例上线后熔断</span>')}
+    ${kpiCard('驳回','1','<span class="tag bad">回测未模拟队列位置（R11）</span>')}
+  </div>
+  ${panel('接入审核队列','点击工单查看席位 / 协议 / 托管配置与审批',tableHTML(
+    [{t:'工单号'},{t:'策略'},{t:'申请人'},{t:'席位 / 机柜'},{t:'影子对拍'},{t:'状态'},{t:'时间',r:1},{t:'',r:1}],
+    rows.map(k=>[
+      {v:`<span class="mono link" data-int-view="${k.id}">${esc(k.id)}</span>`},
+      {v:`<b style="cursor:pointer" data-int-view="${k.id}">${esc(k.strat)}</b>`},
+      esc(k.owner), `<span class="small mono">${esc(k.seat.split(' · ')[0])}</span>`,
+      `<span class="small muted" style="max-width:230px;display:inline-block">${esc(k.shadow)}</span>`,
+      tags(k.st), {v:`<span class="mono">${esc(k.t)}</span>`,r:1},
+      {v:`<button class="btn sm" data-int-view="${k.id}">审核</button>`,r:1}
+    ])),'tight')}
+  <div class="sec-title"><b>接入清单核对项（缺一不可）</b></div>
+  ${panel('',`<div class="grid4">
+    ${[['前置风控限额下发','R01 · 组包前校验，不可绕过'],['单笔报单量硬上限','R02 · Fat Finger 拦截'],['回测含队列位置','R11 · 被动成交率不虚高'],['参数与实验记录绑定','R12 · 盈亏可归因']]
+      .map(([t,d])=>`<div class="kv"><span class="k">${esc(t)}</span><span class="v"><span class="tag ok">强制</span><div class="small muted" style="margin-top:3px">${esc(d)}</div></span></div>`).join('')}
+  </div>`,'')}`;
+};
+
+/* ---------- 做市策略监控 ---------- */
+RENDER.mm = ()=>{
+  const mms = STATE.strategies.filter(s=>s.type==='做市');
+  return `
+  <div class="note info"><span class="ni">⇔</span><span><b>做市监控三要素：报价宽度 · 库存偏移 · 报价率。</b>价差必须覆盖库存风险、逆向选择与手续费三部分，只覆盖手续费的报价是慢性亏损；库存偏离时必须移动报价中枢。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('平均报价宽度','2.3bp','<span class="tag ok">3 策略双边报价</span>')}
+    ${kpiCard('最大库存偏移','+9.6%','<span class="tag bad">GRID-FUT-08 · 熔断待对冲</span>')}
+    ${kpiCard('报价率','3,046/s','<span class="tag b">含改单（改单=撤+新 R08）</span>')}
+    ${kpiCard('被动成交率','31.2%','<span class="tag teal">队列位置命中率 84%</span>')}
+  </div>
+  ${panel('做市策略实时状态','库存偏移：右侧金色 = 多头累积 · 左侧红色 = 空头累积',tableHTML(
+    ['策略','场所','状态','报价宽度','库存偏移','','报价率','VPIN 毒性','今日 PnL',''],
+    mms.map(s=>[
+      {v:`<span class="mono link" data-strat-view="${s.id}">${esc(s.id)}</span><div class="small muted">${esc(s.n)}</div>`},
+      `<span class="small">${esc(s.venue)}</span>`, tags(s.st),
+      `<span class="mono">${esc(s.width)}</span>`,
+      `<span class="mono small">${s.skew>=0?'+':''}${s.skew}%</span>`,
+      {v:skewBar(s.skew)},
+      `<span class="mono">${esc(s.ops)}</span>`,
+      `<span class="tag ${s.vpin>=0.6?'bad':s.vpin>=0.4?'warn':'ok'}">${s.vpin.toFixed(2)}</span>`,
+      {v:`<span class="mono" style="color:${s.pnl>=0?'var(--ok)':'var(--bad)'}">${fmtPnl(s.pnl)}</span>`,r:1},
+      {v:`<button class="btn sm" data-strat-view="${s.id}">详情</button>`,r:1}
+    ])),'tight')}
+  <div class="g23" style="margin-top:12px">
+  ${panel('毒性检测与自动撤离','',`
+    <div class="kv"><span class="k">VPIN 实时毒性（MM-BTC-01）</span><span class="v"><span class="tag bad">0.72 · 高</span></span></div>
+    <div class="kv"><span class="k">撤离策略</span><span class="v">毒性 >0.6 → 撤价 + 加宽价差 + 降挂单规模</span></div>
+    <div class="kv"><span class="k">库存偏斜模型</span><span class="v">Avellaneda-Stoikov · 报价中枢随库存移动</span></div>
+    <div class="kv"><span class="k">多档阶梯报价</span><span class="v"><span class="tag ok">5 档 · 阶梯规模递减</span></span></div>
+    <div class="note warn" style="margin-top:8px"><span class="ni">⚑</span><span>人工介入在微秒级场景不可行：毒性撤离必须自动执行，人工只确认事后审计。</span></div>
+    <button class="btn danger sm" data-act="mm-detox" style="margin-top:8px">手动执行毒性撤离（MM-BTC-01 · 2FA）</button>`)}
+  ${panel('库存偏移全景','偏移超 ±8% 触发强制对冲',`
+    ${mms.concat([STATE.strategies[6]]).map(s=>`
+      <div style="margin-bottom:10px">
+        <div class="rate-lb"><span class="mono">${esc(s.id)}</span><span class="mono">${s.skew>=0?'+':''}${s.skew}%</span></div>
+        ${skewBar(s.skew)}
+      </div>`).join('')}
+    <div class="small muted" style="margin-top:6px">GRID-FUT-08 +9.6% 已超限：熔断撤单后需通过对冲腿回收库存，见复盘归因。</div>`)}
+  </div>`;
+};
+
+/* ---------- 套利策略监控 ---------- */
+RENDER.arb = ()=>{
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R06'))}
+  ${ruleAnno(ARULES.find(r=>r.id==='R13'))}
+  <div class="note info"><span class="ni">⇄</span><span><b>价差必须覆盖双边手续费、滑点与资金占用成本</b> —— 忽略成本会做出一堆负期望交易。双腿之一失败会留下单边敞口，必须有对冲或回滚并限制最大裸露时间。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('可捕价差对','2 / 4','<span class="tag ok">扣除成本后净为正</span>')}
+    ${kpiCard('今日套利净捕获','+$151,220','<span class="tag ok">ARB-CX-03 · ARB-FR-04</span>')}
+    ${kpiCard('双腿成功率','99.7%','<span class="tag teal">最大裸露时间 86ms</span>')}
+    ${kpiCard('场所断连（30d）','2 次 · 11s','<span class="tag b">切换成功率 100%</span>')}
+  </div>
+  <div class="g23">
+  ${panel('跨所实时价差（OKX vs Bybit · BTC/USDT）','未对齐的拼接会产生幽灵价差（R06 教训：BR-2026-0924-01）',`
+    <div class="chart-box"><canvas id="cv-spread" style="height:160px"></canvas></div>
+    <div class="legend" style="margin-top:8px"><span><i style="background:#2f7cf6"></i>OKX</span><span><i style="background:#00d6a4"></i>Bybit</span></div>`)}
+  ${panel('价差机会表（费率与滑点口径）','',tableHTML(
+    ['交易对','OKX 报价','Bybit 报价','价差','双边成本','净捕获','状态'],
+    STATE.spreads.map(sp=>[
+      `<b class="mono">${esc(sp.pair)}</b>`,
+      `<span class="mono small">${esc(sp.a)}</span>`, `<span class="mono small">${esc(sp.b)}</span>`,
+      `<span class="mono">${esc(sp.bp)}</span>`, `<span class="mono">${esc(sp.cost)}</span>`,
+      `<span class="mono" style="color:${sp.net.startsWith('+')?'var(--ok)':'var(--bad)'}">${esc(sp.net)}</span>`,
+      tags(sp.st)])),'tight')}
+  </div>
+  <div class="g23" style="margin-top:12px">
+  ${panel('双腿原子性与结算时滞','',`
+    <div class="kv"><span class="k">双腿协调</span><span class="v"><span class="tag ok">原子执行 · 失败腿自动对冲</span></span></div>
+    <div class="kv"><span class="k">最大裸露时间</span><span class="v mono">86ms（上限 150ms）</span></div>
+    <div class="kv"><span class="k">结算时滞资金缺口</span><span class="v"><span class="tag warn">$420K · 跨所预置资金覆盖</span></span></div>
+    <div class="kv"><span class="k">撮合与清算分层</span><span class="v"><span class="tag ok">成交 ≠ 交割（R13）</span></span></div>
+    <div class="kv"><span class="k">多场所敞口</span><span class="v"><span class="tag ok">全局统一计算（R10）</span></span></div>`)}
+  ${panel('异常处置演示','',`
+    <div class="note bad"><span class="ni">⛔</span><span>行情缺口检测：Bybit 序号缺 1 条即整段作废并拉快照（R06）。幽灵价差若未被拦截，套利腿会在错误价位持续成交。</span></div>
+    <button class="btn danger sm" data-act="arb-freeze" style="margin-top:8px">冻结套利腿（检测到行情缺口 · 2FA）</button>`)}
+  </div>`;
+};
+RENDER['_after_arb'] = ()=>{
+  const c = $('#cv-spread');
+  if(c) multiLine(c, [
+    {data:[67210,67208,67211,67205,67202,67206,67204,67201,67205,67204.5], color:'#2f7cf6'},
+    {data:[67202,67199,67195,67192,67186,67190,67188,67185,67190,67188.0], color:'#00d6a4'}
+  ]);
+};
+
+/* ---------- 实时限额 ---------- */
+RENDER.limits = ()=>{
+  const g = STATE.limits.global;
+  const sugg = STATE.loop.pmDone && !STATE.loop.limitApplied;
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R01'))}
+  ${ruleAnno(ARULES.find(r=>r.id==='R02'))}
+  ${ruleAnno(ARULES.find(r=>r.id==='R10'))}
+  ${ruleAnno(ARULES.find(r=>r.id==='R16'))}
+  <div class="note info"><span class="ni">▦</span><span><b>限额四维：订单频率 · 消息倍数 · 最大持仓 · 单笔上限。</b>必须同时约束单笔、单策略与<b>全局</b>（多场所合计，R10）—— 只做单笔限制会在多策略并发时失效。校验位于组包前且不可绕过（R01）。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('全局频率用量','8,240 / 12,000','<span class="tag ok">68%</span>')}
+    ${kpiCard('消息倍数','3.2x / 5.0x','<span class="tag ok">报单:消息 杠杆上限</span>')}
+    ${kpiCard('全局最大持仓 <span class="k-pair">跨场所合计</span>','$18.4M / $25M','<span class="tag teal">R10 全局计算</span>')}
+    ${kpiCard('Fat Finger 拦截（今日）','3 次','<span class="tag warn">单笔上限 $50万 · R02</span>')}
+  </div>
+  ${sugg?`<div class="note warn"><span class="ni">◔</span><span><b>复盘建议待审批（R16）：</b>PM-2026-006 建议将 GRID-FUT-08 订单频率限额 1,500/s → 900/s。放宽/收紧均需审批 + 可回滚。</span>
+    <span style="margin-left:auto"><button class="btn sm p" data-act="apply-pm-limit">审批并生效（2FA）</button></span></div>`:''}
+  ${STATE.loop.limitApplied?`<div class="note ok"><span class="ni">✓</span><span>限额规则调整已生效（当日生效，R04）：GRID-FUT-08 频率限额 1,500/s → <b>900/s</b>，回滚预案已挂载。熔断页可执行恢复。</span></div>`:''}
+  <div class="grid4" style="margin-bottom:14px">
+    ${panel('全局订单频率',gauge('报单+撤单合计', g.rateUsed, g.rate,'/s'))}
+    ${panel('消息倍数（消息:报单）',gauge('实测倍数（×10 口径）', g.multUsed*10, g.mult*10,'x',x=>(x/10).toFixed(1)))}
+    ${panel('全局最大持仓',gauge('跨场所净敞口', g.posUsed, g.maxPos,'$M',x=>(x/1e6).toFixed(1)+'M'))}
+    ${panel('单笔报单上限','<div class="kpi" style="border:none;padding:0"><div class="k-v" style="font-size:20px">$500,000</div><div class="k-foot"><span class="tag warn">今日拦截 3</span><span class="muted small">超限单在组包前拒绝</span></div></div>')}
+  </div>
+  ${panel('策略级限额用量','',tableHTML(
+    ['策略','频率限额','当前用量','','消息倍数','最大持仓','单笔上限','状态'],
+    STATE.limits.rows.map(r=>{
+      const p = Math.round(r.used/r.rate*100);
+      return [
+        `<b class="mono">${esc(r.strat)}</b>`,
+        `<span class="mono">${r.rate.toLocaleString()}/s</span>`,
+        `<span class="mono">${r.used.toLocaleString()}/s · ${p}%</span>`,
+        {v:`<div class="progress ${p>90?'bad':p>75?'warn':'ok'}"><i style="width:${Math.min(100,p)}%"></i></div>`},
+        `<span class="mono">${esc(r.mult)}</span>`, `<span class="mono small">${esc(r.pos)}</span>`,
+        `<span class="mono small">${esc(r.single)}</span>`,
+        r.adj?tags('熔断执行').replace('熔断执行', STATE.loop.limitApplied?'限额 900/s 已生效':'待调整 900/s'):'<span class="tag ok">正常</span>'];
+    })),'tight')}
+  <div class="note bad"><span class="ni">⏻</span><span><b>闭环提示：</b>GRID-FUT-08 于 10:42 频率达 3,120/s 超限 108% —— 前置校验在毫秒级完成熔断联动（R01）。若当日已调整限额，请至「熔断与冷静期」执行恢复。</span></div>`;
+};
+
+/* ---------- Kill Switch ---------- */
+RENDER.kill = ()=>{
+  const paused = STATE.strategies.filter(s=>s.st==='已暂停').length;
+  return `
+  <div class="note bad"><span class="ni">⏻</span><span><b>Kill Switch 是前置风控链路内的硬开关（R01），不是应用层按钮。</b>触发后立即撤销全部挂单并切断报单组包，2FA + 审计强制；恢复需逐策略复核。</span></div>
+  ${STATE.kill.global?`<div class="note bad"><span class="ni">🛑</span><span><b>全局 Kill Switch 已触发（演练）</b>：挂单全撤 · 报单链路停止 · 敞口 $18.4M 冻结。恢复需 2FA。</span>
+    <span style="margin-left:auto"><button class="btn sm p" data-act="kill-resume">恢复报单链路（2FA）</button></span></div>`:''}
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('全局状态',STATE.kill.global?'已触发 · 全停':'未激活',`<span class="tag ${STATE.kill.global?'bad':'ok'}">${STATE.kill.global?'全部策略停止':'链路正常'}</span>`)}
+    ${kpiCard('可控策略','8','<span class="tag b">全局 + 策略级</span>')}
+    ${kpiCard('当前暂停',String(paused+(STATE.strategies.filter(s=>s.st==='已熔断').length)),'<span class="tag warn">含熔断 1</span>')}
+    ${kpiCard('执行演练（30d）','2 次','<span class="tag b">恢复演练通过</span>')}
+  </div>
+  <div class="grid2">
+    ${panel('全局 Kill Switch','',`
+      <button class="kill-big" data-act="kill-global" ${STATE.kill.global?'disabled':''}>⏻ 触发全局 KILL SWITCH（2FA）</button>
+      <div class="small muted" style="margin-top:10px">影响：挂单 4,212 → 0 · 全部策略报单停止 · 全局敞口冻结。误触代价极高，触发需 6 位动态口令 + 全量审计。</div>`)}
+    ${panel('策略级 Kill（不重启进程）','',`
+      <div class="small muted" style="margin-bottom:8px">必须能在不重启前提下关闭单策略 —— 重启式止损会错过最佳退出窗口。</div>
+      ${STATE.strategies.map(s=>`<div class="kv"><span class="k"><span class="mono">${esc(s.id)}</span> ${tags(s.st)}</span>
+        <span class="v">${s.st==='运行中'?`<button class="btn sm danger" data-skill="${esc(s.id)}">Kill</button>`:'<span class="muted small">已停</span>'}</span></div>`).join('')}`)}
+  </div>
+  <div class="sec-title"><b>触发自动联动（毫秒级）</b></div>
+  ${panel('',tableHTML(['触发条件','动作','闭环'],
+    [['订单频率超限 100% 持续 3s','策略级自动熔断 + 撤单','BR-2026-0926-01'],
+     ['tick-to-trade P99 超预算 25% 持续 5min','自动降频 20%','BR-2026-0925-02'],
+     ['行情缺口 / 幽灵价差 >10bp','撤套利腿 + 快照重建','BR-2026-0924-01'],
+     ['库存偏移超 ±8%','强制对冲 + 降挂单规模','—'],
+     ['人工触发（2FA）','全局或策略级停止','本页']]
+    .map(r=>[`<b>${esc(r[0])}</b>`,`<span class="small">${esc(r[1])}</span>`,`<span class="mono small">${esc(r[2])}</span>`])),'tight')}`;
+};
+
+/* ---------- 熔断与冷静期 ---------- */
+RENDER.breaker = ()=>{
+  const main = STATE.incidents[0];
+  const cur = STATE.loop.limitApplied?4:STATE.loop.pmDone?3:main.step;
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R14'))}
+  <div class="note warn"><span class="ni">⌁</span><span><b>熔断 ≠ 惩罚，是止损。</b>触发后自动撤单 → 冷静期 → 复盘归因 → 限额调整 → 恢复。恢复的前置条件：复盘完成 + 限额调整生效（R16）。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('熔断中','1','<span class="tag bad">GRID-FUT-08</span>')}
+    ${kpiCard('30 日熔断','3 次','<span class="tag warn">全部自动触发</span>')}
+    ${kpiCard('自动撤单成功率','100%','<span class="tag ok">4,212 挂单 240ms 内</span>')}
+    ${kpiCard('波动率联动保证金','已启用','<span class="tag teal">R14 · 波动率 +2σ 自动上调</span>')}
+  </div>
+  ${panel('当前熔断案 · BR-2026-0926-01（GRID-FUT-08）','',`
+    ${statusStepper(['限额触发','自动撤单','熔断执行','复盘归因','限额调整 · 恢复'], cur)}
+    <div class="kv"><span class="k">触发原因</span><span class="v">${esc(main.trigger)}</span></div>
+    <div class="kv"><span class="k">冷静期</span><span class="v mono">${esc(main.cooldown)}</span></div>
+    <div class="kv"><span class="k">波动率状态</span><span class="v">BTC 1min 波动 1.8σ · 保证金要求已上调 10%（R14）</span></div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn p" data-act="breaker-resume" ${cur>=4?'':'disabled'}>恢复运行（需复盘完成 + 限额调整生效）</button>
+      <a class="btn" data-go="pm">前往复盘归因 →</a>
+    </div>
+    ${cur<4?'<div class="small muted" style="margin-top:6px">恢复按钮在「复盘归因完成 + 限额 900/s 审批生效」后可用 —— 跳步恢复等于把同一事故再跑一遍。</div>':''}`)}
+  <div class="sec-title"><b>熔断历史</b></div>
+  ${panel('',tableHTML(
+    ['熔断案','策略','触发原因','级别','冷静期处置','状态','时间'],
+    STATE.incidents.map(c=>[
+      `<span class="mono link">${esc(c.id)}</span>`, `<b class="mono">${esc(c.strat)}</b>`,
+      `<span class="small" style="max-width:260px;display:inline-block">${esc(c.trigger)}</span>`,
+      sevTag(c.sev), `<span class="small muted" style="max-width:240px;display:inline-block">${esc(c.cooldown)}</span>`,
+      tags(c.st), esc(c.t)])),'tight')}`;
+};
+
+/* ---------- 异常报价检测 ---------- */
+RENDER.quote = ()=>{
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R08'))}
+  <div class="note info"><span class="ni">⚑</span><span><b>宽报价（失真）与疲劳报价（高频改单）是两大异常形态。</b>高频撤改单可能被认定为虚假申报 —— 撤单率与报撤比需设阈值并保留可解释说明；改单在多数场所等价于撤单加新单（R08）。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('待处置','1','<span class="tag bad">宽报价 · MM-BTC-01</span>')}
+    ${kpiCard('处置中','1','<span class="tag warn">疲劳报价 · 限流 50%</span>')}
+    ${kpiCard('自成交 STP 拦截（今日）','2 次','<span class="tag b">Cancel Newest（R07）</span>')}
+    ${kpiCard('报撤比监控策略','8','<span class="tag ok">阈值 20:1</span>')}
+  </div>
+  ${panel('异常报价队列','处置动作全部 2FA + 留痕',tableHTML(
+    ['工单','策略','类型','详情','建议处置','状态','时间',''],
+    STATE.quoteAnom.map(q=>[
+      `<span class="mono link">${esc(q.id)}</span>`, `<b class="mono">${esc(q.strat)}</b>`,
+      `<span class="tag ${q.type==='宽报价'?'bad':q.type==='疲劳报价'?'warn':q.type==='自成交风险'?'b':'warn'}">${esc(q.type)}</span>`,
+      `<span class="small" style="max-width:320px;display:inline-block">${esc(q.detail)}</span>`,
+      `<span class="small muted" style="max-width:200px;display:inline-block">${esc(q.act)}</span>`,
+      tags(q.st), `<span class="mono small">${esc(q.t)}</span>`,
+      q.st!=='已关闭'?`<button class="btn sm danger" data-qa="${esc(q.id)}">处置</button>`:'<span class="muted small">—</span>'])),'tight')}
+  <div class="g23">
+  ${panel('报撤比监控（交易所异常交易口径）','',`
+    <div class="heat">${Array.from({length:36},(_,i)=>`<i style="background:rgba(246,70,93,${i<5?0.55:0.12+((i*29)%60)/220})"></i>`).join('')}</div>
+    <div class="small muted" style="margin-top:8px">策略 × 时段报撤比热力 · 红色区为 GRID-FUT-08（撤单率 99.3%，已熔断并关联交易所问询）。</div>`)}
+  ${panel('自成交防范（STP）','',`
+    <div class="kv"><span class="k">防范模式</span><span class="v">STP Cancel Newest（保留旧队列位置）</span></div>
+    <div class="kv"><span class="k">覆盖范围</span><span class="v"><span class="tag ok">同账户 + 关联账户</span></span></div>
+    <div class="kv"><span class="k">返佣联动</span><span class="v"><span class="tag warn">R07：返佣激励下自成交概率上升，防范与返佣联合设计</span></span></div>
+    <div class="kv"><span class="k">拦截留痕</span><span class="v">每次拦截可解释 · 可举证</span></div>`)}
+  </div>`;
+};
+
+/* ---------- 告警中心 ---------- */
+RENDER.alarms = ()=>`
+  ${ruleAnno(ARULES.find(r=>r.id==='R01'))}
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('新增告警', String(STATE.alarms.filter(a=>a.st==='new').length), '<span class="tag bad">需确认</span>')}
+    ${kpiCard('已确认处置','1','<span class="tag warn">跟踪中</span>')}
+    ${kpiCard('自动熔断联动','1','<span class="tag bad">BR-2026-0926-01</span>')}
+    ${kpiCard('告警 → 处置时延','P50 4.2min','<span class="tag teal">人工介入项</span>')}
+  </div>
+  ${panel('告警列表','',`<table class="dt">
+    <thead><tr><th>告警</th><th>系统</th><th>级别</th><th>内容</th><th>时间</th><th>状态</th><th class="r">操作</th></tr></thead>
+    <tbody>${STATE.alarms.map(a=>`
+      <tr><td class="mono link" data-al="${a.id}">${esc(a.id)}</td><td>${esc(a.sys)}</td>
+      <td>${sevTag(a.sev)}</td><td style="max-width:360px">${esc(a.msg)}</td><td class="mono">${esc(a.t)}</td>
+      <td>${tags(a.st==='new'?'待审':a.st==='acked'?'处置中':'已关闭')}</td>
+      <td class="r">${a.st==='new'?`<button class="btn sm" data-al-ack="${a.id}">确认</button>`:'<span class="muted small">—</span>'}</td></tr>`).join('')}</tbody></table>`,'tight')}`;
+
+/* ---------- 席位资源与机房 ---------- */
+RENDER.colo = ()=>{
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R09'))}
+  <div class="note info"><span class="ni">▤</span><span><b>机位差异只在微秒量级，但会被套利者完全套利掉</b> —— 选错机柜等于把策略收益上限提前写死。主备切换必须在不丢序号的前提下完成（R09），切换窗口继续发单会产生重复委托。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('机柜','5','<span class="tag b">东京 LD4 ×4 · 新加坡备份 ×1</span>')}
+    ${kpiCard('总功耗','25.1kW / 42kW','<span class="tag warn">A07 达 82% 上限</span>')}
+    ${kpiCard('交叉连接','30 条','<span class="tag ok">同楼撮合直连</span>')}
+    ${kpiCard('微波链路可用性','99.96%','<span class="tag teal">跨城 0.21ms · 比光纤快 40%</span>')}
+  </div>
+  ${panel('席位与机柜','',tableHTML(
+    ['机柜','场所 / 位置','功耗','','交叉连接','主链路','备份链路','状态'],
+    STATE.racks.map(r=>{
+      const p = Math.round(r.power/r.powerMax*100);
+      return [
+        `<b class="mono link">${esc(r.rack)}</b>`, `<span class="small">${esc(r.venue)}</span>`,
+        `<span class="mono">${r.power}kW / ${r.powerMax}kW · ${p}%</span>`,
+        {v:`<div class="progress ${p>80?'warn':'ok'}"><i style="width:${p}%"></i></div>`},
+        `<span class="mono">${r.xconn}</span>`, `<span class="small">${esc(r.lat)}</span>`,
+        `<span class="small muted">${esc(r.backup)}</span>`, tags(r.st)];
+    })),'tight')}
+  <div class="g23">
+  ${panel('主备链路切换（R09）','',`
+    <div class="kv"><span class="k">主路径</span><span class="v">跨城光纤 0.38ms · 序号连续校验</span></div>
+    <div class="kv"><span class="k">备路径</span><span class="v">微波毫米波 0.21ms · 天气降级预案</span></div>
+    <div class="kv"><span class="k">切换约束</span><span class="v"><span class="tag bad">不丢序号 · 不重发 · 窗口内禁止发单</span></span></div>
+    <div class="kv"><span class="k">固件基线</span><span class="v"><span class="tag ok">交换机/网卡固件冻结 · 变更走灰度</span></span></div>
+    <div class="kv"><span class="k">重连对账</span><span class="v">重连后重对订单簿 + 自有挂单（防孤儿单）</span></div>
+    <button class="btn sm" data-act="failover" style="margin-top:10px">主备切换演练（2FA）</button>`)}
+  ${panel('机房资源热力（功耗 × 温度）','',`
+    <div class="heat">${Array.from({length:36},(_,i)=>`<i style="background:${i===6||i===7||i===18?'rgba(240,185,11,.6)':`rgba(47,124,246,${0.10+((i*31)%70)/240})`}"></i>`).join('')}</div>
+    <div class="small muted" style="margin-top:8px">A07（RJ-T2-A07）为高负载热点：内核旁路 + FPGA 服务器集中，建议均衡迁移至 B06（预留 5.6kW）。</div>`)}
+  </div>`;
+};
+
+/* ---------- 费用与返佣 ---------- */
+RENDER.fees = ()=>{
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R04'))}
+  ${ruleAnno(ARULES.find(r=>r.id==='R07'))}
+  <div class="note info"><span class="ni">％</span><span><b>高频策略单笔利润常小于手续费，费率档位差异足以决定策略生死。</b>费率或限速变更后必须当日重算全部策略盈亏（R04）；过度依赖返佣的盈利结构在费率变更时会瞬间转为亏损。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('Maker 返佣净额','+$60.5K / 月','<span class="tag ok">3 场所付费返佣</span>')}
+    ${kpiCard('Taker 成本（月）','$182.4K','<span class="tag warn">套利腿为主</span>')}
+    ${kpiCard('返佣依赖度 <span class="k-pair">×利润占比</span>','11.8%','<span class="tag teal">R07 结构性风险监控</span>')}
+    ${kpiCard('每百万成交成本','$18.4','<span class="tag b">环比 -3.2%</span>')}
+  </div>
+  ${panel('各场所费率与返佣','',tableHTML(
+    ['场所','费率档','Maker','Taker','返佣净额','30 日成交量','状态'],
+    STATE.fees.map(f=>[
+      `<b>${esc(f.venue)}</b>`, `<span class="tag b">${esc(f.tier)}</span>`,
+      `<span class="mono">${esc(f.maker)}</span>`, `<span class="mono">${esc(f.taker)}</span>`,
+      `<span class="mono" style="color:var(--ok)">${esc(f.rebate)}</span>`,
+      `<span class="mono">${esc(f.vol)}</span>`, tags(f.st)])),'tight')}
+  <div class="g23">
+  ${panel('返佣依赖度与费率敏感性','',`
+    <div class="rate-lb"><span>返佣依赖度（返佣 ÷ 毛利）</span><span class="mono">11.8% · 安全线 <25%</span></div>
+    <div class="progress ok" style="margin-bottom:10px"><i style="width:47%"></i></div>
+    <div class="kv"><span class="k">费率敏感性</span><span class="v">Maker 返佣归零 → 3 策略边际利润转负</span></div>
+    <div class="kv"><span class="k">返佣考核达标</span><span class="v"><span class="tag ok">报价密度 / 挂单时间 全达标</span></span></div>
+    <div class="kv"><span class="k">自成交防范联动</span><span class="v"><span class="tag warn">返佣激励 ↑ 自成交风险（R07 · STP 拦截今日 2 次）</span></span></div>
+    <div class="kv"><span class="k">变更跟踪</span><span class="v">Hyperliquid 做市计划调整跟踪中</span></div>
+    <button class="btn sm" data-act="recalc-fees" style="margin-top:10px">模拟：费率变更 · 当日重算（R04）</button>`)}
+  ${panel('挂单吃单经济（口径：扣费后）','',`
+    <div class="kv"><span class="k">被动成交占比</span><span class="v mono">78.6%（maker 为主）</span></div>
+    <div class="kv"><span class="k">价差捕获 vs 手续费</span><span class="v mono">+$2.14 vs -$1.86 / 笔</span></div>
+    <div class="kv"><span class="k">单笔期望（扣费）</span><span class="v mono">+$0.28 / 笔</span></div>
+    <div class="kv"><span class="k">风险提示</span><span class="v"><span class="tag warn">只覆盖手续费的报价是慢性亏损</span></span></div>`)}
+  </div>`;
+};
+
+/* ---------- 合规报送 ---------- */
+RENDER.regrep = ()=>{
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R05'))}
+  <div class="note info"><span class="ni">⇪</span><span><b>程序化交易报送（穿透式）+ 审计轨迹。</b>高频须按交易所要求报备策略类型、最高申报速率与单账户上限；异常报撤需出具说明；时钟不可信则一切留痕不可信（R05），证据包绑定 PTP 偏移曲线。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('今日报送','2','<span class="tag ok">全量穿透式</span>')}
+    ${kpiCard('待报送','1','<span class="tag warn">异常报撤说明 · T+1</span>')}
+    ${kpiCard('30 日报送','26 件','<span class="tag b">0 逾期</span>')}
+    ${kpiCard('监管问询响应','1 件处理中','<span class="tag bad">GRID-FUT-08 撤单率问询</span>')}
+  </div>
+  ${panel('报送队列（CAT / 程序化交易报告）','',tableHTML(
+    ['编号','类型','范围','时限','状态','时间'],
+    STATE.regrep.map(r=>[
+      `<span class="mono link">${esc(r.id)}</span>`, `<b>${esc(r.type)}</b>`,
+      `<span class="small" style="max-width:300px;display:inline-block">${esc(r.scope)}</span>`,
+      `<span class="mono small">${esc(r.due)}</span>`, tags(r.st), esc(r.t)])),'tight')}
+  <div class="g23">
+  ${panel('审计轨迹与证据包','',`
+    <div class="kv"><span class="k">审计日志留存</span><span class="v"><span class="tag ok">≥6 个月（等保三级）</span></span></div>
+    <div class="kv"><span class="k">只追加 · 防篡改</span><span class="v">链式哈希 WORM</span></div>
+    <div class="kv"><span class="k">订单簿与延迟数据</span><span class="v"><span class="tag ok">留存供监管调取</span></span></div>
+    <div class="kv"><span class="k">参数 / 规则版本对齐</span><span class="v"><span class="tag ok">历史可归因（R12）</span></span></div>
+    <button class="btn sm" data-act="evidence" style="margin-top:10px">生成监管证据包（模拟）</button>`)}
+  ${panel('最高申报速率报备（单账户上限）','',`
+    <div class="kv"><span class="k">账户 8841 · 报备上限</span><span class="v mono">12,000 报单/s</span></div>
+    <div class="kv"><span class="k">实测峰值（30d）</span><span class="v mono">9,840/s · 82%</span></div>
+    <div class="kv"><span class="k">超备报需</span><span class="v"><span class="tag warn">上调上限需提前报备并获批</span></span></div>
+    <div class="kv"><span class="k">时钟证据绑定</span><span class="v"><span class="tag ok">PTP 偏移 +12ns · 硬件时间戳（R05）</span></span></div>`)}
+  </div>`;
+};
+
+/* ---------- 复盘归因 ---------- */
+RENDER.pm = ()=>{
+  const main = STATE.pms[0];
+  return `
+  ${ruleAnno(ARULES.find(r=>r.id==='R03'))}
+  ${ruleAnno(ARULES.find(r=>r.id==='R12'))}
+  ${ruleAnno(ARULES.find(r=>r.id==='R13'))}
+  <div class="note info"><span class="ni">◔</span><span><b>盈亏归因必须分解为：价差捕获 · 库存盈亏 · 逆向选择 · 手续费</b> —— 否则无法优化。归因数据使用与实盘同源同序的确定性回放，换第三方数据复盘通常得出相反结论。委托终态是「已清算已交收」而非已成交（R03）。</span></div>
+  <div class="kpis" style="margin-bottom:14px">
+    ${kpiCard('归因中','1','<span class="tag warn">PM-2026-006</span>')}
+    ${kpiCard('30 日已闭环','2','<span class="tag ok">建议采纳率 86%</span>')}
+    ${kpiCard('熔断损失（本日）','-$61,204','<span class="tag bad">GRID-FUT-08</span>')}
+    ${kpiCard('回放数据一致性','100%','<span class="tag teal">同源同序 · 确定性回放</span>')}
+  </div>
+  ${panel('PM-2026-006 · GRID-FUT-08 熔断复盘','',`
+    ${splitBar(main.split)}
+    <div class="kv" style="margin-top:8px"><span class="k">合计净损益</span><span class="v mono" style="color:var(--bad)">${fmtPnl(main.pnl)}</span></div>
+    <div class="divider"></div>
+    <div class="kv"><span class="k">根因（可解释）</span><span class="v small">${esc(main.root)}</span></div>
+    <div class="kv"><span class="k">整改建议</span><span class="v small">${esc(main.sug)}</span></div>
+    <div class="kv"><span class="k">委托状态机核对</span><span class="v"><span class="tag ok">已成交 4,206 → 已清算 4,206 → 已交收 4,206（R03/R13）</span></span></div>
+    <div class="btn-row" style="margin-top:10px">
+      ${main.st==='归因中'?'<button class="btn p" data-act="pm-conclude">完成归因 · 推送限额建议（2FA）</button>':`<span class="tag ok">已闭环 · 建议已同步实时限额页</span>`}
+      <a class="btn" data-go="limits">前往实时限额 →</a>
+    </div>`)}
+  <div class="sec-title"><b>归因案例（30 日）</b></div>
+  ${panel('',tableHTML(
+    ['案例','事件','净损益','根因','状态'],
+    STATE.pms.map(p=>[
+      `<span class="mono link">${esc(p.id)}</span>`, `<span class="small">${esc(p.incident)}</span>`,
+      {v:`<span class="mono" style="color:${p.pnl>=0?'var(--ok)':'var(--bad)'}">${fmtPnl(p.pnl)}</span>`,r:1},
+      `<span class="small muted" style="max-width:320px;display:inline-block">${esc(p.root)}</span>`,
+      tags(p.st)])),'tight')}`;
+};
+
+/* ---------- 操作审计 ---------- */
+RENDER.audit = ()=>`
+  <div class="note info"><span class="ni">☰</span><span><b>只追加审计轨迹</b>：谁在何时对何对象做了什么，链式哈希防篡改。本会话所有敏感操作（限额调整 / Kill Switch / 熔断恢复 / 越权拦截）均实时写入。</span></div>
+  ${panel('审计流水（本会话）','<span class="mono small">'+STATE.audit.length+' 条</span>',
+    STATE.audit.length? tableHTML(['时间','操作人','角色','动作','对象','详情','来源 IP','级别'],
+      STATE.audit.map(a=>[`<span class="mono">${esc(a.t)}</span>`, esc(a.op), `<span class="tag b">${esc(a.role)}</span>`,
+        esc(a.act), `<span class="mono small">${esc(a.target)}</span>`, `<span class="small muted">${esc(a.detail)}</span>`,
+        `<span class="mono small">${esc(a.ip)}</span>`,
+        `<span class="tag ${a.level==='ok'?'ok':a.level==='warn'?'warn':a.level==='bad'?'bad':''}">${esc(a.level||'info')}</span>`]))
+    : '<div class="small muted" style="padding:14px">暂无本会话操作。执行任意敏感操作（限额调整 / Kill Switch / 批准接入 / 切换角色）后回到本页查看。</div>','tight')}`;
+
+/* ---------- 角色与权限 ---------- */
+RENDER.rbac = ()=>`
+  <div class="note info"><span class="ni">⚙</span><span><b>最小权限原则：</b>策略接入 / 风控处置 / 交易监察三权分立；临时权限到期自动回收；权限变更全量审计。左上角可切换 4 种角色体验越权拦截。</span></div>
+  ${panel('角色权限矩阵','',`<table class="dt"><thead><tr><th>能力</th>${Object.values(ROLES).map(r=>`<th class="c">${esc(r.n)}</th>`).join('')}</tr></thead><tbody>
+    ${[['策略接入与审批','✓','✓','—','—'],['限额调整 / 放宽审批','✓','—','✓','—'],['Kill Switch 执行','✓','—','✓','—'],['熔断恢复','✓','—','✓','—'],['异常报价处置','✓','—','✓','✓'],['合规报送 / 监管对接','✓','—','✓','✓'],['复盘归因结论','✓','—','✓','—'],['席位与机房操作','✓','✓','—','—'],['角色与权限管理','✓','—','—','—']]
+    .map(row=>`<tr>${row.map((c,i)=>i===0?`<td><b>${esc(c)}</b></td>`:`<td class="c">${c==='✓'?'<span style="color:var(--ok)">✓</span>':'<span class="muted">—</span>'}</td>`).join('')}</tr>`).join('')}
+  </tbody></table>`,'tight')}
+  <div class="grid2">
+    ${panel('临时权限（自动回收）','<div class="kv"><span class="k">沈知远 · 席位扩容审批（临时）</span><span class="v"><span class="tag warn">剩余 18h</span></span></div><div class="kv"><span class="k">到期回收</span><span class="v"><span class="tag ok">自动 · 忘记回收留后门</span></span></div>')}
+    ${panel('权限变更审计','<div class="kv"><span class="k">近 30 日变更</span><span class="v num">5 次 · 全留痕</span></div><div class="kv"><span class="k">越权拦截</span><span class="v"><span class="tag ok">实时 · 写审计</span></span></div>')}
+  </div>`;
+
+/* ======================= 策略抽屉 ======================= */
+function openStrat(id){
+  const s = STATE.strategies.find(x=>x.id===id); if(!s) return;
+  openDrawer(`
+    <div class="drawer-h"><b>策略详情 · ${esc(s.id)}</b><span class="x" data-act="d-close">✕</span></div>
+    <div class="drawer-b">
+      <div class="kv"><span class="k">名称 / 类型</span><span class="v"><b>${esc(s.n)}</b> · ${esc(s.type)}</span></div>
+      <div class="kv"><span class="k">场所</span><span class="v">${esc(s.venue)}</span></div>
+      <div class="kv"><span class="k">状态</span><span class="v">${tags(s.st)}</span></div>
+      <div class="kv"><span class="k">负责人 / 版本</span><span class="v">${esc(s.owner)} · ${esc(s.ver)}</span></div>
+      <div class="kv"><span class="k">席位 / FIX 会话</span><span class="v">${esc(s.seat)} · ${esc(s.fix)}</span></div>
+      <div class="divider"></div>
+      <div class="sec-title" style="margin-top:6px"><b>实时指标</b></div>
+      <div class="kv"><span class="k">今日 PnL</span><span class="v mono" style="color:${s.pnl>=0?'var(--ok)':'var(--bad)'}">${s.pnl===0?'（影子对拍 · 不下单）':fmtPnl(s.pnl)}</span></div>
+      <div class="kv"><span class="k">报单频率</span><span class="v mono">${esc(s.ops)}</span></div>
+      <div class="kv"><span class="k">成交比 / 延迟 P99</span><span class="v mono">${esc(s.fill)} · ${esc(s.latP99)}</span></div>
+      <div class="kv"><span class="k">库存偏移</span><span class="v">${skewBar(s.skew)}<span class="mono small">${s.skew>=0?'+':''}${s.skew}%</span></span></div>
+      <div class="kv"><span class="k">VPIN 毒性</span><span class="v"><span class="tag ${s.vpin>=0.6?'bad':s.vpin>=0.4?'warn':'ok'}">${s.vpin.toFixed(2)}</span></span></div>
+      <div class="divider"></div>
+      <div class="sec-title" style="margin-top:6px"><b>生命周期</b></div>
+      ${statusStepper(['接入审核','影子运行','上线','熔断/暂停','复盘·调整·恢复'], s.st==='运行中'?2:s.st==='已熔断'?3:s.st==='已暂停'?3:1, s.st==='已熔断'?3:99)}
+      ${s.st==='运行中'?`<div class="btn-row" style="margin-top:10px"><button class="btn danger" data-skill="${esc(s.id)}">⏻ 策略级 Kill（2FA）</button></div>`:''}
+      <div class="small muted" style="margin-top:10px">策略级 Kill 无需重启进程：撤单 → 停止组包 → 保留状态快照，恢复时从快照重建（状态不一致会造成仓位与内部认知错位）。</div>
+    </div>`);
+}
+
+/* ======================= 交互与启动 ======================= */
+const DEMO = {
+  'mm-detox': ()=>confirm2fa('毒性撤离 · MM-BTC-01',
+    `<div class="note bad"><span class="ni">⚑</span><span>VPIN 0.72（高毒性流）：将撤全报价 → 价差加宽至 6.8bp → 挂单规模降至 40%，防止持续被逆向选择成交。</span></div>
+     <div class="kv"><span class="k">恢复条件</span><span class="v">VPIN 回落 <0.45 持续 10min 后自动恢复</span></div>`,
+    '执行毒性撤离', ()=>{
+      STATE.strategies[0].width='6.8bp';
+      pushAudit('毒性撤离','MM-BTC-01','VPIN 0.72 · 价差加宽 6.8bp · 规模 40%','warn');
+      render(); toast('✓ 毒性撤离已执行：MM-BTC-01 价差加宽，恢复正常后自动回归','warn');
+    },'R01'),
+  'arb-freeze': ()=>confirm2fa('冻结套利腿 · ARB-CX-03',
+    `<div class="note bad"><span class="ni">⛔</span><span>检测到 Bybit 行情序号缺口（缺 1 条即整段作废 R06）：冻结双腿 → 撤销残留挂单 → 快照重建后再评估。</span></div>
+     <div class="kv"><span class="k">当前裸露</span><span class="v mono">单边敞口 $0（双腿原子 · 未裸露）</span></div>`,
+    '执行冻结', ()=>{
+      pushAudit('套利腿冻结','ARB-CX-03','行情缺口 · 双腿冻结 · 快照重建','bad');
+      render(); toast('🛑 ARB-CX-03 双腿已冻结，快照重建中（R06）','bad');
+    },'R06'),
+  'apply-pm-limit': ()=>confirm2fa('审批限额调整 · GRID-FUT-08',
+    `<div class="note warn"><span class="ni">▦</span><span><b>PM-2026-006 复盘建议：</b>订单频率限额 1,500/s → <b>900/s</b>（收紧，无需放宽审批但同样可回滚）。</span></div>
+     <div class="kv"><span class="k">生效口径</span><span class="v">当日生效（R04）· 旧规则版本保留可回滚（R16）</span></div>`,
+    '2FA 审批生效', ()=>{
+      STATE.loop.limitApplied = true;
+      pushAudit('限额调整','GRID-FUT-08','1,500/s → 900/s · PM-2026-006 建议 · R16 审批','warn');
+      render(); toast('✓ 限额已生效（当日生效 R04）：可至熔断页执行恢复','ok');
+    },'R16/R04'),
+  'pm-conclude': ()=>confirm2fa('完成归因 · PM-2026-006',
+    `<div class="note ok"><span class="ni">◔</span><span>归因结论：参数未绑定实验记录（R12）+ 回测未模拟队列位置（R11）→ 挂撤循环在行情降级后失控。建议：<b>频率限额 1,500→900/s</b> + 强制影子对拍达标。</span></div>`,
+    '确认归因结论', ()=>{
+      STATE.loop.pmDone = true; STATE.pms[0].st='已闭环';
+      pushAudit('复盘归因','PM-2026-006','根因确认 · 限额建议已同步实时限额页','ok');
+      render(); toast('✓ 归因完成：建议已推送实时限额页（待审批 R16）','ok');
+    },'R12/R11'),
+  'kill-global': ()=>confirm2fa('触发全局 KILL SWITCH',
+    `<div class="note bad"><span class="ni">⏻</span><span>将立即撤销全部挂单并切断报单组包链路。<b>影响范围：</b>8 个策略 · 挂单 4,212 → 0 · 全局敞口 $18.4M 冻结。</span></div>
+     <div class="kv"><span class="k">恢复路径</span><span class="v">逐策略 2FA 复核后恢复（不自动恢复）</span></div>`,
+    '2FA 确认触发', ()=>{
+      STATE.kill.global = true;
+      STATE.strategies.forEach(s=>{ if(s.st==='运行中') s.st='已暂停'; });
+      pushAudit('全局 Kill Switch','全部策略','演练触发 · 挂单全撤 · 敞口冻结','bad');
+      render(); toast('🛑 全局 Kill Switch 已执行：挂单全撤，报单链路停止（演练）','bad');
+    },'R01'),
+  'kill-resume': ()=>confirm2fa('恢复报单链路',
+    `<div class="note warn"><span class="ni">⏻</span><span>恢复前核对：订单簿已重建 · 自有挂单已对账 · 仓位与内部状态一致（防孤儿单与账实不符）。</span></div>`,
+    '2FA 恢复', ()=>{
+      STATE.kill.global = false;
+      STATE.strategies.forEach(s=>{ if(s.st==='已暂停') s.st='运行中'; });
+      pushAudit('恢复报单','全部策略','逐策略复核通过 · 挂单对账一致','ok');
+      render(); toast('✓ 报单链路已恢复（不含熔断中的 GRID-FUT-08）','ok');
+    },'R16'),
+  'breaker-resume': ()=>{
+    if(!STATE.loop.limitApplied){ toast('⛔ 恢复被拦截：限额规则调整尚未审批生效。闭环要求：复盘归因 → 限额调整 → 恢复（R16）。','bad'); return; }
+    confirm2fa('恢复 GRID-FUT-08 运行',
+      `<div class="note ok"><span class="ni">⌁</span><span>前置条件核对：复盘 PM-2026-006 已闭环 ✓ · 限额 900/s 已生效 ✓ · 冷静期已过 ✓ · 库存偏移已对冲回收至 +3.1% ✓</span></div>`,
+      '2FA 恢复运行', ()=>{
+        const s = STATE.strategies.find(x=>x.id==='GRID-FUT-08'); s.st='运行中'; s.skew=3.1; s.ops='284/s';
+        STATE.incidents[0].st='已闭环'; STATE.incidents[0].step=4;
+        STATE.incidents[0].cooldown='限额 900/s 生效 · 已恢复运行';
+        pushAudit('熔断恢复','GRID-FUT-08','限额调整生效后恢复 · 灰度 20% 起步','ok');
+        render(); toast('✓ GRID-FUT-08 已恢复运行（限额 900/s · 灰度 20% 起步）','ok');
+      },'R16');
+  },
+  'failover': ()=>confirm2fa('主备链路切换演练',
+    `<div class="note warn"><span class="ni">▤</span><span>光纤主 → 微波备切换演练：<b>序号连续 · 不重发 · 切换窗口内暂停发单</b>（R09）。演练覆盖 RJ-T2-A07 / A08 / B03。</span></div>`,
+    '执行演练', ()=>{
+      pushAudit('主备链路切换演练','RJ-T2-A07/08/B03','微波备路径 · 序号连续 · 无重复委托','warn');
+      toast('✓ 切换完成：序号连续，0 重复委托，P99 抖动 1 个窗口后回落','ok');
+    },'R09'),
+  'recalc-fees': ()=>{
+    pushAudit('费率当日重算','全策略','Hyperliquid 返佣调整 · R04 当日生效','warn');
+    toast('✓ 已按新费率当日重算全部策略盈亏口径（R04）：无策略边际利润转负','ok');
+  },
+  'evidence': ()=>{
+    toast('证据包生成中：PTP 偏移曲线 + tick-to-trade 分位 + 报备速率核对…','ok');
+    pushAudit('证据包生成','regrep','监管抽查响应 · 时钟证据绑定 R05');
+    setTimeout(()=>toast('✓ 证据包已生成并通过链式哈希完整性校验','ok'),2400);
+  }
+};
+document.addEventListener('click', e=>{
+  const act = e.target.closest('[data-act]');
+  if(act){
+    const a = act.dataset.act;
+    if(a==='do-login'){ $('#loginMask').classList.add('bye'); toast('欢迎回来，<b>陆则明</b> · 会话已建立（15 分钟空闲锁屏）','ok'); pushAudit('登录','console','2FA + FIDO2 通过','ok'); }
+    else if(a==='fold'){ $('#wb').classList.toggle('folded'); }
+    else if(a==='theme'){ const h=document.documentElement; h.dataset.theme = h.dataset.theme==='dark'?'light':'dark'; }
+    else if(a==='rule-toggle'){ $('#wb').classList.toggle('rule-on'); const on=$('#wb').classList.contains('rule-on'); act.classList.toggle('on',on); toast(on?'⚑ 红线标注已开启：页面浮现 16 条致命规则的落点':'红线标注已关闭'); }
+    else if(a==='bell'){ const p=$('#bellPanel'); p.classList.toggle('on'); if(p.classList.contains('on')) renderBell(); }
+    else if(a==='palette'){ openPalette(); }
+    else if(a==='d-close'){ closeDrawer(); }
+    else if(a==='m-cancel'){ closeModal(); }
+    else if(DEMO[a]) DEMO[a]();
+    return;
+  }
+  const sk = e.target.closest('[data-skill]');
+  if(sk){ const id=sk.dataset.skill; const s=STATE.strategies.find(x=>x.id===id);
+    if(s) confirm2fa('策略级 Kill · '+id, `<div class="note bad"><span class="ni">⏻</span><span>撤全 <b>${esc(id)}</b> 挂单并停止报单，进程与状态快照保留，不重启。</span></div><div class="kv"><span class="k">当前挂单</span><span class="v mono">${id==='MM-BTC-01'?'1,842':'624'} 张</span></div>`,'2FA 执行 Kill',()=>{
+      s.st='已暂停'; pushAudit('策略级 Kill',id,'2FA 执行 · 撤单完成 · 状态快照保留','bad'); closeDrawer(); render(); toast('🛑 '+id+' 已停止（快照保留，可恢复）','bad'); },'R01'); return; }
+  const qa = e.target.closest('[data-qa]');
+  if(qa){ const q=STATE.quoteAnom.find(x=>x.id===qa.dataset.qa);
+    if(q) confirm2fa('异常报价处置 · '+q.id, `<div class="note bad"><span class="ni">⚑</span><span>${esc(q.detail)}</span></div>
+      <div class="fld"><label>处置动作</label><select class="inp"><option>强制撤价 + 加宽价差</option><option>限流 50% + 降挂单规模</option><option>暂停双边报价（保留库存对冲）</option><option>转策略级熔断</option></select></div>
+      <div class="fld"><label>处置说明（留痕）<span class="req"></span></label><input class="inp" id="qaNote" placeholder="必填：认定依据"></div>`,
+      '执行处置', ()=>{ q.st='处置中'; pushAudit('异常报价处置',q.id,q.strat+' · '+($('#qaNote')?.value||''),'bad'); render(); toast('处置已执行：写入审计并同步监察台账','warn'); },'R08'); return; }
+  const al = e.target.closest('[data-al]');
+  if(al){ const t=STATE.alarms.find(x=>x.id===al.dataset.al); if(t) openDrawer(`<div class="drawer-h"><b>告警详情 · ${esc(t.id)}</b><span class="x" data-act="d-close">✕</span></div><div class="drawer-b"><div class="kv"><span class="k">系统</span><span class="v">${esc(t.sys)}</span></div><div class="kv"><span class="k">级别</span><span class="v">${sevTag(t.sev)}</span></div><div class="kv"><span class="k">内容</span><span class="v">${esc(t.msg)}</span></div><div class="kv"><span class="k">时间</span><span class="v mono">${esc(t.t)}</span></div></div>`); }
+  const ack = e.target.closest('[data-al-ack]');
+  if(ack){ const t=STATE.alarms.find(x=>x.id===ack.dataset.alAck); if(t){ t.st='acked'; pushAudit('告警确认',t.id,t.sys,'warn'); render(); toast('告警已确认并进入处置','ok'); } }
+});
+
+/* ⌘K 键盘 */
+document.addEventListener('keydown', e=>{
+  if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openPalette(); return; }
+  if(!$('#palette').classList.contains('on')) return;
+  if(e.key==='ArrowDown'){ palIdx=Math.min(palIdx+1,palItems.length-1); renderPal(); }
+  else if(e.key==='ArrowUp'){ palIdx=Math.max(palIdx-1,0); renderPal(); }
+  else if(e.key==='Enter'){ palItems[palIdx] && (palItems[palIdx].go(), closePalette()); }
+  else if(e.key==='Escape'){ closePalette(); }
+});
+$('#palInput').addEventListener('input', e=>{ palSearch(e.target.value); palIdx=0; });
+$('[data-pmask]').onclick = closePalette;
+$('[data-dmask]').onclick = closeDrawer;
+$('[data-mmask]').onclick = closeModal;
+document.addEventListener('click', e=>{ if(!e.target.closest('.bell-wrap')) $('#bellPanel').classList.remove('on'); });
+
+/* 报单消息流计数跳动 */
+setInterval(()=>{ const el=$('#blockNum'); if(el){ const v=parseInt(el.textContent.replace(/,/g,''))+Math.floor(Math.random()*900+300); el.textContent=v.toLocaleString('en-US'); } }, 2000);
+
+/* 启动 */
+renderRoleSwitch();
+renderBell();
+render();
+syncBell();
+</script>
+</body>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gas费平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>Gas费平台全景</b>
+    <span>Gas费平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>Gas费平台产品功能全景图谱</h1>
+    <p>Gas 费平台是把每一次链上交互的成本变成<b>可预测、可优化、可代付</b>的基础设施层。当 18 类费率模型并存、54 类用户（从散户到做市商）都在为把交易写进区块付费时，谁能把 gas 从技术噪音变成产品体验，谁就握住了 Web3 的入口；这背后是 216 量级的年度链上成本在等待被重新分配。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">20 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线是：先让 gas 变成可计算的数字（机制建模与估算预测），再让它变成可优化与可代付的服务（优化引擎与 Paymaster），最后让它变成可经营的市场（打包市场、费金融化与机构对账）。gas 费不是成本项，而是用户入口、风控资产与商业模式的交汇点。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）费率与代付底座</td><td>机制模型、估算预测、行情数据、优化引擎、AA 代付</td><td>把 gas 变成可计算的数字</td></tr>
+<tr><td>第2层（d6–d9）执行与博弈层</td><td>relayer 网络、EIP-7702、MEV 防护、费金融化</td><td>把 gas 变成可博弈的筹码</td></tr>
+<tr><td>第3层（d10–d14）体验与机构层</td><td>无 Gas 钱包、L2 blob 费市场、机构对账、安全风控、数据 API</td><td>把 gas 变成可经营的业务</td></tr>
+<tr><td>第4层（d15–d18）市场与前沿层</td><td>打包与 builder 市场、无 Gas SDK、模拟仿真、AI 定价</td><td>把 gas 变成可定价的市场</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">先决判断：<b>一</b>、必须有自建的多链费率数据底座（多源融合+历史分位），透传节点报价的产品撑不过一个拥堵季；<b>二</b>、必须有代付风控能力（女巫识别+配额+审计留痕）先于代付规模存在，否则免费 gas 等于公开撒钱；<b>三</b>、必须有按硬分叉演进的成本模型维护机制（EIP-4844、EIP-7623、7702 都会改写成本结构）。</div>
+    <div class="danger">死亡陷阱：把「代付交易量暴涨」当成成功信号。<br>拥堵期代付量暴涨更可能是策略过宽被女巫薅、估算偏小导致重试翻倍，或 base fee 爬升让每笔代付成本翻倍——烧钱速度和增长速度同步上升，烧完 deposit 当晚全站静默失效。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断前沿方向落地优先级的一条标准：先看它依赖的协议级假设是否会被下一次硬分叉改写（如 gas 反退款、blob 目标数、7702 支持节奏），依赖协议补贴或单一协议行为的产品永远排在可在应用层自证的方案之后。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>base fee</td><td>EIP-1559 由块间 gas 偏差驱动的协议底价，每块最多浮动 12.5%</td><td>把它当固定价会在拥堵期系统性错估成本，代付预算与报价全线失效</td></tr>
+<tr><td>priority fee</td><td>给验证者的小费，决定交易在竞争中的排序位置</td><td>按绝对值而非分位数定价，要么浪费成本要么长期卡单</td></tr>
+<tr><td>blob fee</td><td>EIP-4844 引入的独立数据费用曲线，由 excess blob gas 驱动</td><td>与执行 gas 混算会让 L2 成本核算和费率预测全部失真</td></tr>
+<tr><td>Paymaster</td><td>ERC-4337 中替用户支付 gas 的角色，靠 EntryPoint deposit 结算</td><td>deposit 水位与 postOp 回收做错，无 Gas 功能静默停摆或持续漏收</td></tr>
+<tr><td>userOperation</td><td>账户抽象的用户意图对象，由 bundler 打包上链</td><td>字段与版本兼容处理错，代付与批量在升级后批量失败</td></tr>
+<tr><td>MEV</td><td>通过排序、插入或审查交易可提取的价值</td><td>不理解 MEV 的费用产品无法解释上链时序，也无法保护用户不被三明治</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">Gas 费平台处在四类监管域的交汇：金融牌照域（代付是否构成 money transmission 或支付业务）、数据合规域（费率与链上数据跨境、个人信息出境）、制裁与反洗钱域（代付地址筛查、混币交互）、以及市场行为域（订单流销售与衍生品化费率产品）。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1、<b>代付的牌照定性</b>——替用户支付 gas 在部分辖区可能构成货币传输，paymaster 资金池若涉及法币结算即触发支付牌照；<br>2、<b>代付的制裁筛查</b>——替受制裁地址代付是直接违规，代付前地址筛查必须强制而非可选；<br>3、<b>面向境内用户的推广</b>——924 通知框架下向境内用户宣传或提供加密交易配套服务不可开展，市场与内容必须地区隔离。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：锁定一个高痛场景（机构对账或钱包无 Gas 首笔）做单点闭环</li><li>第二步：自建多链费率数据与估算底座，形成单一事实源</li><li>第三步：接入代付与风控（Paymaster+女巫防御+审计留痕），跑通成本回收模型</li><li>第四步：向打包、模拟、对账延伸，把费率能力变成工具链</li><li>第五步：沉淀为机构终端与白标输出，形成数据与迁移成本护城河</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：面向钱包与 dApp 的代付基建（Pimlico/Gelato 模式）</li><li>路径 B：面向做市商与交易所的机构费用管理（Fireblocks/Bitwave 模式）</li><li>路径 C：面向 C 端的费率行情与成本工具（Etherscan/Dune 模式）</li><li>路径 D：面向 L2 运营方的 blob 调度与费率优化服务</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：第一资产都是<b>多链费率数据的单一事实源</b>——没有自建、可校准、可回放的费用数据，代付是盲付、对账是糊涂账、终端是无源之水。</div>
+  </section>
+
+  <footer>
+    <p>Gas费平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "产品全景总览"],
+ ["s1", "平台形态与商业本质"],
+ ["s2", "费率与代付底座功能域"],
+ ["s3", "执行与博弈层功能域"],
+ ["s4", "市场与前沿层功能域"],
+ ["s5", "前沿方向与产品化机会"],
+ ["s6", "能力中心"],
+ ["s7", "红线与指标"],
+ ["s8", "合规与牌照"],
+ ["s9", "机会点"]
+];
+const PLAYERS = [
+ ["节点与数据 API 平台", "Alchemy、QuickNode、Infura", "无（境内以合规数据服务替代）", "按调用计费的基础设施生意，费率数据是增值层"],
+ ["Gas 行情与浏览器平台", "Etherscan Gas Tracker、L2Fees.info", "无", "流量+广告+PRO 订阅的媒体生意"],
+ ["账户抽象基建平台", "Pimlico、Biconomy、Alchemy Gas Manager", "无", "代付即服务，按 relay call 计费"],
+ ["Relayer 与自动化网络", "Gelato、OpenZeppelin Defender", "无", "为执行可靠性收费，本质是外包交易执行"],
+ ["MEV 保护与私有交易", "Flashbots Protect、MEV Blocker", "无", "订单流变现与 MEV 回流分成"],
+ ["打包与 Builder 市场", "Flashbots、beaverbuild、Titan", "无", "区块空间批发竞价市场"],
+ ["钱包内置 Gas 服务", "Coinbase Smart Wallet、UXUY、MetaMask", "无", "获客与留存成本，体验即护城河"],
+ ["交易模拟与安全 SaaS", "Tenderly、Blockaid", "无", "按模拟与扫描量计费的安全生意"],
+ ["机构费用与财务管理", "Fireblocks、Bitwave", "无", "机构席位订阅，对账合规刚需"],
+ ["L2 排序器运营", "Optimism、Arbitrum、Base", "无", "薄利多销的费用生意加生态补贴"],
+ ["SDK 中间件平台", "Gelato Relay SDK、Biconomy SDK", "无", "集成深度决定迁移成本"],
+ ["数据终端与研究", "Dune、Amberdata、Blocknative", "无", "专业数据订阅与研究壁垒"]
+];
+const DOMAINS = [
+ ["d1", "Gas 机制与费率模型", "Gas Fee Model", "核心", "把每条链的成本生成机制建模成可计算、可预测的数字资产，是一切费率产品的地基", [["机制原理建模", [["base fee 弹性调节", "目标 gas 与实际 gas 的偏差驱动下块 base fee 上下 12.5% 浮动；把它当固定价，连续拥堵 7 块成本可翻倍，报价系统必须按曲线建模而不是取快照", "Etherscan Gas Tracker"], ["priority fee 分位定价", "priority fee 的有效值是验证者接受分布的分位数而非绝对值；平静期盲给 2 gwei 是纯浪费，拥挤期给不足则交易在 mempool 滞留数小时", "Blocknative"], ["blob fee 独立曲线", "EIP-4844 后 blob base fee 由 excess blob gas 单独驱动，与执行 gas 是两条曲线；合并报价会让 L2 结算成本核算完全失真", "Etherscan Blob Tracker"], ["calldata 定价变更追踪", "EIP-7623 抬高 calldata 成本后 L2 批量结算的成本假设被重构；成本模型不随硬分叉更新，运营方毛利会被悄悄吃掉", "L2Fees.info"]]], ["链间费率模型差异", [["Solana 计算单元模型", "Solana 用 CU 预算与优先费竞价，把 EVM 的 gwei 心智照搬过去会让用户反复交易失败；多链产品必须为每条链维护独立成本心智模型", "Solana Compass"], ["Tron 带宽能量质押", "Tron 的费用是资源质押而非即时付费，冻结 TRX 换带宽的能量经济学完全不同；按 gwei 思路核算提币成本会严重偏差", "TronScan"], ["非 EVM 费率抽象层", "Cosmos 用 gas adjustment 乘数、Aptos 用 gas unit price，链间没有统一语义；抽象层做错映射会出现显示成功实际失败或双倍扣费", "Chainstack"], ["L2 排序器定价权", "L2 费用由排序器自主定价，L1 结算成本只是其下限；把 L2 费当 L1 费推导会误判其毛利结构与补贴策略", "L2Fees.info"]]], ["费率口径与单位换算", [["gwei 精度与显示", "1 gwei 等于 10 的负 9 次方 ETH，小数显示位数错误在费率波动 10 倍时被放大成数量级错报；单位换算必须进统一货币类型库", "Etherscan Unit Converter"], ["gas limit 与 gas price 分离", "成本等于 limit 乘 price 加 blob 费，把 limit 当常数的报价在合约分支复杂时会严重偏小导致交易失败", "Tenderly"], ["多币种计价口径", "费用需同时以原生币与法币或稳定币计价展示，汇率快照时间不一致会造成财务对账差异", "CoinGecko"], ["gas limit 预留策略", "为合约分支与升级预留余量如 1.2 倍，余量过小升级后必败、过大给攻击留 gas 弹药；按操作类型设定预留而不是全局一个数", "OpenZeppelin"]]]]],
+ ["d2", "Gas 估算与拥堵预测", "Gas Estimation and Congestion Forecast", "核心", "在交易发出前回答花多少钱、多久上链、失败概率多大，误差直接决定用户信任与代付盈亏", [["实时估算引擎", [["动态估算替代静态", "eth_estimateGas 是单点静态值，不含即将入块的竞争交易；高拥堵下直接使用会系统性偏小，需加安全系数与重估循环", "Alchemy Gas API"], ["mempool 队列深度感知", "估算必须读待处理队列而非仅最新块；只看历史块的估算在突发 mint 时会滞后两三个块", "Blocknative"], ["失败重估与卡单兜底", "交易被低估卡住后需要 bump 策略与同 nonce 替换兜底；没有兜底的用户卡单一次就直接流失", "MetaMask"], ["分位数而非均值输出", "估算按 p50、p90、p99 分层而非均值，均值在长尾拥堵下系统性偏小；下游按风险偏好选分位，别替用户做决定", "Blocknative"]]], ["拥堵时段建模", [["事件驱动拥堵预测", "空投领取、NFT mint、交易所上币公告能在 1 分钟内把 base fee 推高 10 倍；纯历史均值模型完全失效，必须叠加事件日历信号", "Dune"], ["时区与日内周期", "欧美亚三时区叠加形成可预测的日内费率峰谷；批量归集与结算排到谷段可省三成以上成本", "内部系统"], ["到达率建模边界", "交易到达近似泊松过程但被 MEV 机器人脉冲打破；用纯泊松低估尾部拥堵会让估算置信区间虚窄", "Flashbots"], ["模型漂移监控", "硬分叉与生态事件让拥堵模型持续漂移，需监控预测误差并触发重训；无漂移监控的模型上线三个月后误差不可控", "Blocknative"]]], ["预测即服务", [["置信区间报价", "给用户的是预计值加 90% 置信区间而非点估计；点估计一旦偏差责任全在平台", "Blocknative"], ["多源估算融合", "多节点与多数据源的估算取中位数，单一数据源故障时全站报价静默漂移是重大事故源", "Chainlink Gas Price Oracle"], ["预测与执行联动", "预测结果要直接驱动代付预算与批量调度，预测和执行脱节时预测再准也省不了钱", "Gelato"], ["SLA 与免责边界", "预测服务的责任边界与误差免责条款要在合同写明；没有边界的预测责任在纠纷时全部归平台", "Amberdata"]]]]],
+ ["d3", "多链 Gas 行情与费差数据", "Multichain Gas Market Data", "成熟", "把全网费率做成可比较、可订阅、可分发行情，是流量入口与机构数据生意的交集", [["费率行情聚合", [["多链费率榜单", "用户决策的第一入口是现在哪条链便宜，聚合 20 条以上链的实时费率是流量底座；更新延迟超过一个块就会被竞品替代", "Etherscan Gas Tracker"], ["历史费率分布", "历史分位与峰谷分布是机构选结算时段、用户理解平时多便宜的依据；只有实时价没有历史分布的行情站价值有限", "Dune Analytics"], ["异常费率告警", "费率突变往往来自异常合约或攻击事件，需要秒级告警；费率异常常是安全事件的第一个公开信号", "Blocknative"], ["费率口径标注", "不同链费率单位与确认语义不同，榜单必须标注口径；混排口径的跨链费率榜会被专业用户识破失去公信力", "L2Fees.info"]]], ["成本对比工具", [["跨链转账成本对比", "同一笔转账在 20 条链上成本差可达百倍，对比工具直接决定用户的链选择；只比 gas price 不换算成美元与操作语义会误导用户", "L2Fees.info"], ["dApp 操作成本画像", "swap、mint、领空投等高频操作的典型成本画像比裸费率更有决策价值；画像到操作级才能支撑选型", "DeBank"], ["历史成本回放", "回放任意历史区块的成本用于争议申诉与财务对账；无回放能力的对账在审计时无法举证", "Tenderly"], ["对比结论可解释", "对比工具要展示成本构成明细而非只给结论；不可解释的对比在争议时无法自证", "Dune Analytics"]]], ["数据分发渠道", [["API 与 WebSocket 推送", "行情既要拉取也要订阅推送，轮询模式的时效与配额成本都不可行", "Alchemy"], ["移动端小组件", "费率小组件是低成本获客入口，把行情站变成用户的日常查看习惯", "Etherscan App"], ["嵌入式行情组件", "把费率组件嵌入钱包与交易所前端，从 C 端流量变成 B 端分发", "CoinGecko"], ["开发者文档与示例", "行情数据 API 的文档质量决定 B 端采用率；示例可直接跑通的文档是门槛最低的分发资产", "CoinGecko API"]]]]],
+ ["d4", "合约与交易 Gas 优化", "Gas Optimization", "核心", "用工程手段把同样业务的 gas 成本压到最低，省下的每一分都是毛利", [["合约级优化", [["存储布局打包", "SSTORE 是最贵操作之一，结构体字段打包可省一半以上存储 gas；上线后无法改存储布局，必须在审计阶段定型", "Foundry"], ["calldata 与内存优化", "calldata 比 memory 便宜、短参数省 gas；热点函数的参数设计在调用量大时是百万美元级差异", "OpenZeppelin"], ["unchecked 与关键路径", "确认安全的路径可显式关闭溢出检查；盲目加 unchecked 会引入溢出漏洞，优化必须以差分测试背书", "Foundry"], ["部署与运行成本权衡", "部署 gas 与运行 gas 的优化方向常冲突，运行优化的代码更大更贵部署；按预期调用量权衡生命周期成本，只优化一侧会翻车", "Foundry"]]], ["交易级优化", [["批量交易合并", "Multicall 与 AA 批量把 N 笔压成 1 笔，21000 的基础成本只付一次；批量上限受区块 gas limit 约束需要分片策略", "Multicall3"], ["permit 离线授权", "permit 类签名把授权与操作合一省一次链上交易；不支持 permit 的 token 要有回退路径，否则交易直接失败", "Uniswap Permit2"], ["nonce 与并发管理", "同账户并发交易必须错开 nonce，冲突会互相覆盖或长期卡死；做市商高频场景必须自建 nonce 管理器", "Fireblocks"], ["失败成本计入优化", "优化目标是期望总成本而非单笔 gas，低费高失败率的所谓优化总成本更高；指标错了优化方向就是反的", "Tenderly"]]], ["优化度量体系", [["gas 快照 diff", "每次提交跑 gas 快照与基线对比，回归超阈值即阻断合并；没有度量闭环的优化多为负优化", "Foundry Gas Snapshot"], ["热点函数画像", "按调用频次加权找优化回报最高的路径；对低频函数过度优化浪费时间且引入风险", "Tenderly Gas Profiler"], ["真实环境校准", "本地环境 gas 与主网分叉存在差异，最终以主网 fork 校准的数字为准", "Tenderly"], ["优化回归安全测试", "gas 优化常破坏溢出与边界假设，优化提交必须全量测试加差分 fuzz；只跑 gas 快照不跑正确性测试是引入漏洞的标准姿势", "Foundry"]]]]],
+ ["d5", "账户抽象与 Paymaster 代付", "Account Abstraction and Gas Sponsorship", "核心", "让应用替用户付 gas、让用户用任意 token 付 gas，是 Web3 大众化的成本入口", [["ERC-4337 Paymaster 运营", [["deposit 水位监控", "Paymaster 靠 EntryPoint deposit 支付，余额低于阈值时无 Gas 功能静默失效；必须有水位告警与自动充值，这是代付业务的第一条生命线", "Alchemy Gas Manager"], ["代付策略引擎", "按用户属性、操作类型、金额门槛决定谁免 gas；策略过宽被女巫薅穿、过窄则体验形同虚设", "Pimlico"], ["postOp 结算回收", "ERC-20 支付 gas 场景下 postOp 负责收回代垫费用，postOp 处理缺失或 revert 处理不当会持续漏收", "Biconomy"], ["多链预算隔离", "各链 paymaster 资金池独立与再平衡，单链被薅不波及全网；共享资金池的爆炸半径是全链停摆", "Alchemy Gas Manager"]]], ["代付风控", [["女巫与滥用识别", "免费 gas 是女巫成本的主要补贴源，需要设备指纹、行为与链上画像组合拦截；放任滥用可在一周内烧穿数万美元预算", "Gitcoin Passport"], ["配额与限流", "按 IP、设备、地址分层限额防脚本批量套取代付；无限流的代付等于公开撒钱", "Pimlico"], ["代付审计留痕", "每笔代付记录发起来源与策略版本，争议与对账都需要可回溯；缺审计的代付无法向出资的项目方交差", "Alchemy Gas Manager"], ["代付价值回本模型", "代付预算要与用户生命周期价值挂钩，无回本模型的代付是烧钱竞赛；先用小流量验证留存再放额度", "Pimlico"]]], ["抽象账户生态兼容", [["智能账户兼容矩阵", "不同智能账户对 paymaster 政策支持不一，兼容矩阵缺失会在集成期反复翻车", "Biconomy"], ["EntryPoint 升级跟踪", "EntryPoint 版本迁移涉及地址与字段变化，未跟踪升级会让存量账户卡在旧版本", "ERC-4337"], ["Bundler 质量联动", "代付体验一半取决于 bundler 的打包速度与上链率，paymaster 与 bundler 需同源监控否则互相甩锅", "Pimlico"], ["客户集成审计", "接入方错误实现 userOp 会导致代付异常，需提供集成审计清单；把锅甩给客户集成是生态口碑杀手", "Biconomy"]]]]],
+ ["d6", "Relayer 与元交易网络", "Relayer and Meta-Transaction Network", "成熟", "用中继网络替用户提交交易，是无 Gas 体验的第一代成熟形态与 AA 的过渡桥梁", [["元交易协议", [["EIP-2771 可信转发器", "forwarder 必须校验请求来源与签名绑定，配置错误的可信转发器是元交易重放攻击的经典入口", "OpenZeppelin Defender"], ["签名防重放三件套", "nonce、chainId、deadline 缺一不可；缺 deadline 的元交易签名会被囤积择机重放", "EIP-2771"], ["代付方与执行方解耦", "签名者、付 gas 者与调用者可分离是元交易的价值所在，但失败时谁担费要在产品层写清", "Gelato"], ["伪造请求防护", "2771 要求校验请求来源，伪造请求可让 relayer 替攻击者付 gas；请求源白名单是 relayer 基本功", "OpenZeppelin Defender"]]], ["Relayer 网络运营", [["多 relayer 冗余", "单一 relayer 故障即交易停摆，需要多节点竞争取单与自动接管；relayer 是可用性单点，承诺 SLA 前先修架构", "Gelato Relay"], ["重报价机制", "接单到上链期间 gas 价格波动需要重报价，固定报价会在拥堵期亏损或拒单", "OpenZeppelin Defender"], ["失败回执与重试", "relayed 交易 revert 时用户侧要有明确回执与重试路径；静默失败是元交易产品差评第一来源", "Gelato"], ["relayer 密钥资金安全", "relayer 私钥热存需设自动出金上限，密钥泄露等于资金池清空；relayer 是被攻击优先目标，要按金库标准管理", "Fireblocks"]]], ["演进与商业模式", [["去中心化网络权衡", "中心化 relayer 有审查与停服风险，去中心化网络增加延迟；明确当前用中心化加退出开关的过渡方案", "Gelato Network"], ["与 AA 的关系定位", "4337 普及后独立元交易存量收缩，relayer 网络需转型为 bundler 与 paymaster 一体化；纯元交易产品线有被替代风险", "Biconomy"], ["成本转嫁透明度", "relayer 服务费加 gas 的双层计价需透明展示；隐藏加价一旦被社区发现即口碑崩塌", "Gelato"], ["失败责任划分", "元交易失败的 gas 损失归发起方、relayer 还是代付方要在协议层写死；责任模糊在纠纷时双输", "Gelato"]]]]],
+ ["d7", "EIP-7702 委托与无 Gas 升级", "EIP-7702 Delegation", "成长", "让十亿级存量 EOA 不迁移资产就获得智能账户能力，是账户抽象的第二增长曲线", [["委托机制产品化", [["委托指示器生命周期", "7702 用一次性 setCode 把 EOA 指向委托合约，委托合约的选择就是安全边界；引导用户签恶意 delegate 等于交出账户", "EIP-7702"], ["赞助交易打包", "7702 允许把 setCode 与用户操作合并进单笔赞助交易，无 Gas 与自托管首次同时成立；bundler 不支持 7702 的产品线会落后一个身位", "Pimlico"], ["撤销与重委托", "用户可随时重签指向新 delegate，钱包要提供撤销入口与风险提示；没有撤销体验的 7702 产品是在给钓鱼铺路", "MetaMask"], ["升级签名语义翻译", "用户看到的升级钱包签名实际是 setCode 委托，语义翻译错误就是钓鱼温床；签名展示必须明确 delegate 目标与后果", "MetaMask"]]], ["与 4337 生态融合", [["7702 加 4337 组合", "EOA 借 7702 获得智能账户能力而无需迁移资产，paymaster 与 bundler 生态直接复用；两条产品线不打通会重复建设", "Biconomy"], ["存量平滑升级", "让海量 EOA 无感获得批量与代付能力是 7702 的真正市场，迁移成本近乎零是卖点也是护城河", "Alchemy"], ["无种子恢复组合", "7702 加 passkey 让 EOA 获得无种子恢复，是把 Web2 用户带进自托管的组合拳；体验割裂则两个卖点互相拖累", "Coinbase Smart Wallet"], ["交易类型版本兼容", "客户端签名库对 7702 交易类型支持参差，旧版本钱包发起会被节点直接拒绝；升级窗口期的版本检测与降级路径必备", "viem"]]], ["风险与治理", [["恶意 delegate 声誉库", "需维护 delegate 合约声誉库与实时扫描，钓鱼协议诱导委托后可清空资产；风控不做增长越快死得越快", "Blockaid"], ["多链支持矩阵", "各链对 7702 支持节奏不一，多链产品要按链开关功能；假设全链同步上线会造成大面积失败", "Pimlico"], ["委托变更监控", "delegate 变更事件要实时监控并给一键撤销指引；变更无感知的账户在被钓鱼后损失窗口极大", "Blockaid"], ["委托合约审计背书", "delegate 合约要有公开审计与形式化验证背书，声誉库需收录审计证据；无审计背书的 delegate 上推荐位是平台责任", "OpenZeppelin"]]]]],
+ ["d8", "MEV 与费用博弈防护", "MEV and Fee Game Protection", "成长", "在费用博弈中保护用户不被抽、把 MEV 从掠夺变成回流，是交易链路的高阶竞争力", [["三明治与抢跑防护", [["私有交易通道", "交易绕过公共 mempool 直送 builder 可消除被三明治的暴露窗口；代价是失去公共池的快速上链概率，需按交易价值分流", "Flashbots Protect"], ["MEV 保护 RPC", "保护 RPC 的价值等于避免被抽的 MEV 减去额外成本，小额交易可能不划算；默认全量走保护通道会拖慢普通交易体验", "MEV Blocker"], ["滑点动态建议", "滑点过宽等于给三明治留利润、过窄则上链率下降；需按池子深度与波动动态建议", "CoW Swap"], ["保护通道效果度量", "保护通道要监控包含率与延迟分布，保护不能变成慢的代名词；无指标的保护只是营销话术", "MEV Blocker"]]], ["MEV 回流与订单拍卖", [["MEV-Share 用户回流", "用户交易产生的 MEV 可按比例回流给用户，把博弈从被抽变成分成；回流计算不透明会引发信任危机", "Flashbots MEV-Share"], ["意图订单拍卖路由", "意图订单由 solver 竞价，gas 与 MEV 成本内含在报价里，用户所见即所得；拍卖机制缺陷会被 solver 合谋", "CoW Swap"], ["回流结算透明", "回流金额与计算路径要可查询，否则用户默认被抽；透明报表是回流模式的生命线", "Flashbots MEV-Share"], ["solver 合谋检测", "拍卖成交价长期贴近理论最差值是 solver 合谋信号，需监控成交分布并轮换 solver；合谋让意图定价名存实亡", "CoW Swap"]]], ["费用博弈策略", [["priority fee 竞价策略", "与机器人竞价是动态博弈，固定高 priority fee 只是向验证者转移利润；按目标块位置反推费率才有效", "Blocknative"], ["多 builder 多通道", "同时直连多家 builder 与中继避免单点审查与故障；把上链命运押在单一 builder 是运营级风险", "beaverbuild"], ["交易价值分级路由", "按交易价值与 MEV 暴露自动选择公共池、私有通道或竞速策略；一键全私有牺牲普通交易体验，分级路由才是成本与安全最优解", "bloXroute"], ["竞速与降级切换", "拥堵期自动在加价硬冲与延后批处理间切换，成本与成功率需要策略开关；无降级策略的机构在尖峰期成本失控", "bloXroute"]]]]],
+ ["d9", "Gas 费金融化与对冲", "Gas Fee Financialization", "成长", "把波动巨大的 gas 成本变成可预算、可对冲、可交易的金融对象，服务重度成本用户", [["对冲与预算工具", [["费用互换与远期", "把未来 gas 支出按锁定价换成固定成本，定价需含尾部溢价；只按历史均值定价的对冲在空投季必穿仓", "Kalshi"], ["活动锁价包", "项目方为空投与激励活动锁定 gas 预算，把波动变固定；履约方自身要有对冲能力否则是在赌方向", "Gelato"], ["对冲流动性风险", "gas 衍生品市场深度不足时平仓成本高，对冲仓位要设上限；小市场大对冲本身成为新的风险源", "Kalshi"], ["成本封顶承诺", "把最坏情况成本做成月度封顶的产品承诺，机构最愿意付费；承诺前先跑通历史极端情形回测", "Fireblocks"]]], ["协议补贴与 gas 代币", [["gas token 教训", "CHI 类 gas token 套利依赖 gas 反退款，EIP-3298 取消后模式归零；依赖协议级补贴的商业模式可能被一次硬分叉清零", "1inch CHI"], ["补贴依赖度审计", "成本模型要标注哪些环节依赖外部补贴如 L2 排序补贴与活动期代付；补贴退出是确定性事件，无标注的成本模型会静默恶化", "L2BEAT"], ["反退款规则追踪", "gas 反退款规则随硬分叉变化，依赖方需持续跟踪 EIP；把历史规则当永久规则是最省事的错误", "EIP-3298"], ["补贴退出压力测试", "对成本模型做补贴归零情景压测并预置提价方案；提前演练比临时提价保命", "Tenderly"]]], ["成本金融化前沿", [["费率数据资产化", "费率历史与预测是可订阅数据资产，机构终端愿意付费；数据销售前要厘清权利链与合规边界", "Amberdata"], ["衍生品监管边界", "gas 期货可能落入衍生品监管，发行地与销售对象决定合规路径；先上线后补牌照在衍生品领域行不通", "Kalshi"], ["费率保险", "对拥堵导致业务停摆提供费用保险，精算基础是费率尾部分布；无精算基础的保险是定时炸弹", "Nexus Mutual"], ["预测市场定价发现", "预测市场可给拥堵事件提供市场定价作为对冲与信号补充；要评估其结算规则与操纵风险", "Polymarket"]]]]],
+ ["d10", "钱包无 Gas 体验", "Wallet Gasless Experience", "核心", "把 gas 从用户心智中移除，是钱包从工具变成大众入口的胜负手", [["首笔交易零门槛", [["无原生币 onboarding", "新用户钱包里没有原生币也能完成首笔交易是转化率生死线；要求先去买 ETH 会流失大多数 Web2 用户", "UXUY"], ["法币入金覆盖 gas", "法币入金时预留 gas 份额或平台代付，避免入金后卡在有钱花不出", "MoonPay"], ["水龙头与引导", "测试网与新链的水龙头体验决定开发者与早期用户留存；水龙头缺货是最常见的体验事故", "Alchemy Faucet"], ["多链首笔统一", "用户不知道该先买哪条链的原生币，多链统一的免 gas 首笔才是完整答案；单链免 gas 只是半成品", "UXUY"]]], ["代付体验产品化", [["任意 token 付 gas", "用 USDC 等稳定币支付 gas 是非原生币用户最强需求；token 估值波动导致多扣少扣的结算精度要处理干净", "Biconomy"], ["代付透明度", "代付金额、策略与剩余额度要在产品内可见；黑箱代付会引发平台偷 gas 的社区指控", "Pimlico"], ["失败零损失规则", "估算不足导致失败时代付方还是用户担损失，规则要在失败前写明；含糊规则在拥堵期集中爆发客诉", "Coinbase Smart Wallet"], ["额度与里程碑梯度", "免费额度随用户活跃与资产里程碑放宽，防薅且激励深化；无梯度的固定额度被薅者与忠诚用户两头不讨好", "Pimlico"]]], ["移动端优先体验", [["移动端无 Gas 心智", "移动端是下一个十亿用户入口，移动钱包把 gas 抽象成几乎免费的固定心智；桌面逻辑照搬移动端必败", "UXUY"], ["会话密钥免签批", "小额高频场景用会话密钥减少签名次数，额度与有效期要显式管理；滥用会话密钥等于把钱包钥匙借出去", "Particle Network"], ["费率时机推送", "移动端在费率低谷推送现在转账最便宜，把成本敏感用户变留存用户；推送过频即被卸载", "Etherscan App"], ["弱网排队与重试", "移动弱网下的交易要支持排队与费率锁定重试；直接失败的请求让代付体验打折，移动网络是默认前提而非例外", "UXUY"]]]]],
+ ["d11", "L2 与 Blob 费市场", "L2 and Blob Fee Market", "成长", "L2 把成本结构变成 L1 数据费加排序定价两层，blob 稀缺与费差成为新的运营变量", [["L2 费用结构", [["排序器定价权", "L2 手续费是排序器自主定价加 L1 结算成本，补贴与盈利切换是商业决策；把 L2 低费当永久状态做成本预算会在补贴退出时被打脸", "L2Fees.info"], ["L1 成本转嫁机制", "blob 费与 calldata 成本波动直接传导到 L2 用户费率，传导公式与缓冲策略决定用户费率稳定性", "Arbitrum"], ["费用透明化竞争", "展示成本构成即 L1 数据加执行加排序利润正在成为 L2 竞争点；成本黑箱会被社区质疑隐性加价", "Base"], ["费率波动缓冲", "排序器对 L1 成本波动做平滑缓冲加风险溢价，缓冲参数决定用户费率稳定性；缓冲过厚被质疑加价、过薄费率剧烈跳动", "Optimism"]]], ["Blob 费市场", [["blob 容量脉冲", "blob 目标数提升阶段性缓解稀缺，但空投季仍会出现 blob base fee 暴涨；L2 运营需为稀缺期预留费率缓冲", "Etherscan Blob Tracker"], ["blob 与执行费分账", "L2 的 L1 成本大头是 blob 费，与执行 gas 分开核算才能准确预测成本曲线；混算会在 blob 拥堵时误判为执行层问题", "L2Fees.info"], ["blob 提交调度", "批量提交时间避开 blob 费尖峰可省两位数成本；调度策略是 L2 运营少有的可控成本杠杆", "内部系统"], ["blob 费尖峰预警", "为 L2 运营方提供 blob 费尖峰预警与提交窗口建议；预警滞后一次尖峰就够回本订阅费", "Etherscan Blob Tracker"]]], ["跨 L2 费差", [["费差路由", "跨 L2 转账成本差可达 10 倍，意图路由自动选低费路径；路由成本模型漏算跨链消息费会越省越贵", "Across"], ["部署选址决策", "新项目选 L2 要把费率、稳定性、生态流量一起建模；只看费率选址会掉进低费低流动性的陷阱", "L2BEAT"], ["用户端透明路由", "跨 L2 路由要展示含消息费与时间的总成本而非只看 gas；隐藏桥接费的省钱路由会被社群鞭打", "Across"], ["费差时序监控", "持续跟踪各 L2 费率与稳定性形成选址与迁移依据；没有时间序列的费差判断都是拍脑袋", "L2BEAT"]]]]],
+ ["d12", "机构 Gas 成本管理与对账", "Institutional Gas Cost Management", "成长", "把做市商、交易所、基金每年数百万美元的 gas 支出变成可归集、可对账、可优化的财务对象", [["策略级成本核算", [["策略级成本分摊", "做市商需把每笔 gas 归到策略、账户与交易对，无法分摊的成本是黑洞；归集粒度不足时费率策略优化无从谈起", "Fireblocks"], ["实时成本仪表盘", "团队级实时 gas 消耗与预算燃尽率监控，异常消耗秒级发现；事后月度报表无法阻止脚本 bug 烧钱", "Hypernative"], ["单位经济重算", "每笔业务的 gas 成本占收入比是定价底线，L2 部署后成本结构变化要重算；不重算导致低价产品亏损扩量", "Fireblocks"], ["共享成本分摊规则", "批量归集等共享交易成本要按可分摊规则拆到主体并写进财务制度；口径朝令夕改的对账在审计时全部重来", "Bitwave"]]], ["提币费与资金运营", [["提币费动态定价", "交易所提币费按实时网络费动态调整，固定费拥堵期亏损、平静期劝退用户；动态定价还要与充值归集批量联动", "Binance"], ["批量归集择时", "归集与热钱包补货安排在费率低谷并批量执行；归集时机不当的年度成本差异可达七位数", "Fireblocks"], ["多签与 AA 成本权衡", "SAFE 多签每笔比 EOA 贵数倍，智能账户改变成本结构；安全架构选型必须把 gas 计入总拥有成本", "SAFE"], ["热钱包 gas 预算管理", "热钱包原生币水位与 gas 预算联动，水位不足时提币停摆是事故级事件；热钱包管理本质是 gas 供应链管理", "Fireblocks"]]], ["财务对账与税务", [["gas 支出流水对账", "链上 gas 支出与财务凭证逐笔对齐，缺对账在审计与税务申报时无法举证；gas 成本的抵扣认定还涉及税务口径", "Bitwave"], ["多主体费用归集", "多实体多链的费用归集与内部转移定价，跨主体代付要留痕；关联交易不留痕是审计意见高发雷区", "Bitwave"], ["凭证链映射", "gas 支出映射到供应商发票与成本中心形成完整凭证链；缺凭证链的支出在税务稽查时不被认可", "Bitwave"], ["成本收入期间匹配", "gas 成本按业务发生期与收入匹配入账，跨期错配会扭曲毛利；财务与链上数据的时间对齐常被忽略", "Bitwave"]]]]],
+ ["d13", "Gas 相关安全与风控", "Gas Security and Risk Control", "成长", "gas 既是成本也是攻击面，估算、代付与费率参数都需要专门的风控设计", [["Gas Griefing 与拒绝服务", [["revert 回调消耗", "外部回调可故意消耗 gas 迫使交易 revert，依赖外部调用的合约要预留余量并容忍失败；不设防的清算机器人会被竞对用 griefing 挤出市场", "OpenZeppelin"], ["区块 gas limit 边界", "单区块 gas limit 决定大批量操作必须分片，超限交易永远无法被打包；未分片的大批量任务在拥堵期会无限期挂起", "Ethereum"], ["gas 消耗模式异常识别", "低费交易塞满区块抬价迫使竞争者加价；异常 gas 模式是风控数据集的必备特征", "Blocknative"], ["存储清理 griefing", "清空他人可预测的存储槽迫使后续操作更贵；关键状态要么收费用要么加权限", "OpenZeppelin"]]], ["估算与执行安全", [["交易失败套利", "用户交易失败的 gas 全部损失，攻击者诱导用户发起必败交易赚取 gas；钱包要对明显必败交易做模拟拦截", "Blockaid"], ["低估卡单攻击", "故意给出偏小估算让交易滞留 mempool 再抢占 nonce 位置；估算是安全组件不只是成本组件", "Tenderly"], ["模拟与上链差异", "模拟不含同块竞争交易与 MEV，结果偏乐观；向用户承诺模拟通过必成会变成赔付纠纷", "Tenderly"], ["代付滥用防御纵深", "设备指纹、链上画像与速率限制三层防御缺一不可，单层都可被绕过；代付预算被盗刷通常就是只做了单层", "Gitcoin Passport"]]], ["钱包与费用参数安全", [["gas 场景钓鱼", "低 gas 抢跑、费率返现类钓鱼页诱导签名；安全提示要嵌入费率场景而非独立教育页", "MetaMask"], ["费用参数脱敏", "高频策略的 priority fee 模式可被竞对推断持仓行为，费率参数属敏感数据需脱敏分发", "Fireblocks"], ["授权与代付绑定", "代付与授权绑定可限制被盗授权的破坏半径；无限授权加免费代付是灾难组合", "Blockaid"], ["全局熔断演练", "费率异常与代付滥用要有全局熔断开关并定期演练；没演练过的开关在事故时大概率按不下去", "Hypernative"]]]]],
+ ["d14", "Gas 数据 API 与节点服务", "Gas Data API and Node Service", "成熟", "费率数据是节点服务的增值层，报价质量与时效直接决定下游所有费率产品的成色", [["Gas Oracle 接口", [["自建聚合替代透传", "eth_gasPrice 只反映最近块，产品级报价需要自建聚合；直接透传节点接口在拥堵期报价严重滞后", "Alchemy Gas API"], ["分档报价口径", "慢速、标准、快速三档是用户心智标准，档位的分位定义要公开；黑箱档位在争议时无法自证", "Etherscan Gas Tracker"], ["多链统一接口", "一套 API 覆盖 EVM 与非 EVM 链，字段语义按链适配；强行统一字段会掩盖链间成本语义差异", "QuickNode"], ["历史与预测联合接口", "同时返回当前、历史分位与预测区间，客户端才不用自行拼接多源", "Blocknative"]]], ["数据质量与时效", [["自适应缓存策略", "费率数据缓存两秒以上在拥堵期就过期，缓存要按波动率自适应；静态 TTL 是拥堵期事故的经典来源", "QuickNode"], ["数据源冗余", "多节点供应商互备，单供应商故障时报价冻结比报错更危险，下游会照单执行", "Alchemy"], ["取整方向决策", "向下取整报价系统性偏小造成卡单，向上取整增加成本；取整方向是产品决策不是实现细节", "Alchemy Gas API"], ["报价偏差监控", "报价 API 要有与链上实际成交价的偏差监控；报价质量无法度量就无法承诺 SLA", "Blocknative"]]], ["商业化与分发", [["免费层配额设计", "免费层是获客漏斗，配额要防脚本刷量但不卡死真实开发者", "Alchemy"], ["按量计费透明度", "调用计费要可预估可告警，账单惊吓是开发者流失首因", "Infura"], ["嵌入式 SDK 分发", "费率 API 打包进钱包与交易所的 SDK 分发，B 端嵌入比 C 端 API 更稳定", "QuickNode"], ["数据合规输出", "费率数据跨境输出需评估地区合规与制裁名单客户排除；数据生意先把合规边界画好再卖", "Chainalysis"]]]]],
+ ["d15", "交易打包与区块费用市场", "Transaction Inclusion and Block Fee Market", "成熟", "区块空间批发市场决定单笔交易最终花多少钱、多快上链，是费用链路的最后一公里", [["Builder 与中继市场", [["mev-boost 竞价链路", "验证者把区块空间卖给竞价最高的 builder，用户 priority fee 是竞价原料；理解这条链路才能解释给了高费为什么还慢", "Flashbots"], ["builder 市场集中度", "少数 builder 占据多数区块，集中度即审查与故障风险；接入策略要覆盖长尾 builder", "beaverbuild"], ["中继信任模型", "中继可见全部交易内容，信任假设要写进产品文档；盲目宣称无需信任在机构尽调时翻车", "MEV-Boost relays"], ["中继延迟与容灾", "中继是区块提案路径的关键节点，延迟与宕机直接影响包含率；对中继做多活与延迟监控", "MEV-Boost relays"]]], ["打包服务产品化", [["私有订单流价值", "钱包与交易所的排他订单流是议价筹码，卖给 builder 变现或自建保护通道是战略分叉", "Flashbots Protect"], ["全链路可观测", "提交、竞价、打包、上链全链路可观测，卡在哪一环要能回答；黑盒打包服务在客诉时无法定位", "bloXroute"], ["包含保证与补偿", "部分服务提供时限包含承诺与未含补偿条款；补偿条款是信任产品，签约前先测真实达标率", "Flashbots"], ["订单流合规", "订单流销售在美国受类似 PFOF 的监管审视，披露义务要前置；不做合规设计的订单流生意会在监管落地时清零", "Flashbots"]]], ["卡单与替换管理", [["同 nonce 替换", "卡单交易用同 nonce 加更高费替换，替换失败会双交易竞速；替换逻辑做错会重复执行或全部卡死", "MetaMask"], ["僵尸交易清理", "长期挂起的交易要主动清理或设 TTL，僵尸交易占 nonce 阻塞后续所有交易", "Fireblocks"], ["拥堵期降级策略", "拥堵期自动降级为延后批处理而非加价硬冲，成本与成功率的平衡需要策略开关", "bloXroute"], ["多账户 nonce 池", "机构多账户并发用 nonce 池统一分配与回收；手工管理 nonce 的机构在放量当天必然出事", "Fireblocks"]]]]],
+ ["d16", "无 Gas SDK 与即插即用基建", "Gasless SDK and Middleware", "成熟", "把代付、估算、打包封装成开发者一行代码可用的能力，集成深度就是迁移成本", [["SDK 产品矩阵", [["一行代码接入代付", "sponsored call 与 gasless API 把复杂度收进 SDK，接入时长是核心卖点；抽象漏气逼用户懂 userOp 就失去意义", "Gelato Relay"], ["多链接口一致性", "同一 SDK 跨 EVM 与 Solana 接口一致，后端按链适配；接口不一致的多链支持只是清单不是能力", "Biconomy"], ["版本兼容管理", "EntryPoint 与合约版本升级的兼容矩阵要长期维护，破坏性升级需迁移期；SDK 断代升级会逼客户迁去竞品", "Pimlico"], ["结构化错误码", "SDK 返回估算不足、代付拒单、打包超时等结构化错误供客户端分支处理；统一抛交易失败是集成投诉第一来源", "Gelato"]]], ["集成与计费", [["沙箱与本地调试", "本地 fork 加模拟代付的沙箱决定集成效率；没有沙箱的 SDK 每次调试都烧真金 gas", "Tenderly"], ["用量计费模型", "按 relay call 计费加包月混合，账单与用量明细透明可导出；计费不透明在 B 端续约审计时被翻旧账", "Gelato"], ["SLA 与支持分级", "商业客户要 SLA 与专属支持，免费用户社区支持；支持成本不分级会拖垮团队", "Alchemy"], ["定价与折扣策略", "按量价格随用量阶梯递减加年约折扣，定价表公开；价格黑箱在采购比价时直接出局", "Alchemy"]]], ["生态位与迁移成本", [["独立中间件定位", "被钱包内置与保持独立 SDK 是定位选择；独立 SDK 的护城河在多链覆盖与风控数据", "Biconomy"], ["迁移成本设计", "客户迁移成本即护城河，但过高会阻碍新客；数据与策略可导出是信任底线", "Pimlico"], ["行业标准跟进", "ERC-7677 等 paymaster 标准要跟进支持；落后标准就等于落后生态", "ERC-7677"], ["白标与 OEM 分发", "向钱包与交易所白标输出代付与模拟能力是规模化主通道；白标协议要把责任边界与品牌风险写清", "Tenderly"]]]]],
+ ["d17", "交易模拟与 Gas 仿真", "Transaction Simulation", "成熟", "上链前模拟是估算、安全与体验的共用底座，模拟质量决定产品承诺的上限", [["交易模拟能力", [["上链前模拟底座", "模拟揭示 revert 原因与 gas 消耗明细，是估算与安全共用底座；模拟与估算合二为一能省一半调用成本", "Tenderly Simulation"], ["fork 与状态覆盖", "模拟要支持指定 fork 高度与状态覆盖才能复现线上疑难；默认最新块模拟无法调试历史争议", "Foundry"], ["竞争态乐观偏差", "模拟不含同块竞争交易，结果偏乐观；展示必成结论要加保护通道建议与免责", "Tenderly"], ["模拟结果缓存", "同参数模拟结果要缓存并按状态变化失效；缓存 key 设计错误返回过期结果是正确性事故", "Tenderly"]]], ["资产变动预览", [["before 与 after 对比", "展示交易后资产变动与授权变化是钱包信任的最低配置；缺 delta 预览的钱包是钓鱼重灾区", "Blockaid"], ["费用明细拆解", "把 gas 拆成 base、priority、blob 与 L1 数据展示，让争议可解释", "Etherscan"], ["风险标记联动", "模拟结果联动合约风险标记，模拟通过但合约恶意的场景必须拦截", "Blockaid"], ["批量模拟成本控制", "批量任务逐笔模拟要靠缓存与合并降本；全量模拟可能比执行本身还贵", "Tenderly"]]], ["回测与成本仿真", [["历史区块回放", "按历史区块回放策略成本做上线前压力测试；只测平静期会把空投季成本严重低估", "Foundry"], ["压力场景库", "维护空投、mint、攻击类压力场景库做费率压测；场景库的稀缺性就是专业度", "Tenderly"], ["发布回归门禁", "发布流程加 gas 回归门禁超阈值阻断；门禁阈值要随版本重新校准否则形同虚设", "Foundry"], ["仿真环境一致性", "仿真与主网的预编译与状态根差异要定期校准；漂移会让所有仿真结论失真", "Foundry"]]]]],
+ ["d18", "AI 驱动 Gas 优化与意图定价", "AI Gas Optimization", "成长", "用模型预测费率、自动选择执行时机与路径，把费用决策从人工阈值变成自适应系统", [["AI 费率预测", [["深度时序预测", "mempool 深度加事件流加历史模式的模型可显著降低短时费率预测误差；硬分叉会改变结构，旧模型必须重训", "Blocknative"], ["事件信号融合", "推特、Discord 与公告的 NLP 信号可提前一两分钟预警拥堵脉冲；噪音大，误报率管理决定可用性", "The Tie"], ["不确定性输出", "AI 必须输出置信度而非点估计，下游按置信度分级执行；确定性输出的报价在尾部事件必翻车", "Blocknative"], ["特征工程护城河", "mempool 原始数据加事件标注的独家特征集比模型结构更重要；用公开数据的模型没有壁垒", "Blocknative"]]], ["意图定价与自动执行", [["意图订单成本内含", "solver 竞价把 gas 与 MEV 成本内含进报价，AI 负责拆解与选择 solver 组合；成本拆解不透明会积累信任与监管风险", "CoW Swap"], ["自动时机选择", "AI 在费率低谷自动执行可延后任务如归集与再平衡，延迟容忍度是硬约束；对不容忍延迟的任务越权自动执行是重大事故源", "Gelato"], ["动态费率调优", "按目标包含概率反推费率替代人工阈值；无回滚开关的自动调优在异常行情无法止损", "Blocknative"], ["成本归因可解释", "AI 选择路径的节省要可归因展示，否则客户无法验证价值；不可验证的 AI 优化在续约时被砍", "Hypernative"]]], ["前沿与模型治理", [["Agent 经济费率角色", "AI Agent 大规模链上交互会重塑 gas 需求曲线，Agent 预算管理与 gas 抽象结合是新入口；面向 Agent 的计费与风控产品几乎空白", "Coinbase AgentKit"], ["可解释性要求", "AI 决定代付与执行要留特征归因依据，机构审计必需；黑箱决策过不了机构尽调", "Hypernative"], ["模型风险熔断", "预测模型失效要熔断回退到规则引擎；AI 层故障回退到简单规则是底线设计", "内部系统"], ["训练数据偏差治理", "事件标注偏差会造成系统性误判如把攻击性拥堵当常态；AI 层的错误会被自动化执行放大", "Hypernative"]]]]]
+];
+const FRONTIER = [
+ ["无 Gas 大众入口", "live", "移动端钱包把 gas 抽象成固定心智，首笔零原生币已成获客标配", "面向消费级钱包与交易所的代付基础设施，按转化价值收费"],
+ ["Paymaster 代付网络", "live", "ERC-4337 生态成熟，多链 paymaster 即服务已是标配产品线", "多链代付加策略引擎加风控的一体化 Gas Manager"],
+ ["MEV 保护 RPC", "live", "保护通道与 MEV 回流被主流钱包与聚合器默认接入", "按节省的 MEV 分成的商业模型"],
+ ["意图订单内含定价", "live", "CoW 与 UniswapX 让报价即终价，gas 不再暴露给用户", "solver 网络加订单流变现"],
+ ["提币费动态定价", "live", "头部交易所已按网络费动态调整提币费", "费用引擎输出定价 API 对接交易所财务系统"],
+ ["钱包内交易模拟", "live", "模拟加 delta 预览加风险标记成为钱包标配", "安全厂商向钱包的分发协议"],
+ ["费率数据终端", "live", "专业费率终端向机构订阅，与行情终端整合", "费率加预测加警报的机构终端"],
+ ["机构 gas 对账 SaaS", "pilot", "加密财务工具覆盖 gas 归集但对账深度有限", "面向做市商与交易所的策略级成本分摊产品"],
+ ["EIP-7702 钱包升级", "pilot", "主网已激活但钱包产品化仍在早期", "存量 EOA 平滑升级方案与 delegate 声誉库"],
+ ["blob 调度优化", "pilot", "L2 运营开始按 blob 费曲线调度批量提交", "L2 运营方的成本调度与预警服务"],
+ ["ERC-20 支付 gas", "pilot", "token paymaster 标准落地但覆盖率有限", "稳定币生态的原生体验组件"],
+ ["订阅制 gas 包", "pilot", "项目方活动锁价需求真实但供给稀缺", "活动方 gas 预算锁价与履约产品"],
+ ["排序器费率市场化", "pilot", "部分 L2 开放排序与去中心化排序实验", "排序参与与费率套利服务"],
+ ["法币入口覆盖 gas", "pilot", "入金即含 gas 份额的组合产品开始出现", "法币 onramp 加 gas 抽象打包"],
+ ["AI 费率预测", "explore", "工业原型多但规模化商业案例少", "预测 API 加自动执行策略订阅"],
+ ["gas 费衍生品", "explore", "对冲需求真实但产品设计受衍生品监管制约", "合规辖区的 gas 期货与互换"],
+ ["gas 代币复兴", "explore", "机制依赖协议补贴且历史教训深刻", "谨慎观望，不作为产品主轴"],
+ ["跨链统一 gas 抽象", "explore", "链间成本语义差异大且尚无统一标准", "面向多链应用的统一费率中间层"],
+ ["隐私 gas 方案", "explore", "付费者与发起者解耦的隐私支付仍在研究", "面向合规隐私需求的代付隐私层"],
+ ["Agent 费率自治", "explore", "AI Agent 链上活动的预算与费率自治是空白", "Agent 预算管理与 gas 抽象结合的新入口"]
+];
+const MIDS = [
+ ["费率数据中心", "聚合多链费率与历史分布，保障费率单一事实源", "多节点冗余采集、分位统计算法、异常检测"],
+ ["预测引擎中心", "产出带置信区间的费率预测并驱动全部下游决策", "时序模型、事件信号融合、回测框架"],
+ ["代付策略中心", "定义谁能免 gas、免多少、何时收回", "策略引擎、A/B 实验、预算分配"],
+ ["代付风控中心", "拦截女巫与滥用保护代付预算", "设备指纹、链上画像、速率限制"],
+ ["Paymaster 运营中心", "保障代付通道全天候可用与结算准确", "deposit 水位管理、postOp 对账、多链运维"],
+ ["优化知识库中心", "沉淀合约与交易级 gas 优化方法论", "gas 基准库、优化案例库、回归门禁"],
+ ["模拟仿真中心", "上链前模拟与成本仿真的共用底座", "fork 模拟、批量缓存、压力场景库"],
+ ["打包通道中心", "管理私有交易通道与 builder 关系", "多 builder 接入、包含率监控、补偿条款"],
+ ["机构成本中心", "面向做市商与交易所的成本核算与对账", "策略分摊、动态提币定价、财务流水对齐"],
+ ["多链适配中心", "为每条链维护独立成本语义模型", "非 EVM 适配、硬分叉升级跟踪、兼容矩阵"],
+ ["安全应急中心", "处置估算攻击、griefing 与钓鱼事件", "模拟拦截、黑名单、全局熔断演练"],
+ ["数据质量中心", "保障报价精度、时效与取整策略正确", "偏差监控、自适应缓存、SLA 度量"],
+ ["计费商业中心", "设计代付、SDK 与 API 的计费与合同", "按量计费、包月混合、账单透明"],
+ ["开发者关系中心", "降低集成成本并回收一线反馈", "SDK 文档、沙箱、迁移指引"],
+ ["合规中心", "界定可服务辖区与费用数据合规边界", "牌照地图、数据出境评估、制裁筛查"],
+ ["增长运营中心", "把费率工具变成获客与留存入口", "行情组件分发、活动运营、口碑管理"],
+ ["生态合作中心", "与钱包、交易所、L2 建立分发与合作", "BD 协议、订单流合作、标准参与"],
+ ["研究标准中心", "跟踪 EIP 与行业标准并输出研究立场", "EIP 跟踪、原型验证、标准提案"]
+];
+const RULES = [
+ ["代付 deposit 水位无告警", "水位跌破时无 Gas 功能静默失效，用户交易全量失败且无报错；典型场景是空投季代付量突增十倍当晚烧穿充值"],
+ ["gas 估算系统性偏小", "交易滞留 mempool 数小时，用户重复发起导致 nonce 混乱与重复扣费；典型场景是拥堵期直接透传节点静态估算"],
+ ["拥堵期 base fee 指数爬升", "七个满块 base fee 可翻倍，按平静期预算的代付与批量任务成本失控；典型场景是空投 mint 前排期的大批量归集"],
+ ["女巫薅代付", "设备农场批量套取免费 gas，预算一周烧穿数万美元且真实用户额度反被挤占；典型场景是新链上无门槛水龙头加代付叠加"],
+ ["postOp 回收逻辑缺失", "ERC-20 付 gas 场景代垫费用收不回，漏收按每天数千笔累计成大额亏损；典型场景是 token paymaster 上线首周"],
+ ["单 relayer 单点故障", "relayer 停服即全部代付交易停摆且无降级路径；典型场景是供应商升级窗口撞上活动高峰"],
+ ["单一 builder 依赖", "builder 故障或审查策略变化导致交易包含率骤降；典型场景是私有交易全量走单一通道后通道静默降级"],
+ ["nonce 管理混乱", "并发交易互相覆盖或长期卡死，机构高频场景一笔坏 nonce 阻塞整个账户队列；典型场景是重试逻辑与监控各发一笔"],
+ ["L2 费率与 L1 成本倒挂", "排序器补贴退出或 blob 暴涨时按旧费率收费即亏损；典型场景是 blob 稀缺期 L2 费率缓冲不足"],
+ ["7702 恶意 delegate", "诱导用户委托钓鱼合约后可整账户清空，且签名看起来是正常升级；典型场景是仿冒钱包升级提示"],
+ ["提币费固定定价", "拥堵期每笔提币亏损、平静期费率劝退用户；典型场景是小所沿用半年前的固定提币费"],
+ ["gas 支出无对账", "财务无法举证 gas 成本归属，审计调整与税务口径争议集中爆发；典型场景是多主体共用热钱包无分摊记录"],
+ ["单一数据源报价", "节点供应商故障时报价冻结，下游照旧执行造成批量错价；典型场景是缓存 TTL 过长加无偏差监控"],
+ ["替换交易逻辑缺陷", "同 nonce 替换竞速处理不当导致双交易竞速或全部卡死；典型场景是客户端与后端同时发起 bump"],
+ ["模拟通过即承诺必成", "竞争态与 MEV 导致模拟与上链结果背离，平台陷入赔付纠纷；典型场景是保护通道缺位时的大额 swap"],
+ ["AI 自动调优无熔断", "强化学习费率策略在异常行情连续加价，成本瞬间失控；典型场景是熔断回退缺失时的黑天鹅行情"]
+];
+const KPIS = [
+ ["成本效率", "代付成本除以日活与 gas 成本占营收比，衡量费率优化与代付策略健康度"],
+ ["交易质量", "交易一次上链成功率与估算误差分位，衡量估算与替换机制有效性"],
+ ["风控效能", "代付滥用拦截率与误杀率，衡量女巫防御精度"],
+ ["时效性能", "报价 API P99 延迟与费率数据更新延迟，衡量数据基础设施"],
+ ["可用性", "代付通道与打包通道的可用率及故障恢复时长"],
+ ["商业规模", "日均代付交易数与代付及 SDK 付费客户数"],
+ ["收入结构", "代付分成、SDK 订阅与 API 按量的收入占比及毛利"],
+ ["合规健康", "可服务辖区覆盖率与费用数据出境合规达标率"]
+];
+const LIC_CN = [
+ ["央行等十部门 924 通知", "不可开展面向境内用户的加密资产交易、兑换及配套 gas 代付业务", "产品仅可服务境外用户，境内 IP 需阻断"],
+ ["区块链信息服务备案", "提供区块链信息相关服务需完成网信办备案", "未备案不得上线境内站点"],
+ ["网络安全等级保护", "平台系统需完成等保测评", "影响境内系统部署与数据存储方案"],
+ ["数据安全法与个人信息保护法", "涉及境内个人信息与数据出境需安全评估", "链上用户数据出境架构需前置设计"],
+ ["反洗钱法 2025 修订", "虚拟资产相关活动纳入反洗钱监管", "为境内主体提供加密服务通道属高风险"],
+ ["外汇与跨境支付管理", "无支付牌照不得从事跨境支付结算", "代付资金池不可涉及人民币结算"],
+ ["支付业务许可", "代付若构成资金收付需支付牌照", "产品需设计为纯技术 gas 代付而非资金业务"],
+ ["联盟链费用模型", "可开展联盟链 gas 与积分模型设计及咨询", "面向产业区块链的合规业务线"],
+ ["广告与推广限制", "不得向境内公众推广加密资产业务", "市场投放与内容需地区隔离"],
+ ["税务申报", "境外收入需依法申报", "跨境架构需专业税务筹划"],
+ ["香港业务通道", "可经香港持牌主体服务合规虚拟资产平台", "香港子公司承接亚太合规客户"],
+ ["云与算力合规", "境内云承载的服务需符合监管要求", "核心加密业务系统部署在境外云"],
+ ["开源与出口管制", "涉及加密技术需关注出口管制清单", "开源发布需合规审查"],
+ ["员工与办公地", "境内不得设加密业务实体办公", "团队以境外实体雇佣"],
+ ["金融营销宣传规范", "金融类营销需符合宣传规范", "避免收益承诺与误导性表述"]
+];
+const LIC_INTL = [
+ ["欧盟 MiCA CASP", "持牌可开展托管与交易相关服务", "代付服务或构成加密资产服务需纳入授权范围"],
+ ["美国 FinCEN MSB 与州 MTL", "货币传输牌照覆盖代付与资金转移", "paymaster 若构成 money transmission 需牌照分析"],
+ ["新加坡 MAS 支付服务法", "MPI 牌照覆盖数字支付代币服务", "跨境服务需评估 DPT 服务范围"],
+ ["香港 SFC VATP", "持牌平台可提供合规交易服务", "代付基础设施可作为持牌平台供应商"],
+ ["迪拜 VARA", "持牌可开展虚拟资产相关活动", "中东市场准入路径"],
+ ["欧盟 DORA", "关键 ICT 第三方服务商有韧性义务", "作为服务商需满足运营韧性要求"],
+ ["OFAC 制裁合规", "不得为受制裁地址提供代付等服务", "代付前地址筛查是强制项"],
+ ["韩国 VAUPA", "ISMS 认证与实名账户要求", "进入韩国市场需本地合作与认证"]
+];
+const OPPS = [
+ ["无 Gas 大众化缺口", "多数钱包代付仅覆盖少数链与少数操作", "从首笔交易场景切入做全链路代付与转化度量"],
+ ["机构成本黑洞", "做市商与交易所 gas 归集粒度粗、对账靠表格", "策略级成本分摊加动态提币定价的垂直 SaaS"],
+ ["7702 迁移浪潮", "存量 EOA 升级路径与 delegate 安全能力缺失", "delegate 声誉库加平滑升级向导"],
+ ["blob 费运营盲区", "L2 团队对 blob 成本曲线缺运营工具", "blob 调度与费率缓冲决策工具"],
+ ["费差套利路由", "跨 L2 费差大但用户无感知", "意图路由自动选择低成本路径并透明展示"],
+ ["代付风控外包", "项目方自建女巫防御成本高", "把代付风控做成独立可订阅能力"],
+ ["非公链费率模型", "联盟链与许可链费用设计缺乏方法论", "输出可复用的费用模型设计与审计服务"],
+ ["费率数据终端化", "专业费率数据散落且无终端级产品", "面向机构的费率加预测加警报终端"],
+ ["计费透明化", "代付与 SDK 计费不透明导致 B 端续约摩擦", "账单可解释可导出的计费层"],
+ ["失败成本保障", "交易失败 gas 损失无人兜底", "模拟加保护通道加失败补偿的保险化产品"],
+ ["拥堵事件预警", "空投与 mint 事件对成本的冲击缺预警", "事件驱动的费率预警与批量调度建议"],
+ ["合规化代付输出", "受监管机构需要可审计的代付方案", "带审计留痕与制裁筛查的代付白标"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：Gas费平台 / gas 代付 Paymaster / gas 优化与预测`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

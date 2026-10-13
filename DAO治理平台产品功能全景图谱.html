@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAO治理平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>DAO治理平台全景</b>
+    <span>DAO治理平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>DAO治理平台产品功能全景图谱</h1>
+    <p>DAO 治理平台是链上组织的治理基础设施，覆盖提案生命周期、投票机制、多签金库与治理安全。前 <b>18</b> 个地址即控制 <b>54</b> 投票权，<b>221</b> 个地址属同一实体时，治理实质被操控。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线是把治理意图从想法变成不可篡改的链上执行，同时用时间锁、多签与机制设计把人为与资本操控挡在外面。它既不是单纯投票工具，也不是金库软件，而是组织权力的操作系统。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）</td><td>提案生命周期、链下投票、链上投票、投票机制、代币加权</td><td>治理权力的生成层：决定谁能提、怎么投、一票值多少</td></tr>
+<tr><td>第2层（d6–d9）</td><td>二次方与身份、委托代表、多签、金库管理</td><td>参与扩展与资产层：把分散小票聚合成专业决策，并守住资产大门</td></tr>
+<tr><td>第3层（d10–d14）</td><td>治理安全、闪电贷防御、Timelock、Zodiac 执行、治理分析</td><td>安全与执行层：阻断攻击、留出复核窗口、把决策自动落到链上</td></tr>
+<tr><td>第4层（d15–d18）</td><td>声誉 SBT、法律包装、Agentic 治理、跨链治理</td><td>演进与前沿层：用声誉与合规补资本权重，向 AI 与多链延展</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br>1. 必须先有<b>不可篡改的执行层</b>（链上合约+Timelock），否则投票只是民意调查；<br>2. 必须先冻结<b>投票权折算口径</b>（锁仓/快照/女巫规则），否则权力可被瞬时买断；<br>3. 必须先具备<b>资产流出控制</b>（多签+限额+白名单），否则治理赢了金库没了。</div>
+    <div class="danger">一条死亡陷阱：<b>高投票率被当成治理健康</b>。当 62% 权力集中在前 10 地址、且其中 3 个属同一实体时，高参与率可能只是被操控的表演，真正危险是集中度而非冷漠。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">前沿方向落地优先级的一条标准：凡是能被闪电贷瞬时买断投票权的机制，无论多先进都必须排已在锁仓/已身份化机制之后，安全前置于体验。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>提案（Proposal）</td><td>从温度检查到链上执行的状态机对象</td><td>状态一旦错配（如已执行却再排队），金库会被重复扣款，且链上不可撤销</td></tr>
+<tr><td>投票权（Voting Power）</td><td>由持币/锁仓/身份/声誉折算的权力单位</td><td>折算口径算错会系统性偏向巨鲸或刷量者，公平性直接崩塌</td></tr>
+<tr><td>委托（Delegation）</td><td>选民把投票权授予代表的关系对象</td><td>委托未上链终态，代表权在关键提案静默失效或被双重计票</td></tr>
+<tr><td>多签（Multisig）</td><td>需 N 人中 M 人签名才生效的资产控制对象</td><td>阈值与签名者配置错，等于给内鬼或单点留后门，金库失守</td></tr>
+<tr><td>时间锁（Timelock）</td><td>强制延迟执行、留出社会复核窗口的对象</td><td>延迟被绕过或设错，恶意提案秒级执行，复核窗口归零</td></tr>
+<tr><td>法律实体（Legal Wrapper）</td><td>把链上 DAO 映射为现实责任主体的对象</td><td>实体选型或责任隔离错，成员个人资产因 DAO 行为被追索</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域的监管域组合在四个域交汇：反洗钱与 KYC、证券属性判定、数据与 AI 合规、跨境与制裁管制。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1. <b>治理代币的证券属性</b>——未判定即发行，可能触发 SEC 式追责；<br>2. <b>成员级 KYC 与制裁筛查</b>——受制裁者混入会让 DAO 连带违规；<br>3. <b>AI 治理决策的可解释与留痕</b>——全自动核心决策在多数辖区不被接受。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：选型治理框架与合约标准（Aragon/Governor），冻结投票权折算口径</li><li>第二步：接入多签与 Timelock，建立资产流出控制与复核窗口</li><li>第三步：上线链下投票与委托市场，提升参与率与决策质量</li><li>第四步：叠加安全监控、集中度分析与形式化验证</li><li>第五步：按需延展法律实体、声誉 SBT、AI 代理与跨链治理</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：治理健康评分 SaaS（从集中度+参与度 API 切入）</li><li>路径 B：金库流出风控引擎（限额+白名单+冷却中间件）</li><li>路径 C：委托代表专业化市场（评级+薪酬+保险）</li><li>路径 D：DAO 法律实体即服务（注册+签约+报税一站式）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点是它们都围绕第一资产——投票权与金库的信任展开：评分卖信任洞察、风控守信任资产、代表市场聚合信任、实体服务给信任以法律外壳。</div>
+  </section>
+
+  <footer>
+    <p>DAO治理平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "总览与主线条"],
+ ["s1", "平台形态与代表"],
+ ["s2", "功能域全景"],
+ ["s3", "前沿方向"],
+ ["s4", "关键对象"],
+ ["s5", "治理中心"],
+ ["s6", "致命规则"],
+ ["s7", "合规与监管域"],
+ ["s8", "指标体系"],
+ ["s9", "机会与路径"]
+];
+const PLAYERS = [
+ ["治理框架协议", "Aragon / OpenZeppelin Governor", "国内仅技术组件复用", "提供可部署的治理合约标准"],
+ ["链下投票平台", "Snapshot", "国内合规 SaaS 仅做投票工具", "零 Gas 签名投票，靠策略计权"],
+ ["链上治理仪表盘", "Tally / Boardroom", "无中国代表", "治理数据聚合与委托市场"],
+ ["多签与金库", "Gnosis Safe / Safe{Wallet}", "国内仅多签技术复用", "多人共识的资产最后一道门"],
+ ["金库管理", "Llama / Parcel", "无中国代表", "预算拨款与资产风控"],
+ ["二次方与身份", "Gitcoin / Gitcoin Passport", "无中国代表", "抗女巫的加权投票"],
+ ["法律实体包装", "a16z 法律 / LexDAO", "国内禁相关代币业务", "合规外壳与责任隔离"],
+ ["执行自动化", "Zodiac / SafeSnap", "无中国代表", "模块化把决策落到链上"],
+ ["治理安全", "OpenZeppelin / Trail of Bits", "国内安全公司做审计", "合约审计与攻击防护"],
+ ["分析与情报", "Nansen / Arkham / Flipside", "国内有链上分析但非治理专用", "集中度与实体聚合"],
+ ["声誉与 SBT", "Colony / Gitcoin", "无中国代表", "不可转让的链上声誉"],
+ ["AI 治理代理", "Forta AI / Tally AI", "国内大模型可做治理助手（须备案）", "AI 起草与监控，人类否决兜底"]
+];
+const DOMAINS = [
+ ["d1", "提案生命周期管理", "Proposal Lifecycle", "核心", "把治理意图从想法到链上执行的完整状态机，是 DAO 治理的产品骨架", [["温度检查", [["温度检查发起", "未设最低门槛的温度检查会被垃圾提案淹没，社区注意力是稀缺资源，无门槛将耗尽治理带宽", "Snapshot"], ["讨论期管理", "跳过充分讨论直接进投票，会使提案在信息不对称下通过，后续执行争议无法回滚", "Discourse"], ["提案格式校验", "格式不统一的提案让投票者无法快速比对，且链上执行 calldata 难以审计，埋下安全漏洞", "Tally"], ["民意信号收集", "温度检查若不能区分活跃少数与沉默多数，会把噪音当共识，Snapshot 签名可被刷量", "Snapshot"]]], ["正式提案与审议", [["提案门槛设置", "门槛过低会招致提案骚扰攻击，过高则剥夺小 holder 提案权，需在活跃度与开放间取平衡", "Compound Governor"], ["审议期时长", "审议期过短导致代表来不及研读 calldata，过长则提案热度流失、投票率骤降", "Governor Bravo"], ["提案人背书", "无背书的匿名提案通过率极低且易被忽视，需绑定声誉或委托信用", "Tally"], ["修正案流程", "执行前发现的缺陷若无修正案通道，只能重提，浪费整轮投票周期", "OpenZeppelin Governor"], ["关联提案冲突检测", "未检测互斥提案会让两个矛盾的参数变更同时进入执行队列，状态机错乱", "Tally"]]], ["链上执行", [["执行 calldata 生成", "calldata 一处字节错误会让提案通过却执行失败，且链上无法撤销，损失治理信用", "Tally"], ["执行权限委派", "将执行权交给单人会制造单点故障，需经 Safe 多签二次确认", "Gnosis Safe"], ["执行结果回执", "不回写执行结果，社区无法确认提案是否真正落地，信任链条断裂", "Tally"], ["失败回滚预案", "执行 revert 后无预案会让金库处于半变更状态，参数悬空", "OpenZeppelin Governor"], ["执行审计留痕", "缺留痕在发生攻击时无法追责到具体提案与投票者，合规与溯源双失", "Safe"]]]]],
+ ["d2", "链下投票与 Snapshot 类", "Off-chain Voting", "成熟", "用钱包签名完成零 Gas 的偏好表达，是大规模社区投票的事实标准层", [["签名投票", [["离线签名投票", "签名投票若不绑定明确提案版本，投票者签了旧版仍被计票，制造幽灵投票", "Snapshot"], ["快照块高度", "未锁定投票快照块高的提案，可在投票期临时转账刷权重，公平性崩塌", "Snapshot"], ["策略组合计算", "多策略权重（如 token+NFT）算错会让特定群体被双重或漏计，争议无法链上仲裁", "Snapshot Strategies"], ["投票防重放", "缺少 nonce 的签名可被重放到其他提案，操纵计票结果", "Snapshot"]]], ["投票策略", [["自定义策略接入", "策略代码未经审计可被注入额外权重，等于暗中增发投票权", "Snapshot"], ["委托叠加策略", "委托链过长时叠加计算会出现循环委托死循环，计票超时", "Snapshot"], ["阈值与法定人数", "法定人数设错会让提案以极低真实参与度通过，合法性受质疑", "Snapshot"], ["隐私投票选项", "声称隐私却未用 ZK，签名仍可关联到地址，隐私承诺成虚假宣传", "Snapshot"], ["结果可验证性", "结果不可被第三方独立验证，中心化计票方可能篡改，信任外包", "Snapshot"]]], ["结果上链桥接", [["链下结果上链", "链下结果若无人把票数转成执行指令，治理停在口号，需 SafeSnap 等桥接", "SafeSnap"], ["预言机信任根", "用中心化预言机把票数搬上链，预言机作恶即可伪造胜出提案", "Zodiac Reality"], ["争议仲裁窗口", "无仲裁窗口的结果直接执行，少数派无救济渠道，社区分裂", "Kleros"], ["元交易转发", "转发方若篡改提案引用，投票者签名的意图被偷换，执行偏离民意", "Snapshot X"]]]]],
+ ["d3", "链上投票与治理合约", "On-chain Voting", "成熟", "把投票与执行写进不可篡改的智能合约，是治理最终确定性的来源", [["治理合约标准", [["Governor 标准选型", "错用非标准治理合约会让投票结果与执行解耦，提案通过却无法触发动作", "OpenZeppelin Governor"], ["投票权快照时点", "链上未固化区块快照，投票者可先投后转，权重被套利", "Compound Governor"], ["票数计数精度", "整数截断计票在超低单价代币下会系统性偏向大户，公平性流失", "Tally"], ["提案状态机", "状态机缺已排队/已过期会导致重复执行同一提案，金库被二次扣款", "Governor Bravo"], ["紧急暂停开关", "无 Guardian 暂停键，发现恶意提案只能眼睁睁等执行", "Compound Guardian"]]], ["投票执行耦合", [["队列延迟执行", "跳过队列直接执行，等于取消社会层复核时间，闪电提案可秒级掏空金库", "Timelock"], ["执行角色分离", "提案者即执行者会让内部人自批自执行，需角色隔离", "OpenZeppelin"], ["参数边界校验", "合约未校验提案参数上下界，可通过合法投票把费率改成 100%", "Compound"], ["多链执行路由", "跨链执行路由错配会让指令发到错误链，资产永久锁定", "LayerZero"]]], ["链上可验证", [["投票记录不可篡改", "投票记录若可改写，治理沦为表演，外部审计无从取证", "Etherscan"], ["结果公开可查", "结果不公开会让通过成黑箱，社区丧失监督入口", "Tally"], ["事件日志规范", "事件缺失让链上分析工具无法重建投票图谱，情报断链", "Tally"], ["gas 成本优化", "未优化 gas 的链上投票把小 holder 排除在外，治理贵族化", "Tally"]]]]],
+ ["d4", "投票机制设计与抗女巫", "Voting Mechanisms", "核心", "决定一票如何折算为权力，是治理公允性的命门", [["权重模型", [["一币一票模型", "纯 token 加权下前 10 地址控 62% 投票权、且 3 个地址属同一实体时，治理实质被操控", "Compound"], ["投票权衰减设计", "无衰减的永久权重让早期巨鲸躺着掌权，新贡献者无话语权", "Curve veCRV"], ["最小持币门槛", "门槛设错会把合法小额持有者误判为女巫，或放过大批机器人", "Gitcoin"], ["权重封顶机制", "无封顶则单一地址可买下多数票，治理等于拍卖给最高出价者", "Nouns"]]], ["抗女巫", [["女巫抵抗验证", "女巫攻击未被识别，一个实体分裂百地址即可伪造成草根共识", "Gitcoin Passport"], ["人机校验集成", "无人机校验的投票会被脚本农场刷量，真实社区意志被淹没", "Gitcoin"], ["地址关联图谱", "不关联同一实体的多地址，集中度指标失真，风险被低估", "Arkham"], ["行为指纹识别", "仅靠持币快照无法识别租来的票，需行为维度辅助判定", "Gitcoin"]]], ["机制组合", [["混合机制切换", "随意切换机制会让既得利益者择机选有利规则，制度被套利", "Aragon"], ["参数化治理", "参数硬编码无法随社区规模调整，小 DAO 与大 DAO 套用同一套反而失衡", "Aragon"], ["机制可解释性", "机制不可解释会让投票者无法理解自己权力的来源，参与意愿崩塌", "Tally"], ["公平审计接口", "无公平审计接口，外部无法验证一人一票是否被违反", "OpenZeppelin"]]]]],
+ ["d5", "代币加权与巨鲸治理", "Token-weighted Voting", "核心", "以持有量决定话语权的主流范式，也是治理中心化风险的根源", [["持币集中度", [["集中度实时监测", "不监测前 N 地址占比，等金库被掏空才发现 62% 权力已在少数人手中", "Tally"], ["同一实体识别", "三个地址同属一实体却分别投票，等于一张票被计三次，需实体聚合", "Arkham"], ["巨鲸联盟预警", "多个巨鲸协同投票无预警，提案可绕开社区被内部小团体通过", "Nansen"], ["持仓变动追踪", "投票前突击买入再卖出，制造瞬时多数，需锁仓或快照约束", "Nansen"]]], ["锁仓加权", [["veToken 锁仓期", "锁仓期设错会让短期资本获得长期投票权，ve 模型失效", "Curve"], ["锁仓线性释放", "非线性的释放曲线会被精算套利，提前解锁者占便宜", "Curve"], ["锁仓不可转让", "允许锁仓凭证转让等于重新开放买卖选票市场，ve 退化", "veCRV"], ["提前解锁惩罚", "无惩罚的提前解锁让攻击者锁完即跑，治理稳定性归零", "Curve"]]], ["投票权市场化", [["投票权租赁", "投票权可租赁意味着治理被出租给最高租金者，远离项目利益", "Curve Wars"], ["贿赂市场接入", "bribe 市场无披露会让金库流向被暗箱操作，Votium 类需透明化", "Votium"], ["回购与贿选隔离", "贿选收益未与代币回购隔离，会被包装成收益诱导投票", "Convex"], ["二级市场对冲", "用衍生品对冲投票风险会让投票者与结果脱钩，责任感消失", "DeFi"]]]]],
+ ["d6", "二次方投票与身份加权", "Quadratic & Identity Voting", "成长", "用平方根抑制资本权重、用身份恢复一人一票，是纠偏巨鲸的工具集", [["二次方计算", [["平方根计算正确性", "平方根除权算错会让富者权重被错误放大或缩小，公平性直接崩坏", "Gitcoin"], ["信用额度分配", "每人信用点分配不公，会被批量女巫薅走额度，二次方失效", "Gitcoin"], ["边际成本递增", "无边际成本递增则大资金仍可逼近线性权重，二次方名存实亡", "Quadratic Voting"], ["跨轮额度累计", "跨轮累计错误会让同一人重复刷满额度，需持久身份绑定", "Gitcoin"]]], ["身份凭证", [["SBT 声誉凭证", "SBT 可转让则丧失去人属性，需绑定不可转移的链上声誉", "Vitalik SBT"], ["身份唯一性证明", "身份不唯一，二次方退回一地址一票被女巫攻破", "Gitcoin Passport"], ["凭证撤销机制", "凭证无撤销，作恶身份永久保留投票权，需可更新黑名单", "Polygon ID"], ["隐私保护验证", "验证身份却泄露原始凭证，违反 GDPR，需 ZK 证明是人而非是谁", "zkPass"]]], ["混合加权", [["多元权重合成", "持币×0.4+治理参与×0.3+社区贡献×0.3 的权重算错会扭曲激励方向", "Colony"], ["权重动态调参", "权重系数固化无法随阶段调整，早期需贡献、后期需资本却套用同比例", "Colony"], ["贡献量化口径", "贡献量化主观会导致刷量换权重，需客观链上行为指标", "SourceCred"], ["争议权重申诉", "无申诉通道，错算的权重无法纠正，用户永久受损", "Colony"]]]]],
+ ["d7", "委托与治理代表", "Delegation & Delegates", "核心", "把分散的小票聚合给专业代表，是提升参与率与决策质量的关键机制", [["委托市场", [["委托关系登记", "委托未上链登记，代表无法证明授权，执行时代理权无效", "Tally Delegates"], ["委托可撤回", "委托不可撤回，被代表背叛的选民无退出机制，治理变绑架", "Compound"], ["自动再委托", "自动再委托链断裂会让投票权在关键提案静默失效", "delegate.xyz"], ["委托透明度", "代表持仓暗中变化却不更新，委托者不知其利益已冲突", "Boardroom"]]], ["代表治理", [["代表活跃度考核", "无活跃度考核，代表睡着仍掌权，提案长期低质量通过", "Tally"], ["代表声明公开", "代表无公开立场，选民无法按价值观委托，委托变盲投", "Boardroom"], ["代表薪酬机制", "代表无报酬则只剩利益驱动者愿意干，公共品代表缺位", "Karma"], ["代表轮换机制", "代表终身制会形成权力小圈子，需定期重选", "Nouns"]]], ["委托安全", [["委托被劫持", "委托合约漏洞可被转移给他人，投票权被盗用", "Tally"], ["委托集中预警", "少数代表集中过半委托等于事实寡头，需分散提示", "Tally"], ["delegation 冲突", "同一票被委托给多人，计票重复，需唯一委托终态", "Boardroom"], ["代表身份核实", "代表用假身份揽委托，需声誉与历史记录背书", "Sybil"]]]]],
+ ["d8", "多签钱包与金库", "Multisig & Treasury", "成熟", "用多签把花钱变成需多人共识的动作，是 DAO 资产的最后一道门", [["多签配置", [["签名阈值设定", "阈值过低（如 2/3）易被内鬼串通，过高（如 9/10）则瘫痪日常运营", "Gnosis Safe"], ["签名者更替", "签名者离职未移除，旧钥匙仍是攻击面，需及时轮换", "Safe{Wallet}"], ["签名者身份绑定", "签名者用无名地址，被胁迫或失联时无法追责与替换", "Safe"], ["硬件钥匙绑定", "签名不绑定硬件钱包，私钥长期在线等于变相单签", "Safe + Ledger"]]], ["交易审批", [["交易预演仿真", "不仿真就签名，恶意 calldata 在多人盲签下通过，金库被洗", "SafeSimulate"], ["审批界面防篡改", "审批界面被替换收款地址，签名者看到 A 实际签了 B", "Safe UI"], ["批量交易隔离", "批量交易不隔离，一项恶意拖垮整批，需逐项确认", "Gnosis Safe"], ["离线签名支持", "不支持离线签名，断网环境无法安全审批，应急失效", "Safe"]]], ["资产视图", [["多链资产聚合", "不聚合多链资产，财库真实规模失真，预算决策基于假数据", "Safe{Terra}"], ["资产分类记账", "不分清运营/投资/锁仓，挪用投资款发工资无预警", "Safe"], ["异动实时监控", "无监控，小额高频转出可累积成大失血，发现即晚期", "Safe"], ["权限最小化", "给执行机器人全权限，一旦被黑全盘皆输，需作用域限制", "Safe Roles"]]]]],
+ ["d9", "金库管理与资产流出控制", "Treasury Management", "核心", "对 DAO 资产全生命周期做预算、流出审批与风险敞口管理", [["预算与拨款", [["预算编制流程", "无预算的拨款让每笔支出临时议价，财库可持续性失控", "Parcel"], ["拨款分期释放", "一次性拨款给承包商，跑路后无法追回，需按里程碑释放", "Streamflow"], ["多签拨款约束", "拨款不经多签，单人财务即可转走整库，需 Safe 二次确认", "Gnosis Safe"], ["预算执行追踪", "不追踪执行，超支无预警，年末发现资不抵债", "Parcel"]]], ["流出控制", [["单笔限额", "无单笔限额，一次转账即可清空金库，限额是止血阀", "Safe"], ["白名单地址", "无收款白名单，钓鱼地址可混入被签，需地址簿校验", "Safe Address Book"], ["冷却期设置", "无冷却期，拨款到执行无间隔，无时间复核异常", "Timelock"], ["大额人工复核", "大额不人工复核，自动化审批被利用洗走资产", "Safe"], ["异动告警", "无告警的流出如同无监控金库，被盗数日后才发现", "Safe"]]], ["资产与风控", [["资产多元化", "全仓单一代币，价格腰斩即资不抵债，需稳定币+国债配置", "Llama"], ["收益策略风控", "随意接入收益策略，本金亏空需回滚无门", "Yearn"], ["无常损失管理", "LP 头寸无管理，市场单边时本金侵蚀无人知", "Llama"], ["压力测试", "不做极端行情压力测试，崩盘时流动性枯竭无法退出", "Llama"]]]]],
+ ["d10", "治理安全与攻击防护", "Governance Security", "核心", "识别并阻断针对治理流程本身的攻击，是 DAO 存续的底线工程", [["攻击面识别", [["提案注入检测", "未检测提案 calldata 中的后门，通过即植入提款后门", "Trail of Bits"], ["治理权限最小化", "给治理合约过高权限，通过一提案即可改规则自肥", "OpenZeppelin"], ["升级控制隔离", "治理可升级自身合约等于给自己发无限权，需 Timelock 约束", "OpenZeppelin"], ["紧急停止通道", "无暂停通道，发现攻击只能等执行，损失不可挽回", "Compound Guardian"]]], ["监控与响应", [["异常投票监控", "不监控异常集中投票，被操控通过才察觉，回滚已晚", "Flipside"], ["提案蜜罐诱捕", "无诱捕机制，真实攻击者无差别得手，需陷阱提案识敌", "Forta"], ["社会层告警", "链上告警无社会层同步，技术发现到人工干预有时间差被利用", "Forta"], ["响应剧本", "无响应剧本，出事临时决策混乱，黄金窗口流失", "OpenZeppelin"]]], ["审计与保险", [["治理合约审计", "未审计的治理合约等于裸奔，一处漏洞倾库", "Trail of Bits"], ["形式化验证", "仅靠人工审计漏掉边界，需形式化验证关键路径", "Certora"], ["治理保险覆盖", "无保险，攻击损失无兜底，社区信心崩塌", "Nexus Mutual"], ["漏洞赏金机制", "无赏金，白帽无动力上报，漏洞在黑市流通", "Immunefi"]]]]],
+ ["d11", "闪电贷攻击与防御", "Flash Loan Attacks", "核心", "防范借巨资瞬时买下投票权通过恶意提案，是链上治理最典型的攻防战场", [["攻击原理", [["瞬时投票权获取", "闪电贷可借巨资临时获得多数票，Beanstalk 因此被掏 1.82 亿美元", "Beanstalk"], ["投票权借入检测", "不识别 borrowed voting power，攻击在投票期内零成本发动", "Forta"], ["提案与执行连贯", "攻击将通过与执行放同区块，社会层无复核时间，需 Timelock 阻断", "Beanstalk"], ["价格操纵耦合", "治理代币价格被操纵会放大借入权重，需预言机隔离", "Chainlink"]]], ["防御机制", [["投票权锁定期", "要求投票权在投票前已锁仓，闪电贷无法满足，攻击失效", "Curve veCRV"], ["提案执行延迟", "强制 Timelock 延迟让攻击暴露在社会视线，社区可反击", "OpenZeppelin Timelock"], ["最小持有时长", "要求代币持有满 N 区块才计票，瞬时借入不达标", "Compound"], ["分批投票限制", "限制单地址单轮投票上限，防止集中爆发式通过", "Nouns"]]], ["监测响应", [["异常借款告警", "大额闪电贷借入治理代币即告警，争取响应窗口", "Forta"], ["提案社会层复核", "强制社会复核期让社区在链上执行前否决恶意提案", "Tally"], ["攻击复盘归档", "不归档攻击案例，同类攻击重复得手，知识无沉淀", "OpenZeppelin"], ["模拟攻击演练", "无红蓝对抗演练，防御在真实攻击时首次验证即失败", "Trail of Bits"]]]]],
+ ["d12", "Timelock 与时间锁执行", "Timelock", "成熟", "用强制延迟给社会层留出否决窗口，是治理从代码即法律到人有复核的桥梁", [["延迟配置", [["延迟时长设定", "延迟过短无复核意义，过长则正常执行被拖垮，需按风险分级", "OpenZeppelin Timelock"], ["分级延迟策略", "不分风险统一延迟，紧急修复被卡、常规被秒过，需分级", "TimelockController"], ["延迟不可绕过", "存在绕过通道的 Timelock 形同虚设，需无后门", "OpenZeppelin"], ["延迟可延长机制", "不可延长的延迟遇复杂争议无法争取时间，需可延期", "Governor Bravo"]]], ["执行窗口", [["执行有效期", "无有效期，过期提案仍可被执行，状态混乱", "TimelockController"], ["取消权限设计", "无取消权，错误提案只能等过期，资产悬空风险", "Compound"], ["执行者白名单", "任意地址可执行，权限泛滥，需限定执行者", "OpenZeppelin"], ["到期提醒机制", "无提醒，合法提案过期作废，治理效率损失", "Tally"]]], ["治理协同", [["与治理合约耦合", "Timelock 与 Governor 解耦，执行绕过治理直接触发", "OpenZeppelin"], ["多签共管", "Timelock 管理员等同超级权限，需多签共管防单点", "Safe"], ["事件可观测", "延迟期事件不透明，社区不知待执行风险，复核落空", "Tally"], ["紧急例外通道", "无例外通道，真紧急修复被延迟误事，需 Guardian 例外", "Compound Guardian"]]]]],
+ ["d13", "执行自动化与 Zodiac 模块", "Execution Automation / Zodiac", "成长", "用模块化组件把治理决策自动落到链上动作，降低人工执行摩擦", [["模块体系", [["Zodiac 模块选型", "错用未审计模块，一个 Guard 漏洞即可拦截或放行恶意交易", "Zodiac"], ["模块权限边界", "模块权限过大可越权执行，需作用域隔离", "Zodiac"], ["模块可卸载", "模块不可卸载，发现恶意模块只能硬分叉，成本极高", "Zodiac"], ["模块组合编排", "多模块组合顺序错，Guard 与 Delay 次序颠倒致防护失效", "Zodiac"]]], ["预言机执行", [["Reality 预言机", "SafeSnap 靠 Reality 把票搬上链，预言机被贿赂即伪造结果", "Zodiac Reality"], ["乐观预言机争议", "无争议期，错误结果直接执行，需 UMA 式乐观仲裁", "UMA"], ["链下事实校验", "校验源单一，被操控即误执行，需多源交叉", "Reality"], ["执行回滚机制", "执行不可逆却无回滚，误执行资产永久损失", "Zodiac"]]], ["自动化流水线", [["提案到执行流水线", "流水线与治理状态不同步，执行了已撤销提案", "Zodiac"], ["条件触发执行", "条件判断错，未达标触发执行，参数被错误写入", "Zodiac"], ["失败重试策略", "盲目重试会让重复执行 double-spend 金库，需幂等", "OpenZeppelin"], ["人工兜底开关", "无人工兜底，自动化失控时无人能停，需 kill switch", "Zodiac"]]]]],
+ ["d14", "治理分析与链上情报", "Governance Analytics", "成长", "把投票、委托、集中度转化为可决策的情报，是治理健康的仪表盘", [["参与度分析", [["投票率追踪", "不追踪投票率趋势，参与度悄然下滑至个位数才被发现", "Tally"], ["代表影响力图", "不绘制代表影响力，关键提案被少数人左右无感知", "Boardroom"], ["投票者留存", "不分析留存，核心投票者流失导致治理空心化", "Flipside"], ["沉默多数测算", "只算投票者忽略沉默多数，决策偏离社区真实意愿", "Flipside"]]], ["集中度情报", [["投票权集中度", "不计算前 N 地址占比，62% 集中度成隐性独裁无预警", "Nansen"], ["实体聚合分析", "不聚合同一实体多地址，真实集中度被严重低估", "Arkham"], ["委托流向图", "不画委托流向，权力向少数代表坍缩无可视化预警", "Tally"], ["巨鲸动向监控", "不监控巨鲸买卖投票权，提案前异动被忽略", "Nansen"]]], ["决策支持", [["提案影响模拟", "不模拟提案对金库/参数的影响，盲投导致连锁恶果", "Llama"], ["历史对照检索", "无历史库，同类失败提案重复提出浪费周期", "Tally"], ["风险评分输出", "无风险评分，社区凭感觉投票，风险被情绪掩盖", "Flipside"], ["异常模式识别", "不识别异常模式，操纵投票混在常规中通过", "Forta"]]]]],
+ ["d15", "声誉系统与 SBT", "Reputation & SBT", "成长", "用不可转让的链上声誉补充资本权重，让长期贡献者获得匹配的话语权", [["声誉建模", [["贡献量化模型", "量化模型主观，刷量换声誉，声誉通胀失去区分度", "SourceCred"], ["声誉不可转让", "声誉可转让等于重新开放购买话语权，需 SBT 绑定", "Vitalik SBT"], ["声誉衰减机制", "无衰减，早期贡献者永久掌权，新人无上升通道", "Colony"], ["跨域声誉移植", "不打通跨 DAO 声誉，贡献者每换场从零，激励断裂", "Orange"]]], ["凭证体系", [["SBT 发行规范", "SBT 发行无规范，假贡献者自铸高权重，需签发方信誉", "Gitcoin Passport"], ["凭证可验证", "凭证不可验证，冒领声誉混入计票，需链上校验", "Polygon ID"], ["撤销与更新", "无撤销，作恶者声誉永久有效，需可更新黑名单", "Polygon ID"], ["隐私保护", "验证声誉泄露身份，违反隐私，需 ZK 证明资质而非身份", "zkPass"]]], ["权重融合", [["声誉投票权重", "声誉权重占比设错，资本仍可碾压或贡献者反客为主", "Colony"], ["动态权重调参", "权重固化，不同阶段最优比例不同却被锁死", "Colony"], ["声誉作恶惩罚", "无惩罚，刷誉无成本，需 slash 机制", "Colony"], ["争议申诉通道", "无申诉，错判声誉无法纠正，用户永久受损", "Gitcoin"]]]]],
+ ["d16", "DAO 法律实体与合规包装", "Legal Wrapper & Compliance", "成长", "为链上组织套上现实法律外衣，解决责任归属、税务与对外签约能力", [["实体形态", [["法律实体选型", "选错形态（如本该开曼基金会却用 Wyoming LLC）导致税务与责任错配", "a16z 法律"], ["责任隔离边界", "无责任隔离，成员个人资产因 DAO 行为被追索，需有限责任外壳", "Wyoming DAO LLC"], ["成员责任界定", "成员责任不清，债权人可穿透追索全体，需明确有限责任", "Cayman Foundation"], ["跨境实体协调", "多国成员无统一实体，签约与报税陷入管辖冲突", "Swiss Association"]]], ["合规义务", [["KYC 成员识别", "对成员无 KYC，受制裁者混入，DAO 连带违规", "Sumsub"], ["税务申报义务", "忽略代币发放税务，成员收到空投触发未申报风险", "TokenTax"], ["证券属性判定", "未判定治理代币是否证券，违规发行面临监管追责", "SEC 框架"], ["反洗钱义务", "有法币出入口却无 AML，触碰旅行规则红线", "Chainalysis"]]], ["治理衔接", [["链下链上映射", "法律实体决议与链上投票不映射，对外合同无链上依据", "LexDAO"], ["签署权限绑定", "对外签署人未与多签绑定，越权签约使 DAO 担责", "Safe"], ["合规留痕存档", "无留痕，监管核查时无证据自证，被推定违规", "LexDAO"], ["监管沟通通道", "无监管沟通渠道，突发合规事件无对接窗口", "a16z 政策"]]]]],
+ ["d17", "Agentic 治理与 AI 参与", "Agentic Governance / AI", "成长", "让 AI 代理承担监控、起草与执行建议，是人类治理带宽的延伸而非替代", [["AI 代理能力", [["代理身份凭证", "AI 代理无 SBT 能力凭证，越权执行未被识别，需三层身份", "AI Agent SBT"], ["提案自动起草", "AI 起草不附风险说明，代表盲投带漏洞提案，需人类复核", "Tally AI"], ["投票建议生成", "建议不透明，代表盲从 AI，责权错位，需可解释链", "AI 可解释"], ["异常自主响应", "AI 自主响应误判，误触发暂停或执行，需人类轨道兜底", "Forta AI"]]], ["人机协同", [["高隐私高可审计双轨", "人类轨道高隐私、机器轨道高可审计，混用则隐私与合规双输", "Agentic 双轨"], ["人工否决权", "无人工否决，AI 失控无刹车，需保留最终否决", "OpenZeppelin"], ["AI 决策留痕", "AI 决策不留痕，出事无法溯源责任，合规失效", "Safe"], ["价值对齐约束", "AI 目标未对齐社区宪章，优化方向偏离，需约束集", "AI 对齐"]]], ["风险边界", [["AI 被操纵风险", "AI 代理被提示注入操控，执行攻击者意图，需输入校验", "AI 安全"], ["算法黑箱治理", "黑箱算法做关键决策，社区不信任，参与率崩塌", "可解释 AI"], ["责任归属界定", "AI 出错责任不清，社区与开发者互相推诿，需事前约定", "LexDAO"], ["自动化上限设定", "无上限，自动化过度扩展至核心决策，人类被架空", "Agentic 治理"]]]]],
+ ["d18", "跨链治理与互操作", "Cross-chain Governance", "成长", "让一个 DAO 在多条链上协同决策与执行，是多链时代的治理骨架", [["跨链消息", [["跨链消息可靠性", "消息桥不可靠，一条链通过另条未达，状态分叉", "LayerZero"], ["消息最终性确认", "未等源链最终性即执行，链重组让已执行提案作废", "Wormhole"], ["消息防重放", "跨链消息无防重放，重复执行扣款两次，金库失血", "LayerZero"], ["源链身份验证", "不验证源链治理身份，伪造提案跨链执行，需轻客户端", "Axelar"]]], ["统一执行", [["多链执行一致性", "各链执行参数不一致，同一提案结果分叉，需原子协调", "Wormhole"], ["跨链治理代币", "治理代币跨链桥接被操纵，权重在异链膨胀，需锁仓映射", "LayerZero"], ["执行回滚协调", "一链失败他链已执行，无协调回滚，状态永久错位", "Axelar"], ["Gas 抽象支付", "跨链执行 gas 由各链支付，单链余额不足致执行卡死", "LayerZero"]]], ["互操作标准", [["治理消息标准", "无标准，各桥各自为政，DAO 需为每个链定制，维护爆炸", "XMTP"], ["链上身份互通", "身份不互通，跨链重复 KYC 与女巫检测失效", "Polygon ID"], ["跨链投票聚合", "不聚合跨链票，分散的票被低估，参与度失真", "Tally"], ["安全边界隔离", "一链被黑蔓延全 DAO，需故障隔离域", "Axelar"]]]]]
+];
+const FRONTIER = [
+ ["二次方投票规模化", "pilot", "Gitcoin 验证二次方可抑制资本，但大规模身份唯一性仍靠中心化护照", "做去中心化身份+二次方一体机，降低女巫成本"],
+ ["veToken 锁仓加权主流化", "live", "Curve 证明锁仓加权可持续，ve 模型已被 Frax/Yearn 复用", "提供 ve 治理即服务，含贿选透明化模块"],
+ ["SBT 声誉加权治理", "explore", "Vitalik 提出 SBT 但可验证声誉基础设施尚不成熟", "构建跨 DAO 可移植声誉层，绑定不可转让权重"],
+ ["委托市场专业化", "live", "Tally/Boardroom 已建代表市场，委托率显著提升", "做代表评级+薪酬自动发放+委托保险"],
+ ["SafeSnap 链下链上桥", "live", "Snapshot+Safe 通过 Reality 实现签名转执行，已成事实标准", "提供多预言机冗余的桥接即服务"],
+ ["Zodiac 模块化执行", "pilot", "Gnosis Zodiac 模块化但采用率仍低，需模板降低门槛", "做模块市场+一键安全审计"],
+ ["治理攻击保险", "pilot", "Nexus Mutual 试水但覆盖率低、定价难", "基于集中度与历史攻击的精算险种"],
+ ["跨链统一治理", "explore", "LayerZero/Wormhole 打通消息但治理标准缺位", "做跨链治理消息标准+执行协调器"],
+ ["AI 提案起草助手", "pilot", "Tally 等试水 AI 起草，但可解释与复核不足", "做带风险说明与人类否决的起草 agent"],
+ ["治理健康评分", "live", "Flipside/Tally 已出参与度指标，但缺统一风险分", "做标准化治理风险评分 API"],
+ ["法律实体一键包装", "pilot", "Wyoming/Cayman 路径成熟但流程重", "做合规即服务的实体注册+签约+报税"],
+ ["投票权透明化分析", "live", "Nansen/Arkham 可做实体聚合，但非治理专用", "做治理专属集中度与实体聚合面板"],
+ ["治理形式化验证", "pilot", "Certora 验证合约但治理路径覆盖有限", "把投票状态机纳入形式化验证套件"],
+ ["隐私投票 ZK", "explore", "zkPass 等可做资质证明，端到端隐私投票仍早期", "做 ZK 隐私投票+可验证计票"],
+ ["治理代币防闪贷", "live", "veCRV/Compound 锁仓已验证可挡闪电贷", "做成标配的投票权锁仓中间件"],
+ ["金库流出实时风控", "pilot", "Safe 有基础告警但缺策略化流出控制", "做限额+白名单+冷却的财库风控引擎"],
+ ["提案影响模拟器", "explore", "Llama 有预算工具但缺提案级仿真", "做提案对金库/参数的因果模拟"],
+ ["DAO 合规 KYC", "pilot", "Sumsub 等 KYC 通用但缺 DAO 成员适配", "做成员级 KYC+制裁筛查+责任隔离"],
+ ["治理红蓝对抗演练", "explore", "安全公司偶发演练，缺常态化产品", "做可订阅的治理攻防演练平台"],
+ ["多签硬件化签名", "live", "Safe+Ledger 已验证，企业采用上升", "做 MPC 阈值签名替代单点硬件"],
+ ["治理数据开放层", "pilot", "各平台数据孤岛，分析需爬取", "做统一治理事件数据 API"],
+ ["Agentic 治理监控", "explore", "Forta 有监控但 AI 自主响应边界未定", "做 AI 代理监控+人类否决双轨"]
+];
+const MIDS = [
+ ["提案中心", "负责提案从温度检查到正式提交的全流程", "起草模板/格式校验/关联检测"],
+ ["投票中心", "承载链上链下投票与计票", "快照/策略/防重放"],
+ ["机制设计中心", "定义权重与抗女巫规则", "二次方/ve/混合加权"],
+ ["委托中心", "管理代表与委托关系", "委托登记/活跃度/轮换"],
+ ["多签中心", "掌管资产签名与审批", "阈值/仿真/硬件绑定"],
+ ["金库中心", "负责预算拨款与流出控制", "预算/限额/白名单"],
+ ["安全中心", "识别阻断治理攻击", "注入检测/监控/响应"],
+ ["时间锁中心", "提供延迟复核窗口", "分级延迟/取消/告警"],
+ ["执行中心", "把决策落到链上动作", "模块/预言机/流水线"],
+ ["分析中心", "把治理数据转情报", "集中度/参与/风险分"],
+ ["声誉中心", "管理链上声誉与 SBT", "量化/凭证/融合"],
+ ["合规中心", "对接法律实体与监管", "KYC/税务/留痕"],
+ ["AI 治理中心", "编排 agent 参与治理", "起草/建议/否决"],
+ ["跨链中心", "协调多链治理", "消息/一致性/隔离"],
+ ["社区中心", "维系成员参与与沟通", "论坛/教育/激励"],
+ ["风控中心", "统管治理与资产风险", "评分/预警/保险"],
+ ["标准中心", "沉淀机制与接口标准", "合约/消息/审计"],
+ ["应急管理中枢", "处置攻击与危机", "剧本/暂停/复盘"]
+];
+const RULES = [
+ ["提案 calldata 必须可独立审计", "一处字节错误会让通过的提案执行失败或植入后门，且链上不可撤销，损失治理信用与金库（Beanstalk 式）"],
+ ["投票权必须锁定防闪贷", "不设锁仓，攻击者借巨资瞬时买下多数票通过恶意提案，Beanstalk 被掏 1.82 亿美元，社会层零复核时间"],
+ ["Timelock 延迟不可被绕过", "存在绕过通道等于无复核窗口，恶意提案秒级执行，金库被秒掏"],
+ ["多签阈值不可过低", "2/3 阈值下两名内鬼即可转走整库；过高又瘫痪运营，需按金额分级阈值"],
+ ["签名前必须交易仿真", "不仿真盲签，恶意 calldata 在多人盲签下通过，Safe 金库被洗，发现即晚期"],
+ ["治理合约权限必须最小化", "给治理过高权限，通过一提案即可改规则自肥，需 Timelock 约束升级权"],
+ ["女巫必须被识别", "不识别同一实体多地址，前 3 地址同属一实体却计三票，集中度失真、操控隐身"],
+ ["紧急暂停键不可缺", "无 Guardian 暂停，发现恶意提案只能等执行，损失不可挽回"],
+ ["委托必须可撤回", "委托不可撤回，被代表背叛的选民无退出，治理变绑架，代表可滥用权力"],
+ ["法律实体责任必须隔离", "无有限责任外壳，DAO 行为致成员个人资产被追索，违背参与前提"],
+ ["跨链消息必须等最终性", "未等源链最终性即执行，链重组让已执行提案作废、金库双扣"],
+ ["AI 决策必须留痕且可否决", "AI 不留痕出事无法溯源，无人类否决则失控执行，责任错位"],
+ ["金库流出必须限额+白名单", "无单笔限额与收款白名单，一次转账清空金库，钓鱼地址混入即中招"],
+ ["投票快照块高必须锁定", "不锁块高，投票期临时转账刷权重，公平性崩塌，结果合法性受质疑"],
+ ["治理代币证券属性必须判定", "未判定是否证券，违规发行面临 SEC 追责，DAO 与成员连带风险"],
+ ["形式化验证覆盖关键路径", "仅靠人工审计漏边界，攻击者专挑未验证路径，一处漏洞倾库"]
+];
+const KPIS = [
+ ["提案健康度", "温度检查通过率/正式提案数/平均审议时长，反映治理吞吐质量"],
+ ["投票参与度", "投票率/委托率/沉默多数占比，衡量社区真实参与"],
+ ["权力集中度", "前 N 地址占比/实体聚合后集中度/HHI 指数，预警隐性独裁"],
+ ["委托质量", "代表活跃度/委托集中度/代表轮换率，评估代表机制健康"],
+ ["安全态势", "异常投票数/攻击拦截数/未审计合约占比，量化安全水位"],
+ ["金库稳健度", "资产多元化/月净流出/压力测试缺口，评估可持续性"],
+ ["执行时效", "提案到执行时延/超时率/Timelock 利用率，衡量运营效率"],
+ ["合规覆盖", "KYC 覆盖率/制裁命中/留痕完整度，评估合规风险"]
+];
+const LIC_CN = [
+ ["虚拟货币交易业务全面禁止", "不可开展代币交易、ICO、面向公众的加密资产兑换与理财", "仅可提供区块链技术服务、联盟链治理工具，不得触碰资金与代币发行"],
+ ["虚拟货币代币发行融资（ICO）禁令", "不可开展任何形式代币融资、空投营销、代币激励拉新", "可用积分/通证化内部权益但不得上链公开交易"],
+ ["反洗钱与客户身份识别要求", "可为合规机构提供链上 AML/KYT 数据分析服务", "数据服务须备案，不得为非法加密业务提供支付与清算"],
+ ["区块链信息服务备案", "可开展许可的区块链信息服务并备案", "未备案不得向公众提供链上治理 SaaS"],
+ ["数据安全法与个人信息保护", "可采集治理行为数据但须境内存储与脱敏", "跨境传输需安全评估，禁止泄露可识别个人身份"],
+ ["密码法合规", "可使用合规商用密码与国密算法", "禁用未授权境外密码模块，密钥管理须合规"],
+ ["网络安全等级保护", "治理平台系统须过等保", "未达标不得上线对外服务，日志留存不少于 6 个月"],
+ ["非法集资风险红线", "不得承诺治理代币保本收益或固定回报", "任何收益表述须去金融化，避免涉众集资"],
+ ["证券期货类业务许可", "不得开展未经许可的证券型代币发行与交易", "治理权与收益权须分离，避免被认定为证券"],
+ ["跨境数据与服务限制", "境外 DAO 平台不得在境内无牌展业", "境内主体不得为境外非法加密业务提供技术支持"],
+ ["内容安全与舆论监管", "治理论坛内容须合规审核", "不得传播非法金融信息与炒作行情"],
+ ["支付清算牌照要求", "不得无证开展资金清结算", "金库相关服务须由持牌机构或仅做链上多签工具"],
+ ["税务合规要求", "为境内机构提供链上服务须依法纳税并开票", "代币相关收益个人申报引导须合规"],
+ ["人工智能服务备案", "若提供 AI 治理助手须算法备案", "AI 决策须可解释、留痕，不得全自动核心决策"],
+ ["NFT 相关监管口径", "不得开展炒作化 NFT 发行与二级交易", "可探索数字凭证但须去金融属性"],
+ ["制裁与出口管制", "不得为受制裁实体/地区提供技术服务", "须内置制裁名单筛查，命中即阻断"]
+];
+const LIC_INTL = [
+ ["MiCA（欧盟）", "可为欧盟 CASP 提供合规治理与 KYT 工具", "须满足最低资本、DORA 韧性与旅行规则全量身份识别"],
+ ["美国 FinCEN BSA/MSB", "可在美提供合规链上分析与 KYC 服务并注册 MSB", "3000 美元阈值需 SARs，OFAC 制裁实时筛查"],
+ ["美国 GENIUS Act 稳定币框架", "可对接合规稳定币做治理金库结算", "须联邦框架下的发行与储备披露"],
+ ["瑞士 VASP/协会法", "可在瑞士以协会形式落地 DAO 法律实体", "需满足 AML 与协会治理透明度"],
+ ["开曼基金会/群岛实体", "可用开曼基金会包装 DAO 责任隔离", "须本地注册代理与年度合规"],
+ ["新加坡 MAS 支付服务法", "可在新加坡申请 PSA 牌照提供合规服务", "DTSP 下跨境服务须持牌"],
+ ["香港 SFC VATP 双牌照", "可在港为合规虚拟资产平台提供治理工具", "穿透式监管，须客户资产隔离"],
+ ["VARA（迪拜）", "可在 VARA 框架内提供虚拟资产治理服务", "须本地实体与持续合规报告"],
+ ["FATF 旅行规则", "治理平台涉及价值转移须执行旅行规则", "须可识别交易双方并报送"]
+];
+const OPPS = [
+ ["治理健康评分 SaaS", "市场缺统一风险评分，数据孤岛", "从集中度+参与度评分 API 切入，先服务已有 DAO"],
+ ["金库流出风控引擎", "Safe 告警弱、缺策略化控制", "做限额+白名单+冷却的财库中间件"],
+ ["委托代表专业化市场", "代表激励与评级缺失", "做代表评级+薪酬自动发放+委托保险"],
+ ["AI 提案起草与复核", "起草低效、风险说明缺", "做带风险说明与人类否决的 agent，绑定形式化验证"],
+ ["跨链治理协调器", "跨链治理标准缺位", "做治理消息标准+多链执行协调，先支持主流 L2"],
+ ["DAO 法律实体即服务", "注册流程重、非技术友好", "做合规即服务的实体注册+签约+报税一站式"],
+ ["二次方+身份一体机", "女巫成本高、身份中心化", "做去中心化身份+二次方投票一体方案"],
+ ["治理攻击保险", "险种覆盖低、定价难", "基于集中度与历史攻击做精算险种与风控捆绑"],
+ ["ve 治理即服务", "各项目重复造 ve 轮子", "提供可配置 ve 锁仓加权中间件+贿选透明化"],
+ ["隐私投票 ZK 方案", "端到端隐私投票早期", "做 ZK 隐私投票+可验证计票，先从非敏感提案试点"],
+ ["治理数据开放层", "分析需爬取各平台", "做统一治理事件数据 API 供第三方"],
+ ["红蓝对抗演练平台", "安全演练非常态化", "做可订阅的治理攻防演练与审计套餐"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：DAO 治理平台 / Aragon Snapshot Tally Gnosis Safe / 提案生命周期 链上投票 veToken 二次方投票 多签金库 治理安全 闪电贷攻击`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

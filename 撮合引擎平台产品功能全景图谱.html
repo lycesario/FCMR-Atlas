@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>撮合引擎平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>撮合引擎平台全景</b>
+    <span>撮合引擎平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>撮合引擎平台产品功能全景图谱</h1>
+    <p>撮合引擎不是「下单接口」，而是一台<b>必须逐笔可复现的确定性状态机</b>：本图谱以 18 个功能域、54 个功能簇、239 个功能点，拆开订单簿结构、撮合算法、内存与日志、高可用与容灾、公平性与反操纵、链上撮合与清算结算衔接。判断一家交易所的成色，不看它平时多快，看它<b>崩一次之后能不能自证清白</b>。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线，是把撮合从一段业务代码变成<b>可被重放、可被接管、可被监管取证</b>的市场基础设施。订单在内存里被撮合，真相却在日志里——所有性能、可用性、公平性与合规能力，最终都要回到「输入序列能否被独立复现」这一件事上。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d4）撮合内核</td><td>订单簿数据结构、撮合算法与订单类型、内存撮合与持久化、低延迟与吞吐工程</td><td>把市场规则固化成确定性、可复现、微秒级响应的内存状态机——内核的延迟分布上限由数据结构选型决定</td></tr>
+<tr><td>第2层（d5–d9）接入与实时风控</td><td>订单网关与接入协议、行情分发与市场数据、前置风控与价格保护、账户仓位与保证金引擎、公平性与反操纵机制</td><td>外部世界与资金风险唯一的闸门——所有能造成不可逆损失的动作必须在进入订单簿之前被拦住</td></tr>
+<tr><td>第3层（d10–d14）高可用与运维</td><td>高可用与主备热切换、状态机复制与共识、跨机房容灾与混沌工程、撮合可观测性与全链路审计、时钟同步与逐笔全序溯源</td><td>把市场连续性变成可承诺 SLA，并让每个结果都能追溯到输入、规则版本与当时的时序</td></tr>
+<tr><td>第4层（d15–d18）链上与资金衔接</td><td>链上撮合范式 AMM 与 CLOB、全链上永续 DEX、清算结算与实时交收、跨资产统一保证金与代币化抵押</td><td>用链上透明与统一保证金重建资金效率，同时把托管、结算与清算风险搬到了新的位置上</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br><b>一、确定性先于性能</b>——不能逐笔复现的撮合，性能再高也过不了事故复盘与监管问询，多线程「优化」是确定性最隐蔽的敌人。<br><b>二、前置风控先于成交</b>——凡是可以事后补扣的风险，最终都会变成平台或保险基金承担的损失。<br><b>三、切换能力先于容量扩张</b>——没有在真实流量下验证过的主备与容灾，扩出来的容量只是把事故规模同步放大。</div>
+    <div class="danger"><b>死亡陷阱：把峰值 TPS 当成成功信号。</b><br>压测跑出的单机吞吐上限与真实市场几乎无关——真实行情里的杀手是极端走势下的撤单风暴、档位数量爆炸与长尾延迟。用峰值吞吐做对外宣传、却拿不出一次在真实流量下「杀掉主机」的演练与复算记录，是撮合平台最典型的自欺，也最容易被持牌客户的尽调一眼看穿。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断前沿方向落地优先级，只看一条标准：<b>它能否被独立验证或审计</b>。能被第三方复算、能被监管取证、能在故障时留下可仲裁证据的方向（确定性重放、可验证执行、时序公证）优先；纯性能叙事与「更快的链」在可验证性缺位之前都只是营销。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>订单簿</td><td>撮合的唯一权威定价状态，包含价格档位、队列顺序与订单槽位索引的三层结构</td><td>订单簿一旦与实际资金、持仓不同步，所有成交价都失去依据；恢复后不做档位哈希与订单数校验就继续运行，等于带着错误状态对外报价</td></tr>
+<tr><td>委托日志与全序输入序列</td><td>撮合的唯一真相，状态由这段输入序列确定性推导而来</td><td>日志顺序被改动或丢失一条，后续全部状态都错；它同时是崩溃恢复、监管复算与链上验证的共同前提，丢日志比宕机更严重</td></tr>
+<tr><td>订单状态机</td><td>委托从受理到终态的迁移规则，真正的终态是已清算已交收而不是已成交</td><td>简化状态机会导致账实不符，且只在跨系统对账与提现环节暴露，测试环境几乎发现不了</td></tr>
+<tr><td>保证金与仓位视图</td><td>决定委托能否被接受、仓位何时被强平的实时风险画面</td><td>校验滞后或口径不统一会让「先亏后补」变成平台损失；用最新成交价代替标记价格会被一根针打爆全场仓位</td></tr>
+<tr><td>标记价格与指数价格</td><td>独立于盘口最新价的强平与结算基准，且来源与算法必须可查</td><td>用盘口价强平会在极端行情中触发连锁强平，历史上曾有单笔数千万美元卖盘击穿内部价格源进而引发全市场清算</td></tr>
+<tr><td>时钟与全序凭证</td><td>跨系统可仲裁的时间基准与事件排序证明，含单调序号与多源时钟对账</td><td>缺少单一权威全序，跨机房与跨系统对账永远各说各话，事故责任与赔付判不了</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域是四个监管域的交汇点：<b>证券与衍生品交易监管</b>（交易所牌照、撮合规则报批、市场准入风控、ATS 与 Rule 15c3-5）、<b>反洗钱与制裁</b>（KYC、旅行规则、OFAC 筛查必须前置到委托入口）、<b>金融基础设施韧性与数据安全</b>（DORA、等保与关键信息基础设施、数据出境与个人信息保护）、<b>支付与资金结算</b>（客户资金隔离、托管与结算牌照）。链上撮合还额外叠加虚拟资产专项牌照：MiCA CASP、香港 SFC VATP、新加坡 MAS PS Act、阿联酋 VARA。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br><b>一、委托前风控不是可选项</b>——美国 Rule 15c3-5 与欧盟 MiCA 都要求下单前完成价格带、信用额与错误单防护，事后监控无法替代，撮合产品必须内置可证明的前置风控。<br><b>二、规则变更必须可举证</b>——监管问询与客诉时要能回答「那笔成交当时适用的规则版本是什么」，举证不了，全部历史成交的合法性都会被质疑。<br><b>三、客户资金与数据不可混用</b>——资金混同与数据违规出境在境内与境外同时构成实质风险，巨额罚单往往来自这里而不是技术故障本身。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：把撮合内核做成确定性状态机——输入日志即真相，全部状态可由日志完整推导</li><li>第二步：用 WAL 加强制落盘加定期快照加影子撮合，建立可自证的崩溃恢复与历史复算能力</li><li>第三步：把前置风控（余额与保证金、价格带、自成交防范、限速、熔断）做成入簿前不可绕过的硬闸门</li><li>第四步：用主备热切换加状态机复制把市场连续性变成可承诺的 SLA，并定期在真实流量下做故障演练</li><li>第五步：向清算结算与跨资产保证金延伸，把撮合事件无损接到结算指令与资金效率上</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：面向持牌交易所与券商输出撮合内核加前置风控加行情分发三件套（技术授权或托管交付）</li><li>路径 B：面向新持牌市场提供监管就绪撮合平台——规则版本化、全链路审计留痕、任意时点可复算</li><li>路径 C：链上撮合的可验证性与结算适配层——zk 或欺诈证明、逃生舱演练、撮合到结算的对账</li><li>路径 D：统一保证金与跨资产抵押引擎——现货、永续与代币化国债同一账户，含折扣率模型与压力测试</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点是<b>同一个第一资产：可独立重放的全序输入日志（含快照与状态哈希）</b>。没有它，性能无法归因、可用性无法验证、合规无法举证、链上执行无法自证——产品就只能停在「功能能用」的层面，永远进不了持牌客户的核心链路。</div>
+  </section>
+
+  <footer>
+    <p>撮合引擎平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "定位与本质"],
+ ["s1", "平台形态与商业本质"],
+ ["s2", "功能域全景（18 域）"],
+ ["s3", "前沿方向与落地优先级"],
+ ["s4", "核心对象与能力中心"],
+ ["s5", "致命规则红线"],
+ ["s6", "指标体系"],
+ ["s7", "监管与准入"],
+ ["s8", "机会缺口"],
+ ["s9", "切入路径"]
+];
+const PLAYERS = [
+ ["中心化现货交易所撮合内核", "Binance Spot / Coinbase Exchange", "不适用（大陆禁止虚拟货币交易与撮合业务，合规对标为上交所、深交所竞价撮合系统）", "按成交额收取手续费，规模效应来自深度、延迟与品牌信任"],
+ ["中心化衍生品交易所撮合", "CME Globex / Binance Futures / OKX", "不适用（仅可在国家批准的期货交易场所开展，合规对标为中金所与商品期货交易所）", "手续费+资金费率+强平相关收益，收入与波动率正相关"],
+ ["传统证券交易所竞价撮合系统", "Nasdaq / NYSE / CME", "上交所、深交所自研竞价撮合系统，中金所", "交易所核心基础设施，收入来自交易费、市场数据授权与撮合技术输出"],
+ ["极速交易柜台与撮合引擎授权", "LMAX Exchange 授权方案 / 交易所白标撮合", "恒生电子、顶点软件、华锐、宽睿、易盛（期货极速柜台）", "软件授权+实施运维服务费，客户是券商与交易所，按席位或吞吐计费"],
+ ["做市商与流动性提供平台", "Jump Trading / Citadel Securities / Wintermute", "国内期货做市商由交易所指定并考核，无独立加密做市牌照", "点差收益与激励返佣，靠延迟优势与库存模型赚钱"],
+ ["机构暗池与大宗撮合", "Liquidnet / Cboe LIS / Paradigm", "沪深大宗交易平台与券商大宗交易系统", "以低冲击成本撮合大额指令，按名义成交额收费，卖点是信息保护"],
+ ["链下撮合链上结算混合 DEX", "dYdX v4（Cosmos 应用链）/ Coinbase International", "无（大陆禁止虚拟货币交易业务）", "手续费+代币激励，卖点是自托管与可验证结算，性能接近中心化平台"],
+ ["全链上永续 DEX（自建链）", "Hyperliquid HyperCore / Aster", "无（大陆禁止虚拟货币交易业务）", "交易费销毁与回购，收入与未平仓合约量强相关"],
+ ["zk-Rollup 撮合上链 DEX", "Lighter / dYdX 早期 StarkEx 版本", "无（大陆禁止虚拟货币交易业务）", "零费率+MEV 保护，用可验证执行换机构信任，盈利依赖代币经济与规模"],
+ ["AMM 自动做市协议", "Uniswap / Curve / PancakeSwap", "无（大陆禁止虚拟货币交易业务）", "LP 手续费分成，做的是流动性生意而非撮合生意，收入来自换手率"],
+ ["代币化证券与股票永续撮合", "DTCC 代币化试点（Russell 1000）/ Nasdaq 代币化方案", "大陆由交易所与登记结算机构主导，代币化证券无合规空间", "T+0 结算与跨资产保证金带来的资金效率溢价，面向机构与券商"],
+ ["撮合即服务（MaaS）云托管", "AWS/Equinix 金融专区托管撮合、Chainstack 类托管方案", "交易所与数据服务商的合规云托管，金融云专区", "按实例、吞吐与 SLA 计费，把撮合能力变成可租用的基础设施"]
+];
+const DOMAINS = [
+ ["d1", "订单簿数据结构", "Order Book Data Structure", "核心", "撮合引擎的定价真相全部压在这套数据结构上——它决定的是延迟分布的上限，而不是平均延迟。", [["价格档位与队列组织", [["价格-时间优先队列", "同价委托必须严格按到达时间排队，任何比例分配或随机化都是操纵市场；队列尾指针写错会让成交顺序漂移，且只在行情高峰暴露", "Nasdaq TotalView-ITCH / Binance"], ["跳表档位索引", "用多层索引把价格档位定位压到 O(log n) 且更易做无锁读；层高随机种子不固定会让同一批委托回放出不同成交结果", "dYdX v4 / LMAX Exchange"], ["平衡树档位索引", "在需要按价格区间扫描（价格带检查、深度快照）时提供确定的 O(log n)；指针跳转造成的 cache miss 是尾延迟的主要来源", "CME Globex / 上期所"], ["位图与密集价格数组", "把整数价格映射为位图加数组下标，用单条 CPU 指令找下一个非空档位；价格离散化时的 tick 换算写错会直接制造乌龙单", "Nasdaq / 中金所"], ["交叉价格处理", "买卖价交叉时必须立即撮合而不是挂单，留下交叉盘口等于对外宣布这里有免费套利", "Binance / Coinbase Exchange"]]], ["订单槽位与索引", [["预分配订单池", "用预分配数组加索引替代指针对象，避免 GC 与堆碎片；撮合线程一次 GC 停顿就会表现为全市场行情卡顿", "LMAX Disruptor / Hyperliquid"], ["双索引映射一致性", "orderId 到订单槽位与（用户,客户端订单号）到 orderId 两张表必须原子一致；客户端订单号被静默覆盖会让用户资金凭空消失", "Binance / OKX"], ["订单生命周期状态位", "用位标记表达部分成交、已撤、已拒绝等状态，避免已成交单还能被撤的矛盾；状态位与账务状态不联动会造成重复解冻", "Coinbase / 上交所"], ["深度快照与增量同步", "快照与增量更新必须能用序列号无缝拼接；错位会让做市商报价到不存在的价位并造成自成交", "CME MDP 3.0 / OKX"], ["NUMA 与 cache line 亲和", "把热档位钉在同一 cache line、按 NUMA 节点分片；跨节点访问能把 P99 抬高数倍且抖动不可预测", "LMAX / Hyperliquid"]]], ["定价精度与边界", [["定点整数最小单位", "价格与数量全部用最小报价单位与最小数量单位的整数表示；浮点会让价差在千万笔后累计出差一分钱的纠纷", "CME / 上交所"], ["涨跌停与档位边界", "档位数组必须有明确上下界，越界价格必须被拒绝而不是回绕，否则会出现价格为负的成交", "上期所 / Binance"], ["动态 tick 收窄", "极端行情下档位数量会爆炸，需按波动动态收窄最小报价单位；否则内存占用与扫描成本失控", "Binance / Coinbase"], ["订单簿哈希校验", "从日志与快照重建后必须比对档位哈希与订单数，不一致要拒绝启动而不是带病运行", "dYdX v4 / Hyperliquid"]]]]],
+ ["d2", "撮合算法与订单类型", "Matching Algorithm and Order Types", "核心", "从连续竞价到集合竞价、从 IOC/FOK 到冰山与止损，撮合规则本质上是一份必须逐字可复现的合约。", [["竞价模式", [["连续竞价撮合", "逐笔到达即撮合，是现货与衍生品的主流模式；它的隐含假设是每个时刻都有对手方，流动性差的市场用连续竞价会长期不成交", "Binance / Nasdaq"], ["开盘集合竞价", "在开盘瞬间按最大成交量原则确定开盘价；撮合价确定规则必须提前公示，中途修改等于重写成交结果", "Nasdaq / 上交所"], ["收盘集合竞价", "用集合竞价替代收盘前连续交易已成为主流，能显著压缩收盘价被单笔大单操纵的空间", "Nasdaq Closing Cross / 深交所"], ["波动性中断", "价格在极短时间内偏离过大时暂停连续竞价并转入集合竞价，把闪崩截断在毫秒尺度", "CME / 上期所"], ["撮合结果确定性", "同一输入序列必须产出同一成交序列，这是事故复盘、监管复算与链上验证的共同前提", "dYdX v4 / LMAX"]]], ["订单类型与时效", [["IOC 立即成交否则取消", "未立即成交的部分当场取消，写错会留下本应消失的挂单，等于向市场释放虚假深度", "Binance / CME"], ["FOK 全部成交否则取消", "要么全部成交要么整单撤销；实现时快照不一致会造出部分成交的 FOK", "OKX / Coinbase"], ["Post-Only 只做 Maker", "会立即吃单的委托要么拒绝要么改价，写错会让用户以为在赚挂单返佣实际在付费吃单", "Binance / dYdX v4"], ["GTC 与 GTD 有效期", "长期有效单需要与日切、合约到期和规则变更联动；忘记在到期清理会留下幽灵挂单", "CME / Nasdaq"]]], ["特殊指令", [["冰山单", "只暴露部分数量、成交后补充；被识别后会造成看不见的卖压，需要与公平规则和披露义务平衡", "CME Iceberg / Binance"], ["止损单触发", "触价后转为市价或限价单；用最新成交价还是标记价触发必须明确定义，否则会被一根针批量触发", "Binance / OKX"], ["只减仓指令", "只允许减小仓位、不允许反向开仓，是强平与风控场景的基础约束；写错会让风控指令意外建仓", "Binance / dYdX v4"], ["追踪止损", "按最大有利偏移动态调整触发价；其状态在重放中必须可恢复，否则恢复后会误触发", "OKX / CME"], ["极端行情下的优先级降级", "流动性枯竭时需要临时调整撮合或暂停特定指令；降级规则必须事前定义并留痕，临时修改会被质疑公平性", "CME Rule 588 / 上期所"]]]]],
+ ["d3", "内存撮合与持久化", "In-Memory Matching and Durability", "核心", "撮合在内存、真相处在日志——WAL、确定性重放与快照共同保证崩了之后订单与账务都不漂移。", [["Write-Ahead Log", [["日志先于状态变更落盘", "未落盘的成交在崩溃后会消失，但对手方已在别处生效，造成不可逆资金缺口", "Binance / LMAX"], ["fsync 与组提交策略", "把每笔 fsync 改为批量提交能换吞吐，但必须在 RPO 承诺中写明；悄悄放宽策略是最常见的事故源", "dYdX v4 / Coinbase"], ["日志序列号连续性", "日志必须连续且可校验，缺号即代表数据丢失或分裂，必须拒绝继续撮合", "CME / 上交所"], ["日志分段与滚动", "分段粒度是恢复速度与存储成本的核心参数；分段过大让恢复时间不可控，过小让元数据爆炸", "LMAX / Hyperliquid"], ["日志写入与撮合线程解耦", "用无锁环形队列把 IO 与撮合解耦，但必须保证背压可传导，否则丢日志", "LMAX Disruptor"]]], ["确定性重放", [["输入确定性", "撮合不得依赖系统时间、随机数与外部行情等非确定输入，否则重放必然分叉", "dYdX v4 / LMAX"], ["影子撮合比对", "用日志在影子实例独立撮合并与主实例比对差异，是上线前唯一能发现规则不一致的手段", "CME / Hyperliquid"], ["重放速度与回补窗口", "重放速度决定恢复时长与灰度回补能力，必须被压测并作为 SLA 承诺", "Binance / OKX"], ["非确定来源封禁", "把时间、随机数与外部调用列入静态检查与代码评审禁项，否则确定性会在一次优化中被破坏", "LMAX / dYdX v4"]]], ["状态机快照与恢复", [["定期快照", "快照把恢复时间从重放全量日志压到快照加尾部日志，是可用性的核心手段", "Hyperliquid / dYdX v4"], ["快照与增量日志拼接", "必须能用序列号精确拼接，错位一天往往在恢复后才会暴露", "CME / 上交所"], ["崩溃恢复一致性校验", "恢复后要校验哈希、订单数与资金总量，不通过必须停留在安全态并告警", "LMAX / Binance"], ["恢复时长与 RTO", "恢复时长决定事故等级，必须实测而非估算，且要包含全部校验时间", "Nasdaq / OKX"]]]]],
+ ["d4", "低延迟与吞吐工程", "Low-Latency and Throughput Engineering", "核心", "微秒级延迟是被硬件、内核旁路与队列设计抠出来的，不是靠堆机器换来的。", [["线程与队列模型", [["单线程撮合内核", "所有撮合在一个线程内串行完成，是确定性的物理保证；多线程优化会带来不可复现的成交顺序", "LMAX / dYdX v4"], ["环形队列风格事件总线", "用预分配环形缓冲替代阻塞队列，消除锁与 GC 带来的抖动", "LMAX Disruptor"], ["忙等待与阻塞策略权衡", "忙等待换低尾延迟但吃满 CPU，需配合核隔离；用错会造成同机其他组件抖动", "LMAX / Hyperliquid"], ["CPU 亲和与隔离核", "把撮合线程钉在隔离核并排除超线程干扰，能把尾延迟压低一个数量级", "LMAX / CME"], ["无锁结构与内存序", "跨线程通信必须显式处理内存序，否则在弱内存序 CPU 上会出现偶发丢事件", "Hyperliquid / LMAX"]]], ["内核旁路与网络栈", [["内核旁路与用户态网络", "Solarflare、DPDK 类方案绕过内核协议栈把网络延迟压到微秒级，但带来网卡兼容与运维复杂度", "LMAX / CME"], ["多播行情订阅", "用组播同时喂给所有策略与风控，避免单点串行分发造成延迟不均", "CME MDP / Nasdaq"], ["网卡硬件时间戳", "用硬件时间戳替代软件打点，才可能产出仲裁级的时序证据", "CME / 上交所"], ["二进制协议与 FIX 取舍", "FIX 易对接但解析开销大，二进制协议快但生态成本高；对做市商往往需要同时支持", "LMAX / Binance"]]], ["性能度量", [["端到端分位延迟", "必须按 P50、P99、P999 承诺，均值毫无意义；做市商按尾延迟决定是否报价", "CME / Hyperliquid"], ["吞吐上限标定", "单机吞吐要在保真历史行情下测量，而不是人造满负荷消息流", "LMAX / Nasdaq"], ["延迟抖动归因", "抖动来源要能被分解到 GC、cache miss、IO 与网络，否则优化只能靠猜", "LMAX / Hyperliquid"], ["容量压测保真度", "压测流量必须复刻撤单比与档位分布，否则测出的容量在真实行情下直接失效", "CME / Binance"]]]]],
+ ["d5", "订单网关与接入协议", "Order Gateway and Session Protocol", "成熟", "网关是外部世界唯一能触碰撮合内核的入口，它承担鉴权、限流与会话恢复的全部脏活。", [["会话与协议", [["二进制协议与 FIX 并存", "机构按 FIX 接入、做市商要二进制低延迟通道，只支持一种会丢掉一类客户；两套协议的语义必须等价，否则同一策略在不同通道表现不同", "LMAX / CME iLink"], ["会话鉴权与密钥管理", "用 API Key 签名加 IP 白名单加权限位，密钥泄露等于账户被接管；权限粒度过粗会让风控形同虚设", "Binance / Coinbase"], ["序列号与断线重连", "会话序列号必须连续并可请求重传，否则断线期间的成交回报永久丢失，用户会看到错单", "CME / 上交所"], ["心跳与超时剔除", "心跳超时后要主动撤销该会话的挂单，否则会出现用户已断线但挂单仍在的责任争议", "Binance / OKX"]]], ["限流与准入", [["令牌桶速率限制", "按下单、撤单、查询分别限流并在接近阈值时预警；只做全局限流会让单个异常账户拖垮全市场", "Binance / CME"], ["下单撤单配比限制", "单边高频撤单是幌骗的典型特征，需与撤单率监控联动处置", "CME Rule 575 / Binance"], ["消息大小与批量上限", "单条与批量上限必须与内核处理能力匹配，否则网关会把内核打爆", "LMAX / OKX"], ["恶意流量隔离", "把异常会话降级到独立资源池，避免其对正常客户造成延迟污染", "Coinbase / CME"], ["多网关与一致性", "多网关接入同一内核时必须保证序号与时间基准一致，否则同一策略经不同网关下单的顺序不可预期", "LMAX / Nasdaq"]]], ["网关容错", [["网关无状态化", "网关不保存业务状态才能随时扩缩容与重启；状态寄生在网关会造成重启即丢单", "Binance / OKX"], ["背压传导", "网关必须能把内核拥塞反馈为拒绝或降速，默默排队会造成延迟雪崩", "LMAX / CME"], ["网关时钟与序号对齐", "网关打点时间必须与内核时间同源，否则排障时无法判断慢在网关还是慢在内核", "CME / 上交所"], ["网关级灰度发布", "协议或风控变更需按客户灰度，一次性全量变更会把少数客户的兼容问题放大成全市场事故", "Binance / Coinbase"]]]]],
+ ["d6", "行情分发与市场数据", "Market Data Distribution", "成熟", "行情不是撮合的副产品而是同等重要的产品——做市商按你的深度质量决定要不要报价。", [["行情通道", [["逐笔委托", "按委托粒度发布新增、修改、撤销，是做市商与监管复算的基础数据集", "Nasdaq TotalView / CME MDP 3.0"], ["逐笔成交", "成交明细必须与撮合结果逐笔一致，对不上说明有人在事后修改成交", "Binance / 上交所"], ["增量深度", "按固定粒度聚合的 L2 增量更新，粒度选择直接影响做市商带宽成本与信息完整性", "OKX / Coinbase"], ["快照与增量无缝拼接", "快照必须携带序列号，客户端据此判断是否需要重取；拼接错位会造成虚假盘口", "CME / Nasdaq"], ["组播与冗余通道", "用组播加双路冗余保证行情不因单点故障中断，行情中断比撮合中断更快引发恐慌", "CME / 上交所"]]], ["行情质量", [["序列号缺口检测与重传", "客户端与交易所都要能检测缺口并请求重传，没收到就算了会造成策略基于残缺盘口报价", "Nasdaq / CME"], ["行情重建与回放", "行情要能从逐笔数据完整重建任意时点盘口，这是监管复算与事故复盘的必备能力", "Nasdaq / Binance"], ["标记价格与指数价格发布", "衍生品必须独立发布标记价与指数价且来源与算法可查，否则强平会被质疑操纵", "Binance / OKX"], ["行情端到端延迟度量", "必须能从撮合时间戳到客户端接收时间做端到端度量，否则无法证明行情分发是公平的", "CME / Hyperliquid"]]], ["差异化行情产品", [["低延迟专用通道", "高频与机构客户的专属通道需要明确的价格与准入规则，隐性优先权会引发公平性争议", "CME / Nasdaq"], ["历史数据回放服务", "提供可复现的历史逐笔数据是研究、审计与培训的共同基础设施", "CME DataMine / Binance"], ["深度与聚合粒度分层定价", "按数据深度与延迟分层是交易所重要的数据业务收入来源", "Nasdaq / CME"], ["行情冗余与灾备通道", "行情通道必须与撮合并行容灾，共用链路的灾备等于没有灾备", "上交所 / Nasdaq"]]]]],
+ ["d7", "前置风控与价格保护", "Pre-Trade Risk and Price Protection", "核心", "所有能击穿账户与市场的委托，必须在进入订单簿之前被拦住，事后补救都算事故。", [["委托前校验", [["可用余额与保证金预校验", "必须在入簿前完成，事后补扣等于允许先亏后补，用户提币跑路后损失由平台承担", "Binance / CME"], ["价格带与涨跌幅校验", "无价格带的委托会在极端行情里以离谱价格成交并触发连锁强平", "上期所 / Coinbase"], ["最小与最大下单量校验", "把明知的错误单挡在门外，是交易所对做市商与普通客户最基本的保护", "CME / Binance"], ["自成交防范 STP", "必须在入簿前判定，事后撤销已成交的自成交意味着篡改已经发生的成交", "Binance / Coinbase"], ["账户状态与权限校验", "冻结、只减仓、禁止交易等状态必须在入口生效，漏判会让风控指令被绕过", "OKX / CME"]]], ["市场级保护", [["熔断与波动性中断", "按波动幅度或速度触发，参数必须事前公示并可回测；临时改参数会被质疑偏袒", "CME / 上期所"], ["限价保护带价格笼子", "限制单笔委托相对基准价的最大偏离，是防乌龙指与闪崩的第一道闸", "上交所 / CME"], ["异常报价拦截", "对明显偏离的报价自动拒绝并记录，需与做市商豁免规则配套以免误伤正常报价", "CME / Nasdaq"], ["全局风险开关", "提供能一键停新单、只允许减仓的紧急开关，且必须定期演练确保可用", "Binance / OKX"]]], ["防操纵规则", [["消息与订单速率限制", "限速既是技术保护也是合规要求，缺限速会被认定为未履行市场准入控制", "CME Rule 575 / Binance"], ["撤单率监控", "高撤单率是幌骗的核心特征，需与人工复核和处置流程绑定", "CME / Nasdaq"], ["持仓限额与集中度", "限制单一主体对某合约的敞口，防止单一玩家操纵结算价", "CME / 中金所"], ["幌骗与分层挂单识别", "需识别大量挂单加实际反向成交的行为模式，并保留可举证的证据链", "CME / Nasdaq"], ["洗售交易检测", "同一实控人互相对敲制造虚假成交量，是操纵市场与洗钱的共同入口", "Coinbase / OKX"]]]]],
+ ["d8", "账户、仓位与保证金引擎", "Account Position and Margin Engine", "核心", "撮合只负责成交，能不能成交取决于保证金引擎敢不敢在毫秒内说\"不\"。", [["保证金模型", [["逐仓与全仓模式", "逐仓限制单仓位风险、全仓提高资金效率，两套模型的强平逻辑不能混用", "Binance / OKX"], ["初始保证金与维持保证金", "维持保证金必须严格低于初始保证金，否则会在开仓瞬间触发强平", "CME / Binance"], ["分级保证金与风险限额", "仓位越大保证金率越高，防止大户爆仓直接击穿保险基金", "Binance / OKX"], ["资金费率结算", "永续合约的价格锚定机制，结算频率与上限参数直接影响多空持仓成本与操纵空间", "Binance / dYdX v4"], ["标记价格与指数价格分离", "强平必须用标记价而非最新成交价，否则一根针就能打爆全场仓位", "Binance / OKX"]]], ["实时校验与强平", [["实时保证金校验", "保证金必须在委托前与每次成交后校验，滞后校验会让风险在毫秒级累积", "CME / Hyperliquid"], ["强平引擎与清算机器人", "强平必须由确定性引擎执行，写进撮合线程会让一次强平阻塞全市场", "Binance / dYdX v4"], ["保险基金与自动减仓", "保险基金是穿仓缓冲、自动减仓是最后手段，两者触发顺序必须事前定义并公示", "Binance / OKX"], ["穿仓分摊机制", "穿仓损失的承担顺序（保险基金、自动减仓、平台）必须明确，模糊处理会引发用户诉讼", "Binance / CME"]]], ["账户账务", [["余额可用与冻结分离", "下单冻结、成交扣减、撤单解冻必须原子一致，漏解冻会让用户资金被永久占用", "Binance / Coinbase"], ["手续费与返佣计算", "Maker 与 Taker 分层及返佣必须可审计，返佣算错会直接影响做市商是否继续报价", "Binance / OKX"], ["多币种折算与折算率", "多币种保证金依赖折算率，折算率来源与更新频率必须公开可查", "Binance / Hyperliquid"], ["日切与账务对账", "日切要能与资金、仓位、手续费三方对平，对不平必须阻断出金而不是先放行", "上交所 / Coinbase"]]]]],
+ ["d9", "公平性与反操纵机制", "Fairness and Anti-Manipulation Controls", "成长", "自成交防范、速率限制与价格带构成市场的中立性底线，缺一项就会被套利者当成提款机。", [["自成交与关联账户", [["自成交防范档位", "主流平台提供取消最旧、取消最新、取消双方三档，规则必须事前公示且不可按客户单独调整", "Binance / Coinbase"], ["关联账户识别", "按身份、设备、IP 与资金流向聚类识别实控人，否则限额与自成交防范都能被拆账户绕过", "OKX / CME"], ["同 IP 与同设备簇关联", "高频场景下设备簇是识别同一实控人最有效的信号之一", "Binance / Coinbase"], ["对敲与洗售识别", "对敲制造虚假成交与虚假价格，是操纵市场与洗钱的双重入口", "CME / Nasdaq"]]], ["速度与频率控制", [["订单速率限制档位", "按账户等级分档限速，避免单一账户占用内核资源并保护普通客户体验", "CME / Binance"], ["撤单率阈值与处置", "超阈值需触发预警与人工复核，自动封禁要保留申诉通道", "CME Rule 575 / Nasdaq"], ["消息配额与优先级", "给做市商与普通客户不同的消息配额，配额规则必须公示以免被质疑偏袒", "CME / 上交所"], ["大单拆单识别", "拆单规避限额与制造价格压力的行为需要模式识别与处置流程", "Nasdaq / OKX"], ["做市商豁免与考核", "豁免必须与报价义务绑定，只给豁免不给考核等于放行操纵", "CME / 上交所"]]], ["价格与深度防护", [["涨跌幅与价格带联动", "现货与衍生品的价格带要能联动，防止衍生品端被用于现货端套利", "上期所 / CME"], ["深度撤单保护", "撤单导致的瞬时深度缺口需有限制，防止挂单诱多后瞬时撤空", "CME / Nasdaq"], ["报价义务与偏离约束", "做市商报价的最大点差与最小挂单量必须可考核，否则做市名存实亡", "CME / 上交所"], ["异常波动处置流程", "从预警到熔断到公告的流程需事前定义，临场决定会被质疑不公", "CME / 上期所"]]]]],
+ ["d10", "高可用与主备热切换", "High Availability and Failover", "成熟", "撮合进程可以死，但市场连续性不能死，切换的目标是不丢单、不重放、不双写。", [["冗余模型", [["主备热备", "备机保持与主机相同的输入流但不出结果，切换即接管；备机长期不验证等于没有备机", "上交所 / CME"], ["主主双活", "双活能提升资源效率但必须解决状态合并与脑裂，未经验证的双活是事故放大器", "Binance / Nasdaq"], ["共享存储与状态复制取舍", "共享存储依赖存储层一致性、状态复制依赖网络与共识，两条路线的一致性边界不同", "CME / OKX"], ["切换判定与仲裁", "自动切换必须由独立仲裁者判定，避免主备互相认为对方已死", "CME / 上交所"], ["脑裂防护", "脑裂会导致双向接受委托，事后再冲正也无法恢复市场公平", "Nasdaq / Binance"]]], ["切换过程", [["切换不丢单", "切换必须保证已确认的委托不丢失，这是对客户最基本的承诺", "CME / 上交所"], ["切换不重复撮合", "双写会让同一委托成交两次，凭空多出持仓与资金", "Binance / OKX"], ["会话接管", "客户端连接需被新主机接管且序列号连续，否则客户端会误判为连接异常并重发", "CME iLink / 上交所"], ["切换演练与切换时长", "切换时长必须实测并纳入 SLA，未演练的切换方案在真实事故中几乎总超时", "Nasdaq / CME"]]], ["一致性验证", [["切换后状态比对", "切换后必须做订单簿与资金状态比对，不一致要拒绝开市", "上交所 / Hyperliquid"], ["客户端无感切换", "切换应尽量对客户透明，客户端适配不当会造成大面积断连", "CME / Binance"], ["回滚与二次切换", "切换失败必须有可回滚路径，否则一次失败就变成长时间停机", "Nasdaq / OKX"], ["切换期行情一致性", "行情必须与新的撮合状态对齐，否则客户端基于旧盘口报价会造成错单", "CME / 上交所"]]]]],
+ ["d11", "状态机复制与共识", "State Machine Replication and Consensus", "成熟", "只有把撮合建模成确定性状态机，才有资格谈多副本复制、跨机房一致性或链上验证。", [["确定性状态机", [["输入日志即真相", "状态由输入序列推导，任何绕过日志的状态变更都是隐患", "dYdX v4 / LMAX"], ["非确定性消除", "时间、随机数与外部调用必须被封禁或注入，否则副本之间会分叉", "dYdX v4 / Hyperliquid"], ["状态哈希与快照", "用状态哈希快速检测副本不一致，比逐字段比对高效得多", "Hyperliquid / dYdX v4"], ["重放等价性验证", "变更前后用同一日志重放比对结果，是撮合规则回归的黄金测试", "CME / LMAX"]]], ["共识与复制", [["Raft 复制组", "把撮合状态机接入 Raft 组实现多副本，日志提交顺序即撮合顺序", "Hyperliquid / dYdX v4"], ["日志复制与提交语义", "提交必须在多数副本持久化后确认，否则已确认的委托在切换后会消失", "CME / 上交所"], ["Leader 选举与租约", "租约机制要防止旧 Leader 继续服务，否则会出现双主写", "CME / Binance"], ["成员变更", "增删副本需在不中断服务下安全完成，成员变更期间的一致性是常见事故点", "CME / Nasdaq"], ["跨机房仲裁成员", "仲裁者地理分布决定可用性与一致性取舍，仲裁同机房等于同机房故障即不可用", "上交所 / CME"]]], ["链上验证衔接", [["状态根与可验证执行", "把撮合状态摘要发布到链上，使外部可验证交易所声称的状态", "Hyperliquid / dYdX v4"], ["故障证明与挑战窗口", "乐观式验证需要挑战窗口与激励，否则没人有动力挑战错误状态", "Lighter / dYdX v4"], ["轻客户端校验", "让用户用轻客户端验证自己的成交，是自托管叙事的可信度基础", "Hyperliquid / Lighter"], ["数据可用性", "状态根上链但数据不可用等于无法独立验证，数据可用性必须同等保证", "Lighter / dYdX v4"]]]]],
+ ["d12", "跨机房容灾与混沌工程", "Multi-Region DR and Chaos Engineering", "成长", "容灾方案的成色不取决于文档，而取决于有没有在真实流量下定期把主机杀掉。", [["容灾架构", [["同城双活", "同城双活是交易场所的主流目标，但需解决脑裂与状态合并", "上交所 / CME"], ["异地灾备", "异地灾备的 RPO 决定能接受丢多少成交，共识类系统通常要求 RPO 为零", "CME / OKX"], ["三地五中心", "多地多中心能提升韧性但显著抬高延迟，需按业务分账本设计", "上交所 / Nasdaq"], ["同步模式与 RPO RTO 承诺", "同步复制保数据但吃延迟、异步复制保延迟但可能丢数据，取舍必须写进 SLA", "CME / Binance"], ["切换决策与人工确认", "灾难切换涉及资金与客户影响，通常需要人工确认与双人复核", "上交所 / CME"]]], ["混沌工程", [["故障注入", "对进程、网络、磁盘、时钟做定期注入，是验证容灾唯一可信的方法", "CME / Hyperliquid"], ["演练编排与场景库", "把演练场景沉淀为可重复执行的剧本，避免每次演练都不一样", "Nasdaq / 上交所"], ["演练流量保真", "在真实流量与真实行情下演练才算数，低峰期演练往往掩盖问题", "CME / Binance"], ["复盘与整改闭环", "每次演练必须产生整改项并跟踪关闭，否则演练只是表演", "Nasdaq / OKX"]]], ["极端场景", [["机房级断网", "机房断网需在共识层可控降级而不是无限重试，否则全链路雪崩", "CME / 上交所"], ["存储静默损坏", "静默损坏比宕机更危险，需靠校验与多副本比对发现", "CME / 上交所"], ["依赖服务雪崩", "行情、风控、账务等依赖挂掉时撮合适度降级，不能全部一起死", "Binance / Nasdaq"], ["恢复后对账", "恢复后必须做完整对账并冻结可疑账户，直接开市可能放大错误", "上交所 / Coinbase"]]]]],
+ ["d13", "撮合可观测性与全链路审计", "Observability and Full-Chain Audit", "成长", "每一笔成交都要能从结果反查到输入的每一层，监管问询与客诉只能靠这条链回答。", [["指标与追踪", [["延迟分位指标", "按 P50、P99、P999 分位监控并通过延迟分解定位到具体组件，均值会掩盖长尾", "CME / LMAX"], ["订单全生命周期追踪", "一笔委托从网关到成交到清算必须可串成一棵树，否则客诉只能靠猜", "Binance / CME"], ["跨组件 Trace 串联", "用统一 traceId 串起网关、内核、账务与结算，是定位跨系统问题的唯一手段", "LMAX / OKX"], ["异常成交告警", "价格异常、自成交与超大单需实时告警并保留证据，漏报等于放弃处置窗口", "CME / Binance"], ["容量水位与容量预测", "按订单簿规模、消息量与连接数预测容量，容量事故通常有数周的预警信号", "Nasdaq / CME"]]], ["全链路审计", [["逐笔委托与成交留痕", "留痕必须覆盖时间戳、规则版本与结果，是监管问询的第一手材料", "上交所 / CME"], ["规则版本与生效时间", "必须能回答某笔成交当时适用的规则版本，否则历史成交的合法性无法自证", "上交所 / CME"], ["数据版本与 schema 演进", "字段演进需保持向后兼容并记录版本，schema 突变会让历史数据无法解释", "CME / Nasdaq"], ["审计日志防篡改", "审计日志需哈希链或只追加存储，能被事后修改的日志在监管眼里等于没有", "上交所 / Coinbase"], ["数据保留与归档年限", "按监管要求保留五到七年并可在合理时间内检索，做不到就等于无法配合调查", "CME / OKX"]]], ["监管与客诉支撑", [["监管问询应答", "要能在限定时间内提供完整证据链，临时拼凑的材料常自相矛盾", "上交所 / CME"], ["客诉取证与成交复现", "用日志为单笔客诉复现当时环境，是判责与赔付的依据", "Binance / Coinbase"], ["规则变更公告留痕", "公告与规则生效时间必须可对齐，缺失会造成用户索赔依据", "CME / 上交所"], ["审计数据导出与脱敏", "导出给监管的数据需脱敏且不破坏可验证性，脱敏与可验证很难两全", "Coinbase / OKX"]]]]],
+ ["d14", "时钟同步与逐笔全序溯源", "Clock Synchronization and Total Ordering", "成熟", "撮合产生的所有有序关系必须有一个可仲裁的时间基准，否则跨系统对账永远各说各话。", [["时间基准", [["PTP 与 NTP 层级同步", "交易系统需微秒级同步，NTP 不够用，同步精度直接决定时序证据的效力", "CME / 上交所"], ["硬件时间戳", "在网卡或交换机打时间戳，消除软件打点的抖动", "CME / Nasdaq"], ["闰秒与时钟跳变处理", "时钟回拨会让时间戳倒序，必须用单调时钟做内部排序", "CME / 上交所"], ["时钟漂移监控", "漂移超阈值要告警并降级，漂移期间产生的顺序不可信", "Nasdaq / CME"], ["时间源冗余", "多时间源加仲裁，单源故障不能导致全系统时序错乱", "上交所 / CME"]]], ["全序与排序", [["撮合序号单调递增", "内核必须产出严格单调且连续的序号，任何跳号都意味着事件丢失", "CME / 上交所"], ["跨系统事件排序", "跨系统的先后关系需要因果序或统一时间基准，否则时序结论互相矛盾", "Nasdaq / CME"], ["与外部系统时间对齐", "与清算、托管、区块链节点的时序对齐是跨机构对账的前提", "CME / dYdX v4"], ["乱序到达处理", "网关侧乱序到达需按会话序号重排，直接按到达时间处理会改变成交顺序", "CME / Nasdaq"]]], ["溯源", [["逐笔时序重放", "用时间戳复原当时的事件次序，是事故复盘唯一可信的方式", "LMAX / CME"], ["多源时钟对账", "跨系统时间偏差要能被度量并记录，偏差本身也是审计证据", "上交所 / CME"], ["时间合规审计", "监管会检查时钟同步与留痕是否满足要求，缺失会被认定内控不足", "CFTC / 上交所"], ["事件因果链", "把委托、成交、清算与结算串成因果链，才能回答这笔钱为什么在这里", "CME / Coinbase"]]]]],
+ ["d15", "链上撮合范式：AMM 与 CLOB", "On-Chain Matching Paradigms", "成长", "AMM 用恒定函数换掉订单簿换取无许可流动性，CLOB 用订单簿换回价格发现，两者是不同产品的底层假设。", [["AMM 机制", [["恒定乘积公式", "无需订单簿即可提供流动性，代价是滑点随交易量非线性上升，参数与手续费层级改动会直接影响 LP 收益", "Uniswap / PancakeSwap"], ["集中流动性", "把流动性集中在价格区间以提高资本效率，但需要主动管理区间，否则区间外资本闲置", "Uniswap v3 / Curve"], ["滑点与价格冲击", "滑点保护参数是用户保护阀，设置过宽会被三明治攻击吃掉、过窄会频繁失败", "Uniswap / Curve"], ["LP 无常损失", "做市收益与无常损失的权衡决定 LP 是否留存，费率设计不当会导致流动性枯竭", "Uniswap / Balancer"], ["MEV 与三明治攻击", "公开内存池让套利者可夹击用户交易，需要私有通道或批量拍卖缓解", "Flashbots / CoW Protocol"]]], ["CLOB 链上链下", [["链上 CLOB 撮合", "把订单簿与撮合放进共识，透明但贵且慢，每次改单都是链上交易", "Hyperliquid / dYdX v4"], ["链下撮合链上结算", "撮合在链下完成、成交结果上链结算，性能接近中心化但牺牲部分透明", "dYdX v4 / Coinbase International"], ["批量拍卖撮合", "把同一时间窗的订单集中清算，减少抢跑并降低 MEV，代价是延迟增加", "CoW Protocol / dYdX v4"], ["订单取消与替换成本", "链上每笔撤改都是交易成本，需要签名订单与批量提交等机制优化", "dYdX v4 / Hyperliquid"]]], ["混合与对照", [["RFQ 与签名订单", "做市商签名的报价订单可绕过内存池，适合大额与机构场景", "0x / Hashflow"], ["预言机定价与 TWAP", "用预言机价格作为结算基准会引入预言机风险，内部价格源被大额卖盘击穿会引发连锁清算", "Chainlink / Pyth"], ["混合模式", "长尾资产用 AMM 提供基础流动性、主流资产用 CLOB 做价格发现，两套机制需在同一账户体系下共存", "Hyperliquid / dYdX v4"], ["跨链流动性与撮合", "跨链撮合需要跨链结算与统一保证金，跨链桥是当前最大的风险集中点", "Hyperliquid / LayerZero"]]]]],
+ ["d16", "全链上永续 DEX", "Fully On-Chain Perp DEX", "成长", "把撮合、清算与价格锚定全部塞进共识，换来透明与自托管，代价是把延迟与容量押给了链。", [["全链上撮合", [["HyperCore 全链上订单簿", "把订单簿、撮合与仓位全部放在自建 L1 上，透明性与性能同时提升", "Hyperliquid"], ["HyperBFT 共识与快速终结", "共识层为撮合定制，宣称 20 万单每秒与 0.2 秒终结性，是自建链服务交易的样板", "Hyperliquid"], ["链上仓位与统一账户", "仓位与保证金同链上管理，避免链下账本与链上状态不一致", "Hyperliquid"], ["全链上清算", "清算由链上确定性执行，减少人为干预但把极端行情下的清算压力暴露在链上", "Hyperliquid / dYdX v4"], ["预言机价格与标记价格", "链上永续的价格锚定依赖预言机，预言机被操纵会直接引发清算连锁", "Hyperliquid / Pyth"]]], ["混合与 Rollup 路线", [["dYdX v4 架构", "用 Cosmos 应用链承载撮合与账本，从 StarkEx 迁出以获得更大自主权", "dYdX v4"], ["Lighter zk-Rollup 撮合", "把撮合与证明放进 zk-Rollup，宣称零费率并强调可验证与逃生舱", "Lighter"], ["zk 证明有效性", "用有效性证明替代信任，代价是证明生成成本与工程复杂度", "Lighter / StarkWare"], ["顺序器与 MEV 保护", "排序器集中出块带来抢跑风险，需承诺公平排序或加密内存池", "Lighter / dYdX v4"]]], ["资本与风险", [["跨保证金与统一账户", "同一账户承接现货与永续能提升资金效率，但也放大了跨市场风险传导", "Hyperliquid / dYdX v4"], ["保险基金与自动减仓", "链上保险基金同样需要透明的触发规则，否则无法自证未被滥用", "Hyperliquid / dYdX v4"], ["费率与返佣模型", "零费率靠其他收入补贴，可持续性取决于真实交易量与代币经济", "Lighter / Hyperliquid"], ["监管与地域限制", "自托管与全链上不等于免监管，面向美国与欧盟零售仍需持牌或用地理围栏排除", "dYdX v4 / Hyperliquid"]]]]],
+ ["d17", "清算结算与实时交收", "Clearing Settlement and Real-Time Finality", "成熟", "成交不等于交收，T+0 与实时保证金校验是把账面盈利变成可提资产的最后一段。", [["结算模型", [["T+0 实时结算", "把结算周期压缩到实时，是代币化资产与链上结算的核心卖点，也要求资金与券实时到位", "DTCC 试点 / dYdX v4"], ["DVP 券款对付", "券与款必须原子交换，先券后款或先款后券都会产生本金风险", "DTCC / 上交所"], ["净额与全额结算", "净额结算省资金但放大参与方风险，全额结算安全但占用资金", "CME Clearing / 上交所"], ["链上原子结算", "用智能合约实现原子交割，合约漏洞与桥风险成为新的结算风险来源", "Hyperliquid / dYdX v4"], ["法币出入金通道", "法币通道受银行与支付牌照约束，通道中断会直接导致用户无法提现", "Coinbase / OKX"]]], ["资金与托管", [["客户资金隔离", "客户资产与自营资金混同即使一时盈利也构成刑事风险", "Coinbase / OKX"], ["冷热钱包与托管", "冷热比例与多重签名策略是托管安全核心参数，钥匙管理失误等同于资产丢失", "Fireblocks / Coinbase Custody"], ["提现风控与审核", "大额与异常提现需人工复核与延时，缺少审核的自动化出金是黑客首选目标", "Binance / OKX"], ["储备证明与审计", "定期公布储备证明能缓解信任危机，但证明口径是否含负债必须明确", "Kraken / Binance"], ["抵押品再质押风险", "抵押品被再质押会形成链条式风险，爆发时会出现同样的资产被多次承诺", "Coinbase / Hyperliquid"]]], ["跨系统衔接", [["撮合到清算的账务对接", "撮合结果必须能无损转换为清算指令，否则会出现成交了但没清算", "CME / 上交所"], ["结算周期与日切", "日切时点决定盈亏与费用的归属，日切不一致会造成重复计费或漏计", "CME / 上交所"], ["失败交易回滚", "结算失败必须能精确回滚且不影响其他成交，部分回滚会造成账实不符", "DTCC / 上交所"], ["结算对账与差异处理", "跨系统对账要能自动定位差异并给出处置建议，人工翻账不足支撑实时结算", "CME / Coinbase"]]]]],
+ ["d18", "跨资产统一保证金与代币化抵押", "Cross-Asset Margin and Tokenized Collateral", "成长", "用一个保证金账户承接现货、永续与代币化国债，决定的是资金效率与系统性风险这同一枚硬币的两面。", [["统一账户", [["统一保证金账户", "现货、永续、期权与借贷共用一套保证金视图，资金效率提升同时风险高度耦合", "Binance Portfolio Margin / Hyperliquid"], ["现货与衍生品同账户", "减少划转摩擦，但需要统一的可用与冻结口径，否则会出现重复使用资金", "Binance / OKX"], ["抵押品折扣率", "非现金抵押品需按流动性给折扣，折扣过松会在行情下跌时瞬间穿仓", "CME / Binance"], ["组合风险计算", "组合保证金要按相关性算净敞口，错误的相关性假设会在极端行情下失效", "CME SPAN / Binance"], ["跨币种折算与汇率源", "稳定币与法币折算依赖汇率源，汇率源被操纵可被用于套取保证金", "Binance / OKX"]]], ["代币化抵押", [["代币化国债作抵押", "用代币化国债作抵押能提高资金效率，但需要可实时估值的托管与赎回路径", "DTCC 试点 / BlackRock BUIDL"], ["质押资产的流动性控制", "质押中的抵押品无法即时变现，必须计入流动性折扣", "Coinbase / OKX"], ["收益率与抵押成本", "抵押品有收益会降低资金成本，但收益来源与风险需披露", "Coinbase / Ondo"], ["抵押品清算链路", "抵押品被强制变现的路径必须事先设计并演练，紧急变现会造成市场冲击", "CME / Binance"]]], ["资金效率与风险", [["资金效率度量", "要能度量统一账户节省了多少保证金，否则无法证明产品价值", "CME / Binance"], ["系统性风险敞口", "统一账户把风险集中到平台，需要按情景做汇总压力测试", "CME / DTCC"], ["抵押品集中度限制", "单一抵押品占比过高会形成单点风险，需设集中度上限", "CME / Coinbase"], ["压力测试与极端情景", "用历史极端行情（如连锁清算事件）做压力测试并回溯验证模型", "CME / Binance"]]]]]
+];
+const FRONTIER = [
+ ["低延迟内存撮合内核", "live", "单线程内存撮合加 LMAX Disruptor 风格环形队列已成主流，Hyperliquid 宣称 20 万单每秒与 0.2 秒终结性，LMAX 早期标称单线程百万 TPS 量级", "把撮合内核做成可授权、可托管的组件，卖给券商与中型市场"],
+ ["集合竞价与波动性中断", "live", "开盘收盘集合竞价与熔断已被 Nasdaq、CME 与上交所长期运行，是形成稳定开盘价与截断闪崩的行业标准", "把竞价与熔断规则引擎做成可配置服务，帮助新市场快速上线"],
+ ["WAL 加确定性重放", "live", "写前日志、确定性重放与快照已是交易所高可用标配，是崩溃恢复唯一可审计的路径", "提供可重放审计产品，让监管与内审能独立复现任意时点状态"],
+ ["逐仓全仓与分级保证金", "live", "Binance、OKX 与 CME 均已成熟运行，分级保证金与保险基金是衍生品风险底线", "把保证金与强平引擎做成模块化组件，输出给持牌衍生品平台"],
+ ["自成交防范 STP", "live", "主流平台自 2019 年起提供 STP 档位，也是美国市场准入与交易所规则的硬性要求", "把 STP 与合规模块打包成监管就绪卖点，面向新持牌市场"],
+ ["主备热切换", "live", "交易所主备切换已是成熟工程实践，切换时长以秒到分钟计并被 SLA 约束", "把切换演练与切换时长作为可承诺 SLA 对外售卖"],
+ ["AMM 恒定乘积做市", "live", "Uniswap 与 Curve 已验证独立商业模式，是长尾资产的主要流动性来源", "面向有合规需求的机构做受许可的 AMM 池"],
+ ["链下撮合链上结算", "live", "dYdX v4 用 Cosmos 应用链跑撮合并把结算交给自己链，已验证规模化运行", "把该架构复制到非加密资产（如外汇、大宗商品）"],
+ ["全链上订单簿撮合", "pilot", "Hyperliquid HyperCore 把订单簿完全上链并做到 20 万单每秒级，但可复制的团队极少", "做链上订单簿的参考实现与压力测试套件"],
+ ["zk-Rollup 撮合上链与逃生舱", "pilot", "Lighter 等把撮合上链并用 zk 证明有效性、提供强制提现逃生舱，规模化仍待验证", "面向机构的可验证撮合审计产品"],
+ ["跨资产统一保证金", "pilot", "代币化国债作抵押、现货与永续同一保证金账户已有落地，但抵押折扣与清算链路仍在摸索", "统一保证金账户的风控与估值引擎"],
+ ["代币化证券 T+0 结算", "pilot", "DTCC 于 2025 年 12 月获 SEC No-Action 并试点 Russell 1000 代币化，目标把 T+1 压缩到秒级", "为券商与登记结算机构提供撮合与结算一体化适配层"],
+ ["批量拍卖与 MEV 缓解", "pilot", "批量拍卖被部分链上协议与学术研究采用以缓解抢跑，主流交易所尚未全面采纳", "面向 DEX 的批量拍卖撮合模块"],
+ ["做市商报价义务考核自动化", "pilot", "交易所对做市商有报价义务，考核已部分自动化但跨市场统一标准缺失", "做市商履约考核与激励结算 SaaS"],
+ ["撮合即服务", "pilot", "云厂商在金融专区提供托管与低延迟网络，撮合内核本身仍主要自建", "把撮合、风控与行情打包成托管产品"],
+ ["可验证撮合（ZK 执行证明）", "explore", "证明撮合结果确实按规则产生，目前性能开销与工程复杂度都高", "面向监管的撮合可验证性证明服务"],
+ ["硬件时间同步与全序公证", "explore", "PTP 与硬件时间戳已普遍，但跨机构全序公证与法律效力仍在成形", "跨机构时序公证与仲裁服务"],
+ ["撮合引擎形式化验证", "explore", "用形式化方法证明撮合规则无死锁、无自成交已有研究，缺工业级落地", "对核心撮合规则做形式化验证并出具认证"],
+ ["抗量子签名与指令完整性", "explore", "后量子签名在交易链路的影响未定，标准与监管仍在演进", "为撮合指令提供抗量子完整性方案"],
+ ["AI 异常报价与操纵识别", "explore", "用模型识别幌骗与分层挂单已用于风控，但可解释性与误杀率待解决", "面向交易所的操纵识别与可解释报告"],
+ ["跨场所统一交收层", "explore", "监管推动结算周期压缩与跨场所统一，链上原子结算与法币结算的对接标准未定", "撮合与结算的跨场所适配与对账产品"],
+ ["撮合基础设施能效度量", "explore", "超低延迟机器能耗与 ESG 报告需求同时上升，度量口径尚无共识", "低延迟机房的能效度量与披露工具"]
+];
+const MIDS = [
+ ["撮合内核中心", "在内存中维护唯一权威订单簿并产出全序成交序列", "确定性单线程撮合、价格时间优先、微秒级响应、成交序列单调可校验"],
+ ["订单簿数据结构中心", "提供价格档位索引与订单槽位寻址的高效实现", "跳表与位图与平衡树选型、无锁读、cache line 与 NUMA 亲和、档位哈希校验"],
+ ["订单指令与生命周期中心", "定义委托从受理到终态的状态迁移与各类指令语义", "订单状态机、IOC 与 FOK 与冰山与止损、委托终态定义、指令优先级"],
+ ["持久化与恢复中心", "保证崩溃后可恢复到确定状态且可校验", "WAL 顺序写与 fsync 策略、日志分段、快照与增量拼接、恢复一致性校验"],
+ ["确定性重放中心", "用日志独立复现历史状态并比对差异", "确定性输入约束、影子撮合、状态哈希、重放速度与回补窗口"],
+ ["低延迟工程中心", "把端到端延迟与抖动压到可承诺水平", "CPU 亲和与隔离核、内核旁路、环形队列、无锁内存序、尾延迟归因"],
+ ["订单网关中心", "作为外部唯一入口承担鉴权、限流与会话恢复", "FIX 与二进制协议、会话序列号与重传、令牌桶限速、背压传导、多网关一致"],
+ ["行情分发中心", "把订单簿变化以低延迟且可恢复的方式广播", "逐笔委托与成交、增量深度、序列号缺口修复、多播冗余、行情延迟度量"],
+ ["前置风控中心", "在入簿前拦截越界与超风险委托", "余额与保证金预校验、价格带与涨跌幅、自成交防范、熔断与紧急开关"],
+ ["保证金与仓位中心", "决定每笔委托能否被接受以及何时被强平", "逐仓全仓、分级保证金、标记价格、强平引擎、保险基金与自动减仓"],
+ ["公平性与反操纵中心", "维护市场中立性与秩序并保留举证能力", "速率限制、撤单率监控、幌骗与洗售识别、关联账户聚类、做市商考核"],
+ ["高可用与切换中心", "保证市场连续性与不丢单、不重单", "主备热切换与主主双活、脑裂防护、会话接管、切换时长 SLA"],
+ ["状态复制与共识中心", "把撮合状态复制到多副本与多机房", "Raft 复制组、日志提交语义、Leader 租约、成员变更、链上状态根"],
+ ["容灾与混沌演练中心", "用故障注入验证真实韧性并闭环整改", "同城双活与异地灾备、故障注入编排、演练流量保真、恢复后对账"],
+ ["可观测与审计中心", "让每个结果都能追溯到输入与规则版本", "延迟分位、跨组件 Trace、逐笔留痕、防篡改审计日志、五到七年保留"],
+ ["时钟与全序中心", "提供可仲裁的时间基准与事件全序", "PTP 与硬件时间戳、时钟漂移监控、单调序号、多源时钟对账"],
+ ["链上撮合中心", "把撮合规则与链上执行对齐并保证可验证", "AMM 与 CLOB 混合、zk 与故障证明、顺序器与 MEV 保护、逃生舱"],
+ ["清算结算与跨资产保证金中心", "把成交衔接为可提资产并管理统一账户风险", "T+0 与券款对付、客户资金隔离、抵押品折扣与估值、实时强平与压力测试"]
+];
+const RULES = [
+ ["每条输入日志必须先于状态变更落盘", "崩溃时未落盘的成交会凭空消失，但对手方的成交已在别处生效，造成不可逆资金缺口；把每笔 fsync 悄悄改成异步批量提交的团队几乎都会踩一次"],
+ ["撮合必须单线程确定性执行", "多线程并发撮合会让同一批委托在不同运行间产生不同成交价，回放对不上，事故复盘从查代码变成查运气"],
+ ["价格与数量必须用定点整数", "用浮点累计价差会在千万笔后出现差一分钱，用户资金对不上账，且测试环境的数据量根本暴露不出来"],
+ ["同价必须严格时间优先", "任何比例分配或随机化插队都会在极端行情下被认定操纵市场，也会让做市商的报价模型整体失效"],
+ ["集合竞价的价格确定规则必须提前公示且不可中途修改", "修改竞价算法等于重写成交结果，会直接引发监管处罚与集体诉讼，并涉及已成交用户的资金归属"],
+ ["自成交防范必须在入簿前生效", "允许同一实控人账户互相对敲会制造虚假成交量并让资金左手倒右手，既是操纵市场证据，也是洗钱通道"],
+ ["可用余额与保证金必须在委托前校验而不能事后补扣", "事后补扣意味着允许先亏后补，一旦用户提币跑路，损失由平台或保险基金承担"],
+ ["价格带与涨跌幅必须在入簿前校验", "极端行情下无价格带的委托会以离谱价格成交并触发连锁强平，曾有单笔数千万美元卖盘击穿内部价格源引发全市场清算"],
+ ["主备切换不得重复撮合", "切换期间双写会让同一笔委托成交两次，凭空多出持仓与资金，事后冲正已无法恢复市场公平"],
+ ["标记价格与最新成交价必须分离", "用盘口最新价做强平依据会被一根针打爆全部仓位，历史上连锁清算与内部价格源被击穿直接相关"],
+ ["强平必须由独立的确定性引擎执行", "把强平逻辑写进撮合线程会让一次强平阻塞整个市场，也会让谁先被强平取决于线程调度而不是规则"],
+ ["客户资金必须与平台自有资金隔离", "挪用客户资产即使一时盈利也构成刑事风险，一旦发生挤兑无法自救，多家头部平台的巨额罚单中均含资金与合规结构性缺陷"],
+ ["规则变更必须留痕并注明生效时间与版本", "监管问询时要能证明当时的规则是什么，无法举证历史规则版本会让所有历史成交的合法性受质疑"],
+ ["跨机房切换必须以不丢成交为前提", "接受丢失最后若干笔成交等于接受账实不符，恢复后对账无法自证清白，用户与监管都不会接受"],
+ ["链上撮合的逃生舱与强制提现必须真实可用", "只有承诺没有可执行的强制退出路径时，排序器停机即用户资产被锁死，这正是部分项目把逃生舱当卖点的原因"],
+ ["系统时间的全序必须由单一权威仲裁", "依赖各节点本地时间排序会在时钟回拨或跨机房漂移时产生矛盾成交顺序，跨系统对账永远各说各话"]
+];
+const KPIS = [
+ ["延迟指标", "下单到回执、入簿到成交的 P50 与 P99 与 P999，必须按分位而非均值承诺，尾延迟决定做市商是否愿意报价"],
+ ["吞吐指标", "撮合每秒订单数与成交笔数的峰值与稳定值，含撤单比，需在保真历史行情回放下标定"],
+ ["确定性指标", "同一输入日志多次重放的状态哈希一致率与影子撮合差异笔数，理想值为全部一致与零差异"],
+ ["可用性与切换指标", "切换次数、切换时长、切换期丢单与重单数、年度不可用分钟数，目标是不丢成交"],
+ ["资金与风险指标", "保证金覆盖率、强平成功率、保险基金余额与消耗速度、穿仓金额"],
+ ["公平性与合规指标", "自成交拦截数、速率限制触发数、异常报价拦截数、监管问询响应时长"],
+ ["数据与审计指标", "逐笔留痕完整率、审计日志防篡改校验通过率、五到七年数据保留达标率"],
+ ["链上指标", "链上结算终结时间、排序器可用性、逃生舱演练成功率、gas 成本与用户实际滑点"]
+];
+const LIC_CN = [
+ ["关于进一步防范和处置虚拟货币交易炒作风险的通知（2021，十部委）", "不可开展虚拟货币交易、撮合、代币发行与兑换业务；可开展区块链底层技术、数据服务与合规风控技术服务", "产品不得包含面向境内用户的虚拟货币下单、撮合、行情与充值提现功能，不得为境外交易所提供引流或技术支持"],
+ ["关于防范代币发行融资风险的公告（2017）", "禁止首次代币发行与代币融资，禁止交易平台业务", "任何积分或代币若具备融资与交易属性即触碰红线，撮合相关功能不得落地"],
+ ["刑法第 285 条与第 286 条、帮助信息网络犯罪活动罪", "不得为非法交易所、洗钱与跨境赌博提供撮合技术、资金通道或运维支持", "若技术输出被用于境外非法平台，技术方可能被认定为共犯"],
+ ["期货和衍生品法（2022）", "仅可在国家批准的期货交易场所开展期货与衍生品交易，境外平台向境内提供衍生品交易属违规", "永续合约与杠杆撮合不得面向境内用户，产品需屏蔽境内 IP 与境内主体身份"],
+ ["证券法与证券交易所管理办法", "证券集中撮合只能在证监会批准的交易所进行，代币化证券的发行与撮合在境内无合法空间", "若产品涉及股票永续或代币化股票，需按境外合规另行设计，不得在境内上线"],
+ ["数据安全法与个人信息保护法", "交易与身份数据须境内存储并通过安全评估，跨境提供需申报", "撮合审计数据、订单与身份日志不得随意出境，灾备节点选址需合规"],
+ ["网络安全法与等级保护 2.0（三级与四级）", "金融类系统需通过等级保护测评与关键信息基础设施保护要求", "撮合与账务系统需满足等保要求，安全设计不达标无法交付给持牌机构"],
+ ["密码法与商用密码应用安全性评估", "涉及加密、签名与身份认证需使用合规密码算法并通过密评", "撮合指令签名与行情加密不得使用未经认可的算法组合"],
+ ["关键信息基础设施安全保护条例", "关键信息基础设施运营者需履行更高安全义务与年度检测", "若服务对象为持牌交易所与清算机构，需满足关键信息基础设施要求与供应链安全审查"],
+ ["非银行支付机构监督管理条例与支付业务许可", "不得从事无牌照的资金结算与支付通道业务", "撮合的结算环节只能对接持牌支付与清算机构，不得自建资金池"],
+ ["期货交易所管理办法与交易所自律规则", "交易所撮合规则（涨跌停、限仓、熔断）需报批并向市场公示", "规则变更需走审批与公告流程，产品必须支持规则版本与生效时间管理"],
+ ["上交所与深交所交易规则、中金所业务规则", "竞价撮合、价格笼子、盘中临时停牌等规则需逐条实现并可审计", "对接境内交易所需逐条对齐规则，不得自行优化撮合语义"],
+ ["互联网信息服务算法推荐管理规定与算法备案", "具有舆论或调度属性的算法需备案，交易调度算法应可解释可审计", "撮合与风控算法需支持审计追溯与规则说明文档"],
+ ["反洗钱法与客户尽职调查要求", "持牌金融机构需履行客户尽职调查与大额与可疑交易报告义务", "撮合平台需为持牌客户提供 KYC 与交易监测数据接口与留痕能力"],
+ ["区块链信息服务管理规定", "区块链信息服务需备案，不得提供虚拟货币交易服务", "涉及链上撮合的技术产品在境内仅可作为技术研究与数据服务"],
+ ["金融科技创新监管工具（监管沙盒）地方试点政策", "可在沙盒内试点区块链存证、数据服务与合规风控技术", "沙盒内的技术试点不得涉及代币交易撮合与资金募集"]
+];
+const LIC_INTL = [
+ ["欧盟 MiCA（2025 全面生效，CASPs 最低资本 5 至 15 万欧元）与 DORA 运营韧性要求", "可在持牌下提供加密资产交易平台与撮合服务", "需满足资本、治理、旅行规则全量身份识别与 DORA 韧性要求，撮合系统需具备可审计规则与日志"],
+ ["美国 FinCEN MSB 注册与 BSA、州级 MTL、CFTC 对衍生品与杠杆的管辖", "可提供现货撮合，杠杆与衍生品需 CFTC 或 DCM 批准", "BSA 要求可疑交易报告、3000 美元阈值记录与 OFAC 制裁筛查，前置风控必须能实时阻断受限地址与主体"],
+ ["美国证券法与 ATS 牌照（Reg ATS、Rule 15c3-5 市场准入规则）", "代币化证券撮合需注册或取得豁免", "15c3-5 要求委托前风控（价格带、信用额、错误单防护），产品必须内置可证明的前置风控"],
+ ["香港 SFC 虚拟资产交易平台 VATP 双牌照与穿透式监管", "可在 VATP 牌照下提供虚拟资产交易撮合", "需满足代币上市审查、客户资产隔离、冷热钱包比例与实时监控，SFC 要求撮合与风控可审计"],
+ ["新加坡 MAS 支付服务法与 DTSP 制度", "可申请 MPI 或 SPI 牌照开展数字支付代币交易与撮合", "需满足资本、技术风险与反洗钱要求，境外服务不得向未持牌主体提供"],
+ ["阿联酋 VARA 与 ADGM 虚拟资产监管框架", "可在 VARA 或 ADGM 许可下运营交易与撮合", "需分级牌照与本地化要求，撮合规则与做市安排需提前报备"],
+ ["日本资金决济法与 JFSA 加密资产交易业登记", "登记后可提供加密资产交易撮合", "需满足客户资产分别管理、冷钱包比例与定期审计"],
+ ["韩国虚拟资产用户保护法与 FSC 监管", "持牌后可在境内提供虚拟资产交易服务", "需满足存款与托管分离、异常交易监控与信息披露义务"],
+ ["巴塞尔委员会加密资产敞口审慎规则（SCO60）与 IOSCO 加密资产建议", "银行与经纪商参与代币化资产撮合需满足资本与敞口计量要求", "机构参与方要求撮合与结算具备可验证的风控与对账，链上结算需满足资本计量口径"]
+];
+const OPPS = [
+ ["可回放的确定性撮合内核", "多数平台的回放能力只覆盖能否恢复而不覆盖能否自证，监管与内审无法独立复现任意时点状态", "以 WAL 加影子撮合加状态哈希为核心做可审计撮合内核，把可复现性做成合规卖点"],
+ ["撮合规则版本化与生效时间管理", "规则变更常靠发布公告加人工记录，无法回答当时规则是什么", "做规则版本仓库与生效时间轴，支持历史成交按当时规则复算"],
+ ["前置风控即服务", "新持牌市场普遍缺委托前风控能力，自建成本高且难以通过监管审查", "输出标准化前置风控组件（价格带、信用额、错误单防护、自成交防范），按牌照市场适配"],
+ ["跨资产统一保证金引擎", "现货与永续与代币化国债的统一账户仍是少数平台的专属能力，抵押折扣与清算链路无标准", "做统一保证金的风控与估值引擎，含折扣率模型与压力测试"],
+ ["链上撮合的可验证性证明", "链上 DEX 的撮合按规则执行目前主要靠信任团队与代码审计", "提供 zk 或欺诈证明式的撮合可验证服务，面向机构与监管"],
+ ["撮合与结算一体化适配层", "中心化撮合与链上结算之间存在大量人工对账与 T+N 时延，代币化证券 T+0 需求最痛", "做撮合事件到结算指令的适配与对账层，支持链上原子结算与法币通道并存"],
+ ["做市商履约考核与激励自动化", "报价义务考核多靠人工与离线报表，激励结算滞后", "做实时报价质量度量与激励结算引擎"],
+ ["异常报价与操纵识别可解释化", "模型风控的误杀率与不可解释性让交易所不敢上线自动化处置", "做可解释的操纵识别报告与分级处置工作流"],
+ ["低延迟机房的能效与 ESG 披露", "超低延迟机器能耗高但无统一度量口径", "做撮合基础设施的能效度量与披露工具，服务机构合规"],
+ ["跨机构时序公证与仲裁", "跨场所对账缺少被多方认可的时间基准与全序凭证", "提供硬件时间戳与全序凭证的时序公证服务"],
+ ["撮合引擎形式化验证认证", "核心撮合规则的正确性目前只靠测试与演练，缺工业级证明", "对撮合与强平规则做形式化验证并出具认证报告"],
+ ["撮合规则工程化能力沉淀", "撮合专家稀缺且知识高度依赖口口相传，新市场难以组建团队", "把规则工程与演练场景沉淀为可复用的规范与培训体系"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：撮合引擎 / 订单簿数据结构 / 低延迟撮合 / 内存撮合与WAL / 链上撮合与清算结算`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>
