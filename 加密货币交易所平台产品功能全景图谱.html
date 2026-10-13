@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加密货币交易所平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>加密货币交易所平台全景</b>
+    <span>加密货币交易所平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>加密货币交易所平台产品功能全景图谱</h1>
+    <p>2025 全球加密总成交达 <b>240 万亿美元</b>，其中衍生品占比 <b>60%</b>，永续合约成为核心利润池。本图谱覆盖从撮合引擎、钱包托管到 AML 与 MiCA 合规的 <b>18 个</b>产品域全景。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线是：以撮合引擎为心脏、以钱包托管为边界、以风控与合规为闸门的中心化（兼顾去中心化）资产交易系统，账实相符与资产安全是底线。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）</td><td>账户资产、现货、衍生品、撮合引擎、钱包托管</td><td>平台的账本与成交心脏，决定公平性与资产安全</td></tr>
+<tr><td>第2层（d6–d9）</td><td>流动性做市、市场风控、AML/KYT、安全防护</td><td>供血与刹车系统，决定深度与生存能力</td></tr>
+<tr><td>第3层（d10–d13）</td><td>保证金清算、合规牌照、法币通道、可观测性弹性</td><td>风险兜底、合规运营与极端行情弹性的底座</td></tr>
+<tr><td>第4层（d14–d18）</td><td>行情数据、社交跟单、安全审计、税务会计、生态开放</td><td>增长、信任与对外能力的生态层</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三件必须先于产品存在：<br>1) <b>私钥与托管边界</b>（热温冷加多签/MPC）必须先行，否则资产即负债；<br>2) <b>KYC 与制裁筛查闸门</b>必须前置，否则开门即违规；<br>3) <b>撮合确定性与双账本</b>必须落地，否则账实不符。</div>
+    <div class="danger">最易被误当成成功信号的是<b>成交量与深度</b>——刷量与虚假深度可短期堆高，却掩盖穿仓、挪用与合规空缺，FTX 式崩塌前夜皆如此。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">前沿方向落地优先级的一条标准：凡涉及用户资产 custody 与合规判定延迟的方向（zk 托管、低延迟制裁网关），优先于纯体验型方向（社交与跟单优化）。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>用户资产余额</td><td>业务账与链上账双账本的净头寸</td><td>错则账实不符、用户超提、资不抵债</td></tr>
+<tr><td>私钥与签名权</td><td>控制热温冷钱包资产的唯一凭证</td><td>失守则资产归零，且无追回</td></tr>
+<tr><td>清算标记价</td><td>触发强平与 ADL 的参考价格</td><td>错则插针爆仓、客诉与监管</td></tr>
+<tr><td>KYC 与制裁状态</td><td>用户是否准入与受限制的风险标签</td><td>错则受制裁者入金、牌照风险</td></tr>
+<tr><td>保险基金</td><td>吸收穿仓损失的缓冲池</td><td>耗尽则 ADL 强减、信任崩</td></tr>
+<tr><td>合规判定延迟</td><td>一笔交易是否被放行的时间</td><td>超 100ms 风控滞后、被洗白</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域是 MiCA CASP、美国 MSB/BSA、香港 VATP、新加坡 MPI 与 FATF 旅行规则在此交汇的监管复合体。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1) <b>旅行规则</b>信息必须随交易传递，否则跨境被拒且违规；<br>2) <b>混币器与受制裁地址</b>拦截是罚单主战场（72% 罚金源于未拦混币地址）；<br>3) <b>SARs 与 7 年留痕</b>缺失直接重罚（Block 1.2 亿先例）。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步 锁定托管与私钥边界（热温冷加多签/MPC）</li><li>第二步 落地 KYC 与制裁筛查闸门</li><li>第三步 搭建确定性撮合与双账本</li><li>第四步 接入流动性与做市</li><li>第五步 打通合规牌照与可观测弹性</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A 综合 CEX（Binance/OKX 模式）</li><li>路径 B 衍生品专精（Bybit/Bitget）</li><li>路径 C 合规法币所（Coinbase/Kraken）</li><li>路径 D DEX 永续（Hyperliquid/Lighter）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：都先把<b>第一资产（用户托管资产的安全与合规）</b>做扎实，再做增长。</div>
+  </section>
+
+  <footer>
+    <p>加密货币交易所平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "平台形态与边界"],
+ ["s1", "用户与账户体系"],
+ ["s2", "现货与衍生品交易"],
+ ["s3", "撮合与交易基础设施"],
+ ["s4", "钱包与资产托管"],
+ ["s5", "流动性与做市"],
+ ["s6", "风控与反欺诈"],
+ ["s7", "合规与牌照运营"],
+ ["s8", "可观测性与弹性"],
+ ["s9", "生态与增长"]
+];
+const PLAYERS = [
+ ["综合 CEX", "Binance / OKX / Coinbase", "大陆无合规业务（火币等已迁海外）", "中心化撮合加托管，靠手续费、利差与理财利差盈利"],
+ ["衍生品专精 CEX", "Bybit / Bitget / BingX", "无", "以永续与合约杠杆为主，赚取资金费率与手续费"],
+ ["合规法币 CEX", "Coinbase / Kraken", "无", "持牌法币通道，强 KYC 与审计，机构友好"],
+ ["现货 DEX", "Uniswap / PancakeSwap", "无", "AMM 自动做市，链上结算，无托管"],
+ ["永续 DEX", "Hyperliquid / dYdX", "无", "链上订单簿加链下撮合，透明清算"],
+ ["zk 链上订单簿 DEX", "Lighter / Aster", "无", "zk-Rollup 低费率加逃生舱，隐私加自托管"],
+ ["机构 OTC 场外", "Kraken / Cumberland / Wintermute", "无", "大宗块交易与暗池，价差加服务费的机构生意"],
+ ["经纪与白标", "AlphaPoint / B2Broker", "无", "输出交易系统与流动性，赚 SaaS 与分成"],
+ ["社交跟单交易", "eToro / BingX / Bitget", "无", "复制交易与社区裂变，降低获客成本"],
+ ["法币通道与支付", "MoonPay / Ramp / 合规入金", "无（大陆禁）", "入金与出金通道，持支付或货币转移牌照"],
+ ["聚合器", "1inch / 0x / Jupiter", "无", "跨池路由最优成交，赚路由费"],
+ ["稳定币结算层", "Circle USDC / Tether", "无", "链上美元清算与结算，赚储备收益"]
+];
+const DOMAINS = [
+ ["d1", "用户账户与资产体系", "User Account and Asset System", "核心", "管理用户身份、多币种余额、子账户与资产视图的统一账本中枢", [["身份与 KYC 接入", [["多因子注册开户", "\"注册即开户\"会绕过制裁名单筛查，OFAC 命中仍放行的罚单占 KYC 类 72%", "Sumsub"], ["子账户与多账户体系", "子账户未隔离风险限额会导致主账户穿仓连坐，单点爆仓拖垮整组", "Binance Sub-account"], ["统一资产视图（多币种净值）", "净值快照错位会让用户看到错误可用余额，越权下单造成资不抵债", "内部系统"], ["权限与角色（RBAC）", "后台权限过宽使单名员工可动用户提币，内部作案难追溯", "内部系统"]]], ["资产账本与余额", [["双账本（业务账加链上账）", "只记业务账会导致账实不符，离线签名后发现链上余额已空", "Fireblocks"], ["提币白名单", "无白名单时被盗 API Key 可瞬间转走全部资产且不可追回", "Coinbase"], ["资金密码与设备绑定", "设备绑定缺失使会话劫持后无需二次验证即可提币", "内部系统"], ["资产归集与清结算", "归集时机错误在拥堵时产生高额 gas，跨链重排造成重复出金", "内部系统"]]], ["账户安全与恢复", [["防钓鱼反欺诈", "钓鱼网站克隆登录页，输入密钥即资产归零，需反钓鱼码", "内部系统"], ["账号找回与社交恢复", "找回流程过松被社工重置，过严则合法用户永久锁死", "内部系统"], ["登录风控（异地与 VPN）", "无登录地理围栏时攻击者从制裁国登录无法阻断", "Chainalysis"], ["会话与 Token 生命周期", "Token 长期有效被截获后可持久操控账户", "内部系统"]]], ["账户合规状态机", [["账户风险分级（KYC 等级）", "等级与额度错配使未验证账户大额出入金，触发 SARs", "Sumsub"], ["冻结与限制状态", "冻结与限制状态未联动提币开关，限制账户仍可出金", "内部系统"], ["休眠与注销", "注销未清退关联子账户产生孤儿资产，审计无法对应", "内部系统"], ["制裁与黑名单同步", "黑名单 T+1 更新致新增受制裁地址当日仍可交易", "Elliptic"]]]]],
+ ["d2", "现货交易", "Spot Trading", "成长", "法币与币币即时兑换的成交场所，是流动性与用户信任的入口", [["交易对与订单类型", [["交易对上下架治理", "下架公告前内部可先知先买，内幕交易与流动性抽干", "内部系统"], ["市价与限价与止盈止损单", "止盈止损在极端滑点下无法成交，用户预期外巨亏", "Coinbase"], ["冰山与隐藏大单", "隐藏单泄露会使做市商反向狙击，加剧价格冲击", "内部系统"], ["交易手续费阶梯", "费率梯度错误导致大户套利刷量，制造虚假深度", "内部系统"]]], ["成交与撮合衔接", [["成交回报实时性", "回报延迟让用户重复下单造成超额成交", "内部系统"], ["部分成交与撤单", "撤单在撮合队列中竞态会成交已撤订单，账实不符", "Binance"], ["涨跌停与熔断", "无波动熔断在黑天鹅瞬间价格归零，穿仓蔓延", "Bybit"], ["自成交与对敲防范", "自成交刷量虚增成交，违反交易所诚信", "Chainalysis"]]], ["深度与价格发现", [["盘口深度展示", "虚假深度诱导市价单吃单，真实滑点远超展示", "内部系统"], ["指数价格源", "单一现货源被操纵触发错误清算，需多源中位数", "Pyth"], ["交易对估值锚定", "稳定币脱锚未预警，用户以错误价成交", "Chainlink"], ["跨市场套利价差", "价差监控缺失致本所价格偏离 global 被套利掏空", "Kaiko"]]]]],
+ ["d3", "衍生品与永续合约", "Perpetual Derivatives", "核心", "以资金费率锚定现货的无交割合约，2025 占成交 77% 的核心利润池", [["合约产品与杠杆", [["永续资金费率机制", "费率锚定失效（如 AI 板块多头年化超 10%）诱导单向挤仓", "Hyperliquid"], ["杠杆倍数上限", "高杠杆在跳空缺口瞬间穿仓，超出保证金兜底", "Bybit"], ["合约标的与指数", "指数价被单源操纵触发错误强平，需多源 TWAP", "Pyth"], ["合约到期与结算", "结算价取点被狙击，尾盘插针制造连环爆仓", "dYdX"]]], ["保证金与持仓", [["逐仓与全仓模式", "全仓默认导致单标的亏损吞噬其他持仓，扩大损失", "Binance"], ["维持保证金率", "维持保证金过低致清算滞后，亏损溢出至保险基金", "OKX"], ["跨资产统一保证金", "代币化国债作抵押的估值实时性若滞后，抵押物缩水仍放单", "内部系统"], ["风险准备金与保险基金", "保险基金耗尽后由 ADL 强减，用户被反向平仓亏损", "Bitget"]]], ["清算链路", [["标记价格与清算价", "用最新成交价而非标记价清算，插针即爆，争议频发", "dYdX"], ["清算机器人队列", "清算拥堵时排队滞后，坏账累积击穿基金", "内部系统"], ["ADL 自动减仓", "ADL 触发顺序不透明让用户被强制减仓且不满", "Hyperliquid"], ["强平通知与缓冲", "无缓冲期强平致用户在缓冲内可补救却被扫", "内部系统"]]], ["风险管理与熔断", [["异常波动熔断", "无熔断时 2025.10 USDe 6000 万卖盘打崩内部价源连锁清算 193 亿", "Chainlink"], ["持仓集中度限制", "大户单边持仓过高，反向时流动性枯竭穿仓", "内部系统"], ["多空比与资金费预警", "多空极度失衡未预警，费率反转致多头集体爆仓", "CoinGlass"], ["极端行情降级", "极端行情下自动降杠杆与提保证金防止系统性崩盘", "Bybit"]]]]],
+ ["d4", "撮合引擎", "Matching Engine", "成熟", "保证逐笔全序与微秒延迟的成交心脏，决定极端行情下的公平性", [["撮合核心", [["逐笔全序与确定性", "乱序成交破坏价格时间优先，用户申诉无法举证", "Binance"], ["微秒级延迟", "延迟抖动使 HFT 抢单劣化零售体验，公平性质疑", "内部系统"], ["价格时间优先排队", "队列优先级错误让后到单先成交，破坏公平与合规", "内部系统"], ["撮合正确性不变量", "不变量（如不会负库存）缺失致超额卖出，资不抵债", "内部系统"]]], ["订单与状态机", [["委托状态机", "\"已成交\"非终态，终态须\"已清算已交收\"，简化致账实不符且测试难发现", "内部系统"], ["订单簿数据结构", "订单簿重建错误导致显示量与实际可成交量不符", "内部系统"], ["撤单与拒绝路径", "撤单竞态成交已撤单，对账不平", "内部系统"], ["行情快照一致性", "快照与成交不一致使量化策略误判，回测失真", "Kaiko"]]], ["时钟与一致性", [["时钟同步（PTP 与 NTP）", "时钟不同步使成交时间戳错乱，跨所套利证据无效", "内部系统"], ["跨区多活一致性", "多活分区脑裂出现双卖，需全局序号防重", "内部系统"], ["故障切换与幂等", "切换丢序重放导致重复成交，需幂等去重", "内部系统"], ["容量与背压", "背压失效时队列溢出丢单，用户委托消失", "Bybit"]]], ["性能与压测", [["峰值吞吐（百万 requ/s）", "极端行情 API 每秒百万请求，扩容不足即雪崩", "Hyperliquid"], ["低延迟网关", "网关抖动使机构撤单迟滞，价差损失", "内部系统"], ["撮合正确性回归", "回归用例缺边界导致上线后价格异常", "内部系统"], ["限流与防刷", "无限流致单 IP 压垮行情，全站卡顿", "内部系统"]]]]],
+ ["d5", "钱包与托管体系", "Wallet and Custody", "核心", "热温冷分层加多签与 MPC 的资产守护边界，私钥即负债", [["热温冷分层", [["热钱包额度上限", "热钱包留存过多，单点被攻破即全额损失", "Fireblocks"], ["温钱包中转管控", "温钱包无频率限制被持续小额转出累积盗损", "Coinbase"], ["冷钱包离线签名", "冷签名流程线上化即失去离线意义，私钥触网", "Fireblocks"], ["分层资金调度", "调度策略错误致热钱包枯竭或冷钱包过度暴露", "内部系统"]]], ["多签与 MPC", [["多签阈值（m-of-n）", "阈值过低单点可签，过高则故障时无法出金", "Fireblocks"], ["MPC 私钥分片", "分片重建泄露即全钥失守，需阈值签名不重构", "Sepior"], ["签名设备隔离", "签名设备联网被远控，离线设备价值归零", "内部系统"], ["审批与双人控制", "单人审批出金，内部作恶无制衡", "Coinbase"]]], ["私钥与密钥管理", [["密钥生成与备份", "密钥无分段备份，丢失即永久损失用户资产", "内部系统"], ["密钥轮换", "长期不轮换致泄露面扩大，事后难定位", "Fireblocks"], ["HSM 与 KMS 集成", "HSM 故障无降级，出金停摆", "内部系统"], ["助记词与恢复短语保护", "恢复短语明文存储被内鬼拷走", "内部系统"]]], ["链上安全与对账", [["地址风控（OFAC）", "向受制裁地址出金直接触法，需实时筛查", "Elliptic"], ["链上交易监控", "未监控的异常 gas 与混淆交易隐藏盗币流向", "Chainalysis"], ["充值到账确认", "确认数不足即入账，链重组导致假充值", "内部系统"], ["热钱包自动补款", "自动补款脚本被劫持向攻击者地址注资", "内部系统"]]]]],
+ ["d6", "流动性与做市", "Liquidity and Market Making", "成长", "连接上游深度与订单簿的供血系统，决定滑点与价差", [["做市商管理", [["做市商准入与协议", "无 SLA 的做市商在波动时撤单，深度瞬间消失", "Wintermute"], ["激励与返佣", "返佣倒挂诱使刷量，真实深度被虚假替代", "内部系统"], ["做市商风险限额", "做市商单边暴雷未隔离，拖累平台对手盘", "Bybit"], ["做市商对账", "对账滞后使平台与做市商盈亏错配，清算争议", "内部系统"]]], ["流动性供给", [["深度维护与价差", "价差过宽用户流失，过窄做市商亏损撤出", "内部系统"], ["跨所流动性聚合", "聚合失败产生本所孤儿盘，价格偏离", "1inch"], ["流动性挖矿与激励", "激励代币贬值致流动性撤离，TVL 崩塌", "Uniswap"], ["暗池与大宗", "暗池泄露信息被 front-run，机构受损", "Kraken"]]], ["流动性风控", [["滑点与冲击成本", "滑点模型失真让用户成交远差于展示", "Kaiko"], ["流动性枯竭预警", "枯竭未预警在暴跌时无对手盘，连环穿仓", "内部系统"], ["跨资产流动性联动", "一资产崩盘抽干关联资产深度，连锁", "内部系统"], ["虚假成交量识别", "刷量未被识别误导上币与排名决策", "Chainalysis"]]]]],
+ ["d7", "市场风控", "Market Risk Control", "核心", "实时监控敞口、穿仓与异常波动的刹车系统", [["实时风险监控", [["敞口与穿仓监控", "敞口超阈值未告警，单标的崩盘击穿权益", "OKX"], ["异常波动检测", "波动检测滞后，黑天鹅已发生才反应", "Bybit"], ["大额与异动预警", "大额异动未实时拦，操纵已成交", "Chainalysis"], ["价格偏离告警", "本所价偏离指数超阈值未熔断，套利掏空", "Pyth"]]], ["操纵行为识别", [["拉抬砸盘识别", "拉砸未被识别，散户被割", "内部系统"], ["洗售与对敲", "洗售虚增热度诱导跟风，违反诚信", "Chainalysis"], ["幌骗（spoofing）", "幌骗未被拦截破坏价格发现，量化撤离", "内部系统"], ["跨账户协同操纵", "多账户协同拉盘未被图谱识别，监管问询", "Elliptic"]]], ["压力与限额", [["压力测试情景", "无极端情景压测，真实黑天鹅措手不及", "内部系统"], ["单户与单标的限额", "限额缺失致单户独占流动性，系统性风险", "内部系统"], ["波动率自适应降权", "波动率大于 8% 未自动降权，风险敞口放大", "内部系统"], ["熔断与暂停交易", "熔断触发条件不当，误伤正常交易或漏防", "Bybit"]]], ["风险处置", [["风险事件升级链路", "升级链路断点致风险无人处置蔓延", "内部系统"], ["强制减仓与平仓", "强平不透明引发用户维权与监管调查", "dYdX"], ["黑天鹅事后复盘", "不复盘使同类事件重复发生", "内部系统"], ["风险数据留存", "留存不足 5 至 7 年，监管审计无法溯源", "内部系统"]]]]],
+ ["d8", "反洗钱与 KYC/KYT", "AML and Compliance Screening", "核心", "身份准入与链上资金溯源的合规闸门，罚单主战场", [["KYC 身份准入", [["身份认证与活体", "活体绕过（deepfake）使虚假身份过审，制裁人头入金", "Sumsub"], ["风险等级评定", "等级错评使高危用户获高额度，洗钱通道", "Fractal ID"], ["受益所有人识别", "未穿透 BO 使壳公司洗白，罚单主因", "Elliptic"], ["名单筛查（OFAC 与 UN）", "名单未实时更新，新增受制裁者当日可交易", "Elliptic"]]], ["KYT 链上溯源", [["资金来源追溯", "不溯来源致混币器资金入金，72% 罚金源于未拦混币地址", "Chainalysis"], ["交易图谱关联", "图谱未跨链关联，资金经 7 链洗白难追", "TRM Labs"], ["高风险地址拦截", "未拦 Tornado Cash 替代（Railgun 等 47 加）合规硬伤", "Elliptic"], ["行为异常检测", "泊松分布检测机械化肉鸡账户，漏检则规模化洗", "TRM Labs"]]], ["监控与报告", [["SARs 报送", "无 SARs 或积压（如 Block 1.2 亿罚单）直接被罚", "内部系统"], ["旅行规则（Travel Rule）", "未传发起方信息违反 FATF 建议 15 与 16，跨境被拒", "Notabene"], ["交易阈值监控", "大于等于 1 万美元每 24h 未监控，大额异常漏报", "Chainalysis"], ["审计留痕（7 年）", "规则与数据版本未留痕，审计无法复现", "内部系统"]]], ["制裁与执法协同", [["制裁实时阻断", "VPN 置信度低仍放行，制裁国登录未被阻断", "Chainalysis"], ["跨链桥穿透", "跨链桥 5 分钟穿透 7 链未监控，洗白加速", "Elliptic"], ["执法协查响应", "协查超时被认定不配合，牌照风险", "内部系统"], ["风险提示与教育", "不提示用户高风险交互致被动涉案", "内部系统"]]]]],
+ ["d9", "安全防护与入侵检测", "Security Operations", "成长", "守护边界、检测入侵与保护密钥的纵深防御体系", [["边界与访问控制", [["零信任架构", "内网默认信任致横向移动，单点失守全站沦陷", "Cloudflare"], ["API Key 权限最小化", "Key 权限过宽被窃后全量操纵账户与提币", "内部系统"], ["WAF 与速率限制", "无 WAF 致注入与遍历拖库，用户数据泄露", "Cloudflare"], ["内部权限分离", "开发与运维权限未分离，可改账与提币", "内部系统"]]], ["入侵检测", [["异常登录与行为", "异常行为未告警，APT 长期潜伏", "CrowdStrike"], ["提币异常检测", "异常提币模式未被识别，盗损扩大", "Chainalysis"], ["恶意代码与依赖", "供应链投毒植入后门，签名被控", "内部系统"], ["暗网情报监测", "未监测暗网售卖的密钥与漏洞，被动挨打", "Recorded Future"]]], ["数据与安全基建", [["密钥与证书管理", "证书过期致服务中断，或私钥泄露", "HashiCorp"], ["数据加密与脱敏", "脱敏不足致 KYC 数据明文外泄，GDPR 罚", "内部系统"], ["备份与异地容灾", "无异地备份 ransomware 后数据永久丢失", "内部系统"], ["红蓝对抗演练", "不演练使真实攻击时无预案，恢复缓慢", "内部系统"]]]]],
+ ["d10", "保证金与清算", "Margin and Liquidation", "成长", "以保证金为边界、以清算为终局的穿仓兜底机制", [["保证金模型", [["初始与维持保证金", "参数错误致保证金不足，穿仓兜底扩大", "OKX"], ["多资产抵押估值", "抵押品估值滞后，缩水仍计全额，超贷", "内部系统"], ["风险准备金计提", "不计提致亏损无缓冲，直接 ADL 强减", "Bitget"], ["梯度保证金", "梯度缺失致大户低成本高杠杆，风险集中", "Binance"]]], ["清算执行", [["清算触发逻辑", "触发价计算错误误爆或漏爆，用户损失", "dYdX"], ["清算价格保护", "无保护插针爆仓，争议与客诉", "Bybit"], ["部分清算与递减", "全清而非递减致用户一次性归零", "内部系统"], ["清算收益处理", "清算残值归属不清，挪用争议", "内部系统"]]], ["风险缓冲", [["保险基金规模", "基金过小在多空双爆时耗尽，ADL 强减", "Bitget"], ["社会化分摊", "分摊机制不公引发信任危机与挤兑", "内部系统"], ["穿仓追回", "穿仓后无追偿，平台亏损由全体股东承担", "OKX"], ["极端权益保护", "极端下保护无过错用户，防系统性挤兑", "Coinbase"]]]]],
+ ["d11", "合规牌照运营", "Licensing and Compliance Ops", "成长", "在多地监管框架下持牌运营、持续报送与危机应对的合规底座", [["牌照获取与维护", [["MiCA CASP 注册", "未注册在欧盟运营直接被罚（OKX 5.05 亿先例）", "内部系统"], ["美国 MSB 登记", "无 MSB 或 FINRA 在美展业违法，被 SEC 诉讼", "内部系统"], ["香港 VATP 双牌照", "未持 SFC 牌照在港经营违法，穿透式监管", "内部系统"], ["新加坡 MPI 豁免", "超阈未申 MPI 被 MAS 处罚，业务叫停", "内部系统"]]], ["合规运营体系", [["合规官与问责", "无独立 CCO 致合规流于形式，监管重罚", "内部系统"], ["持续监测与报告", "监测断点致违规未被发现，累积被罚", "内部系统"], ["监管报表报送", "报表错报延误引发不信任与调查", "内部系统"], ["客户适格性（KYC 等级匹配）", "不适格客户入场，投诉与退赔", "内部系统"]]], ["监管协同与危机", [["监管沟通与检查", "检查不配合被列入重点监管，牌照风险", "内部系统"], ["跨境合规冲突", "多地规则冲突（如旅行规则）处置不当违规", "内部系统"], ["罚单案例内化", "未内化 OKX 与 KuCoin 教训，重复踩坑", "内部系统"], ["牌照退出与迁移", "无序退出致用户资产处置纠纷", "内部系统"]]]]],
+ ["d12", "法币通道与支付", "Fiat Ramp and Payment", "成熟", "连接银行与稳定币的入金出金与结算通道", [["入金通道", [["银行通道对接", "银行断连致入金失败，用户流失与投诉", "Coinbase"], ["支付方式覆盖", "覆盖窄致部分地区无法入金，增长受限", "MoonPay"], ["入金风控（AML）", "入金未筛来源，黑钱入金被没收", "Sumsub"], ["汇率与手续费", "汇率加点不透明引发争议与监管问询", "Revolut"]]], ["出金与结算", [["出金审核与限额", "审核过松出金洗钱，过严冻结合法资金", "Kraken"], ["结算时效与对账", "结算延迟致用户误判余额重复操作", "内部系统"], ["多币种清算", "多法币清算对账错，汇兑损益争议", "内部系统"], ["通道合规（支付牌照）", "无货币转移牌照收付法币违法", "内部系统"]]], ["稳定币结算", [["稳定币选用与储备", "储备不透明（如脱锚）致结算损失", "Circle"], ["链上结算确认", "确认不足计账致假充值与双花", "USDC"], ["合规稳定币通道", "未用合规稳定币触发旅行规则问题", "内部系统"], ["法币与稳定币套利", "套利缺口被利用套取平台汇差", "内部系统"]]]]],
+ ["d13", "可观测性与弹性", "Observability and Resilience", "成长", "全链路监控、容量弹性与混沌演练构成的生存能力", [["监控与告警", [["全链路追踪", "无 trace 致故障定位以小时计，瘫惰性损失", "Datadog"], ["业务指标埋点", "缺成交与撤单与延迟埋点，盲操无法决策", "Grafana"], ["实时大盘与 SLO", "无 SLO 致不知是否达标，事后才发现违约", "内部系统"], ["异常自动告警", "告警噪声或漏报致真问题淹没或漏防", "PagerDuty"]]], ["容量与弹性", [["自动扩缩容", "不扩缩在行情峰值时雪崩（API 百万 requ/s）", "Kubernetes"], ["限流与降级", "无限流降级，单接口拖垮全站", "内部系统"], ["多活与容灾", "单可用区故障致全站不可用（Lighter 4 小时宕机教训）", "AWS"], ["混沌工程演练", "不演练真实故障恢复未知，RTO 失控", "Gremlin"]]], ["数据可观测", [["宽事件（Wide Event）", "无宽事件致跨账户图查询慢，溯源超时", "ClickHouse"], ["日志留存与审计", "留存不足 5 至 7 年，合规审计失败", "内部系统"], ["实时风控数据管道", "管道延迟致风控判定滞后大于 1.35s 超标", "Flink"], ["可观测性成本治理", "全量埋点成本爆炸，需采样与分级", "内部系统"]]]]],
+ ["d14", "行情与数据服务", "Market Data and Analytics", "成熟", "多源行情、指数编制与链上数据索引的数据中枢", [["行情源", [["多源行情聚合", "单一源被操纵或中断，价格失真", "Kaiko"], ["指数编制与权重", "权重错误致指数偏离，清算误判", "Pyth"], ["数据延迟与质量", "延迟高使策略失效，机构流失", "Chainlink"], ["历史数据归档", "归档缺失致回测与审计无据", "Kaiko"]]], ["数据产品", [["WebSocket 与 REST 推送", "推送丢帧致量化断线重连风暴", "内部系统"], ["深度与成交流", "深度流不全，套利策略误判", "Kaiko"], ["链上数据索引", "索引滞后链上事件，KYT 漏检", "The Graph"], ["数据 API 商业化", "API 限流不当，免费爬取致负载", "内部系统"]]], ["数据治理", [["数据血缘与版本", "无血缘致指标口径漂移，决策错", "内部系统"], ["数据质量监控", "质量监控缺，脏数据进风控误判", "内部系统"], ["冷热数据分层", "未分层（热 0 至 7 天与温 7 天至 1 年与冷 1 至 7 年）致成本与性能失衡", "S3"], ["合规数据留存", "留存不足 5 至 7 年触发审计红线", "内部系统"]]]]],
+ ["d15", "社交跟单与社区", "Social Copy-trading and Community", "成熟", "以降低获客成本、维系信任为目标的社区与跟单体系", [["跟单产品", [["交易员准入与评级", "无评级让亏损交易员吸粉，跟单者受损", "eToro"], ["复制比例与风控", "复制比例失控放大跟单者亏损，投诉", "BingX"], ["延迟与滑点同步", "跟单延迟致成交差于原单，体验崩塌", "Bitget"], ["收益归因透明", "归因不透明引发对刷量造假质疑", "内部系统"]]], ["社区与裂变", [["邀请返佣体系", "返佣漏洞被刷，平台补贴被薅", "内部系统"], ["内容合规审核", "社区喊单未审涉传销与诱导，监管风险", "内部系统"], ["KOL 与生态激励", "激励失衡致 KOL 带单割韭菜", "内部系统"], ["用户分层运营", "不分层的运营浪费预算，高价值流失", "内部系统"]]], ["用户教育与信任", [["风险教育披露", "不披露杠杆风险致新手爆仓维权", "Coinbase"], ["透明度（储备证明）", "无 PoR 用户疑挪用，挤兑（FTX 教训）", "Coinbase"], ["客诉与赔付", "赔付机制缺，信任崩塌流失", "内部系统"], ["社区治理参与", "无治理致核心用户无归属感，流失", "内部系统"]]]]],
+ ["d16", "安全审计与应急响应", "Audit and Incident Response", "成熟", "代码/合约审计、渗透与事件响应的安全闭环", [["审计体系", [["代码与智能合约审计", "未审计合约上线即被 exploit，资金归零", "CertiK"], ["内部风控合规审计", "无定期审计致违规累积，监管重罚", "内部系统"], ["渗透与红队", "不渗透未知暴露面，被攻破才知", "CrowdStrike"], ["第三方依赖审计", "依赖未审供应链投毒，后门植入", "内部系统"]]], ["应急响应", [["事件分级与预案", "无预案致响应混乱，损失扩大", "内部系统"], ["暂停出金机制", "该停不停盗损扩大，不该停误冻合法", "Coinbase"], ["取证与溯源", "不取证难定责，无法追偿与合规报告", "Chainalysis"], ["对外披露与沟通", "披露不当引发恐慌挤兑或监管质疑", "内部系统"]]], ["复盘与改进", [["事后根因分析", "不根因分析同类事故重演", "内部系统"], ["补偿与保险", "无保险致大额损失无兜底，信任崩", "内部系统"], ["演练与培训", "不演练员工临场失误，RTO 超标", "内部系统"], ["监管报备时限", "超时报备被认定隐瞒，加重处罚", "内部系统"]]]]],
+ ["d17", "税务会计与报表", "Tax and Accounting", "成熟", "损益计税、报表申报与资产负债对账的财务底座", [["交易计税", [["损益计算口径", "口径不一致致报税错误，用户被税局追", "TokenTax"], ["事件分类（交易与兑换与空投）", "分类错误致应税错算，合规风险", "内部系统"], ["成本基础法（FIFO 与加权）", "方法错配致资本利得误算", "Koinly"], ["跨年与跨所归集", "未归集致重复征税或漏报", "内部系统"]]], ["报表与申报", [["税务报表导出", "导出不全用户无法合规申报，流失", "CoinTracker"], ["监管报送（1099 等）", "漏报触发监管函，平台连带责任", "内部系统"], ["多法币换算", "换算汇率时点错致金额偏差", "内部系统"], ["审计留痕", "留存不足 5 至 7 年审计失败", "内部系统"]]], ["会计与对账", [["收入确认（手续费）", "确认时点错致财报不符，SEC 问询", "内部系统"], ["资产估值与减值", "估值不实时致资产负债表失真", "内部系统"], ["准备金与负债匹配", "负债不匹配致偿付能力误判", "内部系统"], ["关联交易披露", "不披露关联利益输送嫌疑", "内部系统"]]]]],
+ ["d18", "生态开放平台", "Open Ecosystem Platform", "成熟", "开放 API、上币治理与生态激励的对外能力层", [["开放 API", [["API 权限与配额", "配额不当致滥用或限流误伤，体验差", "Binance"], ["WebSocket 稳定性", "不稳定致量化断连，策略停摆", "内部系统"], ["SDK 与文档质量", "文档错漏致集成失败，开发者流失", "内部系统"], ["第三方应用审核", "未审应用越权读取用户数据，泄露", "内部系统"]]], ["上币与资产接入", [["上币评审治理", "评审不公内幕上币，割散户（多起罚单）", "内部系统"], ["新链与资产接入安全", "接入未审合约，用户资产受胁", "CertiK"], ["代币经济与解锁", "解锁计划不透明致砸盘，信任崩", "内部系统"], ["退市与资产处置", "退市处置不当致用户资产冻结纠纷", "内部系统"]]], ["生态激励", [["开发者激励（Grant）", "激励无产出致资源浪费，质疑", "内部系统"], ["流动性激励计划", "计划不可持续致 TVL 崩塌", "Uniswap"], ["合作伙伴与联营", "联营方违规连坐平台声誉", "内部系统"], ["平台治理与投票", "治理被大户操控，社区分裂", "内部系统"]]]]]
+];
+const FRONTIER = [
+ ["zk 隐私交易", "live", "Lighter 与 Aster 已用 zk-Rollup 实现低费率与隐私结算，验证可行", "为新兴交易所提供 zk 订单簿加逃生舱的标准模块"],
+ ["AI 原生风控", "pilot", "Hyperliquid 类在极端行情自动调保证金权重，路径明确未规模", "行情级 AI 风控代理，波动率大于 8% 自动降权引擎"],
+ ["Agentic AI 合规调查", "explore", "2026 被预判为 Agentic AI 接管合规元年，多智能体协作调查成形中", "可解释合规调查代理，自动生成监管逻辑链与 SARs 草案"],
+ ["MPC 无私钥托管", "live", "Fireblocks 与 Sepior 阈值签名已规模商用，无需重构私钥", "面向中小所的标准化 MPC 托管 SaaS"],
+ ["跨链原子化资金图谱", "pilot", "TRM Phoenix 与 Elliptic Nexus 已跨链关联，毫秒级筛查在落地", "全域资金亲密度图谱，时空对齐正负 30 秒关联"],
+ ["链上 KYC（ZK-KYC）", "pilot", "zkPass 与 Aztec 已能证明非美国人与合格投资者布尔值不披露原文", "合规入场层的 ZK-KYC 凭证服务"],
+ ["统一跨资产保证金", "pilot", "代币化国债作抵押已试点（DTCC No-Action 2025.12）", "跨现货与衍生品与代币化国债的统一保证金引擎"],
+ ["去中心化预言机清算价", "live", "Chainlink 与 Pyth 多源中位数加 TWAP 已成主流清算价源", "将预言机价源嵌入清算标记价防插针"],
+ ["社交恢复钱包", "pilot", "基于 SBT 与设备社交图的找回在探索，未规模", "抗社工账号找回的安全 UX 模块"],
+ ["实时制裁阻断（Local Zones）", "pilot", "100ms 合规判定目标，内存缓存加流式预计算加网络优化 25ms 至 2.5ms", "低延迟制裁与 VPN 阻断网关"],
+ ["储备证明（PoR）实时化", "live", "Coinbase 等已定期 PoR，实时化在演进", "默克尔树加零知识储备证明的可验证仪表"],
+ ["模块化交易基础设施", "explore", "RedStone 与 Pyth 模块化预言机启示，撮合模块化成形中", "可插拔撮合与清算与风控模块降低自建门槛"],
+ ["监管科技一体化（RegTech）", "pilot", "MiCA 与 DORA 催生统一合规中台需求，路径明确", "覆盖 KYC 与 KYT 与旅行规则与 SARs 的合规中台"],
+ ["冰数据归档与摘要", "explore", "7 年加合规冰数据归档标准与摘要技术成形中", "低成本归档加即时摘要检索的合规数据层"],
+ ["机构托管与 EAM", "live", "Fireblocks EAM 已服务机构，多签加 MPC 成熟", "面向机构的执行与访问管理托管"],
+ ["订单流支付（PFOF）治理", "explore", "CEX 是否引入 PFOF 引发公平性讨论，监管成形中", "透明订单路由与利益冲突披露模块"],
+ ["意图交易与 Solver", "explore", "基于意图的撮合（Solver 网络）在 DEX 成形中", "意图层交易路由，最优成交抽象"],
+ ["实时宽事件溯源", "pilot", "ClickHouse 宽事件支撑跨账户图查询，落地中", "宽事件加 OLAP 的实时交易溯源与图查询"],
+ ["AI 做市与流动性", "pilot", "Wintermute 等用算法做市，AI 增强在探索", "AI 做市策略加流动性风控的做市商中台"],
+ ["去中心化身份（DID 与 VC）", "pilot", "Polygon ID 与 Fractal ID 与 Galxe 已落地，标准碎片化待解", "可验证凭证入场的身份层"],
+ ["极端行情降级开关", "live", "Bybit 与 OKX 已有波动降级，验证可行", "一键降杠杆与提保证金与暂停的应急开关套件"],
+ ["跨境旅行规则网关", "pilot", "FATF 建议 15 与 16 推动，Notabene 等网关在落地", "跨境旅行规则信息交换网关"]
+];
+const MIDS = [
+ ["撮合中心", "保证逐笔全序与微秒延迟的成交", "确定性排序、时钟同步、背压控制"],
+ ["风控中心", "实时监控敞口与穿仓与异常波动并刹车", "实时指标、波动率自适应、熔断"],
+ ["合规中心", "身份准入与链上溯源的合规闸门", "KYC 与 KYT、制裁筛查、SARs"],
+ ["托管中心", "热温冷分层与多签和 MPC 的资产守护", "分层调度、阈值签名、离线签名"],
+ ["账户中心", "统一账本与多账户资产管理", "双账本、子账户、RBAC"],
+ ["流动性中心", "连接上游深度与订单簿供血", "做市商管理、深度维护、聚合"],
+ ["清算中心", "保证金计算与强平与 ADL 执行", "标记价、保险基金、ADL"],
+ ["行情中心", "多源行情与指数编制", "多源聚合、TWAP、质量监控"],
+ ["安全中心", "边界防护与入侵检测", "零信任、WAF、异常行为告警"],
+ ["可观测中心", "全链路监控与容量弹性", "宽事件、SLO、自动扩缩"],
+ ["法币中心", "入金出金与稳定币结算", "银行通道、支付牌照、汇率"],
+ ["数据中枢", "冷热分层与宽事件存储", "分层存储、OLAP、血缘"],
+ ["审计中心", "代码与合约与合规审计与应急响应", "渗透、取证、预案"],
+ ["税务中心", "计税与报表申报", "损益口径、成本基础、申报"],
+ ["生态中心", "开放 API 与上币治理", "权限配额、评审、激励"],
+ ["客诉与信任中心", "赔付与披露与教育维系信任", "PoR、披露、补偿"],
+ ["监管协同中心", "牌照维护与监管沟通", "MiCA 与 MSB 与 VATP、报送、危机"],
+ ["增长与社区中心", "跟单与裂变与教育驱动增长", "评级、返佣、教育"]
+];
+const RULES = [
+ ["KYC 必须拦截制裁与混币地址", "未拦受制裁或混币器地址是罚单主因（OKX 5.05 亿与 KuCoin 3 亿与 Block 1.2 亿），72% 罚金源于未拦混币地址，监管可吊销牌照"],
+ ["\"已成交\"不是终态，终态须已清算已交收", "简化状态机会账实不符，且测试环境发现不了，对账灾难"],
+ ["热钱包必须限额且冷签离线", "热钱包留存过多单点被攻破即全额损失；冷签线上化私钥触网失去意义"],
+ ["清算必须用标记价而非最新成交价", "用最新成交价插针即爆，引发客诉与监管调查（dYdX 争议）"],
+ ["保险基金耗尽后须透明 ADL", "不透明的强减让用户被反向平仓且维权，信任崩塌"],
+ ["极端行情须有降级与熔断开关", "无熔断黑天鹅瞬间归零穿仓蔓延（2025.10 USDe 193 亿爆仓）"],
+ ["API Key 权限必须最小化", "Key 过宽被窃后全量操纵账户与提币，资产归零"],
+ ["资金费率必须锚定现货", "锚定失效诱导单向挤仓，多头集体爆仓（AI 板块年化超 10%）"],
+ ["SARs 与审计留痕须满 7 年", "无 SARs（Block 罚单）或留痕不足，监管直接重罚且无法复现"],
+ ["跨链资金必须跨链图谱关联", "未在 5 分钟与 7 链穿透监控，资金洗白加速难追"],
+ ["提币必须白名单加双人审批", "无白名单被盗 Key 瞬转走全部资产不可追回；单人审批内部作恶无制衡"],
+ ["旅行规则信息必须随交易传递", "未传发起方信息违反 FATF 建议 15 与 16，跨境被拒且违规"],
+ ["多活必须全局序号防重", "脑裂双卖与重复成交，对账不平且无法举证"],
+ ["储备证明必须可验证", "无 PoR 用户疑挪用引发挤兑（FTX 教训），信任系统性崩塌"],
+ ["合规判定必须低延迟（小于等于 100ms）", "多源 JOIN 超 1.35s 致风控滞后，需内存缓存加流式预计算"],
+ ["法币通道必须持支付牌照", "无货币转移牌照收付法币属违法，被监管叫停并处罚"]
+];
+const KPIS = [
+ ["成交与深度", "现货与永续成交量、盘口深度、价差、滑点"],
+ ["风险与穿仓", "敞口、穿仓率、保险基金余额、ADL 触发次数"],
+ ["安全与资金", "热钱包留存比、异常提币数、私钥触网事件、被盗损失"],
+ ["合规与 AML", "KYC 通过率、制裁拦截数、SARs 时效、旅行规则覆盖率"],
+ ["可用性与弹性", "API 延迟与吞吐、SLO 达标率、故障 RTO、宕机时长"],
+ ["流动性与做市", "做市商深度、撤单率、虚假成交量占比、TVL"],
+ ["合规牌照与罚单", "各地牌照状态、监管处罚金额、整改完成率"],
+ ["商业与增长", "手续费收入、活跃用户、客诉率、留存与获客成本"]
+];
+const LIC_CN = [
+ ["大陆禁止加密资产交易业务", "不可开展 CEX 与 DEX 交易、法币兑换、合约杠杆等面向公众的加密交易", "不得设交易对、不得提供入金出金、不得营销引流；可合规开展区块链技术服务、联盟链、数据合规、风控 SaaS"],
+ ["区块链信息服务备案", "可开展链上数据索引、溯源、存证类技术服务", "须完成备案与安全评估，不得涉及虚拟货币交易结算"],
+ ["数据安全与个人信息保护（PIPL）", "可开展 KYC 数据处理须本地化与脱敏", "跨境传输需安全评估，不得向境外非法提供个人信息"],
+ ["网络安全等级保护", "可运营合规技术系统须过等保", "系统须定级备案与测评，防数据泄露"],
+ ["反洗钱义务（金融机构类）", "若涉足类金融业务须履行 AML", "保存记录大于等于 5 年、可疑交易报告，配合协查"],
+ ["密码法合规", "密钥管理与 HSM 可用于合规存证系统", "商用密码须合规使用，不得为非法交易提供加密通道"],
+ ["人民币与外汇管理", "不得外汇非法买卖与跨境资金违规通道", "禁止为加密交易提供人民币出入金结算"],
+ ["广告与营销合规", "不得为境外交易所面向境内营销引流", "禁止在境内推广加密交易、喊单、返佣拉新"],
+ ["证券期货类监管", "衍生品与合约属类期货须持牌", "无牌不得开展杠杆与合约交易，违者涉嫌非法经营"],
+ ["税务合规", "相关技术服务收入须依法纳税", "加密交易所得在大陆不承认但技术服务应税"],
+ ["司法与涉案处置", "涉案加密资产须配合冻结与处置", "不得协助转移、隐匿涉案资金"],
+ ["内容平台合规", "社区与行情资讯不得诱导交易", "资讯须标注风险，不得喊单"],
+ ["数据出境安全评估", "链上分析数据出境须评估", "出境须申报，防止敏感数据外泄"],
+ ["人工智能服务合规", "若用 AI 风控与投顾须算法备案", "AI 建议不得构成违规投顾，须可解释"],
+ ["供应链与开源合规", "采用开源组件须合规审查", "避免 GPL 传染与漏洞供应链投毒"],
+ ["未成年人保护", "不得向未成年人提供相关服务", "须身份核验与限制"]
+];
+const LIC_INTL = [
+ ["欧盟 MiCA（CASPs）", "可持 CASP 牌照运营交易与托管", "最低资本 5 至 15 万欧元、DORA 韧性、旅行规则全量身份识别"],
+ ["美国 MSB 与 FinCEN BSA", "可注册 MSB 开展交易与转账", "BSA 3000 美元阈值上报、OFAC 制裁筛查、SARs"],
+ ["美国 GENIUS Act（稳定币）", "可发行或接入合规稳定币结算", "联邦稳定币框架，储备透明与审计"],
+ ["香港 SFC VATP 双牌照", "可持牌经营现货与衍生品虚拟资产交易", "穿透式监管、冷热分层与托管要求"],
+ ["新加坡 MAS MPI 与 DTSP", "可申 MPI 或 DTSP 开展数字支付与交易", "超阈须持牌，DTSP 跨境服务须合规"],
+ ["英国 FCA 与 VASP", "可注册 VASP 展业", "须金融促销合规、AML 与运营韧性"],
+ ["阿联酋 VARA", "可持 VARA 牌照运营全栈虚拟资产服务", "须本地实体、资本与合规报告"],
+ ["日本 FSA 与支付法", "可持牌经营交易所（如持牌所）", "须本地托管、上市审查与用户保护"],
+ ["FATF 旅行规则（建议 15 与 16）", "跨境转账须传递发起方信息", "全球 VASP 间信息交换网关合规"]
+];
+const OPPS = [
+ ["zk 隐私订单簿", "中小所难自建 zk 撮合与逃生舱", "提供 zk-Rollup 订单簿标准模块（参照 Lighter 与 Aster）"],
+ ["AI 原生风控代理", "极端行情人工响应迟滞", "波动率自适应降权引擎加自动降级开关"],
+ ["MPC 无私钥托管 SaaS", "中小所需合规托管但自建成本高", "阈值签名托管 SaaS（Fireblocks 模式下沉）"],
+ ["统一合规中台（RegTech）", "MiCA 与 DORA 多牌照合规割裂", "KYC 与 KYT 与旅行规则与 SARs 一体化中台"],
+ ["跨链资金图谱", "现有筛查跨链关联弱，洗白难追", "全域亲密度图谱，正负 30 秒时空对齐关联"],
+ ["实时 PoR 仪表", "用户疑挪用需可验证信任", "默克尔树加 ZK 储备证明实时仪表"],
+ ["低延迟制裁网关", "合规判定超 1.35s 不达标", "内存缓存加流式预计算加 Local Zones 优化至 100ms"],
+ ["统一跨资产保证金", "抵押品种单一，资金效率低", "代币化国债等作抵押的统一保证金引擎"],
+ ["宽事件实时溯源", "跨账户图查询慢、溯源超时", "ClickHouse 宽事件加 OLAP 实时溯源"],
+ ["AI 做市中台", "中小所流动性供给弱", "算法做市加流动性风控的做市商中台"],
+ ["DID 与 VC 身份层", "入场身份标准碎片化", "可验证凭证入场（Polygon ID 与 Fractal ID 集成）"],
+ ["极端行情应急套件", "宕机与穿仓无标准化应急（Lighter 4h 教训）", "降级与熔断与暂停一键应急开关"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：加密货币交易所 / CEX 现货衍生品 / 钱包托管 MPC / 做市流动性 / MiCA 合规 AML`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

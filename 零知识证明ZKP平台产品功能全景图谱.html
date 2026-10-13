@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>零知识证明ZKP平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>零知识证明ZKP平台全景</b>
+    <span>零知识证明ZKP平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>零知识证明ZKP平台产品功能全景图谱</h1>
+    <p>零知识证明平台让用户在<b>不披露原文</b>的前提下证明属性与计算正确，是 Web3 隐私与扩容的底层原语。当前验证一笔属性证明约需 226 万 Gas、成本约 54 美元，全球 ZK 基础设施市场已具 18 亿美元量级。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线是：用密码学把「信任」从「中介与机构」迁移到「可验证的计算与属性」——既能把链下海量计算压缩成一个可被主网轻量校验的证明，也能让用户只暴露必要属性而不泄露原文。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层 证明基础设施 (d1–d5)</td><td>d1证明系统 / d2递归聚合 / d3电路工具链 / d4可信设置 / d5硬件加速</td><td>决定证明大小、验证成本与证明时间的密码学底座与算力供给</td></tr>
+<tr><td>第2层 扩容与 Rollup (d6–d10)</td><td>d6 ZK-Rollup / d7 zkEVM / d8排序器DA / d9逃生舱 / d10跨链桥</td><td>用密码学保证状态正确，承接主网流量并去信任地跨链</td></tr>
+<tr><td>第3层 身份隐私与合规 (d11–d14)</td><td>d11 ZK身份 / d12 ZK-KYC / d13隐私支付 / d14属性证明</td><td>把 KYC 与隐私重构成「验证属性而非披露原文」的可审计范式</td></tr>
+<tr><td>第4层 市场与前沿 (d15–d18)</td><td>d15证明市场 / d16协处理 / d17 ZK+AI / d18全链应用</td><td>把证明生成、链下重算与 AI 验证商品化、服务化</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">先于产品存在的三件事：<br>1) 一个经审计的<b>验证合约</b>与不可篡改的电路，否则「证明」无信任根；<br>2) 可证销毁的<b>可信设置</b>或被透明设置替代，否则 SNARK 链可被伪造；<br>3) PII 与数据<b>本地化 / 不出境</b>的合规架构，否则 ZK-KYC 一上线即违规。</div>
+    <div class="danger">最易被误当成成功信号的是<b>TPS 与 TVL</b>：高吞吐常靠中心化排序器与未充分审计电路堆出，一旦验证合约或逃生舱失灵，账面繁荣会在单点失守时瞬间归零。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断扩容前沿方向落地优先级的标准：先问「逃生舱是否真实可用、DA 是否被任何人重建」，再谈吞吐与费用；没有去信任提款路径的 ZK-Rollup 只是更快的中心化系统。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>可验证凭证(VC)</td><td>由签发方签名、持有方自主保管的声明，可用 ZK 做选择性披露</td><td>验真失败会让假身份通过或真用户被拒，破坏整个信任链</td></tr>
+<tr><td>DID 标识符</td><td>去中心化标识符，解析到含公钥的 DID 文档</td><td>解析不一致会使凭证无法跨平台验真，制造假阴性</td></tr>
+<tr><td>3P-TLS 会话</td><td>在不暴露明文下证明数据来自真实站点的三方 TLS 协议</td><td>被伪造则属性证明失去数据源信任，KYC 结论可被捏造</td></tr>
+<tr><td>属性断言(布尔)</td><td>把「成年 / 非美国人 / 合格投资者」压缩为可验证布尔值</td><td>边界定义错会误伤合规用户或放过受限者，触发监管风险</td></tr>
+<tr><td>查看密钥</td><td>持有人可向监管选择性披露交易来源的主密钥</td><td>缺失则隐私协议无法向监管自证清白，被制裁风险上升</td></tr>
+<tr><td>撤销树</td><td>记录已失效凭证的累加结构，供验证时查撤销</td><td>无撤销机制会让失信持证方持续被承认，合规承诺落空</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">应用与前沿领域是 ZK 身份、隐私支付、协处理器、ZK+AI 与全链游戏的交汇带，多个监管域（数据 / 金融 / AI / 加密资产）在此叠加。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1) <b>匿名币与混币</b>在大陆属禁区，任何隐私功能都须预留合规筛查；<br>2) <b>PII 出境</b>须经安全评估，本地生成证明是硬约束；<br>3) <b>AI 可审计</b>要求决策可验证，黑箱模型在金融场景直接触线。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：选定证明系统与电路语言，完成电路审计与验证合约形式化验证</li><li>第二步：搭建或接入证明算力（自建硬件 / 证明市场），锁定 SRS 或透明设置</li><li>第三步：设计身份与合规层（ZK-KYC / 属性证明），确保 PII 本地化</li><li>第四步：在 Rollup 或应用中接入验证与逃生舱，做红蓝演练</li><li>第五步：对接监管盲审计通道与 AML 筛查，规模化前过合规验收</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径A：ZK-Rollup 扩容路线（承接主网流量、低费率）</li><li>路径B：ZK 身份与合规路线（属性证明 SaaS、KYC 降本）</li><li>路径C：ZK 隐私与支付路线（带合规筛查的隐私结算层）</li><li>路径D：ZK 基础设施路线（证明市场 / 协处理器 / 硬件加速）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：都依赖同一条第一资产——经审计的<b>验证合约与可信电路</b>，没有它，所有上层能力都只是中心化承诺。</div>
+  </section>
+
+  <footer>
+    <p>零知识证明ZKP平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "总览与分层"],
+ ["s1", "证明系统"],
+ ["s2", "电路与工具链"],
+ ["s3", "扩容与ZK-Rollup"],
+ ["s4", "身份隐私与合规"],
+ ["s5", "硬件加速"],
+ ["s6", "证明市场与基础设施"],
+ ["s7", "应用生态与前沿"],
+ ["s8", "监管与牌照"],
+ ["s9", "落地路径"]
+];
+const PLAYERS = [
+ ["ZK证明系统/算法库", "StarkWare / Matter Labs / Risc Zero", "蚂蚁链摩斯 / 趣链 / 数秦", "以密码学原语对外提供生成-验证能力，按调用或授权收费"],
+ ["ZK-Rollup L2网络", "zkSync / Starknet / Scroll / Linea", "(大陆不可开展加密交易业务，仅技术输出)", "以低费率高吞吐承接主网流量，靠排序器手续费与MEV获利"],
+ ["电路开发语言与IDE", "Circom / Noir / Cairo / o1js", "(开源社区，无明确商业主体)", "降低电路编写门槛，以培训、工具与审计服务变现"],
+ ["ZK身份与证明协议", "zkPass / Polygon ID / Axiom", "(大陆限数据出境，合规探索)", "以可验证凭证与选择性披露服务换取B端订阅与验证调用费"],
+ ["ZK隐私支付协议", "Railgun / Aztec / Tornado Cash(被制裁)", "(大陆禁止匿名币与混币业务)", "以隐私交易手续费与合规审计工具服务机构"],
+ ["可信设置Ceremony服务", "PSE / ZKProof / AZTEC Ignition", "(学术与合规边界)", "以多方仪式的安全性与可审计性提供信任背书服务"],
+ ["证明硬件加速(FPGA/GPU/ASIC)", "Cysic / Ingonyama / Accseal", "(大陆可开展芯片设计)", "以算力租赁与加速卡销售提升证明吞吐、摊薄单位成本"],
+ ["证明即服务/证明市场", "RISC Zero Bonsai / Succinct / Herodotus", "(大陆限加密业务)", "以提交电路换证明的撮合市场抽成"],
+ ["ZK协处理器", "Axiom / Lagrange / Brevis", "(大陆可开展链下计算服务)", "以链下重算加ZK证明为合约提供可验证历史数据查询"],
+ ["ZK-KYC/合规证明SaaS", "zkPass / Verite / Polygon Age", "(大陆KYC须持牌，数据本地化)", "以证明属性而非披露原文降低合规成本，按验证量计费"],
+ ["ZK审计与安全服务", "Zellic / Trail of Bits / Secbit", "(大陆可开展区块链安全)", "以电路与合约审计、形式化验证服务变现"],
+ ["全链ZK游戏/应用引擎", "Mina / Lurk / 0xPARC", "(大陆限加密应用)", "以可验证前端逻辑与轻客户端为应用提供信任最小化运行环境"]
+];
+const DOMAINS = [
+ ["d1", "证明系统", "Proof Systems", "成熟", "决定证明大小、验证成本与证明时间三者密码学取舍，是整条ZK栈的性能天花板与兼容性底座", [["SNARK家族(Groth16/Plonk/Halo2)", [["配对友好曲线参数选择", "选错椭圆曲线或未校验生成元会让验证方程可被伪造，上线前必须做曲线安全审计与常量复核", "Groth16 / Plonk"], ["通用可更新SRS管理", "Plonk/Halo2的SRS一旦泄漏攻击者可造伪证明，需密钥分片与周期更新仪式", "Matter Labs Plonk"], ["递归友好性评估", "不支持内部Pairing的SNARK无法原生递归，会迫使用STARK做外层包裹抬高验证Gas", "Halo2 / Nova"], ["证明体积与验证Gas权衡", "体积过大会抬高L1验证成本，需按链上Gas预算反向选证明系统与压缩策略", "zkSync Era / Scroll"]]], ["STARK家族(FRI/无配对)", [["FRI层数与安全参数", "FRI层数不足或blowup过低会让攻击者以不可忽略概率造假证明，需按128-bit安全复核", "Starknet / Stwo"], ["ZK友好哈希选择", "用非ZK友好哈希拖慢证明数倍，需同时权衡证明速度与抗量子取舍", "StarkWare / Poseidon"], ["抗量子声明边界", "STARK抗量子仅指无配对依赖，内层若用对称哈希仍受量子影响，宣传须精确", "StarkEx"], ["透明设置替代信任", "STARK免可信设置消除ceremony风险，但验证成本与证明大小须被业务接受", "StarkWare SHARP"], ["Prover内存分块", "STARK证明对内存带宽敏感，未分块会OOM，需按机器规格调batch与线程", "StarkWare"]]], ["系统选型与基准", [["TPS/时延/验证Gas三维基准", "只报TPS会误导选型，必须同给证明时延与链上验证Gas才能比真实成本", "ZK Benchmark"], ["前后端约束系统对齐", "前端R1CS与后端Plonkish不匹配会引入未被证明的假设，需统一约束表达", "Arkworks / gnark"], ["混合栈SNARK到STARK转换", "混合栈边界处做证明转换，转换层若未独立审计会成为信任盲区", "Succinct SP1"], ["开源实现版本锁定", "同一算法不同commit行为可能不同，未锁版本会导致可复现性断裂与审计失效", "gnark / halo2"]]]]],
+ ["d2", "递归证明与聚合", "Recursive Proofs & Aggregation", "成长", "把多个证明压缩成一个，使海量交易或跨链状态可被单一轻量验证吞下", [["递归证明构造", [["循环电路辅助输入管理", "递归中每层辅助witness未正确传递会导致证明链断裂，须在IVC中显式管理", "Nova / ProtoStar"], ["折叠方案正确性", "错误使用线性折叠在非均匀约束下累积误差，须校验折叠步完整性证明", "Nova"], ["递归因子的安全边界", "Nova承诺方案被换成非绑定承诺时攻击者可伪造折叠状态", "Succinct"], ["证明大小随深度收敛", "深度增加不聚合证明体积线性膨胀，须设最大深度并定期快照", "Mina"]]], ["聚合与批处理", [["交易级聚合批大小调优", "批过大拉长证明时间、批过小摊不薄固定开销，需按出块节奏定批大小", "Scroll / zkSync"], ["聚合后验证成本封顶", "聚合后仍需全量验证每笔则聚合失义，须保证验证成本与笔数亚线性", "Plonky2"], ["跨域聚合公用参考串", "不同域聚合需统一SRS版本否则合并证明无法同合约校验", "Polygon zkEVM"], ["聚合失败部分回退", "聚合中途一笔失败需能剔除而非整批作废否则吞吐骤降", "Scroll"]]], ["IVC累加器设计", [["累加器状态持久化", "增量验证合约只在内存保存累加器重启会丢状态致历史证明失效", "Aztec / Noir"], ["IVC原语取舍", "选错IVC原语影响电路可组合性，错配让后续ZK应用无法复用", "Sangria"], ["证明链可裁剪性", "用户提款需能截断到当前累加状态，不支持截断会泄露历史路径", "Mina"], ["递归深度对DA压力", "深层递归链上存全状态放大DA成本，需平衡链上链下存储", "StarkWare SHARP"]]]]],
+ ["d3", "电路开发语言与工具链", "Circuit DSL & Tooling", "核心", "把业务规则翻译成可证明的算术约束，开发者体验直接决定ZK应用的生产率", [["电路语言选型", [["语言抽象层级权衡", "过高抽象隐藏约束易出未约束变量漏洞，过低则开发慢，需按团队能力定", "Circom / Noir"], ["未约束变量检测", "Circom未约束信号可被设为任意值绕过逻辑，编译器须开启约束检查", "Circom"], ["Noir与Rust生态互通", "Noir若不能复用Rust库会割裂工具链，需保证可调用与证明后端兼容", "Noir / Aztec"], ["Cairo与STARK后端绑定", "Cairo强绑Starknet会限制可移植性，跨链部署需二次移植成本", "Cairo / Starknet"]]], ["开发与调试工具", [["约束违例定位", "约束错误只在证明失败暴露且难定位，需带源码映射的跟踪器缩短排错", "circomkit / Nargo"], ["单元测试与反例生成", "缺反例测试会让边界条件漏约束，须用符号执行生成违规输入", "zkfuzz"], ["电路可观性注入", "生产电路无日志难排查线上证明失败，需可开关的断言与统计", "Matter Labs"], ["电路规模估算", "估错门数会选错证明系统致超时，需在CI中做规模gate", "snarkjs"]]], ["可复用电路库", [["标准原语库一致性", "同一hash在不同库实现不一致会导致跨电路验证失败，需统一规范", "Arkworks / halo2"], ["电路版本兼容性", "电路升级后旧证明在新验证合约失效，需设计可并存的多版本验证", "Scroll"], ["第三方电路审计依赖", "直接复用未审计电路等于引入未知漏洞，须圈定可信源与哈希锁定", "Zellic"], ["电路许可与开源边界", "商用电路开源条款不清会触发许可冲突，需明确license与专利归属", "gnark"], ["电路到证明后端映射", "同一电路映射多后端需保证约束等价，否则安全论证不成立", "Plonky2 / Halo2"]]]]],
+ ["d4", "可信设置与仪式", "Trusted Setup & Ceremony", "成熟", "为需结构化参考串的SNARK生成公共参数，仪式参与方越多毒性越可忽略", [["结构化参考串生成", [["有毒废物销毁证明", "仪式结束后若不能证明毒性已弃，外界无法信任参数，须公开销毁证据", "AZTEC Ignition"], ["多方参与下限保障", "参与方过少则任一存活即安全假设失效，需设最低参与数与监督", "PSE Perpetual Powers"], ["参与方身份验证", "允许同一人多次参与会虚高安全性，须用抗女巫的身份锚定", "ZKProof"], ["参数版本与链上绑定", "生成参数未绑定到具体电路版本会导致用错参数，需链上登记指纹", "Scroll"]]], ["仪式运行与安全", [["客户端完整性", "参与者用被篡改客户端会泄漏碎片，须提供可验证构建与哈希校验", "PSE"], ["离线碎片提交", "依赖单一在线通道提交易丢碎片，需多通道冗余与限时重提", "Matter Labs"], ["中断恢复机制", "仪式中途中断无恢复会让前序贡献作废，需可续传的检查点", "ZKProof"], ["参与记录可审计", "无公开参与清单无法事后追责与复核，须开放日志与索引", "PSE"]]], ["信任模型与替代", [["透明设置替代评估", "免可信设置系统可消除ceremony风险但验证成本更高，需按场景取舍", "STARK / Halo2"], ["更新性SRS的罢免风险", "可更新SRS若密钥未销毁仍可重构，须证明密钥已不可恢复", "Plonk"], ["多电路参数复用边界", "跨电路复用SRS范围错误会破坏零知识性，需严格限定域", "Polygon"], ["后量子仪式演进", "现有仪式基于离散对数假设，量子时代需规划升级路径", "ZKProof Standards"]]]]],
+ ["d5", "证明硬件加速", "Proving Hardware Acceleration", "成长", "用并行算力把最耗时的FFT/MSM压到秒级，单位证明成本决定商业可行性", [["GPU/FPGA加速", [["FFT与MSM并行拆分", "未合理拆分FFT/MSM会令GPU利用率不足，证明时延降不下来", "Cysic / Ingonyama"], ["显存带宽瓶颈识别", "MSM受内存带宽限制而非算力，错配硬件会浪费投资", "Accseal"], ["多卡任务调度", "多卡负载不均会让最慢卡成瓶颈，需动态分片与流水线", "Cysic"], ["精度与溢出校验", "加速库用低精度省时若未校验会在大电路溢出造伪证明", "Ingonyama"]]], ["ASIC与专用芯片", [["ASIC算法锁定风险", "算法迭代快时ASIC易过时，需选稳定MSM/FFT核或可编程", "Cysic"], ["量产良率与成本", "ASIC流片失败或良率低会压垮商业模型，需小批量验证再扩产", "Accseal"], ["芯片与软件栈协同", "仅有芯片无优化SDK客户无法上手，需提供开箱即用prover栈", "Ingonyama"], ["功耗与散热边界", "高密部署散热不足会降频致证明不稳定，需按机房能力定密度", "Cysic"]]], ["证明市场算力供给", [["算力租赁定价", "按证明复杂度定价错会赔本或丢单，需动态成本模型覆盖硬件折旧", "RISC Zero Bonsai"], ["闲置算力调度", "波峰波谷明显时闲置算力无调度会抬高单位成本，需弹性池", "Succinct"], ["加速结果可验证", "用户无法验证加速方是否偷工减料，需提交证明加抽查复算", "Cysic"], ["跨地域延迟优化", "证明数据跨洲传输延迟高，需在用户近端布边缘prover", "Ingonyama"], ["硬件故障熔断", "单卡故障未熔断会产出坏证明拖累批次，需心跳与自动隔离", "Accseal"]]]]],
+ ["d6", "ZK-Rollup扩容", "ZK-Rollup Scaling", "核心", "把链下计算批次的证明提交主网，用密码学而非博弈论保证状态正确，是L2扩容主路线", [["批次证明提交", [["状态根正确性承诺", "提交证明须绑定新状态根，否则可提交合法证明却篡改状态根偷资金", "zkSync Era"], ["数据可用性捆绑", "证明有效但数据不可得用户无法重建状态，须保证DA随证明上链", "Scroll"], ["批次边界定义", "批边界划错会让跨批交易原子性破坏，需明确批内包含规则", "Starknet"], ["证明提交时序", "延迟提交会让提款确认变慢损害体验，需设最大提交间隔SLA", "zkSync"], ["无效证明拒绝成本", "恶意证明反复提交消耗L1 Gas，需押金与惩罚机制过滤", "Polygon zkEVM"]]], ["验证合约安全", [["验证合约升级权限", "验证合约可被升级替换等于后门，需多签与时间锁约束", "Scroll"], ["紧急暂停触发条件", "无暂停机制在漏洞期会持续失血，需明确定义暂停与恢复", "Starknet"], ["Gas计量防滥用", "验证合约Gas计算错会被构造高耗费输入攻击，需封顶", "zkSync Era"], ["多验证器兼容", "只支持单一证明格式限制互操作，需预留多后端验证入口", "Polygon"]]], ["L1结算与桥接", [["原生桥提款延迟", "原生桥需等待挑战期，过短不安全过长损体验，需权衡", "Scroll"], ["存款到账最终性", "存款在L1确认前被视作到账会双花，需等足够确认数", "zkSync"], ["桥合约权限最小化", "桥合约留管理员键会被盗用铸币，需去除特权函数", "Starknet"], ["跨域消息中继", "L1到L2消息中继失败会卡资金，需可重试与超时退款", "Polygon zkEVM"]]]]],
+ ["d7", "zkEVM与EVM兼容", "zkEVM & EVM Equivalence", "成长", "让现有Solidity合约无需改写即可获得ZK安全边界，兼容性等级决定开发者迁移成本", [["兼容性等级选型", [["字节码级兼容验证", "声称EVM等价却在字节码层改写会引入语义差异，须逐opcode证明等价", "Scroll"], ["预编译合约覆盖", "漏掉某预编译会让部分合约无法部署，需全量覆盖并独立审计", "Polygon zkEVM"], ["Solidity零改写承诺", "宣传零改写实为需注解会欺骗开发者，须明示改造边界", "zkSync Era(BAA)"], ["调试信息保真", "ZK化后报错栈丢失会让开发者无法定位，需保留源码映射", "Scroll"]]], ["电路化EVM", [["Gas机制再实现", "EVM gas在电路重算若不一致会导致计费纠纷与DoS，需精确复刻", "Polygon"], ["异常与回滚语义", "电路未正确处理revert会让部分失败交易被整批拒，需原样建模", "zkSync"], ["存储树一致性", "状态树根不一致会让合约读旧值，需统一MPT/Verkle实现", "Scroll"], ["调用栈深度约束", "忽略调用深度上限会构造栈溢出攻击，需在电路内强制检查", "Polygon zkEVM"]]], ["迁移与工具", [["现有合约迁移成本", "未评估迁移成本会让团队低估工作量，需提供自动diff工具", "Matter Labs"], ["测试网等价性", "测试网与主线行为差会让上线即事故，需保证状态一致", "Scroll"], ["第三方库兼容", "常用库如OpenZeppelin在zkEVM行为异常会阻断业务，需预验证清单", "zkSync"], ["RPC接口差异", "RPC返回字段差异会让前端 silently 出错，需兼容层屏蔽", "Starknet"]]]]],
+ ["d8", "排序器与数据可用性", "Sequencer & Data Availability", "成长", "决定交易排序权、censorship resistance与状态重建成本，是去中心化与活性的命门", [["排序器架构", [["排序权集中度", "单一排序器可审查交易与抢跑，需去中心化或加密内存池缓解", "zkSync / Espresso"], ["加密内存池落地", "未加密内存池让排序器先知先觉可 sandwich，需阈值加密与解密延迟", "Shutter"], ["排序器激励机制", "无激励会让去中心化排序器集体离线，需费用分配与罚没", "Espresso"], ["软终局与硬终局区分", "把软终局当硬终局会让用户在证明前动用资金被回滚", "Scroll"]]], ["数据可用性", [["DA成本与安全性权衡", "用廉价DA降低费用但弱化抗审查，需明示安全等级选择", "Celestia / EigenDA"], ["DA数据可重建性", "DA数据不可重建用户无法逃出，需保证任何人可下载全量", "Scroll"], ["Blob吞吐上限", "以太坊blob容量有限，超量会推高费用，需多DA与压缩", "zkSync Era"], ["DA可用性证明", "声称数据可用却无法证明会让用户盲信，需可用性证明或采样", "EigenDA"]]], ["去中心化路线图", [["排序器轮换安全", "轮换间隙若无缝衔接会被插入恶意块，需原子切换与签名", "Espresso"], ["MEV拍卖透明", "MEV私下分配会侵蚀用户，需公开拍卖与回退保护", "zkSync"], ["灾备与多活", "单点排序器宕机停链，需多活与自动failover", "Starknet"], ["阈值签名门限", "去中心化排序器用阈值签名门限过低易被少数控制，需定安全阈值", "Espresso"]]]]],
+ ["d9", "逃生舱与强制提款", "Escape Hatch & Forced Withdrawal", "成长", "在排序器作恶或停摆时给用户一条自治提款路径，是去信任承诺的最后一公里", [["强制提款机制", [["强制交易入口可用性", "用户无法提交强制交易就等于没有逃生舱，需L1可直接发起", "Scroll"], ["提款审查期设定", "审查期过短给攻击者窗口，过长冻用户资金，需权衡并公示", "zkSync"], ["Gas代付与门槛", "强制提款Gas过高会挡住小额用户，需代付或固定低费通道", "Starknet"], ["状态证明提交要求", "用户需提交自身状态证明才能提款，格式错会失败，需工具化简易生成", "Scroll"]]], ["排序器作恶应对", [["无效状态根挑战", "排序器提交假状态根用户需能挑战，需挑战期与保证金", "Polygon zkEVM"], ["数据扣留响应", "排序器扣数据不发布用户无法重建，需L1强制要求披露", "Scroll"], ["替换排序器流程", "作恶后无替换流程会陷瘫痪，需治理触发新排序器", "zkSync"], ["用户资产冻结边界", "逃生舱触发后仍冻结部分资产会失信，需明确可提范围", "Starknet"]]], ["极限与边界", [["逃生舱自身Gas攻击", "大量用户同时逃生舱会堵L1抬高Gas，需分批与限速", "Scroll"], ["与法币出口衔接", "链上提款后无法出金用户仍被困，需对接合规出金通道", "(机构方案)"], ["审计与演练频率", "逃生舱从不演练上线即失灵，需定期红蓝对抗测试", "Secbit"], ["治理篡改进攻面", "治理可一键关闭逃生舱等于后门，需不可剥夺约束", "zkSync"]]]]],
+ ["d10", "跨Rollup互操作与桥", "Cross-Rollup Interop & Bridges", "成熟", "让资产与消息在ZK链间原子流动，桥的安全模型直接决定跨链资金风险敞口", [["原生跨链消息", [["消息最终性对齐", "两链最终性不一致会让消息在源链回滚目标链已执行，需等源链终局", "LayerZero / zkBridge"], ["轻客户端验证成本", "在目标链跑源链轻客户端验证贵，需用ZK压缩证明降成本", "Succinct / zkBridge"], ["跨链消息重放防护", "未加nonce或域隔离会让消息被重放双花，需全局唯一消息ID", "Hyperlane"], ["中继器去中心化", "依赖单一中继器会成单点并被审查，需多中继与激励", "LayerZero"]]], ["资产桥接", [["锁定铸造对账", "源链锁与目链铸数量不对账会被超发，需可验证余额证明", "Stargate"], ["原路赎回保障", "只支持单向铸不支持赎会让用户被困，需原生赎回路径", "Scroll"], ["桥合约权限最小化", "桥留管理员键会被盗用无限铸，需去除特权函数", "Hop"], ["滑点与流动性", "跨链AMM滑点未预估会损交易，需报价与最大滑点保护", "Stargate"]]], ["ZK桥与轻客户端", [["链上轻客户端ZK化", "把源链共识验证ZK化可在L1用单证明验证，省去多签名信任", "Succinct SP1"], ["跨链状态证明格式", "状态证明格式不统一会让各桥重复造轮子，需标准化证明schema", "zkBridge"], ["桥证明延迟与成本", "证明延迟高会卡跨链体验，需平衡证明频率与Gas", "Polymer"], ["桥流动性去中心化", "中心化流动性提供方可冻结资金，需去中心化LP与可替换", "Across"], ["灾难回滚设计", "桥被黑后无回滚会让损失扩大，需暂停与追溯机制", "LayerZero"]]]]],
+ ["d11", "ZK身份与选择性披露", "ZK Identity & Selective Disclosure", "核心", "让用户持有可验证凭证并只暴露必要属性，重构证明自己的隐私边界", [["可验证凭证架构", [["DID文档解析一致性", "不同方法解析DID文档不一致会让凭证验真失败，需统一解析规范", "Polygon ID / Fractal"], ["VC签名算法兼容", "VC签名算法不互通会让跨平台凭证无效，需支持W3C标准", "Polygon ID"], ["撤销机制实现", "无撤销机制的VC在持证方失信后仍需承认，需维护撤销树", "Civic / Quadrata"], ["凭证过期处理", "过期凭证仍被接受会放过失效身份，需链上过期检查", "Galxe"], ["离线验证支持", "无网络时无法验证会限制线下场景，需提供离线验证包", "Worldcoin"]]], ["选择性披露", [["属性粒度过粗", "只披露整张VC无法隐藏无关字段，需字段级选择性披露", "Polygon ID"], ["零知识范围证明", "证明年龄区间却泄露具体生日会过度暴露，需用范围证明", "zkPass"], ["披露策略可组合", "多VC组合披露策略写死会难扩展，需声明式策略引擎", "Axiom"], ["重放与绑定", "同一证明被截获重放冒用身份，需绑定会话nonce与挑战", "zkPass"]]], ["隐私与抗女巫", [["凭证绑定生物或设备", "凭证不绑设备可被复制倒卖，需绑定设备指纹或生物", "Worldcoin"], ["女巫抵抗成本", "免费领凭证会被女巫刷量，需引入成本或邀请门槛", "Galxe Passport"], ["IPFS持久性依赖", "VC存IPFS若节点下线不可取，需多副本或链上摘要", "Polygon ID"], ["深伪攻击防护", "Deepfake可伪造活体，需活体挑战与多因子", "Worldcoin"]]]]],
+ ["d12", "ZK-KYC与合规证明", "ZK-KYC & Compliance Proofs", "核心", "把KYC结论压缩成布尔属性证明，使机构既满足监管又可向用户承诺数据最小化", [["3P-TLS与数据来源证明", [["TLS会话可验证性", "zkPass用3P-TLS证明数据来自真实站点，会话不可伪造否则证明无意义", "zkPass"], ["数据源白名单", "证明任意站点会被用于伪造任意断言，需限定可信数据源", "zkPass"], ["中间人篡改检测", "3P-TLS未检测中间人会泄露会话内容，需双向校验", "zkPass"], ["本地证明PII不出设备", "PII在本地生成证明不出设备是合规核心，出设备即违规", "zkPass"]]], ["属性化合规断言", [["只证布尔属性", "KYC结论应压缩成成年、非美国人、合格投资者布尔值而非原文，泄露原文即失隐私", "Verite / Polygon Age"], ["净资产阈值证明", "证明净资产大于1M需可信数据源且不暴露总额，需范围证明加审计源", "zkPass"], ["非美国人证明边界", "证明非美籍须明确定义司法管辖与税务身份，边界不清会误伤合规", "Verite"], ["属性证明可撤销", "持证方资格失效后证明仍有效会被滥用，需可撤销与时效", "Polygon Age"]]], ["验证成本与集成", [["链上验证Gas预算", "验证成本约10万Gas约等于0.5美元，超预算会让高频验证不可行，需预编译优化", "zkSync / Scroll"], ["验证合约标准化", "各平台验证合约接口不一会让集成重复劳动，需统一验证ABI", "Verite"], ["B端接入门槛", "接入需理解ZK与KYC双域知识门槛高，需SDK与托管服务", "zkPass"], ["监管审计接口", "监管机构需抽样复核而看不到原文，需提供承诺可验证审计通道", "Quadrata"], ["跨境数据合规", "跨境传输个人数据违反本地化要求，需数据不出境证明架构", "(GDPR/PIPL)"]]]]],
+ ["d13", "ZK隐私支付与混币", "ZK Privacy Payments & Mixers", "成熟", "用一次性地址与零知识证明切断输入输出关联，但落入AML两难与制裁名单雷区", [["匿名集与混币", [["匿名集规模下限", "匿名集过小如小于1000关联可被统计破解，需维持足够规模", "Railgun"], ["一次性地址管理", "地址复用会破坏匿名性，需严格一次性并可扫描", "Tornado Cash(被制裁)"], ["存款-取款关联阻断", "未阻断链上时序关联可聚类识别，需随机延迟与金额分层", "Railgun"], ["混币后AML追踪失效", "混币后AML追踪准确率从89%降至11%，机构需接受合规两难", "(Chainalysis数据)"]]], ["隐私协议设计", [["查看密钥分离", "无查看密钥无法向监管证明来源合法，需可选择性披露", "Aztec / Railgun"], ["合规黑名单拦截", "完全匿名会被制裁名单利用，需可集成合规筛查入口", "Railgun"], ["交易图不可关联性", "同一用户多次交易可被图聚类，需noise与合并交易混淆", "Tornado"], ["前端审查抵抗", "前端被撤用户无法使用，需可自托管前端与IPFS镜像", "Tornado Cash"]]], ["合规与制裁", [["OFAC地址屏蔽", "不屏蔽被制裁地址会引法律风险，需链上可更新屏蔽列表", "(合规方案)"], ["可证明资金来源", "监管可要求选择性披露来源，无接口则无法合规运营", "Aztec"], ["税务报告通道", "隐私协议需给用户出应税报告，否则用户无法合规申报", "(机构方案)"], ["制裁后迁移路径", "被制裁协议用户资产冻结，需设计可迁移逃生路径", "(社区分叉)"]]]]],
+ ["d14", "属性化证明与隐私合规", "Attribute Proofs & Privacy Compliance", "成长", "把成年、非美国人、净资产等属性变成可独立验证的ZK断言，是合规与隐私的交集", [["属性证明原语", [["范围证明安全性", "范围证明实现有漏洞可证明虚假区间，需经审计的库", "zkrange / Noir"], ["集合成员证明", "证明属某白名单集合需Merkle加ZK，树根被篡改会错判，需根可信", "Semaphore"], ["等式与不等式证明", "证明两值相等或不等需防中间态泄露，需非交互式构造", "Noir"], ["空投资格证明", "证明有资格领空投却不暴露地址关联，需抗女巫与匿名", "Semaphore"]]], ["隐私合规交集", [["监管可验证不可见", "监管要能验证合规但看不到个人数据，需盲审计通道", "Quadrata"], ["数据最小化落地", "最小化常停留在口号，需ZK把看到数据变验证属性", "zkPass"], ["跨境属性映射", "不同司法属性定义不同，需可配置司法映射表", "Verite"], ["合规自动化触发", "合规检查靠人工会漏，需属性证明自动放行或拦截", "Polygon Age"]]], ["应用场景", [["成年验证", "只证成年不暴露生日，用于年龄门控场景防过度收集", "zkPass"], ["合格投资者证明", "证明净资产达标不披露金额，服务私募合规", "Verite"], ["地域合规证明", "证明非受限地区居民，满足地域准入要求", "Polygon ID"], ["信用属性证明", "证明信用分区间不暴露具体分，用于借贷准入", "(DeFi方案)"], ["会员资格证明", "证明是某组织成员不暴露身份，用于社区准入", "Semaphore"]]]]],
+ ["d15", "证明市场与证明即服务", "Proof Marketplace & PaaS", "成熟", "把证明生成从应用方剥离成外包算力市场，用撮合降低中小团队的硬件门槛", [["证明撮合市场", [["任务定价模型", "按电路复杂度定价错会赔本，需成本模型覆盖硬件与排队", "RISC Zero Bonsai"], ["证明权归属", "市场生成的证明权属不清会引发知识产权纠纷，需链上确权", "Succinct"], ["恶意证明过滤", "提交假证明需能被发现并罚没押金，否则市场崩塌", "RISC Zero"], ["任务排队与SLA", "无SLA用户无法预期时延，需分级队列与超时补偿", "Bonsai"]]], ["证明即服务", [["API易用性", "接入需写复杂电路绑定会劝退，需开箱即用SDK与模板", "Succinct SP1"], ["隐私输入保护", "用户电路输入在云端泄露等于泄露商业机密，需加密输入通道", "RISC Zero"], ["多后端抽象", "只支持单一证明系统限制场景，需抽象多后端", "Succinct"], ["用量计费透明", "计费不透明会引发纠纷，需可验证用量账单", "Bonsai"]]], ["去中心化prover网络", [["prover信用评分", "无信用评分用户难选可靠prover，需历史成功率评分", "(网络方案)"], ["结果可验证性", "用户无法验证prover是否偷工需抽查复算并奖惩", "RISC Zero"], ["地理合规路由", "跨境算力涉数据出境需路由到合规区，避免违规", "(合规架构)"], ["女巫与刷单防御", "伪造成功率刷分需质押与行为分析防御", "(网络方案)"]]]]],
+ ["d16", "ZK协处理器", "ZK Coprocessor", "成熟", "让智能合约以可验证方式查询历史链上状态，把重计算移到链下再用证明收回", [["链下重算与证明", [["历史状态可验证查询", "合约查询历史块状态若不可验证会被喂假数据，需ZK证明状态根", "Axiom"], ["重算边界定义", "重算范围过大会超证明能力，需限定可证明的窗口与粒度", "Lagrange"], ["状态根时间锚", "用错状态根时间会让查询对应错误历史，需精确时间锚", "Brevis"], ["查询API确定性", "同查询返回不确定会因链下随机失败，需确定性执行环境", "Axiom"]]], ["合约集成", [["回调验证成本", "协处理器回调验证证明Gas高会限使用频率，需预编译优化", "Brevis"], ["查询权限控制", "任意合约调协处理应设权限否则被滥用于扒数据，需鉴权", "Lagrange"], ["结果缓存与一致性", "同查询重复付费且结果可能因链状态变，需缓存与版本", "Axiom"], ["异常处理语义", "链下执行异常未定义会让合约拿到脏结果，需明确错误返回", "Brevis"]]], ["场景与扩展", [["借贷历史信用", "用历史还款记录算信用分需可验证且保护隐私，需ZK加VC", "(DeFi)"], ["链上游戏状态证明", "游戏历史状态可验证防作弊需轻量证明", "(on-chain game)"], ["DAO投票历史验证", "验证成员历史参与度防女巫投票需可验证证明", "(DAO)"], ["跨链数据聚合", "聚合多链数据需各自证明再合成，合成层须可验证", "Lagrange"], ["实时性边界", "协处理器有证明延迟不能用于毫秒级决策，需标明时效", "Brevis"]]]]],
+ ["d17", "ZK与AI验证", "ZK + AI / ML Proofs", "成长", "对模型推理或数据预处理生成完整性证明，使黑箱AI可被外部审计而不泄露权重", [["模型推理证明", [["推理完整性证明", "证明AI输出确由模型产生而非伪造，需可验证推理轨迹", "(ZKML)"], ["量化误差边界", "模型量化误差未界定会让证明与实际不符，需误差上界声明", "EZKL"], ["模型权重隐私", "公开权重会被抄袭，需证明时隐藏权重只证计算正确", "(ZKML)"], ["推理成本可行性", "大模型ZK证明成本极高当前难落地，需小模型或分层证明", "EZKL"]]], ["数据预处理证明", [["训练数据来源证明", "证明训练数据合规来源需可验证溯源，防侵权数据", "(ZK dataset)"], ["预处理可复现", "预处理步骤不可复现会让结果无法审计，需确定性管线", "(pipeline)"], ["样本隐私保护", "训练样本含PII需证明统计属性而不暴露样本，需DP加ZK", "(privacy)"], ["标注质量证明", "标注质量影响模型需证明标注合规，防脏标", "(方案)"]]], ["可信AI与治理", [["黑箱可审计化", "监管要审计AI决策需可验证逻辑链，ZK提供可验证计算", "(audit)"], ["决策可解释证明", "只给结论不解释会被拒，需证明决策依据的属性", "(explain)"], ["模型更新可验证", "模型悄悄更新会改变行为，需新版本证明上链公示", "(governance)"], ["对抗样本防护", "对抗样本骗模型需证明输入在分布内，防投毒", "(robustness)"]]]]],
+ ["d18", "全链应用与前沿形态", "On-chain Apps & Frontier", "成长", "把前端逻辑、轻客户端、隐私计算下沉到可验证层，探索最小信任的交互范式", [["轻客户端与前端可验证", [["轻客户端状态验证", "手机端直接验证链状态需轻量证明，否则需信任全节点", "Mina"], ["前端逻辑可验证", "前端逻辑不可验证会被篡改投毒，需可验证前端 bundle", "(0xPARC)"], ["SNARK友好哈希在前端", "前端用重哈希会卡性能，需用ZK友好哈希加速", "Mina"], ["离线可验证交互", "无网环境交互需本地验证，需可预载证明与状态", "(Lurk)"]]], ["隐私计算应用", [["私密投票", "链上投票公开会贿选，需匿名可验证投票", "(MACI)"], ["私密竞拍", "公开出价被狙击需密封竞价可验证开标", "(auction)"], ["隐私信用评分", "信用分暴露会被歧视需ZK证明区间", "(DeFi)"], ["私密匹配市场", "供需匹配暴露策略需ZK保密匹配", "(matching)"]]], ["前沿探索", [["增量计算Lurk", "用Lisp风格做可验证递归计算探索新范式，成熟度低需谨慎", "Lurk"], ["全链游戏引擎", "把游戏状态全放可验证层需新引擎与证明优化", "(on-chain game)"], ["ZK加AI Agent身份", "Agent需可验证身份与行为凭证防冒充，需ZK加VC", "(Agentic)"], ["量子安全演进", "长期需评估ZK栈抗量子路径，规划哈希基方案", "STARK"], ["标准与互操作", "ZK证明格式无标准会碎片化，需推动跨平台证明规范", "ZKProof"]]]]]
+];
+const FRONTIER = [
+ ["zkEVM主网规模化", "live", "zkSync/Scroll/Polygon zkEVM已承载真实TVL与交易", "为现有Solidity项目提供零改写迁移工具与审计"],
+ ["ZK-Rollup撮合上链", "pilot", "Lighter以zk-Rollup做0费率撮合并设逃生舱", "为合规交易所提供可验证撮合加链上结算模块"],
+ ["ZK-KYC属性证明", "live", "zkPass 3P-TLS已在部分交易所试点合规KYC", "面向机构提供只证属性不出PII的KYC SaaS"],
+ ["ZK身份选择性披露", "pilot", "Polygon ID/Galxe已在空投与门禁使用", "为会员与年龄门控场景提供声明式披露SDK"],
+ ["证明硬件加速商用", "pilot", "Cysic/Ingonyama的GPU/FPGA prover已对外服务", "提供按证明计费的一体化加速盒子降低自建门槛"],
+ ["证明市场与证明即服务", "pilot", "RISC Zero Bonsai/Succinct已开放API", "为中小团队提供免硬件的证明外包与SDK"],
+ ["ZK协处理器", "pilot", "Axiom/Lagrange/Brevis已上线服务合约查询", "为DeFi提供可验证历史数据查询与信用计算"],
+ ["递归证明压缩批", "live", "Mina/Nova已在生产环境验证递归可行性", "为跨链与轻客户端提供证明压缩中间件"],
+ ["可信设置仪式服务", "live", "PSE/ZKProof常态化举办多方仪式", "为企业提供合规可审计的ceremony托管"],
+ ["ZK隐私支付合规化", "explore", "Railgun探索带合规筛查的隐私支付", "为机构设计可选择性披露的隐私结算层"],
+ ["抗量子STARK迁移", "pilot", "StarkWare等推FRI与哈希基证明", "为长期资产提供抗量子证明栈升级路径"],
+ ["ZK加AI推理证明", "explore", "EZKL等做模型推理完整性证明", "为审核型AI提供决策可验证的合规中间件"],
+ ["跨Rollup ZK桥", "pilot", "Succinct SP1/zkBridge用轻客户端ZK化", "为多链资产提供去多签信任的原生桥"],
+ ["属性化合规断言库", "pilot", "Verite/Polygon Age定义布尔属性凭证", "为不同司法提供可配置属性映射与验证ABI"],
+ ["逃生舱标准化", "pilot", "Scroll/Starknet已内置强制提款", "为L2提供可审计的逃生舱一键部署模板"],
+ ["ZK数据可用性采样", "pilot", "EigenDA/Celestia降低DA成本", "为Rollup提供按需安全等级DA选型"],
+ ["去中心化排序器", "explore", "Espresso/Shutter探索共享排序与加密内存池", "为Rollup提供抗审查排序即服务"],
+ ["全链可验证游戏", "explore", "on-chain game探索状态可验证", "为游戏厂商提供防作弊可验证引擎"],
+ ["ZK审计与形式化验证", "live", "Zellic/Secbit已提供电路审计", "为ZK项目提供上线前电路与合约审计套餐"],
+ ["本地PII证明终端", "explore", "zkPass式本地生成证明不出设备", "为移动端提供隐私优先的合规证明SDK"],
+ ["ZK黑名单合规模块", "explore", "在隐私协议中集成OFAC筛查", "为隐私协议提供可更新合规拦截接口"],
+ ["证明格式标准化", "explore", "ZKProof推动跨平台证明规范", "为Wallet/验证器提供统一证明解析层"]
+];
+const MIDS = [
+ ["证明生成中心", "产出有效零知识证明", "电路编译、witness生成、FFT/MSM与硬件调度"],
+ ["电路工程中心", "把业务规则翻译为可证明约束", "DSL选型、约束检查、单元测试与反例生成"],
+ ["链上验证中心", "在L1校验证明并结算状态", "验证合约、Gas计量、多后端兼容与升级锁"],
+ ["排序与打包中心", "收集交易并定序出块", "加密内存池、软硬终局、MEV管理与去中心化排序"],
+ ["数据可用性中心", "保证状态可被重建", "Blob/DA选型、可用性证明与全量可下载"],
+ ["Rollup结算中心", "批次证明上链与桥接", "状态根承诺、DA捆绑、原生桥与提款延迟"],
+ ["身份凭证中心", "签发与管理可验证凭证", "DID文档、VC签名、撤销树与过期检查"],
+ ["选择性披露中心", "字段级隐私证明", "范围证明、会话绑定、离线验证与抗女巫"],
+ ["ZK-KYC合规中心", "属性化合规断言", "3P-TLS、本地证明、布尔属性与可撤销"],
+ ["隐私支付中心", "匿名集与合规筛查", "一次性地址、查看密钥、OFAC屏蔽与来源证明"],
+ ["硬件加速中心", "提供弹性证明算力", "GPU/FPGA/ASIC调度、精度校验与故障熔断"],
+ ["证明市场中心", "撮合并结算证明任务", "定价模型、SLA、恶意证明过滤与确权"],
+ ["跨链桥接中心", "消息与资产跨域", "轻客户端ZK化、最终性对齐、重放防护"],
+ ["协处理中心", "链下重算并证明", "历史状态查询、回调验证、缓存与异常语义"],
+ ["审计与安全中心", "电路与合约安全", "形式化验证、渗透测试与红蓝演练"],
+ ["治理与逃生中心", "应急与自治路径", "逃生舱、暂停、替换排序器与治理触发"],
+ ["开发者体验中心", "降低接入门槛", "SDK、迁移工具、调试映射与文档"],
+ ["前沿研究中心", "跟踪标准与算法", "ZKProof标准化、抗量子与ZK加AI探索"]
+];
+const RULES = [
+ ["验证合约不可升级或需时间锁", "无时间锁的升级权限等于后门，攻击者可悄悄替换验证逻辑盗空资金；曾有多起L2因管理员键被盗损失数千万"],
+ ["证明须绑定新状态根", "只验证证明不绑定状态根，可提交合法证明却篡改根偷资金；典型为排序器提交假根配合有效历史证明"],
+ ["DA必须随证明可得", "证明有效但数据不可得，用户无法重建状态、逃生舱失效；典型为排序器扣数据停摆"],
+ ["逃生舱L1可直接发起", "用户无法在L1直接强制提款则去信任承诺落空；排序器作恶时用户资产被锁"],
+ ["SRS毒性必须可证销毁", "SRS碎片未销毁可被重组造伪证明，需在仪式结束公开销毁证据；否则整条SNARK链失陷"],
+ ["PII必须本地生成证明不出设备", "ZK-KYC中PII出设备即违反数据最小化与PIPL/GDPR；典型为云端生成泄露生物与证件"],
+ ["属性证明须可撤销", "资格失效后证明仍有效会被冒用，如被制裁方继续用旧合规证明；需时效与撤销树"],
+ ["电路未约束信号即漏洞", "Circom未约束信号可被设任意值绕过逻辑，攻击者构造满足约束的恶意witness；上线即失守"],
+ ["混币匿名集须够大", "匿名集过小可被统计聚类破解，典型Tornado小池被Chainalysis关联识别；低于阈值即失效"],
+ ["跨链消息须等源链终局", "不等源链最终性，源链回滚而目标链已执行造成双花；典型为轻客户端误用软终局"],
+ ["递归折叠须校验完整性", "错误折叠在非均匀约束累积误差，攻击者可伪造折叠状态；典型Nova承诺被替换"],
+ ["验证Gas须有预算封顶", "验证合约Gas计算错会被构造高耗费输入DoS，L1被拖垮；需计量封顶"],
+ ["证明市场须罚没押金", "不罚没假证明，市场被廉价伪证明冲垮、应用采信错误计算；需复算抽查"],
+ ["硬件精度须校验溢出", "加速库低精度省时在大电路溢出造伪证明，典型为MSM溢出未被检；需断言"],
+ ["ZK友好哈希须一致", "前后端用不同hash实现会导致跨电路验证失败或安全论证不成立；需统一规范"],
+ ["治理不可一键关逃生舱", "治理可关闭逃生舱等于后门，作恶方借治理提案冻结用户提款；需不可剥夺约束"]
+];
+const KPIS = [
+ ["证明系统性能", "证明时延、证明体积、验证Gas与可并行度，决定商业可行性"],
+ ["安全强度", "抗伪造概率如128-bit、可信设置假设、抗量子边界与曲线审计状态"],
+ ["吞吐与成本", "每批交易数、单位证明成本、L1结算费与硬件折旧"],
+ ["兼容与迁移", "EVM opcode覆盖率、Solidity零改写比例、第三方库兼容清单"],
+ ["去信任指标", "逃生舱可用性、DA可重建性、排序器去中心化程度与审查抵抗"],
+ ["身份隐私强度", "匿名集规模、选择性披露粒度、抗女巫成本与重放防护"],
+ ["合规可审性", "属性证明可验证性、监管盲审计通道、PII不出境与可撤销性"],
+ ["生态与采用", "TVL、活跃地址、开发者数、证明市场任务量与跨链桥锁仓"]
+];
+const LIC_CN = [
+ ["区块链信息服务备案", "可开展区块链底层技术研发、ZK算法与电路工具链输出", "不得开展加密资产交易、代币发行与匿名币或混币业务，算法须备案"],
+ ["数据安全法/个人信息保护法(PIPL)", "可开展本地化数据处理与隐私计算服务", "PII须境内存储不出境，ZK证明须在境内生成，跨境需安全评估"],
+ ["网络安全等级保护", "可上线ZK基础设施与开发者平台", "需通过等保测评，日志留存与审计接口对接监管"],
+ ["密码法", "可研发与应用商用密码(ZK原语)", "商用密码产品须检测认证，算法使用符合国密导向要求"],
+ ["增值电信业务经营许可证", "可提供B端SaaS与API调用(如证明服务)", "不得面向公众提供加密资产相关金融功能"],
+ ["科技类企业/芯片设计许可", "可开展ZK证明加速芯片与FPGA设计", "流片与出口受管制，不得为违规加密业务供算力"],
+ ["区块链安全服务资质", "可开展电路审计、形式化验证与安全测评", "审计对象须为合规境内项目，不得为被制裁协议服务"],
+ ["数据出境安全评估", "可为跨境机构提供合规数据通道", "个人信息出境须评估获批，ZK证明跨境需路由合规区"],
+ ["征信业务资质(如涉及)", "可开展匿名属性信用计算(不涉征信报告)", "出具征信报告须持牌，属性证明仅输出布尔或区间"],
+ ["金融科技监管沙盒", "可在沙盒内试点合规KYC/属性证明", "出沙盒前不得对外规模化展业，须监管验收"],
+ ["人工智能算法备案", "可开展ZK加AI推理证明与可审计AI", "AI服务须算法备案，训练数据合规可溯源"],
+ ["反洗钱(AML)要求", "机构业务须接入AML筛查", "不得为匿名混币提供通道，须保留可审计轨迹"],
+ ["云计算/IDC许可", "可提供证明即服务的算力租赁", "算力不得用于被制裁地址或违规跨境结算"],
+ ["开源协议合规", "可开源ZK工具链", "须明确license与专利归属，避免出口管制冲突"],
+ ["未成年人保护", "可开展年龄门控(只证成年)", "年龄验证须最小化收集，不得留存生日等原始数据"],
+ ["行业标准参与", "可参与ZKProof等标准制定", "标准工作须符合境内密码与数据安全导向"]
+];
+const LIC_INTL = [
+ ["欧盟MiCA(2025全面生效)", "可在欧盟提供CASPs服务与稳定币相关合规业务", "最低资本5至15万欧元、DORA韧性、旅行规则全量身份识别"],
+ ["美国FinCEN BSA/MSB", "可注册MSB开展合规虚拟资产服务", "BSA 3000美元阈值、SARs报送、OFAC制裁筛查"],
+ ["美国GENIUS Act(稳定币)", "可发行合规联邦稳定币", "须满足储备与审计要求，禁止未注册稳定币业务"],
+ ["香港SFC VATP双牌照", "可在港提供虚拟资产交易平台与自动化交易服务", "穿透式监管、零售准入限制与托管隔离"],
+ ["新加坡MAS PS Act/DTSP", "可在新提供数字支付代币服务", "须持牌并满足反洗钱与用户保护"],
+ ["阿联酋VARA", "可在迪拜开展虚拟资产多类业务", "须获VARA牌照并按类别合规运营"],
+ ["FATF旅行规则/建议15-16", "跨境转账须附收发方身份信息", "须接入Travel Rule解决方案，混币相关须强化审查"],
+ ["OFAC制裁名单", "业务须实时筛查并屏蔽被制裁地址", "为被制裁协议(Tornado Cash)提供服务将触法"],
+ ["ISO/标准(ZKProof W3C VC)", "可推出互操作凭证与证明产品", "须符合W3C VC与ZKProof互操作规范"]
+];
+const OPPS = [
+ ["ZK-KYC属性证明SaaS", "机构KYC成本高且数据过度收集", "以zkPass式本地证明加布尔属性，按验证量计费切入B端"],
+ ["合规隐私支付层", "机构要隐私又要可审计", "设计带OFAC筛查与查看密钥的隐私结算层"],
+ ["证明加速一体机", "中小团队自建prover门槛高", "提供按证明计费的一体化加速盒子"],
+ ["ZK-Rollup撮合引擎", "合规交易所需可验证撮合", "输出zk-Rollup撮合加链上结算加逃生舱模块"],
+ ["跨Rollup ZK原生桥", "多签桥信任假设高", "用轻客户端ZK化做去信任跨链消息与资产"],
+ ["ZK协处理器服务", "合约难查历史链上状态", "为DeFi提供可验证历史查询与信用计算"],
+ ["属性证明合规库", "不同司法属性定义混乱", "提供可配置司法映射与标准化验证ABI"],
+ ["电路审计与形式化验证", "ZK项目上线前安全缺口大", "提供电路加合约审计套餐与红蓝演练"],
+ ["证明市场接入层", "应用方难对接多家prover", "做统一API抽象多后端的证明即服务"],
+ ["逃生舱标准化模板", "L2逃生舱实现参差", "提供可审计一键部署的强制提款与暂停模板"],
+ ["ZK加AI可审计中间件", "监管要审计AI决策", "为审核型AI提供决策可验证证明层"],
+ ["ZK身份门控SDK", "年龄/会员门控过度收集", "提供字段级选择性披露声明式SDK"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：零知识证明 ZKP 平台 / ZK-Rollup 扩容 / ZK-KYC 选择性披露`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

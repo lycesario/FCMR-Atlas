@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>链上声誉与DID平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>链上声誉与DID平台全景</b>
+    <span>链上声誉与DID平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>链上声誉与DID平台产品功能全景图谱</h1>
+    <p>链上声誉正在把风控从「拦截资金」前推到「标记风险」：用 KYC、长期 LP 与 DAO 参与积累的可验证声誉，让 DeFi 合约在底层自动拒绝高风险地址或征收惩罚费率。本图谱覆盖 18 个功能域、54 条能力簇与 252 个功能点，呈现从身份到免疫的经济学闭环。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是给匿名地址装上经济学免疫系统的记忆细胞：把合规行为与真实人类身份沉淀为可验证、可撤销、合约可读的声誉，使风险在交易发生前就被标记与定价，而非事后追赃。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）</td><td>链上行为采集·DID标识符·DID文档解析·去中心化存储·可验证凭证VC</td><td>把匿名地址锚定为可验证、可撤销、可持久的身份原子</td></tr>
+<tr><td>第2层（d6–d10）</td><td>声誉评分引擎·声誉维度建模·KYC声誉积累·长期LP声誉·DAO治理声誉</td><td>把多维行为压缩为合约可读、可解释的声誉分</td></tr>
+<tr><td>第3层（d11–d15）</td><td>高风险标记与合约拒绝·费率惩罚·女巫检测·声誉伪造对抗·凭证撤销</td><td>把风险标记、经济惩罚与撤销组合成免疫执行层</td></tr>
+<tr><td>第4层（d16–d18）</td><td>空投防女巫·DeFi信用借贷·治理防巨鲸与仲裁质押</td><td>把声誉能力落到四类高价值应用场景</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br>1) 必须先有<b>人类身份+链上行为</b>双验证，否则声誉只是地址分；<br>2) 必须先有<b>可撤销</b>的 DID/VC，否则失效身份持续作恶；<br>3) 必须先有<b>合约层可读</b>的风险位，否则拒绝只在前端易被绕过。</div>
+    <div class="danger">最易被误当成成功信号的是<b>地址数暴涨</b>：女巫与 AI 模拟能批量制造高分地址，表面繁荣实则声誉体系已被攻破。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">前沿方向落地优先级的一条标准：凡是依赖跨协议/跨平台共享的方向（声誉网络、女巫联盟、撤销注册表）应优先于纯单点能力，因为单点价值随网络效应才成立。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>DID 标识符</td><td>did:method:id 形式的人类可移植身份标识</td><td>选错方法会让身份不可更新或不可撤销</td></tr>
+<tr><td>DID 文档</td><td>记载公钥、服务端点与撤销状态的身份电话簿</td><td>字段缺失会让解析方拿不到验证材料</td></tr>
+<tr><td>可验证凭证 VC</td><td>带 issuer 签名的密码学声明原子</td><td>无信任锚的 VC 等于废纸，验证会被伪造</td></tr>
+<tr><td>声誉分</td><td>多因子加权压缩出的合约可读变量</td><td>权重错误或黑箱会让合约歧视或误拒</td></tr>
+<tr><td>高风险标签</td><td>OFAC/混币器/诈骗等风险标记</td><td>漏标会让洗白资金流通、触合规红线</td></tr>
+<tr><td>撤销状态</td><td>凭证/身份是否失效的链上可读位</td><td>查不到会让已撤 VC 仍被采信作恶</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域监管域组合：身份与隐私法（PIPL/GDPR）、加密资产法（MiCA/VASP）、反洗钱法（BSA/AML）、人工智能法（算法备案）在此交汇。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1) <b>大陆不得开展加密资产交易与加密 KYC 入金</b>，做错了就是一刀切关停；<br>2) <b>人脸/虹膜等生物信息不得出境</b>，深伪防御踩线即违规；<br>3) <b>对外信用报告需征信牌照</b>，自称征信会越界。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：锚定人类身份（DID+生物/社交双验证）</li><li>第二步：采集并语义化链上行为</li><li>第三步：多维度加权生成可解释声誉分</li><li>第四步：把声誉写进合约（拒绝/费率/信用）</li><li>第五步：建立撤销与争议闭环</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：反女巫空投 SaaS（最快变现）</li><li>路径 B：声誉 Oracle 服务（平台化）</li><li>路径 C：ZK-KYC 合规组件（出海）</li><li>路径 D：DeFi 信用中间件（高天花板）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：都依赖<b>第一资产——可信的人类身份与行为声誉数据</b>，没有它其余都是空中楼阁。</div>
+  </section>
+
+  <footer>
+    <p>链上声誉与DID平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "总览与分层架构"],
+ ["s1", "链上声誉评分引擎"],
+ ["s2", "DID 技术栈与标识符"],
+ ["s3", "声誉维度模型"],
+ ["s4", "身份凭证与 KYC 声誉积累"],
+ ["s5", "高风险标记与费率惩罚"],
+ ["s6", "女巫攻击与声誉伪造对抗"],
+ ["s7", "撤销机制与持久性"],
+ ["s8", "应用场景生态"],
+ ["s9", "监管合规与落地路径"]
+];
+const PLAYERS = [
+ ["公链原生声誉协议", "Gitcoin Passport / Optimism RetroPGF", "蚂蚁链 DID / 腾讯至信链", "把匿名地址的行为资本化"],
+ ["身份聚合护照", "Gitcoin Passport / Galxe Passport", "长安链身份 / 腾讯 TID", "用多源凭证拼出真人概率"],
+ ["DID 解析服务", "did:ethr (Spruce/uPort) / did:key", "腾讯 TID / 布比 DID", "把人类可读身份映射到链上密钥"],
+ ["声誉评分 Oracle", "Chainlink / Spectral (MACRO)", "数秦科技信用分", "把声誉变成合约可读取变量"],
+ ["社交图谱凭证", "Lens Protocol / CyberConnect", ".bit (DAS) 社交", "用社交关系证明人类"],
+ ["链上行为埋点", "Arkham / Nansen 标签", "欧科云链 OKLink 标签", "把地址行为翻译为语义标签"],
+ ["凭证存证平台", "Veramo / Dock", "公证通 Factom", "把 VC 固化到不可篡改存储"],
+ ["反女巫风控 SaaS", "Gitcoin 防女巫 / Trusta Labs", "知道创宇 / 慢雾", "用行为指纹拦掉机器地址"],
+ ["信用借贷协议", "ARCx / RociFi / Credora", "(大陆受限)", "用声誉替代超额抵押"],
+ ["治理权重引擎", "Snapshot / Tally / Vocdoni", "(大陆受限)", "把声誉写入投票权重"],
+ ["仲裁信誉质押", "Kleros / Aragon Court / UMA", "(大陆受限)", "用质押与声誉裁决纠纷"],
+ ["合规身份网关", "Quadrata / Fractal ID / Sumsub", "(大陆不可开展加密 KYC)", "桥接法币世界身份"]
+];
+const DOMAINS = [
+ ["d1", "链上行为数据采集", "On-chain Activity Collection", "核心", "把匿名地址的每一笔交易还原为可语义化的行为序列，是声誉与风控的共同地基", [["地址聚类与实体识别", [["地址聚类实体识别", "把同一控制人的多地址归并才能算一个人的声誉，漏聚类会让女巫分裂成 N 个高分地址", "Chainalysis Reactor / Arkham"], ["交易语义标签化", "转账/流动性提供/质押必须被语义标注，只记金额会丢失声誉正负判断依据", "Nansen 标签 / OKLink"], ["时间衰减权重", "越近的行为权重越高，旧行为不衰减会让已被标记诈骗的地址洗白后仍带高分", "Elliptic"], ["跨链行为拼接", "用户在 7 条链上的行为要拼成同一画像，链间割裂会让声誉在跨链桥处归零", "TRM Labs / Lens"], ["实时增量采集", "声誉要随新交易滚动更新，T+1 批处理会让风控判定滞后于刚发生的盗币", "The Graph / Nansen"]]], ["行为特征工程", [["行为指纹提取", "设备/IP/交易节奏构成行为指纹，缺失会让 AI 模拟地址混入人类声誉池", "FingerprintJS / SEON"], ["资金亲密度图谱", "用时空对齐±30秒与金额匹配识别关联地址，阈值过松会误伤正常交互", "TRM Phoenix"], ["交互对手方信誉传播", "与已标记黑地址交互会传染风险分，不传播会让共花地址背锅", "Elliptic Nexus"], ["Gas 与 Nonce 行为模型", "Gas 偏好与 Nonce 连续性是机器人特征，忽略会放过高频套利女巫", "Nansen"], ["合约调用模式库", "不同协议调用模式差异大，通用模板会误判正常 DeFi 用户为异常", "OpenZeppelin Defender"]]], ["数据质量与回灌", [["标签置信度分级", "每个标签要带置信度，低置信标签直接进评分会污染分数", "Chainalysis / Arkham"], ["误标申诉回灌", "被误标的地址要有申诉闭环，没有回灌会让好人永久困在低声誉", "Gitcoin 申诉 / Lens"], ["冷数据归档策略", "1–7 年行为按温冷分层，全量热存会拖垮评分性能", "ClickHouse / S3"], ["数据源版本留痕", "行为模型切换要保留旧版本以便审计，不留痕会让监管质询无法溯源", "Chainalysis"]]]]],
+ ["d2", "DID 标识符体系", "DID Identifier Methods", "核心", "用 did:method:id 把人类身份与链上密钥解耦，使身份可移植、可撤销而不绑定单一平台", [["标识符方法选型", [["did:ethr 链上解析", "did:ethr 把文档存合约、解析快且可撤销，选错方法会让身份不可更新", "SpruceID / uPort"], ["did:key 离线友好", "did:key 无需链上注册即可验证，缺失会让无 Gas 用户无法拥有身份", "did:key spec"], ["did:pkh 多链映射", "did:pkh 把地址直接当身份，省去映射层但难撤销，误用会锁死身份", "ENS / Spruce"], ["方法互不兼容", "Polygon ID 与 Fractal 凭证不互认，强行融合会让用户身份碎片化", "W3C DID"], ["标识符可移植", "身份要能跨应用迁移，平台锁定会让声誉随应用死亡而清零", "DIF / W3C"]]], ["密钥与恢复", [["密钥轮换机制", "DID 密钥要可轮换，不可轮换会让私钥泄露等于身份永久失窃", "Ceramic / IDX"], ["社交恢复兜底", "用可信联系人恢复密钥，纯助记词恢复会让用户清零风险极高", "Argent / Safe"], ["多签控制身份", "关键身份操作走多签，单签身份被钓鱼即失控", "Safe{Wallet} / Gnosis"], ["硬件密钥绑定", "身份根密钥绑定硬件，纯软件密钥易被深伪绕过", "Ledger / YubiKey"], ["密钥泄露熔断", "检测到异常签名要能临时冻结，无熔断会让泄露密钥持续签发 VC", "Spruce"]]], ["跨域互操作", [["DID 互通网关", "不同方法间要能解析互认，断网关会让身份孤岛化", "DIF Universal Resolver"], ["方法迁移路径", "应用下线时身份要能导出，无导出会让用户被平台绑架", "W3C DID"], ["人类可读别名", "did 要绑定 ENS 等可读名，纯哈希标识会降低可用性", "ENS / .bit"], ["跨链身份同步", "同一人在多链的 DID 要同步状态，不同步会让撤销在某链失效", "Lens / Ceramic"]]]]],
+ ["d3", "DID 文档与解析", "DID Document & Resolution", "核心", "DID 文档是身份的电话簿，解析失败则整个身份体系不可寻址", [["文档结构", [["文档最小集完整", "文档须含公钥、服务端点、撤销，缺字段会让解析方拿不到验证材料", "W3C DID Doc"], ["服务端点可信", "服务端点指向的验证服务要可信，被投毒会让 VC 验证走错路", "DIF"], ["多密钥声明", "一个文档可挂多把密钥（加密/签名分离），混用会泄露隐私", "W3C"], ["文档版本演进", "文档结构升级要向后兼容，不兼容会让老客户端解析失败", "JSON-LD"], ["密钥用途标注", "每把密钥要标用途（auth/agreement），错用会让加密密钥签 VC", "W3C"]]], ["解析与缓存", [["解析器可用性", "DID 解析必须高可用，解析宕机等于身份系统全局失明", "Universal Resolver"], ["解析结果缓存一致性", "解析缓存要带失效时间，陈旧缓存会让已撤销身份仍被采信", "Ceramic"], ["链上链下混合解析", "ethr 走链上、key 走本地，混合错配会让部分身份不可解析", "Spruce"], ["解析失败降级", "解析失败要能降级提示而非静默通过，静默通过会让伪造身份过关", "DIF"], ["解析审计日志", "每次解析要留痕，无日志会让身份冒用无法追查", "Chainalysis"]]], ["文档更新与冲突", [["并发更新仲裁", "同一 DID 并发更新要定序，乱序会让文档分叉成双身份", "Ceramic"], ["更新权限校验", "只有 authorizedKey 能改文档，权限校验松会让人冒名改身份", "W3C"], ["历史版本可追溯", "文档变更要可回溯，不可回溯会让争议无据可依", "IPFS / Arweave"], ["离线文档校验", "无网环境要能校验文档签名，无离线校验会让断网场景身份失效", "did:key"]]]]],
+ ["d4", "去中心化存储", "Decentralized Storage", "成熟", "把 DID 文档与 VC 的大件放进 IPFS/Arweave，但持久性本身成为新的信任假设", [["存储选型", [["IPFS 持久性保障", "IPFS 内容可被丢弃，不 pin/不付费会让 DID 文档消失", "Filecoin / Pinata"], ["Arweave 永久存储", "Arweave 一次性付费永久存，适合 VC 存证但成本高，误用会让高频数据破产", "Arweave"], ["存储与链上指针分离", "大文件存链下、哈希上链，全上链会撑爆 gas", "IPFS + Ethereum"], ["内容寻址校验", "用 CID 校验内容完整性，不用 CID 会让存储被篡改无感知", "IPFS CID"], ["多副本冗余", "关键文档要跨多节点冗余，单点失效会让身份验证中断", "Filecoin / Storj"]]], ["可用性与成本", [["检索延迟控制", "声誉读取要低延迟，高延迟会让合约判定超时", "Pinata / Arweave"], ["冷热分层存储", "热声誉走 NVMe、冷凭证走归档，混存会浪费成本", "S3 / Arweave"], ["存储计费模型", "按次与包年要选对，模型错会让小额声誉查询成本爆炸", "Arweave"], ["存储可用性监控", "存储节点掉线要告警，无监控会让身份服务静默降级", "Filfox"], ["数据保留周期", "合规要求留存 5–7 年，保留不足会让审计失败", "S3 Glacier"]]], ["隐私与合规", [["加密后存储", "VC 明文上链下存储会泄露隐私，必须加密", "Lit Protocol"], ["选择性披露支持", "存储要支持 ZK 选择性披露，不支持会让用户被迫全量公开", "Polygon ID"], ["司法删除权", "部分法域要求可删除，纯永久存储会与合规冲突", "(受限)"], ["跨境数据驻留", "中国用户数据需境内驻留，乱存会触犯数据出境规则", "长安链 / 至信链"]]]]],
+ ["d5", "可验证凭证 VC", "Verifiable Credentials", "成熟", "VC 是声誉的原子单位，用密码学让声明可验证而零知识披露", [["凭证签发", [["签发方信任锚", "VC 必须带可信 issuer 签名，无锚的 VC 等于废纸", "Galxe / Gitcoin"], ["凭证 Schema 标准化", "凭证字段要按 Schema，非标会让验证方解析失败", "W3C VC"], ["零知识凭证", "证明成年/非美而不露原文，不 ZK 会让敏感信息泄露", "zkPass / Polygon ID"], ["凭证有效期", "VC 要带有效期，无期限会让过期资格永久有效", "W3C"], ["批量签发幂等", "同用户重复签发要幂等，不幂等会刷出多份高分凭证", "Galxe"]]], ["凭证验证", [["密码学可验证", "验证必须走密码学而非信任，信任验证会被伪造", "W3C VC"], ["撤销状态查询", "验证时必须查撤销，不查会让已吊销 VC 持续有效", "Status List 2021"], ["链上链下双验证", "关键凭证链上核验，只链下会让单点造假", "Veramo"], ["凭证防重放", "VC 要绑定 nonce/受众，无防重放会被截获复用", "W3C"], ["跨域互认", "不同发行方的 VC 要互认，不互认会让凭证孤岛化", "DIF Present Proof"]]], ["凭证生命周期", [["凭证更新续期", "到期前可续期，不可续期会让用户反复重认证", "Galxe"], ["凭证撤销触发", "违规时要能即时撤销，撤销延迟会让坏人继续作恶", "Status List"], ["凭证吊销通知", "吊销要通知依赖方，无通知会让旧分数残留", "Veramo"], ["凭证归档审计", "历史凭证要可审计，不可审计会让监管质询无据", "Arweave"]]]]],
+ ["d6", "链上声誉评分引擎", "On-chain Reputation Scoring Engine", "核心", "把多维行为压缩成一个合约可读的分数，错误的权重会直接变成合约的歧视或漏洞", [["评分模型", [["多因子加权", "声誉要综合行为/社交/治理，单因子会让刷分者钻空子", "Spectral MACRO / ARCx"], ["权重可解释", "每个权重要可解释，黑箱评分会在监管质询时崩盘", "ARCx / Credora"], ["动态阈值调整", "波动率大于8%自动降权，静态阈值会在极端行情误判好用户", "Spectral"], ["抗操纵正则化", "模型要对抗共谋刷分，无正则会让小圈子互相投票抬分", "Gitcoin"], ["分数时间连续性", "分数要平滑过渡，突变会让合约瞬间拒绝正常用户", "ARCx"]]], ["分数消费", [["合约可读接口", "分数要暴露为合约可调用变量，不暴露会让 DeFi 无法自动用", "Chainlink / Band"], ["分数分级门槛", "不同业务设不同阈值，单一门槛会让低风险用户被错杀", "ARCx"], ["分数 refresh 频率", "分数要按风险等级定频刷新，低频会让新黑地址漏网", "Credora"], ["分数防窥探", "查询分数不能泄露持有者，泄露会让针对性攻击", "Aztec / Polygon ID"], ["分数争议回写", "争议成立要回写修正，无回写会让错误永久化", "Gitcoin"]]], ["风险与鲁棒性", [["极端值截断", "异常高分要截断，不截断会让刷分者突破上限", "Spectral"], ["模型回测机制", "模型要回测历史坏账，不回测会上线即翻车", "Credora"], ["对抗样本防御", "要防行为模拟攻击，无防御会让 AI 女巫刷高分", "Trusta"], ["分数可审计留痕", "每次评分要留模型版本，无留痕会让监管无法溯源", "Chainalysis"]]]]],
+ ["d7", "声誉维度建模", "Reputation Dimension Modeling", "核心", "把声誉拆成链上行为、社交凭证、治理参与三个正交维度，混为一谈会掩盖风险", [["链上行为维度", [["行为正负加权", "提供流动性/长期持有为正、混币为负，不区分正负会让黑地址高分", "Nansen"], ["资金停留时长", "停留越久声誉越高，忽略时长会让快进快出套利者得高分", "ARCx"], ["协议交互深度", "深度参与多协议证明真实用户，浅交互易被女巫伪装", "Lens"], ["亏损承受信号", "经历亏损仍留存证明长期主义，忽略会高估投机客", "Credora"], ["行为一致性", "跨时段行为一致才可信，突变要降权", "Elliptic"]]], ["社交凭证维度", [["Lens/POAP 社交图", "用 Lens 关注与 POAP 参会证明人类，空图地址直接低分", "Lens / POAP"], ["GitHub 贡献凭证", "用 GitHub 开发贡献证明真人，伪造贡献难", "Gitcoin Passport"], ["社交图抗女巫", "社交关系要图聚类验证，单点互关会被刷", "CyberConnect"], ["凭证时效权重", "老 POAP 权重高于新买的，不区分会让买号刷分", "Galxe"], ["跨平台一致性", "多平台身份一致才加分，分裂身份要降权", "Gitcoin Passport"]]], ["治理参与维度", [["权重公式落地", "持币×0.4+参与×0.3+贡献×0.3，改权重会让巨鲸操控评分", "Snapshot / Tally"], ["实际投票参与", "只看持币不看参与，会让沉睡巨鲸绑架治理", "Tally"], ["治理贡献计量", "提案/评审等贡献要计量，不计量会让只看币权", "Vocdoni"], ["治理出勤连续性", "连续多期参与才可信，单次刷参与要降权", "Snapshot"]]]]],
+ ["d8", "KYC 认证与声誉积累", "KYC Attestation & Reputation Accrual", "成长", "合规操作（KYC/长期持仓）积累正声誉，是 DeFi 底层自动放行或降费率的前提", [["KYC 声誉挂钩", [["KYC 即正声誉", "完成 KYC 积累正声誉，不挂钩会让合规用户与匿名欺诈同分", "Quadrata / Sumsub"], ["分级 KYC 声誉", "不同等级 KYC 给不同声誉上限，一刀切会浪费高净值用户价值", "Fractal ID / Civic"], ["KYC 隐私保护", "KYC 要走 ZK 不露身份原文，露原文会触犯隐私法", "zkPass / Polygon ID"], ["跨平台 KYC 复用", "一次 KYC 多平台复用，不复用会让用户重复认证流失", "Galxe Passport / Quadrata"], ["KYC 失效回退", "KYC 撤销时声誉要回退，不回退会让失效身份继续高分", "Sumsub"]]], ["合规声誉场景", [["机构资金流声誉", "Aave Arc 机构流加 300% 声誉权重，忽略会错配机构与普通用户", "Aave Arc"], ["税务合规声誉", "完税/申报记录作为正声誉，无记录会低估合规用户", "(受限)"], ["地域合规声誉", "非制裁区用户加声誉，误加制裁区会触 OFAC 红线", "Chainalysis"], ["反洗钱标签传导", "AML 清白历史作为声誉，不传导会让干净地址被当成新号", "Elliptic"], ["合规凭证周期续", "合规凭证要周期重验，不续验会让失效合规继续有效", "Sumsub"]]], ["声誉风控联动", [["正声誉自动放行", "高声誉地址合约自动降费率/放行，不联动会让合规优势落空", "Aave Arc"], ["声誉异常复核", "声誉突变要人工复核，无复核会让刷分绕过", "Quadrata"], ["KYC 欺诈联防", "发现 KYC 造假要全网联防，单点处置会让其换平台重来", "Sumsub"], ["声誉黑名单熔断", "声誉跌破阈值要熔断服务，不熔断会让坏人继续用", "(合约层)"]]]]],
+ ["d9", "长期 LP 与资金行为声誉", "Long-term LP & Capital Behavior", "成长", "用资金停留时长与深度证明非套利机器人，短期进出地址应被降权", [["流动性深度声誉", [["LP 时长权重", "提供流动性越久声誉越高，忽略时长会让快闪 LP 刷分", "ARCx / RociFi"], ["流动性深度", "深度大证明真金白银，浅池易被操纵", "Uniswap / Curve"], ["无常损失承受", "承受 IL 仍留存证明长期主义，忽略会高估短线客", "Credora"], ["多池分散度", "跨多池分散证明真实用户，单池集中易被女巫", "Balancer"], ["LP 稳定度", "撤仓频率低才加分，高频进出要降权", "Curve"]]], ["资金行为信号", [["持仓集中度", "适度分散证明真实，极端集中像庄家要降权", "Nansen"], ["资金净流向", "长期净流入为正声誉，纯流出像撤资要降权", "Arkham"], ["交易频率合理区", "频率在合理区加分，超高频像机器人要降权", "Elliptic"], ["跨链资金一致性", "多链资金一致才可信，割裂要降权", "TRM"], ["休眠唤醒信号", "老地址唤醒要重新评估，直接高分会被盗号利用", "Chainalysis"]]], ["反刷量", [["wash trading 识别", "自成交拉量要识别并扣分，不识别会让刷量者高分", "Elliptic / Nansen"], ["流动性租借识别", "租借流动性刷时长要识别，不识别会让临时资金得高分", "ARCx"], ["资金环路检测", "资金环路回流要拦截，环路会伪造活跃度", "TRM Phoenix"], ["机器人流量过滤", "MEV/套利机器人流量要过滤，不过滤会污染声誉", "Flashbots"]]]]],
+ ["d10", "DAO 投票与治理参与声誉", "DAO Voting & Governance Reputation", "成长", "治理声誉按持币×0.4+参与×0.3+贡献×0.3 刻画，防止巨鲸用币权碾压社区", [["投票权重模型", [["权重公式执行", "严格持币×0.4+参与×0.3+贡献×0.3，改比例会让币权独裁", "Snapshot / Tally"], ["投票出勤率", "连续参与期数决定权重，单次刷票要降权", "Tally"], ["代理投票识别", "代理刷票要识别，不识别会让巨鲸借马甲控盘", "Snapshot"], ["弃权不等于参与", "弃权不能算参与，算参与会虚高治理分", "Vocdoni"], ["投票准时性", "在窗口内投票才计分，迟到投票不补", "Snapshot"]]], ["治理贡献", [["提案质量计量", "提案被采纳才计贡献，只提不改要降权", "Tally / Vocdoni"], ["评审劳动计量", "参与评审/仲裁要计分，不计会让实干者吃亏", "Kleros / Aragon Court"], ["文档贡献计量", "写治理论坛/代码贡献计分，不计量会让贡献隐形", "Gitcoin"], ["跨 DAO 声誉", "多 DAO 贡献可累加，不累加会低估活跃公民", "Coordinape"], ["治理声誉衰减", "长期不参与的声誉要衰减，不衰减会让僵尸号高分", "Snapshot"]]], ["反巨鲸", [["持币上限封顶", "单地址持币权重封顶，不封顶会让巨鲸碾压", "Tally"], ["二次方投票约束", "用二次方投票削弱币权，不用会让钱决定一切", "Gitcoin Quadratic"], ["女巫投票检测", "多地址同向投票要聚类，不聚类会让女巫操控提案", "Trusta / Gitcoin"], ["治理攻击预警", "突然集中投票要预警，无预警会让提案被闪电通过", "Tally"]]]]],
+ ["d11", "高风险地址标记与合约拒绝", "High-risk Address Flagging & Contract Rejection", "核心", "把 OFAC/混币器/诈骗标签写进合约可读状态，底层自动拒绝而非提示风险", [["风险标签体系", [["OFAC 标签硬拒绝", "OFAC 制裁地址合约层硬拒绝，只提示不拒绝会触合规红线", "Chainalysis / TRM"], ["混币器关联标记", "连入 Tornado Cash/Railgun 等要标记，漏标会让洗白资金流通", "Elliptic / TRM"], ["诈骗/钓鱼标签", "已确认诈骗地址要标黑，漏标会让受害者继续转入", "ScamSniffer / Arkham"], ["标签置信分级", "标签带置信度，低置信直接拒绝会误杀正常用户", "Chainalysis"], ["标签来源多元", "单一标签源会误判，多源交叉才定黑", "Elliptic Nexus"]]], ["合约层拒绝", [["合约可读风险位", "风险状态要暴露为合约可读位，不暴露会让前端单点拦截易绕过", "Chainlink / Band"], ["底层自动拒绝", "DeFi 合约底层拒绝黑地址，只前端提示会被直接调合约绕过", "(合约层)"], ["拒绝日志留痕", "每次拒绝要留痕，无留痕会让合规审计无据", "Chainalysis"], ["拒绝可申诉", "误拒要可申诉解封，不可申诉会错杀好人", "(合规流程)"], ["跨协议同步拒绝", "风险标签要跨协议同步，不同步会让黑地址换协议继续", "TRM / Elliptic"]]], ["实时更新", [["OFAC 更新即时收紧", "OFAC 名单更新要瞬时收紧到 0.1 跳，延迟会让新制裁地址可交易", "TRM Phoenix"], ["新黑地址分钟级生效", "新确认的黑地址要分钟级进拒绝集，T+1 会漏掉刚盗币地址", "Elliptic"], ["误标实时修正", "误标修正要实时生效，延迟修正会让好人短暂被拒", "Arkham"], ["风险图谱原子关联", "跨链资金要原子化关联，非原子会让跨链桥处漏网", "TRM Nexus"]]]]],
+ ["d12", "费率惩罚机制", "Fee Penalty Mechanism", "成长", "对低声誉地址征收更高费率或更低杠杆，用经济激励替代行政封禁", [["惩罚模型", [["低声誉高费率", "声誉越低费率越高，费率不分级会让好用户补贴坏人", "ARCx / RociFi"], ["惩罚弹性设计", "惩罚要有上限防破产，无上限会让边缘用户被清零", "Credora"], ["行为改善减罚", "改善行为要能降罚，不降罚会让用户无动力变好", "RociFi"], ["费率实时定价", "费率随风险实时变，静态费率会过时", "Spectral"], ["惩罚透明度", "惩罚规则要公开可查，黑箱惩罚会引监管质疑", "ARCx"]]], ["合约集成", [["费率写入合约", "惩罚费率要写进合约自动执行，链下执行会被绕过", "(合约层)"], ["杠杆随声誉调", "低声誉降杠杆，不调会让高风险用户放大爆仓", "(永续/借贷合约)"], ["惩罚豁免机制", "合规误操作要可豁免，不豁免会误伤机构", "Aave Arc"], ["惩罚争议回退", "争议成立要退罚，不退会让错误永久化", "(治理/仲裁)"], ["跨协议费率共享", "声誉跨协议共享费率，不共享会让换平台逃避惩罚", "(声誉网络)"]]], ["经济激励", [["正向激励对称", "高声誉要降费率作奖励，只罚不奖会让好人流失", "ARCx"], ["惩罚资金去向", "罚没资金用途要透明，不透明会引发信任危机", "(DAO 金库)"], ["博弈均衡校准", "惩罚要校准到纳什均衡，过严会驱离用户", "RociFi"], ["女巫成本抬高", "惩罚要抬高女巫成本高于收益，不够高会源源不断来", "Gitcoin"]]]]],
+ ["d13", "女巫攻击检测", "Sybil Attack Detection", "成熟", "用图聚类与资金亲密度识别一个真人操控的 N 个地址，是空投与治理公平的前提", [["图聚类", [["资金亲密度聚类", "时空对齐±30秒+金额匹配聚类，阈值松会误伤正常交互", "TRM Phoenix"], ["社交图聚类", "社交关系图聚类找同控，单点互关会被刷", "Lens / CyberConnect"], ["交互模式聚类", "相同调用模式归一并查，不聚类会让女巫伪装分散", "Nansen"], ["泊松分布检测", "机械化肉鸡账户符合泊松分布，不检测会放过量机器人", "(GNN 模型)"], ["跨链地址归并", "跨链同一人归并，不归并会让女巫多链分裂", "TRM Nexus"]]], ["行为特征", [["Gas/Nonce 一致性", "同控地址 Gas/Nonce 习惯一致，差异大才像不同人", "Elliptic"], ["行为时间熵", "人类行为时间有熵，机械定时像机器人", "(行为模型)"], ["资金环路识别", "资金环路回流证明同一控制，不识别会漏女巫", "TRM"], ["空投专用地址识别", "只领空投不干别的地址要标记，不标记会让空投被撸", "Gitcoin / Trusta"], ["设备/IP 关联", "同设备多地址要关联，不关联会让设备农场得手", "FingerprintJS / SEON"]]], ["对抗升级", [["AI 行为模拟识别", "AI 模拟人类行为要被识别，不识别会让深伪女巫过关", "Trusta"], ["对抗样本防御", "检测模型要抗对抗样本，无防御会被针对性绕过", "(GNN 对抗)"], ["社群信号印证", "离链社群信号印证链上，无印证会让纯链上误判", "Gitcoin"], ["检测模型迭代", "模型要持续迭代，不迭代会被女巫适应", "Elliptic"]]]]],
+ ["d14", "声誉伪造对抗", "Reputation Forgery Defense", "成长", "对抗 AI 深伪与行为模拟，用人类身份+链上行为双验证戳破伪造声誉", [["人类身份核验", [["活体+链上双验证", "人类身份与链上行为双验证，只验其一会被深伪绕过", "Worldcoin / Gitcoin"], ["生物特征锚定", "用虹膜/人脸锚定人类，纯地址无法证明真人", "Worldcoin / zkPass"], ["设备根信任", "设备根证书做信任锚，模拟设备会被拒", "SEON / FingerprintJS"], ["一次性人类凭证", "人类凭证一次性不可复用，可复用会被截获冒用", "Gitcoin Passport"], ["多源人类交叉", "多源人类信号交叉确认，单源易被伪造", "Galxe Passport"]]], ["行为伪造识别", [["Deepfake 三步识别", "准备/换脸/注入三步都要防，只防一步会被绕过", "(深伪防御)"], ["行为模拟检测", "AI 模拟交易节奏要 detectable，不可检会让伪造声誉得手", "Trusta"], ["生成内容溯源", "AI 生成贡献要溯源，不可溯会让伪造贡献计分", "(内容水印)"], ["异常一致性检测", "过度一致的行为像脚本，要降权", "(行为模型)"], ["对抗训练样本", "用对抗样本训练检测，不训练会被针对性骗", "(GNN)"]]], ["凭证防伪", [["VC 防伪签名", "VC 用强签名防伪造，弱签名会被仿冒", "W3C VC"], ["发行方准入", "issuer 要准入白名单，无准入会让假凭证泛滥", "Galxe / Gitcoin"], ["凭证哈希上链", "凭证哈希上链防篡改，不上链会被改", "Veramo"], ["撤销即失效", "伪造凭证要能即时撤销，不撤销会持续作恶", "Status List"]]]]],
+ ["d15", "凭证撤销机制", "Credential Revocation", "成熟", "VC 与 DID 必须可撤销（链上状态注册表/时间锁/多签），撤销缺失会让失效身份持续作恶", [["撤销方法", [["链上状态注册表", "撤销走链上注册表，链下撤销会单点失效", "Ethereum 合约 / Veramo"], ["时间锁撤销", "关键撤销加时间锁防滥用，无锁会让对手恶意注销他人", "(合约层)"], ["多签撤销", "高权限撤销走多签，单签会被钓鱼误撤", "Safe / Gnosis"], ["撤销位可查询", "验证方必须能查撤销位，查不到会让已撤 VC 仍有效", "Status List 2021"], ["撤销不可抵赖", "撤销操作要留痕不可抵赖，不留痕会扯皮", "(链上日志)"]]], ["撤销时效", [["即时撤销通道", "违规要能即时撤销，延迟撤销会让坏人继续用", "(合约层)"], ["撤销宽限期", "正常到期给宽限期，无宽限会误伤合规用户", "W3C"], ["批量撤销能力", "大规模泄露要能批量撤，逐条撤会来不及", "Veramo"], ["撤销通知依赖方", "撤销要通知所有依赖方，不通知会让旧分残留", "Galxe"], ["撤销历史可溯", "撤销历史要可查，不可查会让争议无据", "Arweave"]]], ["撤销边界", [["部分撤销支持", "VC 要支持部分字段撤销，全撤会误伤有效部分", "W3C"], ["撤销争议仲裁", "撤销争议要能仲裁，无仲裁会让恶意撤销得逞", "Kleros"], ["撤销权限回收", "撤销权限本身要可回收，不回收会让权限永久泄露", "Safe"], ["跨境撤销冲突", "不同法域撤销冲突要定优先级，不定会让合规矛盾", "(合规层)"]]]]],
+ ["d16", "空投防女巫应用", "Airdrop Anti-Sybil", "成熟", "把声誉/人类凭证作为空投领取门槛，直接砍掉女巫批量地址的套利空间", [["领取门槛", [["人类凭证门槛", "空投需人类凭证，无门槛会让女巫批量撸", "Gitcoin Passport / Worldcoin"], ["声誉分门槛", "设声誉分下限，无下限会让低分号领取", "Trusta / ARCx"], ["交互深度门槛", "要求真实交互深度，浅交互号要排除", "Galxe"], ["持仓时长门槛", "要求资产停留时长，快进快出要排除", "ARCx"], ["多维度交叉", "多维度交叉验证领取资格，单维度会被针对性刷", "Gitcoin"]]], ["分配算法", [["二次方分配", "用二次方抑制巨鲸份额，线性分配会让大户吃光", "Gitcoin Quadratic"], ["贡献加权分配", "按贡献而非地址数分配，按地址数会让女巫受益", "Optimism RetroPGF"], ["衰减防囤积", "长期不活跃衰减份额，不衰减会让僵尸号分钱", "(快照机制)"], ["女巫罚没回收", "确认女巫要罚没并回收，不回收会奖励作弊", "Gitcoin"], ["分配可审计", "分配规则要可审计，不可审计会引发社区信任危机", "Optimism"]]], ["反作弊闭环", [["领取后行为监测", "领取后异常抛售要监测，不监测会让女巫领完即砸", "(链上监测)"], ["申诉复核通道", "误伤要可申诉，无申诉会错杀真实用户", "Gitcoin 申诉"], ["女巫图谱共享", "女巫地址跨项目共享，不共享会让其换项目重来", "Trusta"], ["持续复核机制", "定期复核已领取者，不复核会让后期变坏者漏网", "(合规流程)"]]]]],
+ ["d17", "DeFi 信用借贷", "DeFi Credit Lending", "成长", "用声誉分替代超额抵押，释放资本效率，但错误评分会放大坏账", [["信用评估", [["声誉替代抵押", "用声誉分替代超额抵押，误评会让坏账放大", "ARCx / RociFi / Credora"], ["信用额度动态", "额度随声誉动态调，静态额度会让风险积累", "RociFi"], ["违约记录回写", "违约要回写声誉，不回写会让老赖换平台再借", "Credora"], ["跨协议信用共享", "信用记录跨协议共享，不共享会让多头借贷爆雷", "(信用网络)"], ["信用破产保护", "极端行情要保护，无保护会连环爆仓", "Aave"]]], ["风控集成", [["实时健康因子", "借贷要实时健康因子，T+1 会让穿仓发生", "Aave / Compound"], ["声誉触发清算", "低声誉加速清算，不触发会让风险蔓延", "RociFi"], ["利率随信用定", "利率随信用分级，不分会让好用户补贴坏用户", "ARCx"], ["黑名单自动拒", "黑地址自动拒贷，只提示会被直接调合约绕过", "Chainalysis"], ["抵押品多样性", "支持多抵押品，单一会让系统性风险集中", "Aave"]]], ["合规与边界", [["借款人 KYC", "机构借贷要 KYC，不 KYC 会触监管", "Aave Arc / Sumsub"], ["地域准入控制", "制裁区地址禁借，不控会触 OFAC", "Chainalysis"], ["额度上限封顶", "单户额度封顶防挤兑，不封顶会让巨鲸拖垮池子", "Compound"], ["压力测试机制", "要定期压力测试，不测会让黑天鹅无准备", "(风控模型)"]]]]],
+ ["d18", "治理防巨鲸与仲裁信誉质押", "Whale-proof Governance & Arbitration Staking", "成长", "把声誉写入投票权重并用质押惩罚恶意仲裁，保护社区决策不被资本劫持", [["权重防巨鲸", [["持币权重封顶", "单地址币权封顶，不封顶会让巨鲸碾压社区", "Tally / Snapshot"], ["二次方投票", "二次方削弱币权，不用会让钱决定一切", "Gitcoin Quadratic"], ["声誉加权投票", "高声誉加权投票，纯币权会让新公民无声", "Vocdoni"], ["代理投票审计", "代理投票要审计防马甲，不审计会让巨鲸控盘", "Snapshot"], ["投票上限约束", "单提案投票上限，无上限会让闪电控票", "Tally"]]], ["仲裁信誉质押", [["质押才可仲裁", "仲裁需质押代币，无质押会让无成本恶意仲裁", "Kleros / Aragon Court"], ["错误仲裁罚没", "错判要罚没质押，不罚没会让仲裁者乱判", "Kleros"], ["仲裁声誉累计", "公正仲裁累计声誉，不累计会让好人无激励", "UMA / Kleros"], ["争议金防滥用", "发起争议要押金，无押金会让滥诉瘫痪治理", "Kleros"], ["仲裁可复审", "争议结果可复审，不可复审会让错判固化", "Aragon Court"]]], ["生态防护", [["治理攻击预警", "突然集中投票预警，无预警会让提案闪电通过", "Tally"], ["女巫投票聚类", "同向多地址投票聚类，不聚类会让女巫操控", "Trusta"], ["声誉衰减机制", "长期不治理声誉衰减，不衰减会让僵尸号掌权", "Snapshot"], ["跨 DAO 联防", "恶意治理者跨 DAO 联防，不联防会让其换池继续", "(治理网络)"]]]]]
+];
+const FRONTIER = [
+ ["声誉评分 Oracle 化", "live", "Spectral MACRO、ARCx 已把声誉作为合约可读变量在 DeFi 中使用", "把评分封装为可订阅的链上 Oracle 服务对外收费"],
+ ["Gitcoin 式反女巫空投", "live", "Gitcoin Passport 与二次方融资已成空投防女巫事实标准", "为项目方提供一键反女巫空投 SaaS"],
+ ["DID 登录替代钱包", "live", "Spruce、ENS 已支持 did 登录 dApp，替代助记词", "提供 did 登录 SDK 与密钥社交恢复"],
+ ["ZK-KYC 合规凭证", "pilot", "zkPass、Polygon ID 已能证明非美/成年而不露原文", "为交易所提供可复用的 ZK 合规凭证模块"],
+ ["DeFi 信用借贷", "pilot", "ARCx、RociFi、Credora 已跑通用声誉替代抵押的借贷", "把信用评估做成可嵌入各借贷协议的中间件"],
+ ["社交凭证声誉", "pilot", "Lens、Galxe 把社交图转为可验证声誉，尚未成统一标准", "做跨平台社交声誉聚合层"],
+ ["AI Agent 身份三层", "pilot", "2026 Agentic AI 接管合规，需所有权/能力/状态三层身份", "为 AI Agent 发行可撤销能力 SBT 与实时状态"],
+ ["声誉驱动的费率引擎", "pilot", "部分协议已按声誉调费率，但缺跨协议共享网络", "建跨协议声誉费率结算网络"],
+ ["链上 KYC 四路径", "pilot", "哈希存证/SBT/链下验证+签名/VC+ZK 四路径并存", "提供模块化链上 KYC 组件供合规切换"],
+ ["跨链身份同步", "explore", "Ceramic、Lens 在探索跨链 DID 同步，标准未定", "做跨链身份状态同步中继"],
+ ["撤销机制标准化", "explore", "Status List 2021 初成，但时间锁/多签撤销仍碎片化", "推进行业统一的撤销状态注册表"],
+ ["人类身份+链上双验证", "explore", "Worldcoin 虹膜锚定人类仍在争议中，双验证未规模落地", "做开源的人类+行为双验证 SDK"],
+ ["AI 深伪对抗评级", "explore", "Deepfake 三步走攻击升级，检测模型尚在对抗演进", "建深伪对抗的红蓝对抗评测基准"],
+ ["声誉作为抵押品", "explore", "把声誉本身质押参与治理/借贷仍在早期实验", "设计声誉可清算的抵押品合约"],
+ ["合规身份网关桥接", "pilot", "Quadrata、Fractal ID 在做法币身份桥接，大陆不可开展加密 KYC", "为出海项目提供 VASP 合规身份网关"],
+ ["去中心化仲裁网络", "live", "Kleros、Aragon Court 已用质押裁决纠纷", "把仲裁信誉做成可调用 API 供 dApp 接入"],
+ ["女巫图谱共享联盟", "explore", "Trusta、Gitcoin 各有女巫库但互不共享", "建跨项目女巫地址共享联盟链"],
+ ["治理权重可组合", "explore", "Snapshot、Tally 权重公式各异，未可组合", "做可组合的治理权重中间件"],
+ ["声誉数据市场", "explore", "声誉特征数据尚未形成合规交易市场", "在隐私计算下建声誉特征数据市场"],
+ ["持久性保险", "explore", "IPFS 持久性靠付费 pin，缺保险机制", "做存储持久性保险与 SLA 担保"],
+ ["社交恢复即服务", "pilot", "Argent、Safe 社交恢复成熟，但未标准化输出", "做社交恢复 SaaS 供钱包集成"],
+ ["监管报表自动生成", "pilot", "SARs/旅行规则留痕需求强，手动成本高", "把声誉与标签数据自动生成监管报表"]
+];
+const MIDS = [
+ ["声誉评分中心", "把多源行为压缩为合约可读的声誉分", "多因子加权、动态阈值、可解释建模"],
+ ["DID 身份中心", "管理 DID 生命周期与解析", "标识符选型、密钥轮换、跨域互操作"],
+ ["VC 凭证中心", "签发与验证可验证凭证", "ZK 凭证、撤销查询、跨域互认"],
+ ["存储持久中心", "保障身份与凭证的持久可用", "IPFS/Arweave 选型、冗余、隐私加密"],
+ ["风险标记中心", "维护高风险地址与合约拒绝集", "OFAC/混币器标签、实时更新、跨协议同步"],
+ ["反女巫中心", "检测女巫与伪造声誉", "图聚类、行为特征、AI 对抗"],
+ ["KYC 合规中心", "把合规操作转为正声誉", "分级 KYC、隐私保护、跨平台复用"],
+ ["治理声誉中心", "核算治理参与与权重", "权重公式、贡献计量、反巨鲸"],
+ ["信用借贷中心", "用声誉驱动借贷风控", "信用评估、健康因子、违约回写"],
+ ["仲裁信誉中心", "用质押裁决纠纷", "质押仲裁、罚没、可复审"],
+ ["费率惩罚中心", "用经济激励约束低声誉", "弹性惩罚、合约集成、正向对称"],
+ ["撤销管理中心", "管理凭证与身份撤销", "链上注册表、时间锁、多签"],
+ ["社交凭证中心", "聚合 Lens/POAP/GitHub 等社交声誉", "社交图抗女巫、时效权重、跨平台一致"],
+ ["数据采集中枢", "采集并语义化链上行为", "地址聚类、特征工程、实时增量"],
+ ["解析服务中枢", "提供高可用 DID 解析", "混合解析、缓存一致、失败降级"],
+ ["合规映射中心", "把产品能力映射到监管域", "CN/INTL 资质、业务边界、产品约束"],
+ ["安全风控中枢", "校验密钥与签名安全", "硬件绑定、泄露熔断、并发仲裁"],
+ ["生态接入中心", "对接 ENS/Lens/Worldcoin 等生态", "互认网关、方法迁移、跨链同步"]
+];
+const RULES = [
+ ["声誉权重不可黑箱", "监管质询时黑箱权重无法解释，会被认定为歧视性系统性风险并面临下架，典型场景是 MiCA 审查 DeFi 评分模型"],
+ ["高风险地址必须合约层硬拒绝", "只在前端提示会被直接调合约绕过，导致 OFAC 制裁地址完成交易，触发数亿美元级合规罚金"],
+ ["撤销机制不可缺失", "VC 与 DID 不可撤销会让已泄露私钥或已违规身份持续签发有效凭证，坏人换平台继续作恶"],
+ ["标签置信度必须分级", "低置信标签直接拒绝会误杀正常用户引发投诉与诉讼，典型场景是把共花地址误判为黑地址"],
+ ["KYC 隐私必须 ZK", "KYC 原文上链会触犯隐私法与 GDPR，导致产品在某法域被禁"],
+ ["分数不可突变", "分数突变会让合约瞬间拒绝正常用户或放行黑地址，造成资金瞬间损失或坏账"],
+ ["跨链行为必须拼接", "链间割裂会让同一人在跨链桥处声誉归零或分裂成多身份，被女巫利用"],
+ ["女巫检测不可单源", "单源信号易被针对性伪造，导致空投被撸光、治理被操控"],
+ ["持久性必须有保障", "IPFS 内容被丢弃会让 DID 文档消失、验证全面失败，典型场景是 pin 服务欠费"],
+ ["费率惩罚不可无上限", "无上限惩罚会让边缘用户被清零丧失翻盘可能，引发社区信任崩塌"],
+ ["合约可读风险位必须暴露", "风险状态不暴露为合约变量会被前端单点拦截，黑地址直接调合约绕过"],
+ ["人类验证不可只验其一", "只验地址或只验生物会被深伪/模拟绕过，伪造声誉得手"],
+ ["治理权重不可只按币权", "纯币权会让巨鲸碾压社区、提案被闪电通过，社区分裂"],
+ ["违约必须回写声誉", "违约不回写会让老赖换平台再借，信用网络坏账连锁放大"],
+ ["解析不可用必须有降级", "解析静默失败会通过伪造身份，导致冒名签发 VC 与资产损失"],
+ ["合规边界必须按法域", "大陆禁加密交易业务却开展会被一刀切关停，典型场景是无牌经营 VASP 被罚"]
+];
+const KPIS = [
+ ["覆盖率指标", "已打标签地址占全网比例，覆盖低会让 99.2% 无实名地址成数据荒漠"],
+ ["准确率指标", "风险标记与声誉分的精确度，偏低会误杀好人或放黑"],
+ ["召回率指标", "女巫与黑地址的识别完整度，偏低会让漏网之鱼流通"],
+ ["实时性指标", "评分与标签更新延迟，目标 100ms 级合规判定"],
+ ["持久性指标", "DID 文档与 VC 的可检索存活率，低于 SLA 会验证失败"],
+ ["互认率指标", "跨平台/跨法域凭证互认比例，低会让身份孤岛化"],
+ ["抗攻击指标", "女巫与深伪突破率，高突破会让声誉体系失效"],
+ ["合规达标率", "监管报表与留痕完整度，不达标会触发审查"]
+];
+const LIC_CN = [
+ ["区块链信息服务备案", "可开展区块链身份存证、联盟链 DID、数据合规服务", "不得开展加密资产交易、代币发行与加密 KYC 入金业务"],
+ ["数据安全法/个人信息保护法", "可开展去标识化声誉特征处理与本地化存储", "人脸/虹膜等生物信息收集需单独同意且不得出境"],
+ ["网络安全等级保护", "可开展需要等保三级的身份与风控系统", "关键系统未过等保不得上线运营"],
+ ["央行金融科技沙盒", "可参与合规的金融科技试点与数字人民币场景", "不得变相开展虚拟货币兑换与支付结算"],
+ ["反洗钱法(修订)", "可为金融机构提供链上风险标签与 KYT 服务", "不得为匿名加密资产提供匿名混币相关支持"],
+ ["增值电信业务许可", "可提供 SaaS 化的身份与风控 API 服务", "涉内容/数据出境需额外审批"],
+ ["密码法合规", "可使用商用密码做 VC 签名与加密存储", "使用未商用许可算法需走合规通道"],
+ ["征信业务资质", "声誉评分若涉征信需持牌，否则不可对外出具信用报告", "未持牌不得自称征信机构开展个人信用采集"],
+ ["区块链存证司法效力", "联盟链存证可作电子证据，可开展司法存证", "公有链存证在诉讼中采信度需个案认定"],
+ ["数据出境安全评估", "跨境身份数据需走出境评估或标准合同", "未评估不得向境外传输用户身份数据"],
+ ["人工智能服务备案", "若用 AI 做女巫/深伪检测需算法备案", "生成式 AI 服务需另行备案与内容审核"],
+ ["反电信网络诈骗法", "可配合公安机关做涉诈地址识别与阻断", "不得利用风控能力从事用户数据非法买卖"],
+ ["金融科技产品认证", "身份风控类产品可申请国密与人行认证", "未认证不得宣称金融级安全"],
+ ["企业数据合规审计", "可提供链上合规审计与留痕报表服务", "审计结论需独立第三方背书方具效力"],
+ ["地方区块链扶持政策", "可申请合规的区块链创新基金与试点资质", "补贴不得用于变相开展加密交易"],
+ ["电子认证服务许可", "可提供第三方电子签名与 CA 类身份服务", "未获许可不得签发具法律效力的数字证书"],
+ ["互联网信息服务算法推荐", "涉推荐算法需备案并保障用户知情权", "不得利用算法实施大数据杀熟式歧视"]
+];
+const LIC_INTL = [
+ ["欧盟 MiCA", "可为 CASP 提供旅行规则与 KYT 服务", "需满足 DORA 韧性与 5–15 万欧元资本要求"],
+ ["美国 FinCEN BSA/MSB", "可注册 MSB 开展合规 KYC/转账监控", "3000 美元阈值需 SARs 与制裁筛查"],
+ ["欧盟旅行规则(TFR)", "可全量识别交易双方身份并留痕", "未识别对端身份的交易将被禁止"],
+ ["OFAC 制裁合规", "必须硬拒绝 SDN 名单地址并实时更新", "违规会触巨额罚金与刑事风险"],
+ ["新加坡 MAS PS Act/DTSP", "可申请牌照开展数字支付代币服务", "需满足 AML/CFT 与技术标准"],
+ ["香港 SFC VATP", "可申请虚拟资产交易平台牌照", "双牌照与穿透式监管、零售需保护"],
+ ["阿联酋 VARA", "可在迪拜开展 VASP 业务", "需本地实体与审慎资本要求"],
+ ["FATF 建议15/16", "需建立 KYC/KYT 与可疑交易报告", "旅行规则不达标的法域会被灰名单"],
+ ["英国 FCA / 日本 FSA", "可分别在两国持牌开展加密资产服务", "需本地注册与定期审计报送"]
+];
+const OPPS = [
+ ["反女巫空投 SaaS", "缺跨项目女巫地址共享与一键接入", "先做女巫图谱共享联盟再卖 SaaS"],
+ ["声誉 Oracle 服务", "缺跨协议可订阅的声誉变量", "把评分封装成 Chainlink 式 Oracle 收费"],
+ ["ZK-KYC 模块化组件", "缺可复用且合规的 ZK 凭证模块", "对标 zkPass 做跨境合规凭证"],
+ ["DeFi 信用中间件", "缺嵌入各协议的信用评估件", "做可插拔的信用评分合约"],
+ ["DID 登录 SDK", "缺标准易集成的 did 登录方案", "对标 Spruce 做社交恢复登录"],
+ ["社交声誉聚合层", "缺跨 Lens/Galxe/GitHub 的统一层", "做多源社交声誉聚合 API"],
+ ["撤销状态注册表", "缺行业统一的撤销标准", "推进 Status List 升级+多签撤销"],
+ ["AI Agent 身份三层", "缺 Agent 的所有权/能力/状态身份", "发可撤销能力 SBT 与状态服务"],
+ ["合规身份网关", "出海项目缺 VASP 合规身份桥", "对标 Quadrata 做身份网关"],
+ ["去中心化仲裁 API", "dApp 缺可调用仲裁", "封装 Kleros 式仲裁为 API"],
+ ["声誉数据市场", "缺隐私计算下的特征交易", "在联邦学习下建合规特征市场"],
+ ["监管报表自动化", "缺把标签数据转报表的工具", "做 SARs/旅行规则自动报表"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：链上声誉 / DID 分布式身份 / 反女巫空投 / 信用借贷 / 治理防巨鲸`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

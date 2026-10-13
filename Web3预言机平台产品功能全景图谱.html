@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web3预言机平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>Web3预言机平台全景</b>
+    <span>Web3预言机平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>Web3预言机平台产品功能全景图谱</h1>
+    <p>预言机是连接链上链下的信任基础设施，<b>18</b> 亿美元规模的 DeFi 依赖它定价清算。三代演进从中心化到多源聚合质押罚没，再到模块化与 <b>54</b>ms 第一方低延迟。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是「把链下真值以可验证、抗操纵的方式写进链上」。价格、事件、计算三类预言机共同支撑 DeFi 借贷清算、合成资产、RWA 与保险理赔。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）基础喂价与清算</td><td>价格喂价、借贷清算触发、合成资产定价、多源聚合中位数、质押罚没经济</td><td>先把价格可信地喂上链，并让清算建立在真值之上</td></tr>
+<tr><td>第2层（d6–d10）抗操纵与新型喂价</td><td>TWAP、熔断异常检测、第一方低延迟、模块化按需、乐观仲裁</td><td>用时间平滑、熔断、低延迟与仲裁把操纵成本抬高</td></tr>
+<tr><td>第3层（d11–d14）可验证与资产上链</td><td>可验证计算、RWA估值、跨链同步、保险理赔</td><td>把计算、真实资产与事件以可验证方式接入</td></tr>
+<tr><td>第4层（d15–d18）AI融合与合规</td><td>AI融合预言机、Agentic AI、数据可用性、合规上链</td><td>用 AI 与合规网关扩展边界并守住监管红线</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三件必须先于产品存在：<br>1. 独立的多源数据供给（单源即单点失败）<br>2. 可执行的罚没与熔断经济机制（无成本则无真值）<br>3. 可回溯的留痕与签名（无据则纠纷无解）</div>
+    <div class="danger">最易被误当成成功信号的是「节点数多、报价看起来连续」——<b>同源多节点等于单源</b>，连续价也可能是过期价，真正信号是偏离熔断触发率与罚没威慑是否真实生效。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">前沿方向落地优先级看一条标准：能否把「操纵成本」抬高到攻击收益之上。AI 融合、Agentic、zk 预言机若只是降延迟或增花哨而不提升抗操纵，应排在模块化降本与低延迟之后。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>价格（Price）</td><td>链下资产在链上的可信代表值</td><td>错价即错清算、错交割，是系统性风险源头</td></tr>
+<tr><td>节点（Node）</td><td>提供报价的去中心化参与者</td><td>节点合谋或同源即单点，决定真值可信度</td></tr>
+<tr><td>质押（Stake）</td><td>节点锁定的经济担保</td><td>罚没不足则经济激励失效，攻击有利可图</td></tr>
+<tr><td>聚合值（Aggregate）</td><td>多源中位数或加权平均结果</td><td>算法错（用均值而非中位数）即被离群带偏</td></tr>
+<tr><td>证明（Proof）</td><td>TEE或ZK或签名产出的可验证证据</td><td>证明链断裂即不可追责，纠纷无据</td></tr>
+<tr><td>事件（Event）</td><td>触发保险跨链理赔的外部事实</td><td>事件造假即自动赔错、跨链传假</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域监管在「数据合规、跨境流动、金融牌照、反洗钱」四个域交汇：链下数据上链涉数据安全与出境，定价清算涉金融牌照，机构客户涉 KYC 与 KYT。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1. 大陆禁止为虚拟货币交易提供定价清算，<b>预言机喂价若服务清算即踩线</b><br>2. 跨境节点直连与数据出境需评估，<b>未经批准直连境外即违规</b><br>3. 敏感数据上链需受控网关，<b>不受控即合规事故</b></div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：选定切入点资产与场景（如永续合约低延迟价）</li><li>第二步：接入独立多源并落地中位数聚合</li><li>第三步：部署质押罚没与偏离熔断兜底</li><li>第四步：补齐留痕、签名与监控看板</li><li>第五步：在合规网关内对接机构与监管报送</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：模块化按需喂价 SDK（降本切入 L2）</li><li>路径 B：第一方低延迟价（服务永续合约）</li><li>路径 C：RWA 审计级净值（机构资产上链）</li><li>路径 D：乐观仲裁 API（长尾真相数据）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点是「先有可信的第一方或多源数据供给」——数据供给是预言机一切价值的起点。</div>
+  </section>
+
+  <footer>
+    <p>Web3预言机平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "全景总览"],
+ ["s1", "平台形态"],
+ ["s2", "功能域图谱"],
+ ["s3", "前沿方向"],
+ ["s4", "核心对象"],
+ ["s5", "防护规则"],
+ ["s6", "度量指标"],
+ ["s7", "法域合规"],
+ ["s8", "机会缺口"],
+ ["s9", "行动路径"]
+];
+const PLAYERS = [
+ ["去中心化网络预言机", "Chainlink", "无直接落地", "多源节点质押加罚没保障数据真"],
+ ["第一方低延迟预言机", "Pyth Network", "无直接落地", "交易所做市商直供价格压到400ms级"],
+ ["模块化按需预言机", "RedStone", "无直接落地", "Gas优化按需拉取降低链上成本"],
+ ["乐观预言机", "UMA", "无直接落地", "争议期加陪审员仲裁任意长尾数据"],
+ ["第一方API预言机", "API3 dAPI", "无直接落地", "数据商自运营网关直连上链"],
+ ["去中心化带宽预言机", "Band Protocol / Witnet", "无直接落地", "质押节点提供随机数与外部API"],
+ ["跨链状态同步预言机", "LayerZero / Wormhole", "无直接落地", "跨链头与证明状态同步"],
+ ["可验证计算预言机", "Town Crier / iExec", "无直接落地", "TEE可信执行环境产出可验证证明"],
+ ["RWA估值预言机", "Centrifuge / Ondo", "无直接落地", "链下资产净值按周期可信上链"],
+ ["保险自动理赔预言机", "Etherisc / Arbol", "无直接落地", "气象航班等事件数据触发赔付"],
+ ["中心化遗留预言机", "Oraclize / Provable", "无直接落地", "单点TLS证明高信任风险"],
+ ["企业合规数据预言机", "Chainlink CCIP加企业", "联盟链试点", "监管报送数据可信上链"]
+];
+const DOMAINS = [
+ ["d1", "价格喂价", "Price Feeds", "成熟", "把链下资产价格以抗篡改方式持续写入链上，是全部DeFi定价的地基", [["实时价格流", [["多资产报价分离", "现货价与指数价必须分开存储，混用会让清算用错基准价", "Chainlink Data Feeds"], ["心跳与偏差双触发", "价格更新不能只靠心跳，低波动资产过期仍可被操纵，需偏差阈值触发", "Chainlink OCR"], ["小数位与精度归一", "不同资产精度不一致直接喂会溢出，需在适配层归一", "Pyth Price Feed"], ["历史价可验证", "历史快照需可回溯验证，否则清算纠纷无据", "The Graph加Oracle"]]], ["价格源管理", [["节点白名单", "喂价节点需准入与轮换，长期固定节点易被合谋", "Chainlink Node Operator"], ["数据源多样性", "同源不同节点等于单源，需独立数据商供给", "API3 dAPI"], ["冷启动价格", "新资产无流动性时硬喂价会被套利，需保守初始化", "RedStone"], ["退市与下架", "资产退市后继续喂价会误导清算，需熔断下架", "UMA"]]], ["抗操纵基础", [["聚合窗口", "聚合窗口过短放大瞬时尖刺，过长错过真实跳变", "Chainlink"], ["离群剔除", "必须剔除离群报价，否则中位数被带偏", "Pyth"], ["跨所一致性", "同一资产跨所价差超阈值需告警而非盲取", "Kaiko"], ["价格冻结开关", "极端行情需能整体冻结，避免连锁错价", "Chainlink Circuit Breaker"]]]]],
+ ["d2", "借贷清算触发", "Lending Liquidation Trigger", "成熟", "依据预言机价格判断是否触发抵押品清算，错价即错清算", [["清算阈值判定", [["健康因子计算", "健康因子口径必须统一，错用价格即误判清算线", "Aave"], ["清算激励参数", "清算赏金过高引发抢跑，过低无人清算", "Compound"], ["部分清算阈值", "需设部分清算上限，整笔清算放大抛压", "Aave V3"], ["清算延迟容错", "价格跳变与链上延迟需留缓冲，否则误清算", "Maker"]]], ["抵押物定价", [["多抵押加权", "多抵押品需分别定价加权，混用会错估", "Aave"], ["清算惩罚水位", "惩罚水位需随波动调整，固定值易穿仓", "Compound"], ["负价与极端价", "资产负价需兜底，否则清算逻辑崩", "Maker"], ["跨池隔离定价", "隔离池需独立价，串池污染清算", "Aave V3"]]], ["清算执行防护", [["清算机器人准入", "清算者需白名单防抢跑乱序", "Keeper"], ["保险基金兜底", "穿仓需保险基金接，否则坏账扩散", "Aave"], ["ADL自动减仓", "极端需ADL平多空，防系统性爆仓", "dYdX"], ["清算价冻结", "极端行情冻结清算价防踩踏", "Maker PEG"]]]]],
+ ["d3", "合成资产与衍生品定价", "Synthetic Asset Pricing", "成熟", "用预言机价格锚定合成美元股票商品，脱锚即归零", [["锚定与脱锚", [["一篮子抵押锚定", "合成资产需一篮子抵押锚定，单一抵押物易脱锚", "Synthetix"], ["汇率快照一致性", "跨链汇率需同刻快照，错位即套利", "Mirror"], ["脱锚熔断", "脱锚超阈需暂停赎回，防挤兑", "Liquity"], ["债务池对冲", "债务池需动态对冲，否则系统资不抵债", "Synthetix"]]], ["衍生品标记价", [["指数价与标记价分离", "强平用标记价交易用指数价，混用爆仓错", "dYdX"], ["资金费率锚定", "资金费率需锚定现货基差，失控则价格偏离", "Perp"], ["到期交割结算", "交割需用预言机结算价，错价即错交割", "Opyn"], ["波动率曲面喂价", "期权需波动率面，缺则定价失真", "Hegic"]]], ["合成资产发行", [["铸造抵押率", "铸造需超额抵押，不足即裸合成", "Synthetix"], ["赎回滑点保护", "赎回需滑点保护，防瞬时套利", "Liquity"], ["黑名单地址过滤", "制裁地址需过滤，否则合规事故", "Chainlink"], ["跨链合成映射", "跨链合成需映射一致，错位双花", "Mirror"]]]]],
+ ["d4", "多源聚合与中位数", "Multi-Source Aggregation", "成熟", "汇总多个独立节点报价取中位数，弱化单源偏差", [["聚合算法", [["中位数而非均值", "均值被极端值拉偏，中位数抗离群", "Chainlink"], ["离群剔除阈值", "需先剔除离群再聚合，否则污染", "Pyth"], ["加权可信度", "按节点历史可信度加权，提升稳健", "Band"], ["最小源数约束", "低于最小源数不得出价，防单源", "API3"]]], ["源管理", [["异源强制", "强制不同数据源，同源多节点无效", "Chainlink"], ["源健康评分", "源需健康评分并降级，坏源要剔除", "Kaiko"], ["源轮换机制", "长期固定源易合谋，需轮换", "Chainlink"], ["源审计留痕", "源变更需留痕，纠纷可溯", "The Graph"]]], ["一致性与争议", [["跨源一致性校验", "跨源价差超阈告警而非盲取", "Kaiko"], ["聚合结果签名", "聚合结果需节点签名，可追责", "Chainlink OCR"], ["分歧广播", "节点间分歧需广播复核，防暗箱", "Witnet"], ["最终性确认", "需达最终性再上链，防重组回滚", "Chainlink"]]]]],
+ ["d5", "质押罚没经济安全", "Staking Slashing Security", "核心", "节点质押代币并对喂假价罚没，用经济成本买真实", [["质押机制", [["最低质押门槛", "节点需最低质押，无门槛易被女巫", "Chainlink"], ["罚没触发条件", "喂假价离线需明确罚没，含糊则无威慑", "Chainlink"], ["罚没执行速度", "罚没需及时执行，滞后则损失扩大", "Pyth"], ["罚没归属透明", "罚没金归属需透明，防挪用", "API3"]]], ["经济建模", [["攻击成本建模", "罚没须高于操纵收益，否则激励失效", "Chainlink"], ["质押总量阈值", "总质押需覆盖最大清算额，不足则无力赔付", "UMA"], ["通胀与奖励平衡", "奖励通胀需平衡安全与抛压", "Band"], ["偿债基金", "需偿债基金补罚没不足，防违约", "Nexus Mutual"]]], ["节点治理", [["节点准入治理", "准入需治理投票，防内部人控制", "Chainlink"], ["违规申诉通道", "误罚需申诉，否则节点流失", "API3"], ["声誉系统", "节点需声誉累积，劣迹者降级", "Chainlink"], ["退出锁仓期", "退出需锁仓，防跑路前作恶", "Pyth"]]]]],
+ ["d6", "TWAP时间加权平均", "Time-Weighted Average Price", "核心", "按时间窗平滑价格，抑制瞬时操纵", [["窗口设计", [["窗口长度匹配波动", "窗口须匹配资产波动，否则失真", "Uniswap TWAP"], ["采样频率", "采样过疏漏真实跳变，过密Gas高", "Uniswap V3"], ["累积精度", "累积和需高精度，溢出即错价", "Uniswap"], ["首尾价权重", "需合理权重首尾，防端点操纵", "Sushi"]]], ["抗操纵", [["区块内防操纵", "单块内大单需稀释，防瞬时尖刺", "Uniswap"], ["极端剔除", "极端采样点需剔除，防污染均值", "Curve"], ["多池交叉验证", "跨池TWAP交叉验证，防单池操纵", "Balancer"], ["流动性阈值", "低流动性池TWAP不可信，需阈值", "DODO"]]], ["落地与校准", [["清算用滞后价", "清算用TWAP滞后价更稳，但需防过期", "Aave"], ["校准周期", "TWAP需定期校准锚定现货", "Curve"], ["跨周期连续", "跨周期需连续累积，断点重算错", "Uniswap"], ["预言机组合", "TWAP配Spot防盲，单用易滞后", "Sushi"]]]]],
+ ["d7", "熔断与异常检测", "Circuit Breaker and Anomaly", "核心", "价格偏离阈值即暂停喂价，挡住闪电崩盘", [["触发条件", [["偏离熔断阈值", "价格偏离基准超阈即暂停，挡崩盘", "Chainlink CB"], ["波动率熔断", "波动率突增需熔断，防踩踏", "Maker"], ["流动性熔断", "流动性骤降需停喂，防薄价被操纵", "Curve"], ["跨源分歧熔断", "源间分歧超阈熔断，防坏源", "Pyth"]]], ["检测模型", [["统计异常检测", "用统计模型检异常，规则滞后", "Chainlink"], ["行为模式识别", "识别闪电贷模式，秒级预警", "Forta"], ["时序突变检测", "检时序突变，防缓慢操纵", "Pyth"], ["跨链一致性检测", "跨链价一致性检测，防假价传播", "LayerZero"]]], ["处置与恢复", [["自动暂停开关", "异常需自动暂停，人工慢则损", "Chainlink"], ["恢复校验", "恢复前需校验真值，防误恢复", "Maker"], ["告警与留痕", "熔断需告警留痕，监管可查", "Chainlink"], ["分级熔断", "按严重度分级熔断，避免全停", "Aave"]]]]],
+ ["d8", "第一方低延迟喂价", "First-Party Low-Latency Feed", "核心", "做市商直供价格消除中间环节，将延迟压到400ms", [["直供管道", [["做市商直供", "做市商直供消除中介，延迟压到400ms", "Pyth"], ["推送频率匹配", "推送频率需匹配交易节奏，过低滞后", "Pyth"], ["置信区间标注", "报价需带置信区间，低置信需降级", "Pyth"], ["主备源切换", "主源故障需秒级切换，防断供", "Pyth"]]], ["聚合与验证", [["第一方聚合", "多第一方聚合降单点，仍需中位数", "Pyth"], ["签名验证", "报价需机构签名，防伪造", "Pyth"], ["延迟监控", "需监控端到端延迟，超阈告警", "Pyth"], ["回放校验", "历史回放校验一致性，防漂移", "Pyth"]]], ["适用边界", [["高频专用价", "高频场景用专用低延迟价，通用价不够", "Pyth"], ["低频资产不适", "低频资产直供无意义，需传统源", "Pyth"], ["跨所覆盖", "需覆盖主流所，否则代表性差", "Kaiko"], ["熔断兼容", "低延迟价仍需熔断兜底，防尖刺", "Pyth"]]]]],
+ ["d9", "模块化按需拉取", "Modular On-Demand Pull", "核心", "数据按需从存储拉取上链，省常驻Gas", [["存储与拉取", [["链下存储", "数据存链下按需取，省常驻Gas", "RedStone"], ["签名打包", "拉取时附节点签名，可验证", "RedStone"], ["按需触发", "仅在交易触发时取数，降成本", "RedStone"], ["缓存一致性", "缓存需与源一致，过期即错", "RedStone"]]], ["成本与性能", [["Gas优化", "推送分离省Gas，L2尤关键", "RedStone"], ["延迟权衡", "拉取有延迟，需标注时效", "RedStone"], ["批量取数", "批量取数降本，但增延迟", "RedStone"], ["存储可用性", "存储需高可用，宕机即断供", "RedStone"]]], ["安全与信任", [["签名验证链", "验证链需完整，断链不可信", "RedStone"], ["源可信锚定", "源需可信锚定，伪源即假价", "RedStone"], ["回退机制", "源失效需回退传统喂价，防断", "RedStone"], ["审计留痕", "拉取记录需留痕，纠纷可溯", "RedStone"]]]]],
+ ["d10", "乐观预言机仲裁", "Optimistic Oracle Arbitration", "核心", "先默认真值再开放争议，低成本解决任意数据", [["争议流程", [["默认真值", "先默认真值再争议，低成本", "UMA"], ["争议期长度", "争议期需充足，过短纠偏不及", "UMA"], ["陪审员机制", "陪审员需随机与抵押，防共谋", "UMA"], ["仲裁费用", "费用需覆盖攻击成本，否则被刷", "UMA"]]], ["应用场景", [["长尾数据", "长尾真相数据适用乐观，高频不适合", "UMA"], ["结算价仲裁", "预测市场结算需仲裁真值", "Polymarket"], ["参数化触发", "保险赛事事件触发仲裁", "Resolver"], ["治理投票核验", "链下治理结果上链核验", "Snapshot"]]], ["安全与激励", [["诚实抵押激励", "诚实抵押得奖，作恶罚没", "UMA"], ["女巫抵抗", "陪审员需抵押抗女巫，否则被控", "UMA"], ["升级与治理", "争议规则需治理升级，防僵化", "UMA"], ["欺诈证明", "需欺诈证明通道，真值可纠", "UMA"]]]]],
+ ["d11", "可验证计算预言机", "Verifiable Computation Oracle", "成长", "把链下计算包裹进TEE或证明，输出可验证结果", [["TEE路线", [["可信执行环境", "TEE内计算出证明，防篡改", "Town Crier"], ["硬件信任根", "需硬件信任根，软实现不可信", "Intel SGX"], ["证明验证", "链上需验证证明，断证无效", "iExec"], ["侧信道防护", "需防侧信道泄露，否则泄密", "Intel SGX"]]], ["ZK路线", [["零知识证明", "ZK证明计算正确不泄输入", "RISC Zero"], ["证明聚合", "多证明聚合成单根，降本", "Succinct"], ["验证成本", "链上验证需控成本，否则贵", "Axiom"], ["电路正确", "电路需审计，错电路错结果", "RISC Zero"]]], ["落地场景", [["私密数据出证", "私密数据可验证不出域", "TLSNotary"], ["复杂计算上链", "重计算可验证后上链", "Axiom"], ["可验证随机", "可验证随机源供链游", "Chainlink VRF"], ["合规计算留痕", "监管计算可验证留痕", "Provable"]]]]],
+ ["d12", "RWA估值与资产上链", "RWA Valuation On-Chain", "成长", "把国债票据净值按周期可信上链，支撑代币化", [["净值锚定", [["审计级净值", "净值需审计机构背书，防虚胖", "Ondo"], ["周期上链", "净值需按周期上链，滞后即失真", "Centrifuge"], ["赎回锚定", "赎回价需锚定净值，脱锚挤兑", "Ondo"], ["分红再投资", "分红需再投资计入净值，防漏", "Centrifuge"]]], ["资产映射", [["法律权属映射", "链上份额需对应法律权属，否则无效", "Securitize"], ["破产隔离", "需破产隔离结构，防混同", "Ondo"], ["托管核验", "托管方需独立核验，防挪用", "Centrifuge"], ["跨域合规", "跨境资产需合规映射，否则违规", "Securitize"]]], ["风险与披露", [["底层资产透明", "底层需透明披露，黑箱即风险", "Ondo"], ["违约预警", "底层违约需预警上链，防滞后", "Centrifuge"], ["评级映射", "外部评级需映射上链，辅助定价", "Securitize"], ["赎回流动性", "赎回需流动性准备，否则锁死", "Ondo"]]]]],
+ ["d13", "跨链状态同步预言机", "Cross-Chain State Sync", "成长", "把一条链状态以证明形式同步到另一条链", [["证明机制", [["轻客户端验证", "用轻客户端验证他链状态，免信任", "LayerZero"], ["中继去信任", "中继需去信任，否则假证明", "Wormhole"], ["默克尔证明", "状态需默克尔证明，可验证", "Wormhole"], ["最终性确认", "需等他链最终性，防重组回滚", "LayerZero"]]], ["价格跨链", [["统一价格中枢", "跨链同资产需统一价，防套利", "Axelar"], ["跨链价差告警", "价差超阈告警，防套利攻击", "LayerZero"], ["延迟一致性", "跨链价需同刻，错位即套", "Wormhole"], ["桥安全隔离", "桥被攻需隔离，防污染他链", "Wormhole"]]], ["消息与事件", [["跨链消息有序", "消息需有序到达，乱序即错", "LayerZero"], ["事件证明同步", "他链事件需证明同步，防伪造", "Wormhole"], ["重放防护", "需防跨链重放，否则双花", "Axelar"], ["故障回滚", "跨链失败需回滚，防悬空", "LayerZero"]]]]],
+ ["d14", "保险自动理赔预言机", "Parametric Insurance Oracle", "成熟", "以气象航班等外部事件自动触发赔付合约", [["参数化事件", [["事件数据接入", "气象航班事件需可信接入，防假", "Etherisc"], ["阈值触发", "达阈值自动赔，无需人工", "Arbol"], ["多源交叉", "事件需多源交叉，防单源造假", "Etherisc"], ["延迟容忍", "事件允许延迟，但需上限", "Arbol"]]], ["赔付执行", [["自动赔付合约", "触发即自动打款，降摩擦", "Etherisc"], ["赔付上限", "需设赔付上限，防挤兑超赔", "Arbol"], ["争议仲裁", "争议需乐观仲裁，防滥用", "UMA"], ["资金池隔离", "赔付资金池需隔离，防混用", "Etherisc"]]], ["风控与合规", [["精算定价", "保费需精算定价，否则亏空", "Arbol"], ["再保险对接", "需再保险分散，防巨灾", "Etherisc"], ["合规牌照", "保险需持牌，无证即违规", "Nexus Mutual"], ["数据可用留存", "事件数据需留存，纠纷可证", "Arbol"]]]]],
+ ["d15", "AI融合预言机", "AI-Fused Oracle", "成长", "用模型对多源数据去噪与异常研判再出价", [["模型研判", [["多源加权模型", "模型对多源加权去噪，抗操纵", "Pyth Network"], ["异常判别", "模型判异常价，秒级剔除", "Chainlink"], ["时序预测", "时序预测补缺失采样，防断供", "RedStone"], ["可解释输出", "出价需可解释，监管可查", "Chainlink"]]], ["数据治理", [["训练数据质检", "训练数据需质检，脏数据出歪价", "Pyth"], ["对抗鲁棒", "模型需抗对抗样本，防投毒", "Chainlink"], ["漂移监测", "模型漂移需监测重训，防退化", "RedStone"], ["人机协同", "极端需人工兜底，防黑箱失误", "UMA"]]], ["产品化机会", [["增强喂价中间件", "为中小协议提供AI增强喂价", "Pyth"], ["风险评分服务", "输出喂价风险评分，辅助决策", "Chainlink"], ["操纵预警", "输出操纵概率预警，联动熔断", "Forta"], ["模型市场", "开放模型市场，众包研判", "Bittensor"]]]]],
+ ["d16", "Agentic AI预言机", "Agentic AI Oracle", "成长", "多智能体协作采集核验并自证数据来源", [["多智能体采集", [["来源自证", "Agent需附数据来源证明，可追责", "Chainlink"], ["协作核验", "多Agent协作交叉核验，降单点", "AutoGPT"], ["任务编排", "需编排采集任务，防遗漏", "CrewAI"], ["失败重试", "采集失败需重试与降级，防断", "LangChain"]]], ["可信与合规", [["身份凭证SBT", "Agent需能力凭证SBT，可撤销", "Worldcoin"], ["行为留痕", "Agent行为需留痕，监管可审", "Chainlink"], ["权限隔离", "Agent权限需隔离，防越权", "OpenZeppelin"], ["合规网关", "敏感数据需合规网关，防泄", "Chainlink CCIP"]]], ["落地形态", [["RWA自动尽调", "Agent自动尽调RWA数据上链", "Ondo"], ["事件自动喂价", "Agent自动采集事件喂价", "Etherisc"], ["实时监控Agent", "7x24监控操纵信号", "Forta"], ["争议辅助仲裁", "Agent辅助乐观仲裁取证", "UMA"]]]]],
+ ["d17", "去中心化带宽与可用性", "Decentralized Bandwidth and DA", "成长", "用质押节点提供API随机数与数据可用性", [["节点网络", [["质押节点网络", "质押节点提供API随机，去中心化", "Band"], ["带宽激励", "按贡献带宽激励，防搭便车", "Witnet"], ["请求路由", "请求需智能路由，降延迟", "Band"], ["节点健康", "节点需健康检查，坏节点剔除", "Witnet"]]], ["数据可用性", [["离链DA证明", "为Rollup提供DA证明，降本", "EigenDA"], ["可用性采样", "用抽样验证可用，免全下", "Celestia"], ["冗余存储", "数据需冗余存储，防丢", "Arweave"], ["检索激励", "检索需激励，防不可取", "Filecoin"]]], ["随机与API", [["可验证随机", "VRF供链游随机源，防前跑", "Chainlink VRF"], ["外部API网关", "网关取外部API上链，扩场景", "API3"], ["费率市场", "按调用计费市场，可持续", "Band"], ["抗审查", "需抗审查，防单点封锁", "Witnet"]]]]],
+ ["d18", "合规数据上链与监管报送", "Compliance Data On-Chain", "成长", "将监管认可的链下数据可信报送上链", [["受控网关", [["权限网关", "敏感数据需权限网关，防泄漏", "Chainlink CCIP"], ["数据分级", "数据需分级上链，重要数据慎上", "联盟链"], ["出境评估", "跨境数据须出境评估，依法", "合规框架"], ["留痕审计", "上链需全程留痕，监管可审", "司法链"]]], ["报送与对接", [["监管接口对接", "对接监管报送接口，自动报", "沙盒试点"], ["标准化报文", "报文需标准化，防错读", "ISO 20022"], ["实时报送", "关键数据实时报，降滞后", "CCIP"], ["异议纠错", "报送有误需纠错通道，防误伤", "监管接口"]]], ["可信与隐私", [["ZK合规证明", "用ZK证合规不泄明细", "zkPass"], ["选择性披露", "合规选择性披露，护隐私", "Polygon ID"], ["链下验证链上签名", "链下验证链上签名，降本", "VC加ZK"], ["撤销机制", "凭证需撤销机制，防失效沿用", "StatusList"]]]]]
+];
+const FRONTIER = [
+ ["AI融合喂价去噪", "pilot", "模型对多源报价做异常研判与加权，已在部分平台灰度", "为中小协议提供抗操纵增强喂价中间件"],
+ ["Agentic数据自证采集", "explore", "多智能体协作采集并附来源证明，技术与监管成形中", "面向RWA的自动尽调数据管道"],
+ ["zk可验证预言机", "explore", "用零知识证明保证数据源与计算不被篡改", "隐私数据合规出证场景"],
+ ["模块化推送分离", "live", "RedStone类按需拉取已成主流降本方案", "为L2提供Gas友好喂价SDK"],
+ ["第一方直供低延迟", "live", "Pyth 400ms直供已被高频交易采用", "服务永续合约平台的低延迟价格"],
+ ["乐观仲裁任意数据", "live", "UMA已支撑选举体育等长尾数据", "为企业提供低成本真相仲裁API"],
+ ["RWA净值定期上链", "pilot", "国债代币化推动估值预言机需求", "为代币化基金提供审计级净值喂价"],
+ ["跨链状态证明同步", "pilot", "LayerZero与Wormhole已跑通跨链价格", "跨链借贷的统一定价层"],
+ ["参数化保险自动赔", "live", "Etherisc与Arbol已商用天气险", "为农业航延险提供事件喂价"],
+ ["去中心化随机数与VRF", "live", "Chainlink VRF已规模使用", "链游与抽奖可验证随机"],
+ ["数据可用性预言机", "pilot", "模块化链需要离链DA证明", "为Rollup提供DA喂价证明"],
+ ["合规数据监管报送", "pilot", "CCIP加企业联盟链试点监管报送", "为机构提供可审计链上报表"],
+ ["抗MEV喂价", "explore", "在排序前锁定价格降低三明治", "为DEX提供MEV抗性价格"],
+ ["预言机健康度评分", "live", "节点监控已成基础设施", "为协议提供喂价延迟偏差SLA看板"],
+ ["闪电贷攻击预警", "pilot", "监控单块内大额借贷加价格操纵", "为借贷协议提供实时熔断信号"],
+ ["多链统一价格层", "pilot", "同资产跨链价差套利频发", "跨链清算的统一价格中枢"],
+ ["硬件TEE可验证计算", "explore", "Town Crier路线复兴于机密计算", "为私密数据提供可信计算预言机"],
+ ["去中心化身份喂价", "explore", "DID绑定数据源提升可信", "为KYC数据提供可验证上链"],
+ ["预测市场真相机", "live", "Polymarket类依赖仲裁预言机", "为预测市场提供结算喂价"],
+ ["碳信用与ESG数据", "pilot", "RWA扩展至碳资产估值", "为碳代币提供核证数据上链"],
+ ["链下计算证明聚合", "explore", "把多个ZK证明聚合成单根", "为复杂衍生品提供可验证定价"],
+ ["主权链合规预言机", "explore", "央行交易所需受控数据上链", "为合规沙盒提供可控喂价网关"]
+];
+const MIDS = [
+ ["价格聚合中心", "对多源报价做中位数与离群剔除", "毫秒级聚合与一致性校验"],
+ ["节点运维中心", "管理喂价节点准入轮换与监控", "SLA看板与罚没执行"],
+ ["质押经济中心", "管理节点质押与罚没参数", "经济安全建模与偿债"],
+ ["风控熔断中心", "监控偏离并触发暂停", "异常检测与熔断开关"],
+ ["低延迟中心", "压降第一方喂价延迟", "400ms级直供管道"],
+ ["模块化拉取中心", "按需从存储取数上链", "Gas优化推送分离"],
+ ["仲裁中心", "处理乐观预言机争议", "陪审员与争议期管理"],
+ ["可验证计算中心", "产出TEE或ZK计算证明", "机密计算与证明验证"],
+ ["RWA估值中心", "周期上链链下资产净值", "审计级净值锚定"],
+ ["跨链同步中心", "生成并验证跨链状态证明", "轻客户端与证明校验"],
+ ["保险理赔中心", "以外部事件触发赔付", "参数化事件数据接入"],
+ ["随机数中心", "提供可验证随机VRF", "链游与抽奖随机源"],
+ ["数据可用性中心", "提供离链DA证明", "Rollup DA喂价"],
+ ["合规报送中心", "可信上链监管数据", "受控网关与留痕"],
+ ["AI研判中心", "模型去噪与异常研判", "多源加权与告警"],
+ ["Agentic采集中心", "多智能体自证采集", "来源证明与协作"],
+ ["安全监测中心", "闪电贷与操纵预警", "实时信号与熔断联动"],
+ ["统一价格中枢", "跨链统一定价", "价差套利抑制"]
+];
+const RULES = [
+ ["单源价格禁止直接上清算", "单源价格被闪电贷操纵即触发错误清算，bZx与Mango 1.17亿美元损失均源于此，任何清算必须多源中位数"],
+ ["价格更新需偏差加心跳双触发", "只靠心跳会让低波动资产长期不更新，攻击者趁过期价建仓再砸盘，Harvest 2400万美元被套即因此"],
+ ["新资产冷启动必须保守初始化", "无流动性硬喂价会被套利机器人瞬间吃光，需限定初始价与最大偏离"],
+ ["节点必须独立数据源", "同源不同节点等于单点，合谋或同源故障即全瘫，需强制异源"],
+ ["偏离阈值必须能整体冻结", "极端行情下不冻结会连锁清算，2025.10 USDe 193亿美元爆仓由6000万卖盘打崩内部价源引发"],
+ ["质押罚没参数需覆盖攻击成本", "罚没额低于操纵收益则经济激励失效，攻击者算得过账就动手"],
+ ["历史价必须可回溯验证", "无历史快照纠纷无据，清算争议与监管问询都无法举证"],
+ ["跨链价格需证明而非信任中继", "信任中继被攻破即假价格跨链传播，需轻客户端验证"],
+ ["TWAP窗口须匹配资产波动", "窗口过短被瞬时尖刺击穿，过长错过真实跳变导致脱锚"],
+ ["乐观仲裁须有充足争议期", "争议期过短陪审员来不及纠偏，真值被错误默认"],
+ ["RWA净值须审计级锚定", "净值造假即代币化资产虚胖，赎回挤兑连锁爆雷"],
+ ["随机数必须可验证不可预测", "可预测VRF被前跑，链游奖池被掏空"],
+ ["熔断下架需自动执行", "资产退市后继续喂价误导清算，需自动下架开关"],
+ ["AI研判需可解释留痕", "黑箱出价无法追责，监管问询时无法说明来源"],
+ ["合规数据须受控网关", "不受控上链敏感数据即合规事故，需权限与留痕"],
+ ["监控需实时闪电贷信号", "单块内大额借贷加价格操纵不一键熔断，损失秒级扩大"]
+];
+const KPIS = [
+ ["价格偏差率", "报价与中位数偏离，超阈值即告警"],
+ ["喂价延迟", "从采集到上链耗时，低延迟资产需低于500ms"],
+ ["节点在线率", "节点心跳与报价成功率，低于阈值罚没"],
+ ["罚没金额占比", "被罚没质押占总量比，衡量经济安全"],
+ ["异常触发次数", "熔断与离群剔除触发频次，反映操纵强度"],
+ ["跨链价差", "同资产跨链价差，超阈即套利预警"],
+ ["争议成功率", "乐观预言机争议纠偏比例，衡量仲裁质量"],
+ ["覆盖资产数", "已上架喂价资产规模，衡量平台广度"]
+];
+const LIC_CN = [
+ ["关于防范代币发行融资风险的公告", "不可开展加密资产交易与预言机喂价清算业务", "不得为虚拟货币交易提供定价与清算服务"],
+ ["七部门94公告及后续清理", "不可开展虚拟货币兑换与撮合", "禁止为境外交易所提供引流与技术"],
+ ["区块链信息服务管理规定", "可开展区块链信息备案与存证服务", "需完成备案并落实内容安全"],
+ ["数据安全法个人信息保护法", "可开展合规数据上链与脱敏处理", "敏感数据须去标识化并境内存储"],
+ ["网络安全等级保护", "可开展受控数据网关与报送", "须通过等保备案与测评"],
+ ["央行金融科技与沙盒试点", "可在沙盒内开展受控数据上链试点", "仅限持牌机构且范围受控"],
+ ["IPv6与信创合规要求", "可开展自主可控预言机组件", "优先国产密码与信创适配"],
+ ["数据安全法数据分类分级", "RWA等链下数据需分级管理", "重要数据出境须安全评估"],
+ ["反洗钱与客户尽调要求", "可服务机构合规报送但不得涉虚拟货币", "KYC与KYT不得用于加密交易规避"],
+ ["证券期货相关监管口径", "不得为代币化股票衍生品提供定价清算", "证券类资产需持牌"],
+ ["跨境数据流动规定", "跨链跨境外数据须依法出境评估", "未经批准不得直连境外节点"],
+ ["关键信息基础设施保护", "金融数据服务须达关基要求", "高可用与灾备强制"],
+ ["区块链标准与参考架构", "可参与标准与联盟链建设", "需符合国标与行业规范"],
+ ["司法区块链与存证规则", "可提供司法存证级数据上链", "需对接权威节点"],
+ ["金融科技产品认证", "可申报合规技术产品认证", "认证范围内方可宣传"],
+ ["数据交易所合规框架", "可通过数据交易所流通合规数据集", "须场内登记与授权"]
+];
+const LIC_INTL = [
+ ["欧盟MiCA", "可在欧盟为CASP提供合规喂价", "需满足DORA韧性与旅行规则"],
+ ["美国MSB与Fincen注册", "可注册开展数据服务", "不得规避BSA与OFAC制裁"],
+ ["美国GENIUS Act稳定币框架", "可为合规稳定币提供净值与锚定喂价", "需联邦框架内运营"],
+ ["新加坡MAS PSA与DTSP", "可申请提供数字支付代币数据服务", "须持牌并满足反欺诈"],
+ ["香港SFC VATP双牌照", "可为持牌虚拟资产平台供价", "穿透式监管与审计报送"],
+ ["阿联酋VARA", "可在迪拜虚拟资产区运营", "须获VARA许可与风控"],
+ ["日本FSA支付与加密登记", "可在日提供合规价格数据", "须本地登记与消费者保护"],
+ ["英国FCA加密资产regime", "可服务注册加密企业", "须符合金融推广规则"],
+ ["瑞士FINMA", "可为机构提供数据服务", "须满足AML与银行级要求"]
+];
+const OPPS = [
+ ["中小协议抗操纵喂价", "缺低成本多源中位数能力", "提供开箱即用增强喂价中间件"],
+ ["L2 Gas友好喂价", "常驻推送Gas成本高", "模块化按需拉取SDK"],
+ ["永续合约低延迟价", "高频场景需400ms级直供", "第一方低延迟喂价服务"],
+ ["RWA审计级净值", "代币化资产缺可信净值源", "对接审计机构周期上链"],
+ ["跨链统一定价", "同资产跨链价差套利", "跨链价格中枢层"],
+ ["参数化保险事件源", "保险产品缺可信事件喂价", "气象航班事件数据管道"],
+ ["AI去噪喂价", "操纵与噪声难辨", "模型加权异常研判服务"],
+ ["合规报送上链", "机构缺受控数据网关", "沙盒内合规预言机"],
+ ["闪电贷攻击预警", "借贷协议缺实时信号", "监控加自动熔断联动"],
+ ["可验证计算预言机", "私密复杂计算难上链", "TEE与ZK证明服务"],
+ ["去中心化随机VRF", "链游抽奖需可验证随机", "托管VRF服务"],
+ ["乐观仲裁API", "长尾真相数据缺低成本仲裁", "企业级争议仲裁接口"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：Web3 预言机 / Chainlink Pyth RedStone / 价格喂价 去中心化预言机`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

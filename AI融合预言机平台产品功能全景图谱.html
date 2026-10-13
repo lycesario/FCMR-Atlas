@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI融合预言机平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>AI融合预言机平台全景</b>
+    <span>AI融合预言机平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>AI融合预言机平台产品功能全景图谱</h1>
+    <p>AI 与预言机正在<b>双向融合</b>：AI 增强预言机识别数据操纵，预言机把 AI 推理<b>可验证地上链</b>。本平台覆盖 18 个功能域与 60 条致命规则，回答「AI 预测可信吗、AI 决策能否被审计」。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">23 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线是「让 AI 的预测与决策成为链上可验证、可审计的事实」。它既用 AI 增强预言机的数据校验，又把 AI 输出、模型指纹与决策链路锚定上链，形成双向融合。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层 数据底座（d1–d3）</td><td>多源采集、清洗异常、去中心化喂价</td><td>把链上链下异构数据接成干净、抗操纵、可被共识消费的价格流</td></tr>
+<tr><td>第2层 可信增强（d4–d6）</td><td>可验证计算、模型锚定、推理证明</td><td>用 zkML 与指纹把 AI 推理变成链上可验证的数学事实</td></tr>
+<tr><td>第3层 信任层（d7–d10）</td><td>可信评估、污染检测、可解释、决策留痕</td><td>回答 AI 预测能否信、模型是否被污染、决策可否审计</td></tr>
+<tr><td>第4层 应用与治理（d11–d18）</td><td>信用评分、交易闭环、Agent 权限、风险权重、比对、预热、路由、激励</td><td>把可信 AI+预言机落到信用、交易、Agent、风控与跨链场景并治理</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br>1. <b>必须先有抗操纵的多源喂价</b>，否则 AI 再聪明也喂的是脏数据；<br>2. <b>必须先冻结「可信」的口径</b>（校准/指纹/审计标准），否则信任无法比较；<br>3. <b>必须先具备合规与安全能力</b>（制裁拦截、留痕留存），否则上线即事故。</div>
+    <div class="danger">一条死亡陷阱：<b>把「AI 说可信」当成「真的可信」</b>——预测校准、模型指纹、审计留痕都缺位时，高置信输出反而最危险，因为它让人放松了验证。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">前沿方向落地优先级判定标准：live 看是否已有可规模化的商业收入，pilot 看路径与标杆案例是否清晰，explore 看技术与监管是否同时成形，三者缺一无须优先投入。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>抗操纵中位数价格</td><td>多源去首尾后的链上共识价</td><td>若用算术平均会被单点极值撬动，Mango 1.17 亿级损失重演</td></tr>
+<tr><td>zkML 推理证明</td><td>AI 推理的零知识证明</td><td>若证明未绑定输入承诺，假推理可通过验证，可验证计算形同虚设</td></tr>
+<tr><td>模型指纹</td><td>权重 Merkle 根+训练数据根</td><td>若不锚定，污染模型可悄然替换上线而无人察觉</td></tr>
+<tr><td>决策链路存证</td><td>AI 输入到输出的全链路哈希</td><td>若仅存结果不存中间，局部篡改无法被发现，审计失效</td></tr>
+<tr><td>Agent 权限凭证</td><td>DID+能力 SBT+可吊销配额</td><td>若无最小权限与实时吊销，被盗 Agent 仍全量调用拖垮系统</td></tr>
+<tr><td>动态风险权重</td><td>波动率等信号换算的实时权重</td><td>若平灾同权，极端行情会连环爆仓，2025.10 USDe 193 亿爆仓即前车</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域的监管域在五个域交汇：数据合规（数据安全法/个保法）、生成式 AI 监管、加密资产监管（MiCA/VATP）、反洗钱（BSA/OFAC）、跨境数据流动。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1. <b>境内不得为加密资产交易提供喂价结算</b>，AI 输出上链只能作存证；<br>2. <b>AI 预测须标注「不构成投资建议」并完成安全评估</b>，否则违规；<br>3. <b>审计留存须 5–7 年且不可删</b>，否则监管检查直接不达标。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步 接多源并做抗操纵中位数喂价</li><li>第二步 上 AI 异常检测与可解释清洗</li><li>第三步 把模型输出+指纹锚定上链</li><li>第四步 做决策链路留痕与可验证回放</li><li>第五步 开放 Agent 权限与审计中间件</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A 先做 AI 增强异常检测 SaaS（最快收入）</li><li>路径 B 做 zkML 实时证明中间件（技术壁垒）</li><li>路径 C 做去中心化 ZK 信用分（高价值）</li><li>路径 D 做动态风险权重引擎（风控刚需）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：都依赖「第一资产」——一份干净、抗操纵、可审计的链上数据源。</div>
+  </section>
+
+  <footer>
+    <p>AI融合预言机平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "全局分层与本质主线"],
+ ["s1", "平台形态与代表"],
+ ["s2", "功能域全景"],
+ ["s3", "前沿方向"],
+ ["s4", "关键对象"],
+ ["s5", "协同中心"],
+ ["s6", "致命规则"],
+ ["s7", "监管域"],
+ ["s8", "指标体系"],
+ ["s9", "落地路径"]
+];
+const PLAYERS = [
+ ["去中心化预言机网络", "Chainlink / Pyth / RedStone", "无直接对标本土服务（受限）", "聚合多独立节点对链下数据签名后链上中位数共识"],
+ ["AI 增强预言机", "Chainlink Functions / Runtime", "蚂蚁链 / 百度超级链", "以 AI 模型增强数据校验、异常识别与多源比对"],
+ ["zkML 可验证推理", "Ritual / EZKL / Modulus", "无直接对标（技术受限）", "用零知识证明在链上验证 AI 推理结果未被篡改"],
+ ["AI 模型输出上链锚定", "Giza / Ritual", "腾讯云区块链 TBaaS", "将模型推理输出与版本指纹锚定上链不可篡改"],
+ ["自定义计算预言机", "Chainlink Runtime / IronVM", "趣链飞洛", "链下执行任意代码、链上验证执行证明"],
+ ["链上数据市场", "Fetch.ai / Tensorplex / Ocean", "矩阵元 / 上海数据交易所", "把数据资产化并提供可信定价与交易"],
+ ["节点信誉与质押网络", "Chainlink OCR / Witnet", "无直接对标", "以质押与声誉约束节点诚实、惩罚谎报"],
+ ["跨链预言机", "Chainlink CCIP / LayerZero", "无直接对标", "在多条公链间同步价格与事件保持互操作"],
+ ["Agent 调用中间件", "Fetch.ai Agentverse / Virtuals", "无直接对标", "为 AI Agent 提供统一调用数据的身份与权限基础设施"],
+ ["可验证计算服务", "Allianz zkML 理赔验证", "无直接对标（保险受限）", "把 AI 推理作为可验证计算交付给业务合约"],
+ ["联邦学习预言机", "Ocean / FATE", "微众银行 FATE", "在不共享原始数据下联合建模并输出可信预测"],
+ ["监管报送预言机", "无成熟国际对标", "各地数据交易所 / 长安链", "将合规数据按监管口径上链留痕以备报送"]
+];
+const DOMAINS = [
+ ["d1", "多源数据采集与接入", "Multi-source Data Ingestion", "成熟", "把链上与链下异构数据源统一接入成可被预言机消费的规范数据流", [["链上数据源接入", [["区块头与重组订阅", "轻节点只订区块头会漏掉回滚后的交易，漏订阅会让喂价基于已回滚区块，需待重组深达 N 块后才确认", "The Graph / Chainlink"], ["RPC 多供应商冗余", "单一 RPC 宕机或被审查会让预言机停摆，多家 RPC 曾集体故障致喂价延迟，需至少 3 家异构供应商并行", "Alchemy / Infura"], ["内存池意图监听", "只看已确认交易慢于套利者，监听 mempool 可提前感知大额清算，漏听则报价滞后被 MEV 收割", "Blocknative"], ["跨链事件索引", "跨链桥 5 分钟可穿透 7 条公链，事件索引延迟会让跨链价格失真，需在源链终局后抓取", "LayerZero"]]], ["链下数据源接入", [["API 多源并行拉取", "依赖单一 API 在源停服时报价冻结，需异构源并行并剔除离群，否则 bZx 式闪电贷操纵重演", "Chainlink / Pyth"], ["抗女巫源认证", "免费 API 可被伪造海量虚假源污染中位数，需对源做信誉与质押门槛，否则多源反而放大操纵", "API3"], ["延迟与抖动度量", "未记录 API 响应延迟会让慢源拖垮整体，需按延迟加权，否则延迟源拉低报价新鲜度", "Pyth"], ["数据许可证合规", "抓取受版权或许可限制的行情源会触发法律风险，需建立源许可证白名单与授权台账", "Refinitiv"]]], ["数据标准化与归一", [["单位与精度归一", "不同源价格精度（8 位 vs 18 位）混用会致数量级错误，需统一定点精度，否则喂价偏差百倍", "Chainlink"], ["时区与频率对齐", "高频源与低频源直接混合会让老数据占权重，需按时间戳对齐窗口剔除过期源", "Pyth"], ["异常值清洗规则", "未剔除交易所刷量尖峰会让中位数跳动，需 winsorize 与成交量加权，否则触发误清算", "Kaiko"], ["资产符号映射", "同一资产在不同交易所有不同符号，映射错误会让 BTC 报价串到 WBTC，需中央资产字典", "CoinGecko"]]]]],
+ ["d2", "数据清洗与异常检测", "Data Cleaning & Anomaly Detection", "核心", "在喂价前剔除刷量、离群与操纵痕迹，决定预言机是否可信的守门环节", [["统计异常检测", [["分布漂移检测", "未检测源分布漂移会把行情突变当成数据错误而丢弃真信号，需区分结构性突变与噪声", "Pyth"], ["离群点打分", "离群点一刀切剔除会误删真实极端价，需按偏离度打分而非硬删除，否则丢失尾部风险", "Chainlink"], ["时间序列插值校验", "缺失段时间序列线性插值会掩盖跳空，需标注插值区间并降权，否则伪造平滑行情", "Kaiko"], ["突变回滚机制", "清洗规则误触发会把正确报价回滚成旧值，需保留上一有效值并告警，否则喂价卡死", "RedStone"]]], ["操纵行为识别", [["刷量模式识别", "只按成交量加权不识刷量会让虚假流动性主导报价，需用买卖盘口深度识别，否则 Mango 式操纵得手", "Kaiko"], ["协同拉抬检测", "多源被同一主体控制时中位数仍失真，需按源控股与 IP 关联聚类，否则 Harvest 2400 万重演", "Chainalysis"], ["闪电贷价格影响识别", "闪电贷可在一个区块内扭曲价格，需识别单区块异常成交量并触发熔断，否则被瞬时操纵", "Chainlink"], ["跨源合谋识别", "多源看似独立实则合谋，需用图算法识别同源资金关系，否则共识被隐形控制", "Elliptic"]]], ["AI 增强清洗", [["AI 异常分类器", "规则引擎无法覆盖新型操纵，AI 分类器需持续训练且可解释，否则黑箱误杀正常报价", "Tensorplex"], ["自适应阈值", "固定阈值在牛熊切换时频繁误报，需按波动率自适应，否则牛市漏报熊市误报", "Pyth"], ["模型漂移监控", "清洗模型自身漂移会把新行情当异常，需监控分类器准确率并回滚，否则污染喂价", "Tensorplex"], ["人机复核闭环", "AI 标记高风险后无人复核会误冻结喂价，需留人工确认通道与 SLA，否则服务不可用", "Chainlink"]]]]],
+ ["d3", "去中心化喂价网络", "Decentralized Price Feed Network", "成熟", "由独立节点集群对资产价格签名、链上聚合并抵御单点操纵的基础层", [["节点共识", [["去中心化节点选取", "节点由运营方自选会中心化，需随机轮换并地理分散，否则单云故障拖垮全网喂价", "Chainlink"], ["签名聚合效率", "每节点独立上链会拥堵且贵，需用 OCR 链下聚合并单笔提交，否则 Gas 成本压垮经济性", "Chainlink OCR"], ["数据源披露", "节点隐藏数据源会让用户无法评估可信度，需公开源清单，否则信任无从建立", "API3"], ["提交频率与新鲜度", "提交过疏会让价格陈旧触发误清算，需按波动率动态频率，否则 2025.10 USDe 式爆仓重演", "Pyth"]]], ["聚合算法", [["抗操纵中位数", "算术平均易被极值拉偏，需排序后去首尾取中位数，否则单点操纵撬动全局", "Chainlink"], ["TWAP 时间加权", "现货瞬时价易被闪崩误导，需时间加权平滑，否则短时插针触发连锁清算", "Uniswap TWAP"], ["成交量加权校验", "价格需与成交量交叉验证，无量上涨视为可疑，否则虚假成交影响报价", "Kaiko"], ["偏差阈值熔断", "当某源偏离中位数超阈值需暂停该源而非全网，否则单源故障冻结全部喂价", "RedStone"]]], ["质押与惩罚", [["节点质押门槛", "零质押节点可随意谎报，需设质押下限抬高作恶成本，否则女巫节点泛滥", "Chainlink"], ["罚没证据链", "罚没需可验证证据，否则误罚好节点致节点流失，需链上仲裁记录", "Chainlink"], ["声誉累积机制", "仅看当期质押忽略历史表现会让新节点获同等权重，需累积声誉衰减，否则劣币驱逐良币", "Witnet"], ["保险基金覆盖", "节点作恶损失需保险基金补偿用户，否则违约后用户无追偿，信任崩塌", "Nexus Mutual"]]]]],
+ ["d4", "可验证计算与 zkML", "Verifiable Computing & zkML", "成长", "用零知识证明把 AI 推理变成可被链上合约验证的数学事实", [["推理证明生成", [["电路编译正确性", "zkML 电路编译错会让假推理通过验证，需对编译器做形式化校验，否则证明形同虚设", "EZKL"], ["量化精度损失", "浮点模型量化到整数会丢精度致验证失败，需控制比特宽并校准，否则证明不可复现", "Ritual"], ["证明生成成本", "大模型证明生成耗时数分钟会错失实时性，需模型蒸馏与硬件加速，否则无法上链喂价", "Modulus"], ["私有输入承诺", "推理输入需哈希承诺防止偷换，否则证明者用不同输入骗取验证，需输入绑定", "EZKL"]]], ["证明验证", [["链上验证 gas", "逐层验证证明 gas 过高会弃用，需递归证明压缩到单笔，否则经济性不成立", "Ritual"], ["验证合约升级", "验证合约漏洞会让假证明通过，需多签+时间锁升级，否则被植入后门", "OpenZeppelin"], ["证明有效期", "过期证明需拒绝，否则重放旧证明骗过合约，需绑定区块高度", "EZKL"], ["批验证聚合", "多推理逐条验证浪费，需聚合证明批量验，否则吞吐不足支撑高频", "Plonky3"]]], ["模型量化与编译", [["算子覆盖完整", "缺失算子会让模型无法编译，需覆盖主流层，否则只能跑玩具模型", "EZKL"], ["确定性执行", "非确定性算子会让验证端结果不一致，需固定随机种子与算子，否则验证失败", "Ritual"], ["模型格式标准化", "各框架权重格式不一需统一中间件，否则接入成本高阻碍生态，需 ONNX 桥", "ONNX"], ["硬件加速适配", "GPU 证明与 CPU 验证需对齐，否则精度偏差致验证拒绝，需统一数值库", "Cuda"]]]]],
+ ["d5", "AI 模型输出上链锚定", "On-chain AI Output Anchoring", "成长", "将模型推理结果、版本与指纹写入链上，使 AI 决策可审计可复现", [["输出提交", [["输出格式规范", "模型输出字段混乱会让消费合约解析失败，需固定 Schema，否则下游误读致损", "Giza"], ["提交者身份认证", "任意地址可提交伪造输出，需绑定模型所有者签名，否则冒名输出上链", "Giza"], ["输出去重与时效", "重复提交旧输出需去重并按块高取值，否则陈旧预测被复用", "Chainlink"], ["失败回退值", "模型不可用时需回退到上一有效值而非空，否则合约读到空值爆错", "RedStone"]]], ["版本与指纹", [["模型指纹锚定", "不锚定指纹会让模型被替换无从察觉，需哈希指纹上链，否则无法追责版本", "Giza"], ["版本灰度切换", "版本硬切换会让消费方措手不及，需新旧并行灰度，否则下游不兼容报错", "HuggingFace"], ["权重完整性证明", "权重被篡改需 Merkle 证明校验，否则污染模型悄然上线，需提交权重根", "IPFS"], ["许可证与合规", "模型权重许可证需链上记录，否则违规商用触发法律风险，需许可字段", "Model Card"]]], ["时间锁与争议", [["提交时间锁", "输出立即可用会被抢跑，需时间锁延迟披露，否则 MEV 套利", "Chainlink"], ["争议仲裁窗口", "错误输出需可挑战窗口，否则错误永久生效，需乐观挑战机制", "UMA"], ["罚没与挑战激励", "挑战需奖励否则无人监督，需给挑战者赏金，否则虚假输出无制约", "UMA"], ["终局性确认", "未等链终局就采信会回滚，需等确认块，否则基于回滚块决策", "Chainlink"]]]]],
+ ["d6", "推理证明与模型指纹", "Inference Proof & Model Fingerprint", "成长", "为每次推理生成可验证轨迹与模型指纹，支持事后追责与复现", [["模型指纹锚定", [["权重哈希根", "仅存模型名不够，需权重 Merkle 根，否则同名下替换权重无感知", "Giza"], ["训练数据承诺", "训练集需承诺防污染替换，否则投毒模型伪装干净，需数据根上链", "Tensorplex"], ["推理代码指纹", "推理脚本改动需指纹，否则逻辑被改产出不同结果，需代码哈希", "EZKL"], ["指纹不可绕越", "验证端必须校验指纹否则可被绕过，需合约强制检查，否则校验形同虚设", "Giza"]]], ["推理轨迹证明", [["逐步执行轨迹", "仅给结果无法复现，需每步中间值承诺，否则无法定位错误层", "Ritual"], ["轨迹可压缩", "长轨迹证明过大需递归压缩，否则链上存证成本爆炸", "Plonky3"], ["轨迹绑定输入", "轨迹须绑定输入承诺，否则换输入复用轨迹，需输入输出同根", "EZKL"], ["轨迹公开可验", "轨迹需第三方可重算验证，否则仅自证无效，需开源验证器", "Modulus"]]], ["可复现验证", [["确定性随机源", "随机种子未固定会让复现结果不同，需锚定种子，否则验证端不一致", "Ritual"], ["环境依赖声明", "库版本差异致结果不同，需锁定运行环境，否则复现失败", "Docker"], ["第三方复算激励", "无人复算则错误难发现，需赏金激励复算，否则错误沉默", "Kaggle"], ["复现失败处置", "复现失败需冻结模型并告警，否则错误模型继续服务，需熔断", "UMA"]]]]],
+ ["d7", "AI 预测可信评估", "AI Prediction Trustworthiness", "核心", "对 AI 预测的可信度做校准、归因与鲁棒性度量，回答\"AI 预测能信吗\"", [["置信度校准", [["概率校准曲线", "模型说 90% 准却只中 60% 会误导，需校准到真实频率，否则高估可信度致损", "Giza"], ["区间预测覆盖", "仅点预测无区间会低估风险，需给出分位区间，否则尾部事件无准备", "Pyth"], ["校准衰减监测", "模型老化会让校准失效，需监控准确率衰减并重训，否则静默失真", "Tensorplex"], ["不确定性量化", "未量化不确定性的预测当确定用会误判，需输出熵值，否则黑天鹅无预警", "Ritual"]]], ["历史表现归因", [["回测可审计", "宣称高收益无回测不可信，需链上留存回测，否则 P 图式宣传", "Numerai"], ["样本外验证", "仅样本内拟合会过拟合，需样本外窗口，否则实盘崩盘", "WorldQuant"], ["归因因子透明", "收益来源不透明无法判断可持续性，需因子归因，否则运气当能力", "Tensorplex"], ["表现漂移告警", "实盘表现低于回测需告警，否则模型退化无人知，需监控面板", "Giza"]]], ["对抗鲁棒性", [["对抗样本测试", "未测对抗样本会让微小扰动翻预测，需红队测试，否则被刻意误导", "CleverHans"], ["分布外检测", "输入超出训练分布需拒识，否则瞎猜当确定，需 OOD 分数", "Tensorplex"], ["鲁棒性边界", "需给出可承受扰动范围，否则越界使用致错，需声明边界", "Ritual"], ["压力情景库", "需覆盖极端行情情景库，否则牛市训练熊市失效，需情景回放", "Kaiko"]]]]],
+ ["d8", "训练数据污染检测", "Training Data Poisoning Detection", "成长", "检测训练集投毒与数据污染，防止被污染模型污染链上决策", [["数据溯源", [["数据来源承诺", "训练数据无来源承诺可被投毒替换，需哈希溯源，否则污染无迹", "Tensorplex"], ["采集时间戳锚定", "无时间戳无法判断时效性，需链上时间戳，否则用过期数据训练", "IPFS"], ["授权链记录", "数据授权缺失会侵权，需授权链记录，否则法律与合规双失", "Ocean"], ["血缘图谱", "需构建数据血缘图定位污染源头，否则出错难追责，需血缘索引", "Datahub"]]], ["投毒检测", [["标签翻转检测", "标签被翻转会系统性误导，需一致性检验，否则模型学错", "Tensorplex"], ["异常样本聚类", "投毒样本常成簇，需聚类离群，否则散点难发现", "Isolation Forest"], ["影响估计", "需估计单样本对模型影响，否则忽略高危样本，需影响函数", "CleverHans"], ["清洗可回滚", "清洗误删需回滚，否则删真样本致偏，需版本快照", "DVC"]]], ["数据质量评分", [["覆盖度评分", "覆盖缺口会让预测盲区，需覆盖度指标，否则未知风险", "Tensorplex"], ["新鲜度评分", "陈旧数据需降权，需新鲜度分，否则用旧数据预测", "Pyth"], ["一致性评分", "多源矛盾需一致性分，否则矛盾数据混入，需冲突率", "Chainlink"], ["偏差评分", "采样偏差需量化，否则群体偏见放大，需公平性指标", "Fairlearn"]]]]],
+ ["d9", "可解释性与可审计性", "Explainability & Auditability", "核心", "把 AI 黑箱输出转成人类可读且可链上审计的解释链", [["解释生成", [["特征贡献归因", "黑箱输出需 SHAP 归因，否则无法解释为何如此预测，需特征贡献", "SHAP"], ["自然语言解释", "需把归因转人话，否则监管看不懂，需模板化解释", "LangChain"], ["反事实解释", "需给出\"若 X 不同则 Y 不同\"，否则难理解决策边界，需反事实", "Alibi"], ["解释一致性", "解释需与模型一致，否则误导审计，需解释保真度校验", "Alibi"]]], ["审计日志", [["不可篡改日志", "日志可改则审计无效，需哈希链存证，否则事后篡改掩盖", "Hyperledger"], ["字段级记录", "仅记结果不记输入字段无法复现，需字段级，否则审计断点", "OpenTelemetry"], ["留存期限合规", "审计留存需 5 至 7 年，否则监管检查不达标，需长存", "S3 Glacier"], ["访问权限分级", "日志全公开泄露商业机密，需分级权限，否则敏感暴露", "OIDC"]]], ["溯源查询", [["决策回溯接口", "无法回溯则无法问责，需按交易查全链路，否则定责无据", "The Graph"], ["跨系统关联", "AI 与预言机分系统需关联查询，否则链路断裂，需统一 traceId", "OpenTelemetry"], ["快照可验证", "查询快照需可验证未被改，否则看到假历史，需 Merkle 证明", "IPFS"], ["导出合规", "导出需脱敏合规，否则隐私违规，需字段脱敏", "Privado"]]]]],
+ ["d10", "AI 决策链路上链留痕", "On-chain AI Decision Trail", "核心", "将 AI 从输入到输出的完整决策链路不可篡改存证以备监管回放", [["决策事件建模", [["事件语义标准化", "决策事件格式不一无法串联，需统一事件 Schema，否则链路错乱", "CloudEvents"], ["因果关系建模", "相关当因果会误归因，需因果图，否则追责错对象", "DoWhy"], ["状态机终态", "决策\"已执行\"非终态，真正终态是\"已清算已交收\"，简化会账实不符", "内部系统"], ["事件幂等", "重复事件需幂等，否则重复执行双倍，需去重键", "Kafka"]]], ["链路存证", [["全链路哈希", "仅存结果不存链路可被篡改中间，需全链路哈希，否则局部伪造", "Hyperledger"], ["时间戳顺序", "乱序存证难还原，需严格时序，否则因果倒置", "NTP"], ["多方可验", "存证需多方可验证，否则单方自证无效，需阈签名", "Chainlink"], ["存证不可删", "链下可删则留痕失效，需上链不可删，否则监管追溯断", "Arweave"]]], ["可验证回放", [["回放确定性", "回放不确定则无法复现，需固定输入与随机，否则结果不同", "Docker"], ["回放成本控制", "全量回放贵需抽样，否则成本不可控，需分层回放", "Snowflake"], ["回放告警", "回放与当时不符需告警，否则错误未被发现，需差异检测", "Grafana"], ["回放权限", "回放需授权防滥用，否则泄露决策逻辑，需最小权限", "OIDC"]]]]],
+ ["d11", "AI 信用评分去中心化验证", "Decentralized AI Credit Scoring", "成长", "用可验证 AI 模型替代中心化征信，输出可审计的去中心化信用分", [["评分模型接入", [["模型可替换", "锁定单模型会被动，需可插拔多模型，否则一家退化全崩，需模型路由", "Giza"], ["输入最小化", "过多输入易泄露隐私，需最小必要字段，否则过度采集违规", "Fractal ID"], ["评分口径一致", "同人不同模型口径不一会矛盾，需统一口径，否则监管质疑，需标准", "FICO"], ["版本可追溯", "评分模型版本需可溯，否则争议无据，需版本锚定", "Giza"]]], ["输入隐私保护", [["ZK 证明属性", "需证明\"信用够\"而不露原文，否则泄露隐私，需 ZK-KYC", "zkPass"], ["选择性披露", "仅披露必要字段，否则过度暴露，需 VC 选择性披露", "Polygon ID"], ["加密计算", "明文计算泄露输入，需同态或 MPC，否则数据外泄", "Secret Network"], ["去中心化身份", "需 DID 绑定防冒名，否则他人刷分，需 did 校验", "Privado"]]], ["评分可验证", [["评分证明", "评分需可验证真实，否则可伪造高分，需模型指纹+输入承诺", "Giza"], ["争议复核", "用户对评分需可复核，否则错分无救，需仲裁通道", "UMA"], ["防刷分机制", "需防虚假交易刷分，否则分数通胀，需行为图谱", "Chainalysis"], ["跨域互认", "评分需跨域互认，否则孤岛，需标准映射", "Worldcoin"]]]]],
+ ["d12", "AI 交易机器人 + 预言机闭环", "AI Bot & Oracle Loop", "成熟", "让交易机器人基于预言机实时数据决策并自动执行、形成感知到执行的闭环", [["信号接入", [["实时行情接入", "机器人用陈旧行情会反向操作，需实时预言机，否则决策滞后亏损", "Pyth 400ms"], ["多因子信号", "单一因子易失效，需多因子融合，否则单边行情崩，需因子库", "Tensorplex"], ["信号去噪", "噪声信号会频繁误操作，需滤波，否则手续费吞噬收益", "Kalman"], ["信号置信门限", "低置信信号需弃用，否则瞎操作，需置信阈值", "Giza"]]], ["执行闭环", [["预言机到执行", "决策到执行需原子闭环，否则报价过期成交，需同块执行", "Chainlink"], ["滑点保护", "无滑点保护会劣价成交，需最大滑点，否则被夹", "1inch"], ["Gas 优化", "高频执行 Gas 高需优化，否则成本超收益，需批处理", "Gelato"], ["失败重试", "执行失败需重试而非卡死，否则漏单，需重试队列", "Gelato"]]], ["风险熔断", [["波动率熔断", "波动率超 8% 需自动降权，否则极端行情爆仓，需动态阈值", "Hyperliquid"], ["净值告警", "净值破线需暂停，否则穿仓，需维持保证金监控", "Aster"], ["黑名单拦截", "制裁地址需拦截，否则违规，需 OFAC 实时名单", "Chainalysis"], ["人工接管", "全自动失控需人工一键停，否则无法止损，需 kill switch", "内部系统"]]]]],
+ ["d13", "AI Agent 调用预言机权限与审计", "Agent Oracle Access Control", "核心", "为 AI Agent 发放可调用的预言机权限凭证并记录每一次调用以供审计", [["身份与凭证", [["Agent 所有权证明", "无所有权证明会被冒用调用，需 DID 绑定，否则伪造 Agent 调用", "Privado"], ["能力凭证 SBT", "需 SBT 证明能力范围，否则越权调用，需能力令牌", "Gitcoin"], ["实时状态可撤销", "凭证需可实时吊销，否则离职 Agent 仍可调，需吊销列表", "OIDC"], ["人机双轨", "机器轨道高可审计，需区分人类与机器身份，否则审计混淆", "Fetch.ai"]]], ["权限策略", [["最小权限授予", "全量权限易被滥用，需按场景最小授权，否则大面风险", "OPA"], ["作用域限制", "需限制可调用的数据源与作用域，否则越域读取，需 scope", "OAuth2"], ["频控配额", "无限频调用会拖垮预言机，需配额，否则拒绝服务，需 rate limit", "Kong"], ["策略版本化", "策略变更需版本，否则回滚无据，需版本化", "OPA"]]], ["调用审计", [["调用全记录", "漏记调用无法定责，需全量留痕，否则事后无据", "OpenTelemetry"], ["调用可验证", "记录需可验证未被改，否则造假，需哈希链", "Arweave"], ["异常调用告警", "超权调用需实时告警，否则滥用无感，需规则引擎", "Datadog"], ["审计留存", "审计需留存合规期，否则检查不达标，需长存", "S3"]]], ["限额与熔断", [["金额限额", "Agent 无限额会巨亏，需单笔与日限额，否则失控，需限额引擎", "Aster"], ["熔断开关", "异常需全局熔断，否则连锁，需 circuit breaker", "Hystrix"], ["额度隔离", "多 Agent 需额度隔离，否则互串，需租户配额", "K8s"], ["熔断恢复", "恢复需人工确认，否则自动恢复再崩，需手动复位", "内部系统"]]]]],
+ ["d14", "动态风险权重实时注入监控引擎", "Dynamic Risk Weight Engine", "核心", "把市场波动率与风险信号实时换算成风险权重注入监控与清算引擎", [["权重模型", [["波动率映射权重", "需把波动率映射成风险权重，否则平灾同权，需映射函数", "Hyperliquid"], ["权重校准", "权重需回测校准，否则错配放大风险，需历史校准", "Kaiko"], ["多因子叠加", "需叠加流动性与相关性因子，否则单一维度失真，需因子合成", "Tensorplex"], ["模型可解释", "权重逻辑需可解释，否则监管不认，需解释输出", "SHAP"]]], ["实时注入", [["低延迟注入", "注入超 100ms 会让监控滞后，需流式注入，否则判定迟误", "Local Zones"], ["注入一致性", "多引擎需一致权重，否则分裂决策，需统一分发", "Kafka"], ["注入可回滚", "错权重需秒回滚，否则错误放大，需版本快照", "Feature Store"], ["注入审计", "每次注入需记录，否则无法追责，需审计流", "OpenTelemetry"]]], ["监控告警", [["阈值告警", "超阈需实时告警，否则风险沉默，需规则引擎", "Grafana"], ["异常检测", "需 AI 检测异常模式，否则漏新型风险，需异常模型", "Tensorplex"], ["告警分级", "告警需分级避免淹没，否则重要被淹，需 severity", "PagerDuty"], ["告警闭环", "告警需处置闭环，否则石沉大海，需工单", "Jira"]]], ["回滚机制", [["权重回滚", "错误权重需回滚上一有效，否则持续错判，需快照", "Feature Store"], ["回滚触发", "需明确触发条件，否则犹豫不回，需自动触发", "内部系统"], ["回滚影响评估", "回滚需评估影响，否则误伤正常，需影响面", "Grafana"], ["回滚留痕", "回滚需留痕，否则无法复盘，需操作日志", "Audit"]]]]],
+ ["d15", "多源自动比对与共识", "Multi-source Auto Reconciliation", "成熟", "自动比对多源数据并据一致性达成价格共识，是抗操纵的核心机制", [["源调度", [["源健康评分", "需按健康度调度源，否则用病源，需评分路由", "Chainlink"], ["负载均衡", "需均衡源负载，否则单源过载，需 LB", "Nginx"], ["降级策略", "主源失效需降级，否则停服，需 fallback", "Hystrix"], ["调度可观测", "调度需可观测，否则黑盒，需指标", "Grafana"]]], ["一致性比对", [["交叉验证", "多源需交叉验证，否则单源骗全，需两两比对", "Chainlink"], ["冲突仲裁", "冲突需仲裁规则，否则僵持，需仲裁算法", "UMA"], ["一致度评分", "需输出一致度分，否则不知可信，需置信分", "Pyth"], ["比对时延", "比对需低时延，否则滞后，需内存计算", "Redis"]]], ["仲裁机制", [["中位数仲裁", "需中位数而非平均仲裁，否则极值绑架，需稳健统计", "Chainlink"], ["加权仲裁", "需按源信誉加权，否则坏源同权，需信誉权重", "Witnet"], ["异议通道", "少数源需可异议，否则被多数压，需异议记录", "UMA"], ["仲裁可验", "仲裁过程需可验证，否则暗箱，需链上记录", "Chainlink"]]], ["置信加权", [["置信融合", "需按置信度融合多源，否则低置信主导，需贝叶斯融合", "Pyth"], ["动态权重", "权重需随表现动态，否则固化失真，需在线学习", "Tensorplex"], ["不确定性传播", "需传播不确定到结果，否则掩盖风险，需误差传播", "Giza"], ["权重审计", "权重需可审计，否则黑箱，需公开公式", "Chainlink"]]]]],
+ ["d16", "预测性数据需求准备", "Predictive Data Provisioning", "成长", "基于预测提前预热与准备 AI 与合约即将需要的数据，降低冷启动延迟", [["需求预测", [["调用模式预测", "需预测哪些数据将热点，否则冷启动慢，需时序预测", "Tensorplex"], ["高峰预判", "需预判行情高峰，否则高峰超时，需事件日历", "Kaiko"], ["长尾识别", "需识别长尾需求，否则忽略小众，需聚类", "KMeans"], ["预测可校准", "预测需校准，否则误备，需校准监控", "Giza"]]], ["预热缓存", [["预热策略", "需按预测预热缓存，否则首查慢，需预取", "Redis"], ["缓存时效", "缓存需带时效，否则用旧值，需 TTL", "Redis"], ["缓存一致性", "多节点缓存需一致，否则读到旧，需失效广播", "Kafka"], ["冷启动兜底", "无缓存需兜底源，否则首查失败，需降级", "Chainlink"]]], ["弹性供给", [["自动扩缩", "需按负载扩缩算力，否则高峰崩，需 HPA", "K8s"], ["成本感知扩缩", "扩缩需看成本，否则烧钱，需成本上限", "K8s"], ["多区域容灾", "需多区域部署，否则单区故障，需多活", "Local Zones"], ["供给可观测", "供给需可观测，否则盲扩，需指标", "Grafana"]]], ["成本优化", [["源成本建模", "需建模各源成本，否则超预算，需成本账", "CloudHealth"], ["按需采买", "需按需而非全量，否则浪费，需采样", "内部系统"], ["闲置回收", "闲置资源需回收，否则空耗，需回收策略", "K8s"], ["成本告警", "超支需告警，否则失控，需预算告警", "Grafana"]]]]],
+ ["d17", "跨链 / 跨域预言机路由", "Cross-chain Oracle Routing", "成熟", "在多条公链与多个域之间路由预言机请求并处理终局性与失效", [["路由发现", [["路由表维护", "需维护跨链路由表，否则找不到路，需注册表", "LayerZero"], ["最优路径", "需选最低费最速路径，否则慢且贵，需路径算法", "LayerZero"], ["路由健康", "路由需健康检查，否则走死路，需探活", "Ping"], ["路由可验", "路由选择需可验证，否则被骗桥，需证明", "Chainlink CCIP"]]], ["跨链终局性", [["源链确认", "未等源链终局会回滚，需确认块，否则基于回滚决策", "LayerZero"], ["终局性差异", "各链终局性不同需区分，否则误用，需链配置", "Chainlink CCIP"], ["重组防护", "需防源链重组，否则价格回退，需重组深", "The Graph"], ["跨链证明", "需跨链消息证明，否则伪造，需轻客户端", "Axelar"]]], ["域适配", [["数据格式适配", "各域格式不一需适配，否则解析错，需适配器", "Apache Camel"], ["单位换算", "跨域单位需换算，否则量级错，需单位库", "Chainlink"], ["语义映射", "跨域同义不同名需映射，否则串字段，需本体", "Schema.org"], ["适配可测", "适配需测试，否则静默错，需契约测试", "Pact"]]], ["失败重试", [["幂等重试", "重试需幂等，否则重复写入，需去重键", "Kafka"], ["退避策略", "需指数退避，否则打爆源，需 backoff", "K8s"], ["死信处理", "多次失败需死信，否则丢失，需 DLQ", "Kafka"], ["重试可观测", "重试需可观测，否则盲重，需指标", "Grafana"]]]]],
+ ["d18", "治理与激励经济模型", "Governance & Incentive Model", "成长", "用质押、奖励与罚没构建节点与数据贡献者的激励相容治理体系", [["节点激励", [["喂价奖励", "需按贡献发奖，否则节点流失，需奖励公式", "Chainlink"], ["质押收益", "质押需有收益，否则无人质押，需通胀或费分", "Chainlink"], ["作恶罚没", "作恶需罚没，否则无成本说谎，需罚没机制", "Chainlink"], ["激励可持", "激励需可持续，否则泡沫崩，需国库支撑", "Olympus"]]], ["数据贡献激励", [["数据悬赏", "需悬赏高质量数据，否则劣质充斥，需 bounty", "Ocean"], ["质量加权", "奖励需按质量加权，否则刷量得奖，需质量分", "Tensorplex"], ["贡献可溯", "贡献需可溯防冒领，否则抢功，需署名", "IPFS"], ["反刷激励", "需防刷量骗奖，否则通胀，需反女巫", "Chainalysis"]]], ["治理投票", [["提案门槛", "投票需门槛防女巫，否则被操控，需提案押金", "Snapshot"], ["投票权重", "权重需防鲸鱼垄断，否则中心化，需二次方投票", "Snapshot"], ["执行时间锁", "执行需时间锁，否则闪电改规则，需 timelock", "OpenZeppelin"], ["投票可查", "投票需链上可查，否则暗箱，需公开计票", "Tally"]]], ["国库与再分配", [["国库多元", "国库需多资产防单点，否则归零，需配置", "Lido"], ["再分配规则", "需明确再分配规则，否则争议，需公式公开", "Olympus"], ["支出透明", "支出需透明，否则挪用，需流水公开", "Gnosis"], ["国库安全", "国库需多签，否则被盗，需多签+硬件", "Safe"]]]]]
+];
+const FRONTIER = [
+ ["AI 增强异常检测识别数据操纵", "live", "Chainlink 与 Pyth 已用统计与 AI 模型识别刷量与离群，成熟可用", "把异常分类器做成可解释服务并输出风险分售卖"],
+ ["多源自动比对共识", "live", "Chainlink 中位数+TWAP、RedStone gas 优化聚合已成行业标准", "提供跨源一致性评分 API 给中小协议接入"],
+ ["zkML 可验证推理", "pilot", "Ritual、EZKL、Modulus 已有可用电路但成本高、仅小模型", "做模型蒸馏+硬件加速把证明压缩到秒级供实时喂价"],
+ ["AI 模型输出上链锚定", "pilot", "Giza 已把 AI 交易模型输出上链并指纹化，路径清晰未规模", "做通用输出 Schema 与版本管理中间件降低接入成本"],
+ ["推理证明与模型指纹", "pilot", "EZKL 可生成推理轨迹证明，模型指纹锚定处早期", "提供指纹+轨迹存证的一站式审计订阅"],
+ ["AI 预测可信评估", "pilot", "Numerai、Giza 在做预测校准与回测，缺乏统一可信标准", "做校准曲线+样本外验证的第三方可信评分服务"],
+ ["训练数据污染检测", "explore", "投毒检测多在研究中心，链上训练溯源刚起步", "做训练集哈希承诺与血缘图谱的链上存证产品"],
+ ["可解释性与可审计性", "pilot", "SHAP 等成熟但链上审计留痕少，监管需求拉动", "做解释链+不可篡改日志的合规审计 SaaS"],
+ ["AI 决策链路上链留痕", "pilot", "金融与保险开始要求 AI 决策可审计，链上留痕可行", "做决策事件标准化与可验证回放平台"],
+ ["AI 信用评分去中心化验证", "pilot", "Worldcoin、Fractal 做链上身份信用，ZK 可验属性", "做 ZK 信用分 + 争议仲裁的去中心化征信"],
+ ["AI 交易机器人 + 预言机闭环", "live", "Hyperliquid 等已用预言机驱动机器人，闭环成熟", "做低延迟预言机+执行原子闭环的白标方案"],
+ ["AI Agent 调用预言机权限与审计", "explore", "Fetch.ai 定义 Agent 身份三层，审计标准未定", "做 Agent DID+权限 SBT+调用审计的中间件"],
+ ["动态风险权重实时注入监控引擎", "pilot", "Hyperliquid 波动率降权、AI 原生风控出现", "做风险权重流式注入+100ms 监控判定的引擎"],
+ ["预测性数据需求准备", "explore", "预热缓存多见于 Web2，链上预测性供给少", "做调用模式预测+弹性预热降低成本"],
+ ["跨链预言机路由", "live", "Chainlink CCIP、LayerZero 已成跨链标准", "做路由健康+终局性防护的跨链预言机网关"],
+ ["联邦学习预言机", "pilot", "Ocean、微众 FATE 有基础，跨机构联合建模早期", "做隐私联合建模输出可信预测的预言机"],
+ ["可验证计算服务", "pilot", "Allianz zkML 用于保险理赔验证，路径明确", "做可验证计算交付层给理赔与风控合约"],
+ ["声誉与质押抗女巫", "live", "Chainlink 节点质押声誉体系成熟", "提供源级声誉评分 API 给聚合方"],
+ ["监管报送预言机", "explore", "数据交易所探索合规上链，报送口径未统一", "做按监管口径的链上留痕与报送导出"],
+ ["AI 预测市场数据", "pilot", "Polymarket 等用预言机结算，AI 辅助定价出现", "做 AI 辅助的预测市场结算预言机"],
+ ["模型市场与推理市场", "explore", "Giza、Ritual 推模型变现，市场早期", "做模型指纹+计费的推理调用市场"],
+ ["实时合规判定预言机", "pilot", "OFAC 实时名单+100ms 判定目标可行", "做制裁与旅行规则实时拦截的预言机中间件"],
+ ["AI 风险预警情报", "explore", "推特/暗网情报融合处于 Agentic AI 早期", "做情报融合+风险预警的订阅服务"]
+];
+const MIDS = [
+ ["数据采集中心", "统一接入链上链下异构源并保证新鲜度与冗余", "多源冗余、重组订阅、mempool 监听、许可证合规"],
+ ["清洗与异常中心", "在喂价前剔除刷量离群与操纵痕迹", "统计异常、协同拉抬识别、AI 分类器、人机复核"],
+ ["喂价共识中心", "组织节点签名聚合并抵御单点操纵", "OCR 聚合、抗操纵中位数、TWAP、质押罚没"],
+ ["可验证计算中心", "生成并验证 zkML 推理证明", "电路编译、量化、证明生成、链上验证"],
+ ["模型锚定中心", "把 AI 输出、版本与指纹上链", "输出 Schema、指纹锚定、时间锁、争议仲裁"],
+ ["可信评估中心", "校准预测置信并做鲁棒性测试", "校准曲线、样本外验证、对抗测试、OOD 检测"],
+ ["污染检测中心", "检测训练数据投毒与质量退化", "数据溯源、投毒聚类、影响估计、质量评分"],
+ ["可解释审计中心", "生成解释并留存可审计日志", "SHAP 归因、自然语言解释、哈希链日志、溯源查询"],
+ ["决策留痕中心", "把 AI 决策全链路不可篡改存证", "事件建模、全链路哈希、可验证回放"],
+ ["信用验证中心", "提供去中心化可验证信用评分", "模型路由、ZK 隐私、争议复核、跨域互认"],
+ ["交易闭环中心", "驱动机器人基于预言机实时决策执行", "实时行情、原子执行、滑点保护、风险熔断"],
+ ["Agent 治理中心", "管理 Agent 身份权限与调用审计", "DID、能力 SBT、配额、调用留痕"],
+ ["风险注入中心", "把风险信号实时换算权重注入引擎", "波动率映射、实时注入、监控告警、回滚"],
+ ["比对共识中心", "多源自动比对达成价格共识", "源调度、交叉验证、仲裁、置信加权"],
+ ["路由容灾中心", "跨链跨域路由并处理终局与失效", "路由发现、终局防护、域适配、重试"],
+ ["激励治理中心", "用质押奖励罚没构建激励相容治理", "节点奖励、数据悬赏、投票、国库"],
+ ["情报融合中心", "融合链上链下情报做风险预警", "推特暗网 Discord 情报、风险预警、态势感知"],
+ ["合规报送中心", "按监管口径组织链上留痕与报送导出", "口径映射、留痕、导出、审计"]
+];
+const RULES = [
+ ["未等区块重组确认就采信价格", "重组会让喂价基于已回滚区块，多起跨链桥被利用即因终局误判，需在重组深确认后才采纳"],
+ ["单一数据源或无许可证源", "依赖单源停服即冻结报价，无许可源触发法律风险，bZx 因单源被操纵损失，需异构多源+白名单"],
+ ["用算术平均而非抗操纵中位数", "算术平均被单点极值撬动，Mango 1.17 亿源于价格被推高，必须用去首尾中位数"],
+ ["未对推理输入做承诺绑定", "证明者用不同输入骗取验证，假推理通过，需输入哈希承诺否则 zkML 形同虚设"],
+ ["模型不锚定指纹随意替换", "权重被污染替换无感知，错误模型悄然服务致链上决策失真，必须哈希指纹上链"],
+ ["置信度未校准当确定用", "模型说 90% 只中 60% 会误导重仓，需校准到真实频率否则高估可信度致损"],
+ ["训练数据无溯源承诺", "投毒样本替换无迹，污染模型伪装干净上线，需哈希溯源否则无法追责"],
+ ["解释与模型不一致", "自相矛盾的解释误导审计定错责，需解释保真度校验否则审计失效"],
+ ["决策链路未全链路哈希", "仅存结果不存中间可被局部篡改，需全链路哈希否则留痕可被伪造"],
+ ["Agent 无最小权限与可撤销凭证", "离职或被盗 Agent 仍全量调用拖垮系统，需作用域限制+实时吊销"],
+ ["波动率超阈未自动降权", "极端行情平灾同权致连环爆仓，2025.10 USDe 193 亿爆仓即价格源失守，需动态阈值"],
+ ["制裁名单未实时拦截", "漏拦 OFAC 地址即合规事故，需实时名单瞬时收紧至 0.1 跳否则重罚"],
+ ["审计留存不足 5 至 7 年", "监管检查不达标被罚，需长存且不可删否则追溯断链"],
+ ["证明过期未拒绝重放", "旧证明重放骗过合约，需绑定区块高度与有效期否则被重放攻击"],
+ ["缓存用旧值无时效", "预热缓存无 TTL 读到陈旧价格成交，需 TTL 与失效广播否则劣价"],
+ ["治理无时间锁可闪电改规则", "规则被瞬间篡改损害用户，需执行时间锁与多签否则中心化作恶"]
+];
+const KPIS = [
+ ["数据新鲜度", "从源到链上消费的端到端延迟与停滞时长，决定喂价是否可被 MEV 利用"],
+ ["来源多样性", "独立异构源数量与控股关联度，关联越高抗操纵越弱"],
+ ["异常检出率", "操纵与离群被正确标记的比例，漏报直接转化为经济损失"],
+ ["预测校准误差", "模型置信与真实频率的差距，衡量 AI 预测是否可信"],
+ ["证明成本", "zkML 证明生成耗时与 Gas，决定可否实时上链"],
+ ["决策可审计率", "AI 决策可完整回放的比例，监管核心指标"],
+ ["风险权重时延", "风险信号注入监控引擎的延迟，目标 100ms 内"],
+ ["治理健康度", "质押分散度与作恶罚没覆盖率，衡量激励相容程度"]
+];
+const LIC_CN = [
+ ["区块链信息服务备案（网信办）", "仅可提供区块链底层、数据存证与合规数据服务，不得开展加密资产交易、兑换与衍生品", "不得触碰代币发行融资与交易，AI 输出上链仅作存证不可涉资金结算"],
+ ["数据安全法 / 个人信息保护法", "可处理匿名化数据，涉个人信息需单独同意与出境评估", "AI 信用评分须去标识化，禁止未经同意采集人脸等敏感个人数据"],
+ ["生成式 AI 服务管理办法", "提供 AI 预测需标识并防有害输出，模型需备案与安全评估", "AI 预测内容须标注\"不构成投资建议\"，模型上线前安全评估"],
+ ["网络安全等级保护", "系统需按等保三级要求建设与测评", "涉及金融数据的系统须过等保，日志留存与访问控制合规"],
+ ["金融科技产品创新沙盒", "可在监管沙盒试点 AI 风控与数据服务", "沙盒内可测动态风险权重，但出盒需持牌"],
+ ["地方性数据交易所合规", "可接入数据交易所提供合规数据产品", "数据产品需登记确权，不得变相交易加密资产行情"],
+ ["人民银行金融科技规划", "鼓励合规风控科技，禁止为非法加密交易提供清算", "预言机不得为境内加密交易提供喂价结算"],
+ ["密码法", "商用密码需合规使用，ZK 证明算法需合规", "国产密码适配场景需支持 SM2/SM3/SM4"],
+ ["证券期货业网络与数据安全", "涉及行情数据需持牌源与合规使用", "不得非法转发受版权保护的实时行情"],
+ ["反洗钱法（修订）", "需履行可疑交易报告义务", "AI Agent 调用需留痕以备反洗钱核查"],
+ ["人工智能伦理与安全要求", "AI 决策需可解释可审计，防歧视", "信用评分需公平性评估并留痕"],
+ ["增值电信业务许可", "对外提供数据 API 需相应电信资质", "公开 API 需 ICP 与对应许可"],
+ ["关键信息基础设施保护", "大型平台需按关基要求防护", "核心预言机节点按关基标准部署"],
+ ["跨境数据流动规制", "数据出境需安全评估或标准合同", "训练数据出境需评估，不得向境外非法提供"],
+ ["量子保密通信合规", "涉及国密前沿可探索合规适配", "前沿可验证计算需预留国密兼容"]
+];
+const LIC_INTL = [
+ ["欧盟 MiCA", "CASPs 需授权，预言机作加密资产服务需合规，旅行规则全量识别", "可提供 MiCA 下合规数据服务，AI 信用需透明"],
+ ["美国 MSB / FinCEN BSA", "货币服务需注册 MSB，BSA 3000 美元阈值报告", "需 SARs 与制裁筛查，AI 输出不得规避 BSA"],
+ ["OFAC 制裁名单", "需实时拦截制裁地址，违规重罚", "预言机调用需嵌入 OFAC 实时名单"],
+ ["新加坡 MAS PSA / DTSP", "数字支付代币服务需牌照", "可提供合规数据，不得无牌交易"],
+ ["香港 SFC VATP", "虚拟资产交易平台需双牌照与穿透监管", "可为持牌所供合规喂价，不得直供散户未持牌"],
+ ["阿联酋 VARA", "迪拜虚拟资产需 VARA 许可", "可在 VARA 框架内提供预言机与审计"],
+ ["英国 FCA", "加密资产需合规注册登记", "AI 信用需 FCA 公平对待要求"],
+ ["日本 FSA", "加密资产交易需注册，行情需持牌", "提供行情需合规源授权"],
+ ["瑞士 FINMA", "需牌照并反洗钱，稳定币分类监管", "可服务机构客户合规数据"]
+];
+const OPPS = [
+ ["AI 增强异常检测服务", "缺可解释且低误报的实时检测", "做异常分类器+人机复核的 SaaS 输出风险分"],
+ ["跨源一致性评分 API", "中小协议自建设比共识成本高", "提供统一一致性分与置信分 API"],
+ ["zkML 实时证明中间件", "小模型证明慢且贵难实时", "做蒸馏+硬件加速把证明压到秒级"],
+ ["模型输出锚定与指纹库", "模型版本管理混乱难审计", "做通用 Schema+指纹+版本管理中间件"],
+ ["AI 预测可信评分", "无第三方校准与回测标准", "做校准曲线+样本外验证的可信评分"],
+ ["训练数据血缘存证", "投毒难溯源", "做训练集哈希承诺与血缘图谱链上存证"],
+ ["决策链路审计 SaaS", "监管要 AI 可审计但缺工具", "做事件标准化+可验证回放平台"],
+ ["去中心化 ZK 信用分", "中心化征信难跨境互认", "做 ZK 信用分+争议仲裁征信"],
+ ["Agent 权限审计中间件", "Agent 调用无治理标准", "做 DID+能力 SBT+调用审计"],
+ ["动态风险权重引擎", "极端行情缺实时降权", "做流式注入+100ms 监控判定"],
+ ["预测性数据预热", "冷启动慢且贵", "做调用预测+弹性预热降成本"],
+ ["跨链预言机网关", "跨链终局与路由易错", "做健康路由+终局防护网关"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：AI 融合预言机 / zkML 可验证推理 / 去中心化信用评分 / AI Agent 预言机权限`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

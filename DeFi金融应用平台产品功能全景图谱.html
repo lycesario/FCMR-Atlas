@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeFi金融应用平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>DeFi金融应用平台全景</b>
+    <span>DeFi金融应用平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>DeFi金融应用平台产品功能全景图谱</h1>
+    <p>DeFi 把交易、借贷与稳定币搬上链，<b>全球链上锁仓已超 54 美元</b>，却也因可组合性让单点风险沿调用链传染；本图谱覆盖 18 个功能域与 239 条关键规则。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">DeFi 的本质是用智能合约替代金融中介，以流动性池、抵押债仓与算法利率重建交易、信贷与货币层；其力量与脆弱都来自乐高式可组合性。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）现货与基础货币层</td><td>DEX、借贷、稳定币、流动性质押、收益聚合</td><td>链上交易与无中介信贷的底座，决定流动性厚度与锚定韧性</td></tr>
+<tr><td>第2层（d6–d10）衍生品与基础设施层</td><td>永续、期权、PMM、跨链、预言机</td><td>以杠杆、定价与数据喂价放大资本效率，是风险与价格的源头</td></tr>
+<tr><td>第3层（d11–d15）保障与组织层</td><td>保险、结构化产品、RWA、身份信用、治理</td><td>把风险转移、收益封装与合规身份组织成可规模化的金融结构</td></tr>
+<tr><td>第4层（d16–d18）合规与风控顶层</td><td>合规 DeFi、协议安全、组合性风险</td><td>在监管与安全的约束下，决定哪些乐高能安全拼装</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三件必须先于产品存在：<br>1) <b>可信价格源</b>（多源预言机）—没有它所有清算与定价都是假的；<br>2) <b>可审计的权限与暂停</b>（多签+时间锁）—没有它漏洞即归零；<br>3) <b>合规身份与制裁筛查</b>—没有它触 OFAC 红线。</div>
+    <div class="danger">最易被误当成成功信号的是<b>高 APY 与高 TVL</b>：排放通胀推高的 APY 不可持续，含刷量的 TVL 误导安全性，二者都可能在脱锚/被黑时瞬间反噬。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断流动性与收益方向落地优先级的标准：能否剔除代币排放后仍有真实手续费收入，能则为 live，否则只是激励泡沫。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>永续合约</td><td>以保证金+资金费率锚定指数的无到期合约</td><td>错把现货价当标记价会被操纵清算，须多源指数</td></tr>
+<tr><td>期权</td><td>含执行价与到期日的权利合约</td><td>IV 定价错则做市亏本，须实时波动率曲面</td></tr>
+<tr><td>集中流动性</td><td>按 tick 区间分配做市深度</td><td>不按区间拆分则资金利用率无法提升</td></tr>
+<tr><td>资金费率</td><td>多空失衡时多空互付的利率</td><td>机制缺失致价格偏离指数，须自动平衡</td></tr>
+<tr><td>清算与保险基金</td><td>维持保证金击穿后的强平与兜底</td><td>机器人失效则坏账累积，基金耗尽触发 ADL</td></tr>
+<tr><td>标记价格</td><td>用于清算的参考价而非成交价</td><td>错用易被插针操纵，须多源+TWAP</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">合规 DeFi 是监管、身份、托管与制裁筛查四域交汇：MiCA/旅行规则管准入，DID/VC 管身份，MPC 托管管资产，OFAC/KYT 管资金。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1) <b>对大陆居民的服务禁令</b>—924 公告下现货/永续/稳定币支付均不可对大陆用户开展；<br>2) <b>旅行规则全量身份识别</b>—VASP 间须传送收发方信息，否则触监管；<br>3) <b>OFAC 实时拦截混币器地址</b>—未拦截致 72% 罚金源于此。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：选第一资产为美元稳定币或以太，作为所有策略的计价与抵押基准</li><li>第二步：接入多源预言机，把价格与清算锚定到真实市场</li><li>第三步：用许可池+白名单隔离机构与零售，先满足合规再谈规模</li><li>第四步：以 LST/收益层叠加资本效率，构建可组合收益</li><li>第五步：接全域 AML 图谱与实时监控，把组合风险关进笼子</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：合规机构 DeFi（Aave Arc 模式，许可池+托管）</li><li>路径 B：RWA 代币化现金管理（美债生息凭证）</li><li>路径 C：ZK 隐私合规身份（zk-KYC 选择性披露）</li><li>路径 D：链上风控与 AML 图谱（跨链全域筛查）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点是<b>第一资产必须是合规可审计的美元稳定币或代币化国债</b>，否则合规与安全性都无从谈起。</div>
+  </section>
+
+  <footer>
+    <p>DeFi金融应用平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "全景总览与分层主线"],
+ ["s1", "去中心化现货交易"],
+ ["s2", "借贷、信用与稳定币"],
+ ["s3", "流动性供给与收益体系"],
+ ["s4", "链上衍生品"],
+ ["s5", "结构化产品与 RWA"],
+ ["s6", "基础设施：预言机、跨链与身份"],
+ ["s7", "合规、监管与机构准入"],
+ ["s8", "协议安全与风控"],
+ ["s9", "组合性、可组合风险与未来路径"]
+];
+const PLAYERS = [
+ ["去中心化交易所(AMM)", "Uniswap / Curve / Balancer", "无合规中资现货DEX", "以恒定乘积与集中流动性替代订单簿做市"],
+ ["借贷协议", "Aave / Compound / Morpho", "大陆不可开展存贷", "超额抵押与利率曲线自动重定价的无中介信贷"],
+ ["稳定币发行", "USDC / USDT / Sky(原Maker)", "大陆禁止稳定币支付", "链上美元锚定与抵押债仓治理"],
+ ["流动性质押", "Lido / Rocket Pool / EigenLayer", "大陆不可开展质押", "把PoS质押权Token化并派生再质押收益"],
+ ["收益聚合器", "Yearn / Beefy / Convex", "大陆不可开展", "自动复利与策略路由的流动性搬运"],
+ ["永续合约DEX", "Hyperliquid / GMX / dYdX", "大陆禁止衍生品交易", "链上保证金与资金费率锚定的永续"],
+ ["期权协议", "Lyra / Premia / SoSoValue", "大陆禁止期权", "链上期权做市与自动对冲"],
+ ["跨链互操作", "LayerZero / Wormhole / Axelar", "大陆限制跨链桥", "消息与资产跨链验证的可组合通道"],
+ ["预言机网络", "Chainlink / Pyth / RedStone", "大陆合规数据喂价受限", "链下价格经多源中位喂入链上"],
+ ["保险与保障", "Nexus Mutual / Etherscan Cover", "大陆不可开展承保", "互助池承接智能合约与脱锚风险"],
+ ["RWA代币化", "Ondo / Securitize / Maple", "大陆限制证券化", "把美债/信贷等现实资产上链生息"],
+ ["合规机构池", "Aave Arc / Circle / Fireblocks", "大陆无落地", "许可制KYC白名单与机构资金隔离"]
+];
+const DOMAINS = [
+ ["d1", "去中心化现货交易", "Decentralized Spot Exchange", "成熟", "以链上流动性池替代订单簿，让任何人成为做市商并即时兑换资产", [["自动做市与AMM模型", [["恒定乘积做市", "简化 x*y=k 会无视价格冲击曲线，大额交易滑点失控，必须在合约层做价格边界与手续费分级", "Uniswap V2"], ["集中流动性做市", "不按 tick 拆分流动性区间，资金利用率无法提升，LP 收益被摊薄且无常损失加剧", "Uniswap V3"], ["动态费率与协议费开关", "费率固定会错配波动环境，高波动期 LP 亏损离场导致池子干涸，需治理可调费率", "Uniswap V4"], ["路由与聚合拆单", "单池路由让大额订单只吃一个池深度，滑点放大；必须多池拆分+跨池寻优", "1inch / CoW"]]], ["订单簿与混合撮合", [["链上订单簿撮合", "全链订单簿每笔挂单上链会拥堵且延迟高，撮合需在Rollup或内存序维护全序", "dYdX / Book"], ["意图撮合与批量拍卖", "无 intent 聚合会让用户被动接受 MEV 夹击，批量拍卖+求解器竞争才能压低成交劣化", "CoW Protocol"], ["MEV保护与私密交易", "不设 MEV 保护，用户限价单被三明治攻击，成交价偏离预期且信任崩塌", "MEV Blocker"], ["链下签名链上结算", "纯链下撮合会失去结算保证，必须签名可验证且链上最终交收不可回滚", "0x / Matcha"]]], ["流动性供给与LP工具", [["LP头寸管理", "不提供区间再平衡工具，LP 在区间外完全不赚费且承受全额无常损失", "Uniswap V3"], ["无常损失对冲", "忽略 IL 对冲，牛熊转换时 LP 本金折损超过手续费收益，长期资金撤离", "Gamma / Arrakis"], ["LP代币组合与质押", "LP 代币不可再质押则流动性沉睡，需接入收益层形成二阶收益", "Curve / Convex"], ["做市商风控参数", "做市商无单笔敞口上限与库存再平衡，黑天鹅下穿仓拖累协议保险金", "Wintermute参数"]]]]],
+ ["d2", "去中心化借贷", "Decentralized Lending", "核心", "以超额抵押和算法利率曲线替代银行授信，链上自动清算的信贷市场", [["抵押与仓位管理", [["抵押率与清算线", "抵押率设错或清算阈值过紧，行情瞬时插针即触发连环清算，协议坏账扩散", "Aave V3"], ["隔离与跨舱抵押", "不隔离高风险资产，单一山寨币脱锚会污染整体资金池并放大系统性风险", "Aave隔离池"], ["健康因子实时监控", "健康因子不实时计算，用户在被清算前不知风险，穿仓由保险基金兜底侵蚀", "Compound"], ["抵押品准入与预言机绑定", "抵押品脱离价格源会被操纵，错误估值导致凭空借出超额资产", "Aave Oracle"]]], ["利率与清算机制", [["利用率利率曲线", "利率曲线参数错配使资金在低谷闲置或高峰借空，利用率失衡伤害存贷双方", "Compound"], ["清算激励与机器人", "清算无激励或门槛过高，坏账无人清算，协议资不抵债蔓延至所有储户", "Aave清算"], ["清算惩罚与坏账吸收", "惩罚过低催生清算抢跑套利，过高则用户雪上加霜；需保险基金缓冲", "Maker PSM"], ["闪电贷原子借还", "闪电贷若未强制原子性，可被用于无抵押抽干池子或操纵治理投票", "Aave Flashloan"], ["利率掉期与固定利率", "无固收工具，借款方无法锁定成本，利率飙升时被迫平仓", "Notional"]]], ["风险参数治理", [["风险参数提案流程", "参数随意变更会瞬间改变可借额度，须多签+时间锁让市场消化", "Aave Gov"], ["债务上限与供应上限", "不设债务上限，单一抵押品暴雷即拖垮全协议，须按市值封顶", "Aave Caps"], ["暂停开关与紧急停摆", "无紧急暂停，漏洞被利用时损失无法中止，须守护者多签一键冻结", "Compound Guardian"], ["储备金与坏账回收", "不留储备金，坏账由股权代币持有者稀释承担，治理抛压加剧崩盘", "Maker"]]]]],
+ ["d3", "稳定币体系", "Stablecoin System", "成熟", "以抵押债仓、法币储备或算法机制维持代币对法币锚定的链上货币层", [["法币抵押稳定币", [["储备金审计与 attestation", "储备不透明会动摇锚定信任，脱锚引发挤兑式抛售，须月度 attestation", "USDC / Circle"], ["赎回与铸造通道", "赎回拥堵时折价无法消除，套利闭环断裂，脱锚自我实现", "USDT 赎回"], ["银行通道与合规托管", "银行通道被切断则法币进出受阻，流通性骤降并触发监管风险", "BUSD 退市"], ["旅行规则与地址筛查", "稳定币涉制裁地址未拦截，发行方面临 OFAC 处罚与下架风险", "Circle 合规"], ["多链部署与桥接", "跨链桥被黑致稳定币增发失控，需锁定铸币权限与链上限额", "USDC CCTP"]]], ["加密超额抵押稳定币", [["抵押债仓与清算线", "CDP 清算线设高则频繁清算，设低则黑天鹅资不抵债，需动态参数", "Sky(DAI)"], ["锚定稳定模块PSM", "无 PSM 缓冲，脱锚时缺乏稳定买盘，DAI 曾因 USDC 暴雷脱锚", "Maker PSM"], ["去中心化治理与DAI储蓄率", "DSR 调控失当会引发资金虹吸或通缩，须与货币政策协调", "Sky DSR"], ["RWA抵押注入", "RWA 抵押引入链下司法风险，托管方违约则抵押不足", "Maker RWA"], ["脱锚熔断与回购", "脱锚无熔断，恐慌抛售螺旋放大，需算法回购与激励", "Frax"]]], ["算法与混合稳定币", [["算法供需调节", "纯算法靠增发回购稳价，死亡螺旋下归零，须有抵押兜底", "UST 崩盘"], ["套利激励闭环", "套利通道不通畅，价差无法收敛，稳定币长期偏离", "Frax AMO"], ["储备因子与清算缓冲", "储备因子不足，极端行情抵押被击穿，需动态拨备", "Liquity"], ["预言机价格依赖", "依赖单一价格源，预言机被操纵则错误清算或增发", "LUSD"], ["赎回税与负利率", "极端赎回税过高驱离用户，须设温和惩罚与退出通道", "Ampleforth"]]]]],
+ ["d4", "流动性质押与再质押", "Liquid Staking & Restaking", "核心", "把 PoS 质押凭证代币化释放流动性，并叠加再质押为其他协议提供安全", [["流动性质押", [["质押凭证代币化", "质押资产锁仓则流动性灭失，stToken 让本金可交易并参与 DeFi", "Lido stETH"], ["验证者准入与罚没", "验证者准入宽松致罚没集中，stToken 脱锚并传导至整个 DeFi", "Lido 节点"], ["脱锚套利与挂钩", "stETH 脱锚时未平仓杠杆连环爆，需流动性缓冲与赎回队列", "stETH/ETH"], ["提款队列与流动性", "提款无队列则挤兑瞬时抽干，需验证者退出排队机制", "EigenLayer"]]], ["再质押与AVS", [["再质押安全市场", "再质押把同一质押复用给多协议，一处被罚没波及全局，须隔离", "EigenLayer AVS"], ["主动验证服务经济", "AVS 无可持续收益则再质押需求虚高，须真实安全需求支撑", "EigenDA"], ["罚没隔离与保险", "罚没无保险，再质押者本金归零风险吓退资金，需覆盖层", "Symbiotic"], ["再质押收益聚合", "收益分散难比较，用户选错 AVS 收益低且风险高，需聚合视图", "Kelp"]]], ["质押衍生品与LST", [["LST 组合收益", "LST 仅持有则收益单一，需接借贷/杠杆循环放大", "Rocket Pool rETH"], ["杠杆质押循环", "循环杠杆未设上限，清算连锁会反噬基础质押安全", "EtherFi"], ["LST 作为抵押品", "LST 作抵押需折扣率，忽视脱锚风险会放大借贷坏账", "Aave stETH"], ["跨链 LST 流通", "跨链 LST 桥被黑致供应错乱，需锁定与限额", "Lido wstETH"]]]]],
+ ["d5", "收益聚合与流动性挖矿", "Yield Aggregation & Farming", "核心", "自动路由流动性到最优策略，叠加激励排放与复利实现收益最大化", [["策略与复利", [["自动复投策略", "手动复投 gas 损耗吃掉收益，自动复投提升净 APY", "Yearn Vault"], ["策略路由寻优", "策略静态不调仓，错失高收益池，资金效率下降", "Beefy"], ["金库费用与绩效费", "费用不透明引发信任危机，须链上可验证计提", "Yearn"], ["无损挖矿与单币", "单币无损产品缺失，用户被迫承担无常损失才获激励", "Curve"], ["排放与代币激励", "激励排放失控致代币通胀砸盘，须与真实 TVL 挂钩", "Convex"]]], ["流动性激励与ve模型", [["ve 锁仓治理", "ve 锁仓过长冻结流动性，过短则治理被短期资本操控", "Curve veCRV"], ["贿赂与元治理", "贿赂市场扭曲投票，激励错配真实需求，需透明看板", "Votium"], ["激励分配算法", "分配算法偏袒大户，长尾池无激励而衰亡，须公平曲线", "Balancer"], ["gauge 权重博弈", "权重博弈致少数池吸走全部排放，需再平衡机制", "Curve Gauge"]]], ["风险与审计", [["策略合约审计", "未审计策略合约被黑直接卷走本金，须多轮审计+赏金", "Yearn 审计"], ["可提取价值与退出", "策略锁仓期无退出，黑天鹅时用户无法止损，需紧急赎回", "Beefy"], ["rug 与权限风险", "owner 权限过高可卷款，须多签+时间锁弃权", "DeFi 治理"], ["TVL 真实性核验", "TVL 含刷量与自循环，误判安全性致跟风踩雷", "DefiLlama"], ["收益可持续性评估", "APY 含临时激励不可持续，须剔除排放看真实费收入", "TokenTerminal"]]]]],
+ ["d6", "链上永续合约", "On-chain Perpetuals", "核心", "以保证金、资金费率和链上清算替代中心化期货交易所的永续合约", [["撮合与保证金", [["保证金与维持率", "维持保证金设低穿仓频发，设高则频繁强平，须动态调参", "Hyperliquid"], ["资金费率锚定", "资金费率机制缺失，多空失衡致价格偏离指数，需自动平衡", "dYdX"], ["指数价格与标记", "标记价错用现货价会被操纵，须多源指数防止插针清算", "GMX"], ["逐仓与全仓模式", "模式混淆致单仓爆仓拖累全仓，须明确隔离边界", "Binance 模型"], ["杠杆上限与限仓", "杠杆过高遇跳空穿仓，须分层上限保护保险基金", "Hyperliquid"]]], ["清算与风险", [["清算链路与保险基金", "清算机器人失效则坏账累积，保险基金耗尽触发 ADL", "GMX GLP"], ["预言机喂价与 TWAP", "预言机被操纵则错误清算，须多源+TWAP 平滑", "Pyth"], ["自动减仓ADL", "无 ADL 穿仓由基金兜底，基金破产则所有盈利被回收", "OKX 模型"], ["强平惩罚与滑点", "强平价过苛用户雪上加霜，须合理缓冲与限价", "dYdX"], ["穿仓社会化分担", "穿仓由赢家分担须透明，否则信任崩塌资金撤离", "Bybit"]]], ["产品与体验", [["移动端优先与账户抽象", "无账户抽象则 gas 体验差，移动端流失，需代付+抽象", "Hyperliquid"], ["L2 性能与终结性", "结算慢致抢跑与回滚，须亚秒终结性保障成交", "HyperBFT"], ["永续与现货打通", "现货永续割裂致资金效率低下，统一保证金提升利用", "Aster"], ["隐私与合规模式", "纯匿名涉洗钱，双轨隐私+合规模式兼顾监管", "Aster ZK"]]]]],
+ ["d7", "链上期权", "On-chain Options", "成长", "以自动做市与到期结算提供链上看涨看跌与结构化期权敞口", [["期权做市", [["期权定价与IV曲面", "IV 定价错则做市亏本，须实时隐含波动率曲面", "Lyra"], ["AMM 期权流动性", "期权 AMM 深度不足，买卖价差巨大，用户无法成交", "Premia"], ["对冲与 Delta 中性", "做市商不对冲则裸敞口爆亏，须自动再平衡", "Lyra v2"], ["流动性集中区间", "期权流动性不按执行价集中，资金分散收益低", "Premia"]]], ["产品与结算", [["欧式美式结算", "结算方式错配致行权纠纷，须明确到期自动行权", "Opyn"], ["现金结算与实物", "现金结算需预言机精确，偏差致结算争议", "Thales"], ["自动行权与过期", "过期未自动处理，权利金沉淀滞留合约", "Hegic"], ["组合与价差策略", "缺组合策略用户只能裸买，需求受限", "Lyra"]]], ["风险与信用", [["卖方保证金与违约", "卖方无保证金则违约穿仓，须抵押托管", "Opyn"], ["预言机到期价", "到期价源被操纵可非法获利，须多方 median", "Chainlink"], ["流动性枯竭应对", "黑天鹅期权需求暴增流动性干涸，须应急做市", "Panoptic"], ["无常与时间损耗", "买方忽视时间损耗 theta 持续贬值，须提示风险", "Dopex"]]]]],
+ ["d8", "算法做市与PMM", "Proactive Market Making", "成长", "以链下预言机定价+链上库存再平衡，主动管理库存降低无常损失", [["主动定价", [["预言机主动定价", "纯 AMM 被动吃滑点，PMM 用预言机锚定价降低冲击", "Kyber PMM"], ["库存再平衡参数", "再平衡参数错致库存单边，敞口暴露于价格风险", "DODO"], ["价格带与滑点控制", "无价格带则大额吃穿，需动态边界保护", "Bancor"], ["多源报价聚合", "单源报价被操纵，须聚合多预言机中位数", "Kyber"]]], ["LP 与风险", [["LP 敞口管理", "LP 不对冲库存风险，单边行情巨亏，须动态调仓", "DODO"], ["无常损失缓释", "PMM 不缓释 IL 则 LP 撤离，需对冲机制", "Bancor v3"], ["单币流动性提供", "强制双币提供门槛高，单币降低参与摩擦", "DODO"], ["动态费率调节", "费率不动则波动期亏损，须随波动调", "Kyber"], ["做市商激励兼容", "激励错配驱离专业做市，须返佣+积分", "DODO"]]], ["跨池与路由", [["跨池库存共享", "库存不共享则各池割裂，资本效率低，须聚合", "0x"], ["动态路由拆单", "拆单不优致滑点放大，须寻优路径", "1inch"], ["MEV 与三明治防御", "无防御被夹，成交劣化，须私有内存池", "CoW"], ["链下计算链上结算", "重计算上链费高拥堵，须链下算链上验", "DODO"], ["库存再平衡触发", "触发阈值错致频繁调仓费损，须自适应", "Kyber"]]]]],
+ ["d9", "跨链互操作与桥", "Cross-chain Interoperability", "核心", "以消息验证与资产托管实现多链资产与流动性互通的可组合通道", [["桥接机制", [["锁定铸造与销毁", "中心化多签桥被攻破即增发假币，须去中心化验证", "Wormhole 被黑"], ["轻客户端验证", "轻客户端成本高但安全，须权衡验证深度", "Axelar"], ["流动性网络桥", "流动性桥深度不足致跨链滑点高，须做市补偿", "Stargate"], ["原生资产铸造", "原生铸造权限失控致供应错乱，须多签锁定", "USDC CCTP"]]], ["消息与验证", [["跨链消息验证", "消息验证薄弱可伪造跨链调用，须证明系统", "LayerZero"], ["预言机+中继架构", "依赖单一中继则可被绕过，须 oracle+relayer 解耦", "LayerZero"], ["最终性与回滚", "源链回滚致目标链双花，须最终性确认", "Wormhole"], ["跨链 gas 抽象", "无 gas 抽象跨链门槛高，需统一付费", "Axelar"]]], ["风险与合规", [["桥黑客与资金损失", "桥为头号被黑目标，须多重审计+保险", "Ronin 被黑"], ["跨链 AML 追踪", "跨链碎片化致追踪准确率骤降，须跨链图谱", "TRM Nexus"], ["限额与速率控制", "无限额致被盗资金瞬间转移，须限额+延迟", "Axelar"], ["可升级与暂停", "无暂停被黑即归零，须守护者一键冻结", "Wormhole 修复"], ["受制裁地址拦截", "跨链未拦截受制裁地址，发行方触 OFAC 红线", "Circle"]]]]],
+ ["d10", "预言机与数据喂价", "Oracle & Data Feed", "成熟", "把链下价格与事件经多源验证安全地喂入链上合约的可信数据层", [["去中心化喂价", [["多源中位数聚合", "单源喂价被操纵即错误清算，须去中心化多节点 median", "Chainlink"], ["心跳与更新阈值", "更新不及时致价格滞后，插针时清算失真，须心跳+偏差阈值", "Chainlink"], ["TWAP 时间加权", "现货价瞬时操纵易被套利，TWAP 平滑防插针", "Uniswap TWAP"], ["节点惩罚与质押", "节点作恶无惩罚则喂假价，须质押罚没", "Chainlink DON"], ["故障切换与降级", "主源故障无降级，合约停摆，须备用源", "Pyth"]]], ["低延迟与第一方", [["第一方直连数据", "经中间商数据滞后且易篡改，须交易所第一方推送", "Pyth 第一方"], ["低延迟喂价", "高波动期延迟致清算偏差，须亚秒级更新", "Pyth 400ms"], ["拉取式与推送式", "推送式浪费 gas，拉取式按需取价降成本", "Pyth Pull"], ["跨链价格一致性", "各链价格不一致致跨链套利漏洞，须统一源", "Chainlink CCIP"], ["模块化与AI融合", "静态喂价难抗操纵，AI 融合异常检测识别异常源", "RedStone"]]], ["特殊喂价与防御", [["波动率与随机数", "随机数被预测则赌博合约被薅，须 VRF", "Chainlink VRF"], ["储备证明喂价", "储备证明缺失致虚假抵押，须链上 attestation", "Chainlink PoR"], ["乐观预言机争议", "争议期过短误判，过长拖延，须合理仲裁", "UMA"], ["可验证计算喂价", "计算不可验证则结果可篡改，须 TEE/ZK", "API3 dAPI"], ["抗女巫与数据源信誉", "低信誉源混入拉低质量，须信誉评分与淘汰", "Pyth"]]]]],
+ ["d11", "链上保险与保障", "On-chain Insurance", "成长", "以互助池或衍生品为智能合约漏洞、脱锚和清算风险提供链上风险转移", [["互助承保", [["风险评估与定价", "风险评估错则保费失衡，池子亏空，须精算模型", "Nexus Mutual"], ["索赔与治理投票", "索赔被内部操控拒赔，信任崩塌，须社区+仲裁", "Nexus"], ["资本池与容量", "承保容量不足拒保大额，须再保与分层", "InsurAce"], ["覆盖条款清晰化", "条款模糊致纠纷，须明确触发条件", "Etherscan Cover"]]], ["参数化与衍生品对冲", [["参数化赔付触发", "人工定损慢，参数化按指数自动赔付提速", "Ease"], ["脱锚保险合约", "脱锚无对冲，持有者本金折损，须锚定保险产品", "Curve 脱锚险"], ["期权式风险对冲", "缺对冲工具，风险持有者裸奔，须期权对冲", "Opyn"], ["再保险与风险分层", "无再保单层风险集中，须分层转移", "Nexus"]]], ["风控与审计", [["承保前安全审计", "未审计即承保，漏洞爆发集中赔付破产", "CertiK"], ["历史理赔数据建模", "无数据建模定价失准，须链上事件库", "DeFi Score"], ["闪电贷攻击承保排除", "闪电贷致非真实损失，须条款排除", "InsurAce"], ["偿付能力监管", "互助池无偿付底线，挤兑时归零，须资本要求", "Nexus"]]]]],
+ ["d12", "结构化产品与金库", "Structured Products & Vaults", "成长", "把期权、杠杆与收益策略封装成可一键认购的链上结构化理财", [["本金保护类", [["保本与部分保本", "保本条款被收益层击穿，须抵押隔离", "Ribbon"], ["固定收益封装", "无固收封装散户难参与，须标准化期限", "Notional"], ["阶梯与雪球结构", "结构复杂致误售，须风险揭示与模拟", "Friktion"], ["到期自动滚存", "到期不滚存资金闲置，须自动续投", "Yearn"]]], ["增强与中性策略", [["备兑看涨封装", "裸卖权风险高，备兑需持币对冲，须自动管理", "Ribbon"], ["Delta 中性做市", "中性不对冲则暴露，须动态再平衡", "Friktion"], ["波动率收割策略", "波动率误判则亏损，须回测与风控", "Strike"], ["收益分层与优先级", "分层劣后不清致分配纠纷，须明确 waterfall", "Notional"], ["自动再平衡触发", "触发阈值错致频繁交易费损，须自适应", "Mean"]]], ["风控与合规", [["策略黑盒透明化", "策略黑盒引发信任危机，须链上可验证", "Ribbon"], ["最大回撤控制", "无回撤控制暴亏，须止损与仓位限", "Friktion"], ["挤兑与赎回队列", "无赎回队列挤兑瞬时抽干，须锁定期", "Yearn"], ["审计与应急暂停", "未审计卷款，须多签暂停", "DeFi Vault"], ["适当性与风险评级", "无评级误导散户，须分级提示", "DeFi 评级"]]]]],
+ ["d13", "现实资产代币化", "Real World Asset Tokenization", "成长", "把美债、信贷、商品等现实资产上链，以合规通道生成生息链上凭证", [["资产上链与合规", [["资产托管与法律映射", "托管方违约则链上凭证无实物支撑，须破产隔离", "Ondo"], ["合规发行与牌照", "无牌照发行证券化资产触证券法，须 Reg D/S 豁免", "Securitize"], ["链上凭证与赎回", "赎回通道不畅折价溢价，须 1:1 赎回机制", "Ondo"], ["破产隔离结构", "无 SPV 隔离，发行方破产牵连持有人，须法律架构", "Maple"]]], ["收益与流动性", [["美债收益封装", "收益不实时披露致偏离，须链上 NAV 更新", "Ondo"], ["代币化国债流动性", "流动性差难退出，须二级做市", "Securitize"], ["信贷资产池", "信贷违约传导，须风控与拨备", "Maple"], ["收益再投资自动化", "手动再投费时，须自动复投", "Ondo"]]], ["风险与准入", [["链下司法与托管风险", "链下司法不可控，须多辖区托管分散", "Securitize"], ["KYC 与合格投资者", "无合格投资者门槛，向散户售证券违规，须白名单", "Ondo"], ["赎回延迟与 T+1", "赎回延迟致流动性错配，须透明时限", "Maple"], ["预言机 NAV 更新", "NAV 更新滞后致定价失真，须高频喂价", "Chainlink"], ["跨链合规流通", "跨链失合规管控触监管，须许可桥", "Ondo"]]]]],
+ ["d14", "链上身份与信用", "On-chain Identity & Credit", "成长", "以 DID、VC 与链上信用评分构建可组合的可信身份与借贷信用层", [["去中心化身份", [["DID 与可验证凭证", "无 VC 则身份声明不可验证，须 DID+VC 体系", "Polygon ID"], ["ZK-KYC 隐私证明", "明文 KYC 泄露隐私，zk 证明布尔不披露原文", "zkPass"], ["女巫抵抗与信誉", "无女巫抵抗空投被刷，须生物/社交图谱", "Worldcoin"], ["身份撤销与过期", "无撤销机制假身份长期有效，须可撤销 VC", "Civic"]]], ["链上信用", [["链上信用评分", "无信用分重复借贷过度杠杆，须还款历史建模", "Credora"], ["链下信用桥接", "链下信用无法上链致抵押率高，须 oracle 桥接", "Bloom"], ["无损借贷信用", "无信用借贷只能超额抵押，信用层降门槛", "Goldfinch"], ["声誉与抵押率挂钩", "声誉不与利率挂钩则激励缺失，须动态折扣", "TrueFi"]]], ["合规与准入", [["白名单与许可池", "无白名单机构池混同零售风险，须 KYC 隔离", "Aave Arc"], ["制裁筛查集成", "身份未接筛查，受制裁者混入，须 OFAC 实时", "Quadrata"], ["隐私与合规平衡", "纯隐私涉洗钱，纯合规失隐私，须选择性披露", "Fractal ID"], ["身份可移植与互操作", "身份不互操作重复 KYC，须标准兼容", "W3C DID"]]]]],
+ ["d15", "治理与DAO金库", "Governance & DAO Treasury", "成熟", "以代币投票与金库管理实现协议参数、资金与升级的去中心化自治", [["治理机制", [["提案与投票权", "投票权集中致寡头操控，须委托与分散", "Compound Gov"], ["时间锁与多签", "无时间锁恶意升级即刻生效，须延迟执行", "Aave Timelock"], ["委托与投票激励", "无激励投票率低，决策僵局，须委托激励", "Snapshot"], ["链下讨论链上执行", "讨论执行脱节致分歧，须绑定提案", "Tally"], ["治理攻击防御", "闪电贷买票操纵参数，须投票延迟+身份", "Beanstalk 被黑"]]], ["金库管理", [["金库多元化配置", "金库单一代币暴跌致开发断粮，须多资产", "Aave Treasury"], ["预算与支出流程", "支出无流程被挪用，须多签+披露", "Gitcoin"], ["代币排放与激励", "排放失控通胀，须与增长挂钩", "Curve"], ["协议收入回流", "收入不回流金库则不可持续，须费用开关", "Uniswap"]]], ["安全与升级", [["可升级合约治理", "升级权限过宽被滥用，须治理控制+延迟", "OpenZeppelin"], ["紧急暂停权限", "无暂停漏洞蔓延，须守护者多签", "Compound"], ["审计与披露义务", "不披露审计报告损害信任，须公开", "DeFi 审计"], ["社区与贡献者激励", "无激励贡献者流失，须 RetroPGF", "Optimism"]]]]],
+ ["d16", "合规DeFi与机构准入", "Compliant DeFi & Institutional Access", "成长", "以许可池、KYC 白名单与机构托管在监管框架内接入链上金融", [["许可池与白名单", [["机构许可资金池", "混同零售与机构致合规冲突，须隔离许可池", "Aave Arc"], ["KYC 白名单准入", "无白名单受制裁者进入，触 OFAC 红线，须准入", "Circle"], ["合格投资者认证", "向非合格投资者售证券类代币违规，须认证", "Securitize"], ["交易对手隐私保护", "机构持仓全公开暴露策略，须 ZK 选择性披露", "Aztec"]]], ["机构托管与合规", [["机构托管与 MPC", "自托管门槛高且风险大，须 MPC 分片托管", "Fireblocks"], ["交易监控与 SARs", "无交易监控漏报 SARs，罚巨款，须实时筛查", "Chainalysis"], ["旅行规则合规", "VASP 间未传旅行规则信息，触监管，须合规网关", "Notabene"], ["OFAC 实时拦截", "制裁清单更新未拦截，发行方被罚，须瞬时更新", "Chainalysis"], ["审计留痕与留存", "无 7 年留存应对检查，须不可篡改日志", "Elliptic"]]], ["监管框架对接", [["MiCA 合规路径", "欧盟未持 CASP 牌照经营违规，须注册", "Circle EU"], ["美国 GENIUS 稳定币框架", "美稳定币无联邦框架曾模糊，须合规发行", "USDC"], ["香港 VATP 双牌照", "港无双牌照经营违法，须 SFC 申请", "OSL"], ["新加坡 DTSP 牌照", "新未持 DTSP 服务境外违规，须 MAS", "Matrixport"], ["数据驻留与隐私法", "数据跨境违隐私法，须本地化部署", "合规云"]]]]],
+ ["d17", "协议安全与风控", "Protocol Security & Risk Control", "核心", "以审计、监控与实时风控拦截漏洞利用、经济攻击与异常资金流", [["审计与漏洞赏金", [["多轮安全审计", "单轮审计漏高危漏洞，须多机构+形式化", "OpenZeppelin"], ["漏洞赏金计划", "无赏金白帽无动力，漏洞被黑客先发现，须高赏金", "Immunefi"], ["形式化验证", "核心数学无形式化验证，边界条件被利用，须证明", "Certora"], ["依赖与可组合风险", "盲目集成未审计协议，一处被黑连环爆，须准入", "DeFi 组合"], ["升级安全与权限", "owner 高权限可卷款，须多签弃权+时间锁", "Compound"]]], ["实时监控与异常", [["链上实时监控", "无监控漏洞被利用才察觉，须异常告警", "Forta"], ["异常资金流检测", "异常流无检测致损失扩大，须行为基线", "Chainalysis"], ["价格操纵预警", "价格异动无预警，预言机被操纵清算，须阈值", "Pyth"], ["闪电贷攻击识别", "闪电贷攻击瞬时，须模式识别拦截", "Forta"], ["MEV 与套利监控", "MEV 抽取用户价值，须透明度与防御", "Flashbots"]]], ["风控与应急", [["实时风险阈值", "阈值固定误报漏报，须动态波动率调权", "TRM"], ["紧急暂停与冻结", "无暂停被黑资金流失，须守护者冻结", "Compound Guardian"], ["黑名单与制裁地址", "未封禁受制裁地址触红线，须实时更新", "OFAC"], ["保险与风险转移", "无保险用户自担，须承保层", "Nexus"], ["事件响应与披露", "无响应预案损失扩大，须披露流程", "DeFi 应急"]]]]],
+ ["d18", "组合性与可组合风险", "Composability & Composable Risk", "核心", "以乐高式协议堆叠放大资本效率，同时让单点风险沿调用链跨协议传染", [["可组合性架构", [["合约可组合调用", "调用未校验返回值致重入，须校验+锁，防止重入攻击", "Reentrancy"], ["原子交易与闪电贷", "闪电贷非原子致资金挪用，须原子化借还", "Aave"], ["收益堆叠与层层杠杆", "层层杠杆循环放大，一处崩塌连锁爆，须上限", "DeFi 循环"], ["标准化接口兼容", "接口不兼容集成失败，须 ERC 标准", "ERC-4626"]]], ["跨协议风险传导", [["风险沿调用链传染", "一处被黑经调用链传染多协议，须依赖图谱", "DeFi 组合"], ["流动性挤兑连锁", "单池挤兑沿依赖传染，须熔断与缓冲", "Curve"], ["治理攻击跨协议", "治理代币跨协议复用被操控，须隔离投票", "Curve 治理"], ["预言机共享风险", "多协议共用一预言机，单点失真全局清算，须多源", "Chainlink"]]], ["组合技与洗钱", [["闪电贷+混币器组合", "该组合技占链上洗钱 68%，须跨协议图谱追踪", "Tornado 替代"], ["跨链碎片化洗钱", "跨链 5 分钟穿透 7 条公链致追踪准确率 89%→11%，须全域图谱", "TRM Nexus"], ["合成身份与女巫", "合成身份包暗网 5 美元，须女巫抵抗", "Worldcoin"], ["实时合规判定", "合规判定超 100ms 致漏检，须内存缓存+流式预计算", "Local Zones"]]]]]
+];
+const FRONTIER = [
+ ["ZK 隐私合规交易", "live", "Aztec 等已实现隐私交易+合规选择性披露双轨", "为机构提供既可审计又保护策略的合规隐私层"],
+ ["代币化国债生息", "live", "Ondo 等美债 RWA 已成规模商业产品", "把货币基金体验搬到链上，对接机构现金管理"],
+ ["意图撮合与求解器", "live", "CoW/UniswapX 已规模化降低 MEV", "聚合求解器竞争压低成交劣化"],
+ ["流动性质押 LST", "live", "Lido stETH 已是最大 LST 并深入 DeFi", "LST 作为通用抵押品打通收益层"],
+ ["链上永续低费率", "live", "Hyperliquid 已成头部永续 DEX", "以 L2 性能+零费率抢夺 CEX 份额"],
+ ["机构许可 DeFi 池", "pilot", "Aave Arc 路径清晰但未规模化", "为合规机构定制隔离资金池"],
+ ["AI 融合预言机异常检测", "pilot", "RedStone 等已在接 AI 异常识别", "用 AI 识别喂价异常源提升抗操纵"],
+ ["链上信用借贷", "pilot", "Goldfinch/TrueFi 路径明确但规模有限", "用还款历史替代超额抵押降门槛"],
+ ["RWA 信贷资产上链", "pilot", "Maple 等已跑通但受信贷周期影响", "把中小企业信贷做成链上生息凭证"],
+ ["Agentic AI 合规调查", "pilot", "多智能体协作调查处于试点", "用可解释 AI 自动生成监管逻辑链"],
+ ["账户抽象与移动端优先", "pilot", "AA 钱包逐步普及但体验仍割裂", "以代付 gas+社交恢复降低门槛"],
+ ["跨链统一流动性层", "explore", "意图桥+流动性网络成形中", "以意图路由抹平跨链碎片流动性"],
+ ["全链期权自动对冲", "explore", "Panoptic 等永续期权技术成形", "以 LP 头寸表达期权降低对冲成本"],
+ ["动态风险阈值引擎", "explore", "波动率高自动降权技术成形", "实时调整风险权重防极端行情"],
+ ["合成身份女巫抵抗", "explore", "Worldcoin 生物 ID 成形中", "以生物+社交图谱抵抗合成身份"],
+ ["可验证计算喂价", "explore", "API3/ZK 喂价技术成形", "用 TEE/ZK 保证计算不可篡改"],
+ ["链上保险参数化赔付", "explore", "参数化保险技术成形但承保容量小", "按指数自动赔付提速理赔"],
+ ["合规数据驻留云", "explore", "本地化部署合规云成形中", "满足数据跨境与隐私法"],
+ ["全域跨链 AML 图谱", "explore", "TRM/Elliptic 全域图谱技术成形", "跨链原子化关联毫秒级整体筛查"],
+ ["DEX 订单簿 Rollup", "pilot", "dYdX 已迁 Cosmos 链上订单簿", "以应用链承载全序撮合"],
+ ["社交交易与跟单", "explore", "社交跟单处于早期", "把策略收益证券化供散户跟投"],
+ ["实时 100ms 合规判定", "explore", "内存缓存+流式预计算可达 2.5ms", "用 Local Zones 把判定压进 100ms"]
+];
+const MIDS = [
+ ["交易撮合中心", "维护订单簿/AMM 与撮合顺序", "保证成交全序与防 MEV 劣化"],
+ ["流动性供给中心", "聚合 LP 与路由深度", "提升资金利用率与降低滑点"],
+ ["借贷与清算中心", "管理抵押、利率与清算", "自动重定价并吸收坏账"],
+ ["稳定币发行中心", "维护抵押与储备锚定", "保证赎回与脱锚缓冲"],
+ ["预言机喂价中心", "多源采集与 median 聚合", "安全喂入链上价格"],
+ ["跨链消息中心", "验证与转发跨链调用", "保证最终性与防伪造"],
+ ["身份信用中心", "发行 DID/VC 与信用分", "支撑 KYC 与信用借贷"],
+ ["收益策略中心", "路由与复投最优策略", "最大化净 APY 并可控风险"],
+ ["风险监控中心", "实时链上异常检测", "拦截攻击与异常资金流"],
+ ["合规审查中心", "旅行规则与 OFAC 筛查", "保证监管可审计"],
+ ["保险保障中心", "承保与理赔管理", "转移智能合约与脱锚风险"],
+ ["治理决策中心", "提案投票与金库管理", "控制参数与升级权限"],
+ ["安全审计中心", "审计/赏金/形式化验证", "收敛高危漏洞"],
+ ["机构准入中心", "许可池与托管接入", "隔离机构与零售风险"],
+ ["数据可观测中心", "宽事件与 OLAP 溯源", "跨账户图查询与交易溯源"],
+ ["产品封装中心", "结构化产品与金库", "封装策略供一键认购"],
+ ["清算与保险基金中心", "承接穿仓与 ADL", "保护盈利不回吐"],
+ ["组合风险图谱中心", "依赖图谱与传染分析", "识别跨协议风险传导"]
+];
+const RULES = [
+ ["抵押率与清算线必须动态校准", "设错致行情插针即连环清算，协议坏账扩散至所有储户，如 2022 多协议连环爆仓"],
+ ["预言机必须多源+TWAP 而非单源现货价", "单源被操纵即错误清算或错误增发，Mango 1.17 亿、Harvest 2400 万均源于此"],
+ ["闪电贷必须原子化强制借还", "非原子可被抽干池子或操纵治理投票，Beanstalk 被黑 1.82 亿源于闪电贷治理攻击"],
+ ["跨链桥必须去中心化验证且限额+延迟", "中心化多签桥被攻破即增发假币，Wormhole/Ronin 等桥合计损失近 10 亿美元"],
+ ["稳定币储备必须透明 attestation", "不透明动摇锚定信任引发挤兑，UST 死亡螺旋归零，BUSD 因托管退市"],
+ ["权限必须多签+时间锁弃权", "owner 高权限可卷款或恶意升级，须守护者冻结与延迟执行"],
+ ["KYC/OFAC 必须实时筛查拦截", "未拦截受制裁与混币器地址触 OFAC 红线，某所 4.7 亿罚金 72% 源于未拦混币器"],
+ ["交易监控必须实时且留 7 年", "漏报 SARs 罚巨款，Block/Cash App 因 SARs 积压被罚 1.2 亿"],
+ ["紧急暂停必须可守护者一键冻结", "无暂停漏洞被利用时损失无法中止，资金持续流失"],
+ ["再质押必须罚没隔离", "一处 AVS 被罚没不应波及全局基础质押，否则系统性风险"],
+ ["流动性激励必须挂钩真实 TVL", "排放失控致代币通胀砸盘且吸引刷量假 TVL"],
+ ["组合调用必须校验返回值防重入", "未校验返回值致重入攻击，The DAO 级损失重现"],
+ ["跨链 AML 必须全域图谱", "跨链碎片化使追踪准确率 89%→11%，须跨链原子化关联"],
+ ["风险阈值必须动态波动率调权", "固定阈值误报漏报，波动>8% 须自动降权防空警"],
+ ["治理必须投票延迟+身份防女巫", "闪电贷买票操纵参数，须延迟与身份门槛"],
+ ["合规数据必须本地化驻留", "数据跨境违反隐私法，须本地化部署与留存"]
+];
+const KPIS = [
+ ["TVL 与锁仓真实度", "剔除刷量与自循环后的真实锁仓规模，衡量协议安全与流动性厚度"],
+ ["清算健康因子分布", "账户健康因子分布预警连环清算概率，提前识别系统性风险"],
+ ["资金费率与多空比", "永续多空失衡与费率锚定度，反映市场情绪与脱锚风险"],
+ ["预言机偏离与滞后", "喂价相对指数偏离与更新延迟，衡量抗操纵与清算失真"],
+ ["坏账率与保险基金", "清算未覆盖坏账占比与保险基金厚度，衡量偿付能力"],
+ ["脱锚幅度与回锚速度", "稳定币偏离锚定幅度与回归时长，衡量锚定韧性"],
+ ["合规拦截准确率", "OFAC/混币器地址拦截命中率与误杀率，衡量合规有效性"],
+ ["组合风险传染度", "单协议被黑沿调用链传染的协议数与金额，衡量系统性风险"]
+];
+const LIC_CN = [
+ ["中国人民银行等十部委 924 公告", "不可开展加密货币交易、兑换、作为支付手段及对大陆居民的服务", "不得为大陆用户提供 DEX 交易、借贷、稳定币支付，仅可输出区块链技术与合规数据服务"],
+ ["虚拟货币相关业务属非法金融活动", "大陆禁止设立交易所与做市", "不得运营现货/永续/期权交易对大陆用户"],
+ ["外汇与支付牌照管制", "不可开展稳定币发行与法币出入金", "不得发行或代理 USDC/USDT 类稳定币支付"],
+ ["证券期货监管框架", "不可向大陆居民销售衍生品与证券化代币", "RWA/结构化产品不得对零售发售"],
+ ["反洗钱法+打击虚拟货币洗钱", "须上报涉虚拟货币可疑交易", "可对接监管做链上追踪与情报，不得自营交易"],
+ ["数据出境安全评估办法", "跨境数据须评估与本地化", "链上数据服务须境内存储与合规出境"],
+ ["个人信息保护法", "身份数据须最小化与本地化", "ZK-KYC 证明须境内合规处理"],
+ ["区块链信息服务备案", "提供区块链服务须备案", "可开展联盟链/数据存证等备案业务"],
+ ["网络安全等级保护", "系统须过等保", "面向机构的链上风控系统须等保合规"],
+ ["央行数字货币(e-CNY)定位", "数字人民币为法定数字货币", "可围绕 e-CNY 做合规支付与清结算"],
+ ["禁止代币融资(ICO)", "不得开展代币发行融资", "不得以 DeFi 名义发币募资"],
+ ["香港 VATP 双牌照(境外)", "大陆主体不得直接在港无牌经营", "可经持牌港主体服务境外合规客户"],
+ ["跨境支付与外汇管制", "资本项下跨境汇兑受限", "不得借 DeFi 做跨境资金通道"],
+ ["金融机构展业规范", "持牌机构须隔离链上风险", "可服务持牌金融机构的链上风控与审计"],
+ ["内容合规与风险提示", "须充分揭示链上风险", "面向机构可输出研究与风控但不荐交易"],
+ ["网络安全与密码法", "密码与加密服务须合规", "可使用合规密码模块保障链上安全"]
+];
+const LIC_INTL = [
+ ["欧盟 MiCA(2025 全面生效)", "可持 CASP 牌照开展加密资产服务", "最低资本 5–15 万欧、须 DORA 韧性与旅行规则全量身份识别"],
+ ["美国 GENIUS Act 稳定币框架", "可合规发行联邦框架稳定币", "FinCEN BSA 3,000 美元阈值、OFAC 制裁须拦截"],
+ ["美国 MSB/VASP 注册", "可作为 MSA 开展汇兑与转账", "须注册并履行 BSA 与 SARs 报告"],
+ ["新加坡 MAS 支付服务法/DTSP", "可持牌提供数字支付代币服务", "须 MAS 牌照并对境外服务合规"],
+ ["香港 SFC VATP 双牌照", "可持牌经营虚拟资产交易平台", "穿透式监管与零售适当性要求"],
+ ["阿联酋 VARA 牌照", "可在迪拜持牌开展虚拟资产业务", "须 VARA 审批与本地化运营"],
+ ["英国 FCA 加密资产注册", "可在英注册开展加密业务", "须 FCA 注册并满足金融促销规则"],
+ ["FATF 旅行规则建议 15/16", "VASP 间须传输收发方身份", "跨境转账须传送旅行规则信息防洗钱"],
+ ["OFAC 制裁名单实时合规", "须实时拦截受制裁地址", "制裁更新瞬时收紧至 0.1 跳筛查"]
+];
+const OPPS = [
+ ["合规机构 DeFi 接入", "大陆禁业但境外机构需求强", "以 Aave Arc 模式做许可池+托管白名单"],
+ ["链上风控与 AML 图谱", "跨链追踪准确率低", "用全域图谱+跨链原子化关联做实时筛查"],
+ ["RWA 代币化现金管理", "机构美债配置需求", "把代币化国债做成合规生息凭证对接机构"],
+ ["预言机抗操纵喂价", "单源易被操纵", "做多源+AI 异常检测+形式化验证喂价"],
+ ["ZK 隐私合规身份", "机构需保密又合规", "zk-KYC 选择性披露满足双轨需求"],
+ ["结构化产品封装", "散户难参与复杂策略", "一键认购金库+风险评级透明化"],
+ ["移动端 AA 钱包", "gas 门槛高致流失", "账户抽象代付 gas+社交恢复"],
+ ["实时合规判定引擎", "判定超 100ms 漏检", "内存缓存+流式预计算压进 2.5ms"],
+ ["LP 与做市工具", "LP 缺乏再平衡对冲", "做区间再平衡+IL 对冲+收益聚合"],
+ ["协议安全监控", "漏洞被利用才察觉", "链上实时监控+异常资金流告警"],
+ ["跨链统一流动性", "跨链碎片滑点高", "意图路由+流动性网络抹平"],
+ ["组合风险图谱", "单点风险沿链传染", "依赖图谱识别跨协议传染路径"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：DeFi 去中心化金融 / DEX 自动做市 AMM / Aave 借贷 稳定币 流动性挖矿 合规 DeFi`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>选择性披露引擎平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>选择性披露引擎平台全景</b>
+    <span>选择性披露引擎平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>选择性披露引擎平台产品功能全景图谱</h1>
+    <p>每次注册都被要求交出整本身份资料，是 Web2 与 Web3 共同的隐私灾难。<b>选择性披露引擎</b>把披露压到最小：证明 216 个布尔结论，而不是交出 18 个原始字段。当监管一边要求最小化、一边要求身份可识别，披露粒度的控制权就是这个平台的定价权。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是把最小披露原则产品化：把身份、资产、资格等敏感事实编译成可验证的谓词结论，让应用方只拿到业务必需的布尔值，用户保留原值与控制权。引擎连接发行方、钱包、验证方三方，靠证明请求协议与信任注册表维持整个披露生态的可信运转。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d6）披露原子层</td><td>凭证与声明模型、谓词与范围证明、成员与集合证明、发行方接入、证明请求协议、ZK 证明引擎</td><td>把披露什么变成可计算的数学</td></tr>
+<tr><td>第2层（d7–d12）控制与状态层</td><td>同意管理、声明式披露策略、撤销与状态、链上验证器、审计与最小必要校验、反女巫</td><td>让每一次披露可授权、可撤销、可核查</td></tr>
+<tr><td>第3层（d13–d15）信任与合规层</td><td>发行方信任治理、监管适配引擎、机构披露网关</td><td>回答验证方凭什么信、监管凭什么放行</td></tr>
+<tr><td>第4层（d16–d18）体验与生态层</td><td>隐私钱包体验、跨生态互操作、身份数据网络接入</td><td>让最小披露成为用户与开发者的默认体验</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br><b>1. 可信发行方网络必须先于引擎存在</b>——没有发行方愿意签发、验证方愿意采信的凭证源，披露粒度再精也无米可炊；<br><b>2. 最小必要与监管身份要求的冲突裁决口径必须先冻结</b>——GDPR 最小化与旅行规则全量身份直接冲突，口径不定则每个客户每个司法区都是一次重新谈判；<br><b>3. 撤销分发与披露审计能力必须先于规模化签发存在</b>——签发规模化后撤销跟不上，等于批量制造不可信证明。</div>
+    <div class="danger">把披露完成率高当成成功信号。若高完成率来自全量披露或同意疲劳，产品正在积累合规负债而非增长——正确的北极星是谓词披露占比与最小必要校验通过率，而不是完成率本身。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断前沿方向落地优先级的一条标准：看该披露形态是否已被写进监管义务条款——被写进义务的最小化披露（旅行规则、EUDI、制裁筛查）先落地，纯技术优雅但无监管拉力的方向一律降级。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>可验证凭证（VC）</td><td>发行方签名、持有人可控披露的标准化声明集合</td><td>它是披露粒度的物理载体，格式选错即生态锁死</td></tr>
+<tr><td>谓词（Predicate）</td><td>只输出布尔结论而不透露原值的陈述</td><td>谓词库覆盖面直接决定产品能替代多少 KYC 流程</td></tr>
+<tr><td>证明请求（Proof Request）</td><td>验证方声明所需谓词与用途的协议消息</td><td>请求语义含糊会诱导过度披露，是最小化的第一道闸</td></tr>
+<tr><td>Nullifier</td><td>按场景派生的一次性标识，防重放且不可链接</td><td>设计错误会同时产生双花与用户画像两个灾难</td></tr>
+<tr><td>信任注册表</td><td>发行方 DID 与信任等级的链上登记</td><td>没有它验证方无法定价凭证可信度，生态无法冷启动</td></tr>
+<tr><td>披露审计日志</td><td>谁在何时要了什么、给了什么谓词的不可篡改记录</td><td>它是最小必要唯一的举证手段，监管检查的直接证据</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域是 GDPR 数据最小化、FATF 旅行规则身份义务、eIDAS 2.0 法定身份生态与 OFAC 制裁合规四个监管域的交汇点：前两者互相冲突需要显式裁决，后两者给出通道与硬边界。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br><b>1. 旅行规则义务不可被隐私技术豁免</b>，任何用 ZK 豁免身份交换的宣传都是合规自杀；<br><b>2. 跨境同步默认开启即触发 GDPR 跨境传输违规</b>，数据本地化必须前置设计而非事后重构；<br><b>3. 生物特征用于唯一性证明在多数司法区属敏感信息</b>，需单独同意与本地化处理，缺一即违规。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：选定单一高频谓词场景（成年/非制裁国）与单一发行方，跑通签发到链上验证的端到端披露闭环</li><li>第二步：接入撤销分发与状态服务，避免签发规模化而撤销跟不上的负债累积</li><li>第三步：上线最小必要校验与披露审计，把合规证据能力做成同期交付物而非事后补丁</li><li>第四步：开放策略 DSL 与 SDK，让应用方自助声明披露粒度并接入多链验证</li><li>第五步：扩展谓词库与发行方网络，向机构披露网关与监管适配层延伸</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A（协议路径）：做开放披露协议与公共信任注册表，靠网络效应与验证调用量取胜</li><li>路径 B（SaaS 路径）：面向 VASP 与机构卖披露网关与审计出证，客单价高且现金流快</li><li>路径 C（模块路径）：嵌入 KYC 厂商与钱包成为披露模块，借既有渠道快速起量</li><li>路径 D（网络路径）：做身份数据网络与授权分成，长期押注数据主权生态</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的第一资产都是可信发行方网络——没有发行方愿意签发、验证方愿意采信的凭证供给，任何路径的产品都在空转。</div>
+  </section>
+
+  <footer>
+    <p>选择性披露引擎平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "全景总览"],
+ ["s1", "平台形态"],
+ ["s2", "功能域全景"],
+ ["s3", "前沿方向"],
+ ["s4", "运营中心"],
+ ["s5", "致命规则"],
+ ["s6", "度量体系"],
+ ["s7", "监管版图"],
+ ["s8", "机会图谱"],
+ ["s9", "落地路径"]
+];
+const PLAYERS = [
+ ["独立披露引擎中间件", "Sismo、zkPass、Reclaim Protocol", "隐私计算初创团队（对标路径）", "按证明生成与验证调用计费，卖给应用方与协议方"],
+ ["ZK 身份协议层", "Polygon ID(Privado ID)、Anon Aadhaar、World ID", "无直接对标，大陆受加密业务禁令限制", "协议代币经济加验证调用费用，生态绑定深"],
+ ["KYC 供应商披露模块", "Sumsub、Fractal ID、Civic", "已服务出海交易所的合规厂商", "在既有 KYC 流程上叠加选择性披露，按验证次数收费"],
+ ["身份数据网络", "idOS、cheqd、KILT Protocol", "参与数据要素试点的授权运营方", "以数据可携带与授权撤回为核心资产，网络效应收费"],
+ ["凭证签发与开发者框架", "SpruceID、walt.id、Dock", "腾讯/蚂蚁数字凭证团队（合规场景）", "开源框架加企业版许可加签发量计费"],
+ ["TLS 数据源证明", "zkPass、Reclaim Protocol、DECO(Chainlink 学术前身)", "/", "把任意网页数据变成可披露声明，按数据源连接器收费"],
+ ["SBT 徽章与社区披露", "Galxe Passport、POAP、Oncyber", "/", "徽章发行加活动营销变现，披露粒度较浅"],
+ ["机构合规披露网关", "Notabene、Sumsub Travel Rule、Fireblocks", "/", "面向 VASP 的受监管信息选择性披露，客单价高"],
+ ["钱包内披露能力", "MetaMask Snaps、World App、Rainbow", "/", "钱包流量分成加证明请求分发"],
+ ["企业 IAM 融合披露", "Microsoft Entra Verified ID、Okta", "企业微信/钉钉身份生态（合规范式）", "进入企业身份预算，按员工与客户席位收费"],
+ ["验证即服务与证明聚合", "zkVerify、Succinct、Risc Zero", "/", "证明验证外包与聚合，按证明量计费"],
+ ["公链原生身份层", "Worldcoin(World Chain)、Privado ID on Polygon", "/", "公链战略投入，换取生态身份标准主导权"]
+];
+const DOMAINS = [
+ ["d1", "凭证与声明模型", "Credential & Claim Model", "核心", "把可披露的最小单元定义为标准化声明，是披露粒度控制的原子层。", [["声明原子化", [["声明粒度拆分", "把身份证拆成姓名/生日/国籍等独立声明再各自可签发，粒度不拆会导致证明国籍被迫披露整本护照", "SpruceID、walt.id"], ["JSON-LD 与 SD-JWT 双格式", "W3C VC 与 IETF SD-JWT 是两大主流格式，只支持一种会锁死发行方生态接入面", "Microsoft Entra Verified ID"], ["声明 schema 版本化", "schema 演进不兼容会让存量凭证集体作废，用户被迫重新做 KYC", "Hyperledger AnonCreds"], ["salt 与声明盲化", "声明不带 salt 会被跨凭证关联追踪，直接破坏不可链接性这一核心承诺", "Hyperledger AnonCreds"]]], ["语义与标准", [["声明语义字典", "同一国籍字段各家拼写不同会导致验证方解析失败，需统一术语表与映射", "W3C VC Data Model"], ["凭证类型全局注册", "凭证类型无全局注册会造成同名异义，验证方误判凭证含义与强度", "cheqd"], ["多语言声明映射", "面向全球用户的凭证需本地化映射，硬编码英文会阻断亚太发行方接入", "Sumsub"], ["时点声明与时段声明", "净资产类声明必须带时点，缺时点的余额证明会随行情失效并引发纠纷", "zkPass"]]], ["凭证安全", [["发行方签名密钥轮换", "密钥泄露后不轮换会放大伪造凭证规模，需预设轮换与吊销流程", "cheqd"], ["凭证持有人绑定", "凭证不绑定生物或设备特征会被转卖，凭证黑市直接击穿唯一性承诺", "World ID"], ["离线出示与防重放", "nonce 与挑战缺失会让同一证明被重放到多个场景冒用", "Polygon ID"], ["凭证加密存储", "明文存凭证的移动端被提权后即全量泄露，需加密加 witness 分片存储", "Dock"]]]]],
+ ["d2", "谓词与范围证明", "Predicate & Range Proof", "核心", "只输出比较结论布尔值而不透露原值，是证明年龄达标而不给生日的数学实现。", [["谓词库", [["布尔谓词（大于/小于/等于/不等于）", "成年与非制裁国这类谓词是选择性披露的入口场景，谓词库不全应用方就会回退索要原件", "zkPass、Sismo"], ["区间证明（落在区间内）", "合格投资者门槛需要区间而非单边比较，只支持单边会丢失金融场景", "Aztec"], ["否定谓词（国籍不等于某国）", "制裁筛查需要否定语义，成员证明确实无法表达不在名单内，需专门方案", "Polygon ID"], ["多谓词组合", "单一谓词表达力不足，成年且非制裁国需要组合逻辑，拆开做会多披露一次扩大关联面", "Galxe"]]], ["数值范围技术", [["无可信设置范围证明", "Bulletproofs 类方案适合资产门槛场景，Groth16 需仪式增加每次新门槛的发行成本", "Bulletproofs(Monero 生态)"], ["位分解与溢出防护", "金额电路位宽设置过小会溢出导致假证明通过，数值类电路必须显式声明位宽并测试边界", "circom"], ["精度与单位约定", "美元与 USDT 精度不一致会让临界值造假，请求协议层必须锁定单位与小数位", "Chainlink(数值源范式)"], ["时区与时间点语义", "生日时区歧义会让成年判定跨日翻转，谓词必须固定时间点语义", "Sumsub"]]], ["策略到电路编译", [["谓词到电路自动编译", "手写电路门槛高，需从策略 DSL 自动编译，纯手写会导致电路审计跟不上业务迭代", "circom、Cairo"], ["电路审计与形式化验证", "未审计电路存在假证明漏洞且链上无法察觉，出事后历史证明全部不可信", "zkSecurity(审计)、Veridise"], ["证明性能预算", "移动端生成超过数秒用户会放弃，需设备分档或委托生成策略", "RISC Zero"], ["可信设置 ceremony 管理", "Groth16 每电路一次 setup，管理不当会留下伪造后门，需公开仪式与参数留存", "SnarkJS"]]]]],
+ ["d3", "成员与集合证明", "Membership & Set Proof", "核心", "证明在名单内或不在名单内而不暴露是哪一个，同时支撑白名单与制裁筛查两类场景。", [["Merkle 成员证明", [["树构造与高度快照", "名单树不按高度固化会导致证明通过后名单变更无法追溯，审计与争议无据可查", "Sismo(zk badges)"], ["大集合证明成本", "百万级白名单的 Merkle 深度影响证明与 Gas 成本，需在树形与累加器间权衡", "Polygon ID"], ["空集与边界语义", "空名单的证明语义不明会让验证方误判放行，边界情况必须显式定义", "Galxe"], ["集合更新与旧证明效力", "名单更新后旧证明是否仍有效必须显式声明，默认有效会被利用", "Sismo"]]], ["非成员与否定证明", [["制裁名单非成员证明", "证明不在 OFAC 名单是合规刚需，必须用累加器等否定证明方案而非靠成员证明拼凑", "Chainalysis(名单源)"], ["动态累加器维护", "支持删除而不全量重建是动态名单的前提，Merkle 全量重建在制裁名单高频更新下不可行", "DIZK、Aztec"], ["排斥性名单的滥用约束", "非成员证明可被用于歧视性排斥，需绑定用途限定与请求方资质", "W3C VC 用途限定"], ["否定与正证组合", "制裁筛查加 KYC 徽章组合是旅行规则落地典型形态，拆开出证会重复披露", "Notabene"]]], ["集合隐私", [["跨场景不可链接性", "同一成员证明多处复用会形成行为画像，需按场景派生子标识", "Sismo"], ["场景哈希派生 nullifier", "nullifier 设计不当会同时导致双花与用户关联，必须以场景哈希派生", "Polygon ID"], ["成员资格转卖防护", "白名单资格被挂牌交易后披露体系沦为交易标的，需绑定活体或设备", "World ID"], ["集合规模泄露防护", "证明本身可能泄露名单规模与自身位置，需填充与盲化处理", "Anon Aadhaar"]]]]],
+ ["d4", "发行方接入与凭证签发", "Issuer Integration & Issuance", "核心", "把 KYC 厂商、政府 ID、机构系统变成可信声明源，决定引擎能否拿到可披露的东西。", [["发行方类型接入", [["KYC 厂商直连", "Sumsub 与 Fractal 已是事实上的凭证源，接不进 KYC 渠道等于无米之炊", "Sumsub、Fractal ID"], ["政府 ID 接入", "Aadhaar 类国家级 ID 接入成本高但信任最强，Anon Aadhaar 证明可零成本复用政府身份库", "Anon Aadhaar"], ["机构自签发凭证", "交易所给用户签发余额与资历凭证的前提是自身可信，新机构自签发无人采信", "Coinbase(储备证明实践)"], ["弱凭证强度标注", "设备与行为类弱信任凭证必须显式标注强度，混淆强度会让验证方错误定价风险", "Worldcoin"]]], ["签发流程治理", [["签发前核验分层", "签发即担责，核验强度必须写进凭证元数据，否则验证方无从定价信任", "Quadrata"], ["批量签发限速", "签发接口无限速会被女巫批量薅取资格凭证，一天内掏空激励池", "Fractal ID"], ["签发审计与责任链", "谁核验谁签发需可追溯，出假凭证无法定责会摧毁发行方在信任注册表的地位", "Quadrata"], ["跨链凭证锚定", "凭证哈希单链锚定会因链故障全局失效，多链锚定提升可用性", "cheqd"]]], ["数据源证明", [["TLS 数据源证明（3P-TLS）", "不经发行方直接证明网页数据真实性是长尾供给的关键路径，但需防数据源端反作弊", "zkPass"], ["API 凭证化封装", "把任意 API 变成可披露声明源决定长尾场景供给，封闭连接器生态会限制产品边界", "Reclaim Protocol"], ["数据时效与新鲜度绑定", "基于过期快照出证会造成陈旧披露引发纠纷，必须绑定时间戳与新鲜度策略", "DECO(Chainlink 学术前身)"], ["连接器健康度对抗", "数据源网页改版会让连接器批量失效，需健康度监控与快速修复流水线", "Reclaim Protocol"]]]]],
+ ["d5", "证明请求协议", "Proof Request Protocol", "核心", "让应用方用统一语言声明要什么谓词，是连接钱包与验证方的握手层与最小化第一道闸。", [["请求语义", [["谓词式请求描述", "请求必须精确到谓词与参数而非给我身份，含糊请求会诱导过度披露并违反最小化", "Polygon ID(Query 语言)"], ["请求附带用途与保留期声明", "缺用途声明的请求违反 GDPR 目的限定原则，验证方需在协议层声明用途与留存期限", "W3C Presentation Exchange"], ["请求版本与降级协商", "协议版本不兼容会造成钱包静默拒绝，需显式版本协商与降级路径", "DIF Presentation Exchange"], ["多凭证编排与超时", "一个请求跨多个发行方时需编排与超时策略，否则用户卡死在等待中直接流失", "walt.id"]]], ["握手与传输", [["请求发起通道标准化", "二维码/深链/Web 通道不一致是转化率杀手，需统一深链与回跳标准", "Sismo Connect"], ["挑战-响应防重放", "无挑战的请求会被中间人截获重放，冒用用户披露结论", "Polygon ID"], ["传输加密与元数据泄露", "请求明文传输会把谁在申请什么服务泄露给网络层观察者", "Sismo Connect"], ["结构化错误语义", "静默失败让用户与开发者都无从排查，需结构化错误码与用户可读反馈", "MetaMask Snaps"]]], ["验证方接入", [["一站式 SDK 与回调规范", "验证方集成成本决定协议采用速度，集成超过一周基本流失", "Sismo Connect"], ["链上与链下验证双模式", "只支持链下验证会丢失 DeFi 可组合场景，验证结论要能被合约消费", "Polygon ID"], ["验证方滥用监控", "验证方超范围留存证明材料需可发现，否则协议沦为数据收割通道", "idOS"], ["请求计量与计费口径", "按请求计费需明确失败是否计费，口径不清会引发客户争议与拒付", "Sismo"]]]]],
+ ["d6", "ZK 证明引擎", "ZK Proof Engine", "核心", "本地生成、链上低成本验证（约 10 万 Gas 量级）的电路与证明系统，是全产品的算力底座。", [["证明系统选型", [["Groth16 与 PLONK 与 STARK 取舍", "Groth16 验证最省 Gas 但每电路需 setup，选型错误会直接锁死成本结构与迭代速度", "Aztec Labs、StarkWare"], ["验证 Gas 预算管理", "验证合约超出预算量级会让高频调用不可行，需预编译或聚合优化兜底", "Succinct、zkVerify"], ["证明聚合与递归", "单笔验证贵就聚合多证明一次上链，无聚合能力的协议扛不住规模化流量", "zkVerify"], ["后量子迁移预留", "Groth16 不抗量子，验证器必须设计为可升级以预留后量子迁移路径", "STARK(StarkWare)"]]], ["生成与运行", [["浏览器本地生成", "本地生成保护隐私但受设备算力限制，需 WASM 优化与分档策略", "Sismo(浏览器 WASM 生成)"], ["移动端生成优化", "移动端生成超时是最大流失点，需低端设备降档与异步通知设计", "RISC Zero"], ["去中心化 Prover 网络", "中心化 prover 是单点故障与审查点，需证明网络分散化", "zkVerify"], ["证明缓存与复用", "同一请求参数重复生成浪费算力抬高成本，需按参数哈希缓存", "Succinct"]]], ["工程与安全", [["电路仓库与 CI 审计", "电路即代码需版本管理与差分测试，失控的电路迭代会引入致命漏洞", "Circomlib(生态基线)"], ["vkey 完整性锚定", "验证密钥被替换可让伪造证明通过，需多源锚定 vkey 哈希并纳入治理", "Polygon ID"], ["侧信道防护", "移动端生成的侧信道泄露 witness 会破坏零知识性，需常时实现与设备安全基线", "zkSecurity(安全审计)"], ["降级熔断与告知", "引擎异常降级为明文披露必须显式告知用户并留痕，静默降级是信任事故", "Sismo"]]]]],
+ ["d7", "同意管理与授权流", "Consent & Authorization", "成长", "把用户对每次披露的授权、限定用途与撤销做成产品流程，是 GDPR 意思自治的产品化。", [["授权生命周期", [["细粒度授权（用途/时长/次数）", "一次性用途授权是 GDPR 目的限定的产品化，无期限授权等于卖身契，争议时无法自辩", "idOS"], ["撤回即时性", "撤回后下游仍缓存证明会造成撤回无效事故，需撤回广播与状态轮询联动", "idOS"], ["转授权控制", "下游二次使用必须受控，失控的转授权是最常见的合规破口", "cheqd"], ["代理与监护授权", "代理授权边界不清会引发监护与冒名纠纷，需显式代理模型与留痕", "W3C VC 规范"]]], ["同意界面", [["披露前预览（给什么不给什么）", "用户看不懂将暴露什么的同意会被判无效同意，监管与司法均不认可", "Sismo Connect"], ["分层同意与部分拒绝", "全有或全无的同意会被认定不自由，必须支持部分拒绝", "GDPR 设计惯例"], ["撤回入口常在性", "撤回入口深藏会被监管认定为变相强制同意", "idOS"], ["同意记录存证", "同意书需可仲裁级存证，无存证的同意在争议时等于没同意", "KILT Protocol"]]], ["授权流工程", [["OIDC 生态桥接", "与 OIDC 融合可复用企业授权基建，自建孤岛会拉高接入成本", "Microsoft Entra Verified ID"], ["授权请求幂等", "授权请求重放会重复扣减额度或重复出证，需幂等键设计", "Auth0(幂等范式)"], ["撤销广播效率", "撤销广播延迟窗口内验证方继续放行是典型事故，需订阅推送而非被动轮询", "cheqd"], ["授权计量与对账", "授权次数计费需对账能力，缺对账的授权流无法商业化", "idOS"]]]]],
+ ["d8", "声明式披露策略", "Declarative Disclosure Policy", "成长", "让业务方用策略语言声明披露粒度而非为每个场景手写电路，是粒度控制的控制面。", [["策略语言", [["DSL 表达力（谓词/组合/阈值）", "策略语言表达力不足会让业务方绕过引擎硬编码，逐步瓦解统一披露架构", "Sismo Connect(配置式策略)"], ["策略即代码与版本化", "策略变更不留版本会让争议时无法举证当时的披露口径", "OPA(策略引擎范式)"], ["策略仿真与 dry-run", "上线前无法仿真会生产事故，策略必须有 dry-run 环境与影响面报告", "OPA"], ["策略冲突检测", "多策略叠加互相矛盾时需显式裁决，静默取其一是最危险的默认行为", "OPA"]]], ["粒度控制", [["字段级披露开关", "字段级开关是产品核心卖点，缺失则产品退化为全量披露的换皮", "Dock"], ["模糊化披露（区间/分桶）", "收入披露为区间而非精确值可显著降低泄露面，缺分桶能力会逼走敏感场景", "SD-JWT(选择性披露)"], ["场景化策略模板", "金融/社交/合规场景模板可大幅缩短接入，全部从零配置的转化率极低", "Sumsub"], ["默认最小化原则", "默认全量、可选最小化的设计方向必然违规，默认状态必须是最小披露", "GDPR Art.5"]]], ["策略治理", [["策略变更审批流", "披露策略变更需审批留痕，随手上线的策略是审计灾难", "Sumsub"], ["监管规则联动", "监管更新（如旅行规则阈值调整）需映射进策略库，手工跟进必然遗漏", "Notabene"], ["策略效果度量", "每条策略的通过率与披露量需可度量，否则无法向监管证明最小化", "Sumsub(合规报表范式)"], ["多租户策略隔离", "租户间策略串号会泄露 A 客户策略给 B，隔离是 SaaS 生死线", "Dock"]]]]],
+ ["d9", "撤销与凭证状态", "Revocation & Status", "成长", "凭证被吊销或过期后旧证明立即失效，是披露可信度的时间维度。", [["撤销机制", [["Bitstring Status List", "W3C 状态列表已成主流，自造撤销机制会被生态孤立", "W3C Status List"], ["累加器撤销", "非成员证明依赖密码学累加器，Merkle 撤销无法服务制裁筛查的否定场景", "Polygon ID"], ["撤销粒度（单凭证/批次/发行方）", "只有全量吊销能力的系统，一次密钥泄露即生态停摆", "cheqd"], ["撤销不可抵赖", "撤销记录需签名存证，争议时无法证明何时吊销会输掉仲裁", "cheqd"]]], ["时效性", [["状态检查延迟窗口", "状态检查间隔即风险窗口，长窗口内被吊销凭证继续通行会构成制裁违规", "W3C Status List"], ["过期与续期策略", "凭证过期策略需与业务周期对齐，年检类凭证忘续期会造成批量失效事故", "Quadrata"], ["离线状态缓存", "离线验证依赖缓存状态，缓存时长需与请求风险等级匹配", "Dock"], ["可信时间锚定", "验证方时钟被操纵可让过期凭证复活，需锚定可信时间源", "OpenTimestamps"]]], ["撤销生态", [["撤销事件公开可观测", "撤销不公开会让验证方各自为政，需公开事件流与订阅", "cheqd"], ["批量撤销与应急演练", "大规模泄露需分钟级批量吊销，无演练的应急流程等于没有", "Sumsub"], ["撤销与用户通知联动", "吊销不同步通知用户会让用户带着失效凭证到处碰壁并投诉", "walt.id"], ["历史状态可回溯", "审计需要当时状态是否有效的回溯查询，仅查现值的系统无法服务审计", "idOS"]]]]],
+ ["d10", "链上验证器", "On-chain Verifier", "成长", "Solidity 验证合约与 Gas 优化，决定披露结论能否被 DeFi 合约直接消费。", [["合约设计", [["验证 Gas 优化（约 10 万目标）", "Groth16 验证 Gas 超出预算量级则高频合约场景直接不可行，需优化与聚合", "SnarkJS(Groth16 Verifier)"], ["vkey 上链与升级治理", "验证合约可升级性是双刃剑，无时间锁的升级可被用于塞入恶意验证密钥", "OpenZeppelin(治理范式)"], ["公开与隐私信号分离", "把隐私输入写进 calldata 等于裸奔，合约接口必须显式区分公开与私有信号", "Polygon ID"], ["重放与跨链重放防护", "同一证明跨链重放可双重领取资格，需绑定链 ID 与目标合约", "LayerZero(消息范式)"]]], ["消费集成", [["标准消费接口", "证明结果无标准接口则每个协议各自解析，碎片化严重阻碍采用", "Privado ID(链上门禁范式)"], ["即时验证与门槛标记权衡", "把验证结果铸成 SBT 门槛标记会引入关联面，需权衡即时验证与缓存标记", "Sismo"], ["失败语义与降级路径", "验证失败的合约回滚路径不清会锁死用户资产，必须显式定义失败分支", "Aave Arc(机构准入实践)"], ["验证事件与索引", "验证事件不 emit 会让下游风控无法观测披露流量", "The Graph"]]], ["多链部署", [["多链行为一致性", "各链预编译差异造成验证合约行为不一致，需统一编译与测试流水线", "Polyhedra"], ["L1/L2 成本策略", "L1 验证贵则向 L2 聚合，成本路径决定目标客群与场景", "Privado ID on Polygon"], ["证明跨链传递", "证明跨链传递需消息层配合，自建桥的安全成本远超复用成熟消息层", "Wormhole"], ["合约审计与暂停开关", "验证合约漏洞可让伪造资格上链流通，需外部审计加紧急暂停开关", "OpenZeppelin"]]]]],
+ ["d11", "披露审计与最小必要校验", "Disclosure Audit & Minimization", "成长", "记录谁在何时要了什么、给了什么谓词，把最小必要原则从口号变成可核查的日志。", [["审计日志", [["披露事件全量记录", "谁/何时/要了什么/给了什么谓词的日志是最小必要原则唯一的证据形态，缺日志无法自证清白", "Sumsub"], ["日志不可篡改锚定", "日志可被事后篡改则审计失效，需哈希锚定链上或 WORM 存储", "OpenTimestamps"], ["日志自身的访问控制", "日志含全部披露谓词，无访问控制时审计层会变成最大泄露层", "Sumsub"], ["留存与删除权冲突处理", "GDPR 删除权与审计留存要求冲突，需可分离的匿名化审计层", "OneTrust(合规范式)"]]], ["最小必要校验", [["请求最小化静态检查", "请求字段超出声明用途即告警，不校验的协议会纵容过度索权", "idOS"], ["披露比例常态化度量", "实际披露字段与所需字段的比例必须常态化度量，没有度量就没有最小化", "Sumsub(报表范式)"], ["异常索权检测", "同一验证方索权范围突变是数据收割信号，需建立基线与告警", "TRM Labs(异常检测范式)"], ["过度索权的经济约束", "对过度索权方计费惩罚才能改变行为，纯劝导在商业压力下无效", "idOS"]]], ["监管报告", [["检查一键出证", "监管检查来临时无法快速导出披露全记录会被认定管理失当", "Sumsub"], ["DPIA 数据支撑", "数据保护影响评估需要披露流数据支撑，无数据的 DPIA 是纸面文章", "OneTrust"], ["跨司法区日志分片", "数据本地化要求与全局审计冲突，需分片存储加摘要汇聚架构", "AWS Local Zones(区域化部署范式)"], ["审计系统二次审计", "审计系统管理员权限本身需被审计，二次审计缺失是常见翻车点", "Datadog(审计日志范式)"]]]]],
+ ["d12", "反女巫与唯一性证明", "Sybil Resistance & Uniqueness", "成长", "证明是一个人一份资格而不暴露是谁，防止披露资格被女巫批量套利。", [["唯一性技术", [["生物特征唯一性", "虹膜类方案唯一性最强但隐私争议最大，必须本地化处理生物模板", "Worldcoin"], ["政府 ID 去重", "Aadhaar 类去重覆盖面广但仅限单一国家人口，跨国场景必须组合信号", "Anon Aadhaar"], ["社交图谱辅助信号", "社交图谱可作辅助信号但单一信号都可被农场批量伪造", "BrightID"], ["多信号融合评分", "唯一性必须多信号融合评分，单点方案与女巫农场的军备竞赛必输", "Gitcoin Passport"]]], ["披露场景女巫防护", [["资格凭证转卖检测", "空投资格凭证一被转卖披露体系立刻沦为交易标的，需绑定活体与设备", "Galxe(女巫防御实践)"], ["证明租借防护", "市场会出现租用他人身份出证明的服务，需频率与设备指纹双重约束", "Worldcoin"], ["深伪对抗签发端", "女巫攻击已进化到深伪过 KYC，签发端活体检测必须持续升级", "Sumsub(深伪检测)"], ["误伤治理与申诉", "误伤真实用户比放过女巫更伤产品，申诉与恢复通道必须内建", "Gitcoin Passport"]]], ["激励相容", [["长周期激励设计", "一次性空投激励下女巫投入产出比最高，唯一性机制需长周期设计", "Gitcoin Passport"], ["唯一性等级披露", "向应用方暴露唯一性等级而非二值判断，可支撑分层定价与误伤缓冲", "Quadrata"], ["跨应用画像的最小共享", "跨应用共享女巫画像有隐私法律风险，需在最小披露框架内交换", "Gitcoin Passport(Stamp 聚合)"], ["唯一性证明频率预算", "每次交互都做活体证明体验成本过高，需按风险分级频率", "Worldcoin"]]]]],
+ ["d13", "发行方信任治理", "Issuer Trust Governance", "成熟", "信任注册表与发行方分级问责，回答验证方凭什么信这个凭证源。", [["信任注册表", [["链上信任注册表", "发行方 DID 与信任列表需链上可验证，链下名单可被悄悄篡改而无从对质", "cheqd"], ["发行方分级", "不分级会让社区签发凭证与政府 ID 同权，验证方无法定价信任", "Quadrata"], ["信任根轮换与除名", "发行方作恶必须可除名且存量凭证处理规则明确，无除名机制会积累毒凭证", "cheqd"], ["跨生态信任映射", "各身份体系信任列表互不认，缺映射层则生态永远孤岛", "Trust over IP"]]], ["发行方问责", [["签发错误率公示", "发行方错误率不公示验证方只能盲目信任，事故后无据可查", "Quadrata"], ["假凭证批次应急下架", "发现假凭证批次必须可批量下架，无应急机制会让伪造蔓延", "Sumsub"], ["发行方经济保证金", "无经济押金的发行方作恶成本为零，押金让问责可执行", "cheqd(代币经济)"], ["发行方审计公开", "定期审计公开是信任定价基础，黑箱发行方终被弃用", "Quadrata"]]], ["互认与监管对齐", [["法定信任列表对齐", "欧盟 EUDI Wallet 信任列表是法定信任源，民间注册表必须与之对齐", "EUDI Wallet(eIDAS 2.0)"], ["行业信任联盟", "加入行业联盟信任列表可获跨机构互认，单打独斗无信任背书", "Trust over IP"], ["信任评分可解释性", "评分黑箱会被质疑歧视，需可解释维度与申诉机制", "Gitcoin Passport"], ["发行方可替换性", "单一发行方垄断会形成身份锁定，注册表必须保证可替换性", "EUDI Wallet(多发行方市场)"]]]]],
+ ["d14", "监管适配引擎", "Regulatory Adapter", "成熟", "在 GDPR 数据最小化与 MiCA/旅行规则身份要求之间做双向转译的规则层。", [["法规规则库", [["法规机器可读化", "GDPR/MiCA/FATF 条款不结构化就无法自动映射到披露策略，人工解读必然滞后且遗漏", "Notabene(旅行规则规则库)"], ["司法区差异矩阵", "同一披露请求在不同司法区合规口径不同，无差异矩阵会按最严或最松一刀切", "Notabene"], ["规则版本与生效时间", "新规生效日切换不精确会双向违规，规则必须按时间戳精确生效", "Sumsub(法规更新服务)"], ["最小化与身份义务冲突裁决", "GDPR 最小化与旅行规则全量身份要求直接冲突，必须显式裁决逻辑而非沉默取舍", "Notabene"]]], ["场景适配", [["VASP 间披露口径", "旅行规则要求 VASP 间交换发起方受益方信息，引擎需输出监管可接受的最小集", "Notabene(IVMS101)"], ["DeFi 灰色地带留白", "DeFi 无 VASP 主体时监管口径未定，产品需可配置留白而非硬编码结论", "TRM Labs(DeFi 合规)"], ["制裁名单版本管理", "OFAC/UN/EU 名单更新频率不同，名单版本必须进入披露上下文", "Chainalysis"], ["牌照状态联动", "牌照被吊销后披露授权需自动冻结，联动缺失会继续违规出证", "Notabene"]]], ["证据与沙盒", [["合规证据包输出", "向监管证明只披露了必要的，需要结构化证据包而非截图拼凑", "Sumsub"], ["监管沙盒对接", "英国 FCA 与欧盟沙盒经验可大幅缩短合规路径，闭门造车周期极长", "FCA Regulatory Sandbox"], ["监管沟通本地化", "监管问询需当地语言与当地口径，纯英文材料会拉长响应周期", "PwC(监管咨询)"], ["规则引擎可审计性", "监管适配规则本身需可审计，黑箱规则在听证时无法自证", "Sumsub"]]]]],
+ ["d15", "机构披露网关", "Institutional Disclosure Gateway", "成熟", "受监管机构对外披露合规证据（储备证明、对手方尽调）的选择性出口。", [["机构证明场景", [["储备证明谓词化", "交易所证明储备大于负债而不逐户披露用户资产，粒度设计错误会引发挤兑或泄露", "Coinbase(PoR 实践)"], ["稳定币储备构成证明", "发行方证明储备构成与托管位置，粗粒度证明已被市场质疑多年", "USDC(月度 attestation)"], ["对手方合规证明", "机构间证明对手方已完成 KYC 且不在制裁名单，替代裸传客户资料", "Notabene"], ["投资者资格证明", "证明合格投资者身份参与衍生品而不披露资产明细", "Aave Arc(机构池准入)"]]], ["机构流程", [["法务审批内嵌", "机构对外披露需法务审批，无内嵌审批的技术方案在机构内推不动", "Fireblocks(工作流范式)"], ["旅行规则消息标准互通", "IVMS101 字段映射是机构互通前提，自造字段互不相认", "Notabene(IVMS101)"], ["多机构证明聚合", "一笔机构交易需聚合 KYC 加制裁加旅行规则多证明，分散出证机构接不动", "Sumsub"], ["证明预生成与交易窗口", "机构交易窗口分钟级，证明生成超时即交易失败，需预生成缓存", "Fireblocks"]]], ["机构审计留痕", [["报送级留存", "机构披露需满足长期留存要求，SaaS 数据抖动会丢历史而无法应对检查", "Sumsub"], ["四眼原则复核", "大额披露双人复核是金融内控基线，单人通道即内控缺陷", "Fireblocks"], ["披露口径对账", "对内对外披露口径需定期对账，口径漂移是审计意见常见来源", "BDO/KPMG(PoR 审计范式)"], ["机构级可用性", "披露网关宕机等于机构业务停摆，需高可用与降级预案", "Fireblocks"]]]]],
+ ["d16", "隐私钱包与披露体验", "Privacy Wallet & UX", "成熟", "把正在被要求披露什么、将暴露什么翻译成用户看得懂的界面。", [["请求呈现", [["披露差异高亮", "用户最关心不暴露什么，界面不突出给与不给差异的同意率与合规性双输", "Sismo Connect"], ["生成进度与预期管理", "证明生成数秒无反馈会被判定卡死，需进度展示与预期管理", "World App"], ["部分披露选项", "只能全给或全拒的钱包把用户推向放弃，必须支持部分披露", "MetaMask Snaps"], ["风险提示（披露给谁留多久）", "不提示留存期限的披露在事后纠纷中无法自辩", "idOS"]]], ["信任与账本", [["请求方身份验证展示", "钱包需向用户证明请求方真实身份，钓鱼请求不拦截会摧毁信任", "MetaMask Snaps(域名校验)"], ["历史披露账本", "用户可回看何时向谁披露过什么，无账本的产品无法响应用户权利行使请求", "idOS"], ["恶意请求社区标记", "社区驱动的恶意请求名单是快速防线，纯平台审核响应太慢", "MetaMask Snaps(权限审批)"], ["跨设备体验一致", "移动与桌面行为不一致会造成用户误操作，需统一设计系统", "Rainbow"]]], ["转化与留存", [["首次披露引导", "首次体验决定采用率，冷启动引导差的应用披露完成率显著偏低", "World App"], ["凭证自检", "用户可预检自己有哪些可披露凭证，缺自检用户不知道自己能干什么", "walt.id"], ["失败恢复路径", "生成失败无恢复路径直接流失，需重试与换通道双保险", "Sismo"], ["多钱包适配", "只支持头部钱包会丢长尾用户，需 SDK 层适配多钱包协议", "WalletConnect"]]]]],
+ ["d17", "跨生态互操作", "Cross-ecosystem Interoperability", "成熟", "Polygon ID、zkPass、W3C VC、ISO mDL 体系之间的凭证互认与协议桥接。", [["标准桥接", [["W3C VC 与 AnonCreds 互通", "两大凭证体系字段与签名不兼容，不做桥接则凭证永远孤岛", "Hyperledger AnonCreds"], ["SD-JWT 与 mDL 对齐", "ISO 移动驾照是政府侧主格式，错过即错过政府通道", "ISO 18013-5 mDL"], ["DID 方法互联", "did 方法解析互认缺失则凭证无法漫游，方法孤岛割裂生态", "DIF Universal Resolver"], ["请求协议统一层", "各家请求格式不一会让应用方被迫多套集成，统一层是采用率关键", "DIF Presentation Exchange"]]], ["跨链与跨生态", [["凭证跨链漫游", "一条链上的资格证明要在其他链使用，需轻量锚定而非全量迁移", "Privado ID"], ["EVM 与非 EVM 互认", "Solana 与 Move 生态验证器缺失会切割市场", "Wormhole(跨链消息)"], ["Web2 钱包桥接", "与 Apple/Google 钱包凭证互通决定大众市场，闭门造车丢主流通道", "Google Wallet(mDL 支持)"], ["凭证可携带迁移", "用户换钱包凭证可带走是数据主权底线，锁定式设计违反可携带权", "idOS"]]], ["生态治理", [["标准组织参与度", "不参与 W3C/DIF 标准制定的方案会被标准演进淘汰", "W3C VC 工作组"], ["一致性测试认证", "通过互操作一致性测试套件是互认门票", "DIF(测试套件)"], ["开源治理与许可证", "闭源核心会被生态猜忌，许可证选择即生态战略", "walt.id(Apache 2.0)"], ["版本兼容承诺", "协议大版本无兼容承诺会让集成方观望，需明确兼容窗口", "WalletConnect(v2 迁移实践)"]]]]],
+ ["d18", "身份数据网络接入", "Identity Data Network", "成熟", "对接 idOS 等可携带身份数据层，实现授权、撤回与数据迁移的用户主权。", [["数据层对接", [["身份数据网络节点接入", "可携带身份数据网络让凭证跟随用户而非平台，接入晚一步生态位被占", "idOS"], ["托管模式混合设计", "纯自托管流失率高纯平台托管违反主权叙事，需混合托管与恢复设计", "idOS"], ["跨网络迁移通道", "网络间迁移通道缺失会形成新的身份垄断", "idOS、cheqd"], ["入网数据最小化", "入网数据本身需最小化，把全量数据灌进网络等于自建泄露源", "GDPR Art.5"]]], ["授权经济", [["数据授权分成模型", "用户授权使用数据获得分成是网络冷启动激励，无激励的网络冷启动极慢", "idOS"], ["撤回的网络级一致性", "撤回需在全网节点生效，局部生效即是事故", "idOS"], ["数据新鲜度治理", "陈旧凭证在网络内流转会放大错误决策，需新鲜度元数据与失效策略", "Chainlink(数据新鲜度范式)"], ["网络级访问审计", "多方访问的审计责任划分需在协议层定义，否则出事互相推责", "idOS"]]], ["网络生态位", [["与 KYC 厂商竞合定位", "数据网络与 KYC 厂商既是渠道又是竞争，定位不清会两头失去", "Sumsub 与 idOS 合作实践"], ["开放接入与独占权衡", "开放接入换规模独占换收入，定位摇摆会失去开发者信任", "idOS(开放节点)"], ["责任链条划分", "出事时网络与应用间责任不清会被监管各打五十大板", "Notabene(责任划分框架)"], ["网络效应度量", "连接的凭证源与应用数是核心资产，无量度的网络无法构建融资与运营叙事", "idOS"]]]]]
+];
+const FRONTIER = [
+ ["谓词 KYC 徽章", "live", "zkPass、Polygon ID 已在 KYC 门禁场景商用，证明成年或非制裁国而不给证件", "嵌入交易所与 DeFi 准入，替代重复 KYC 的按次计费"],
+ ["社区与白名单成员证明", "live", "Sismo 已服务大量社区门禁与空投资格场景", "场景化门禁 SaaS，按成员证明收费"],
+ ["链上治理资格证明", "live", "DAO 隐私投票与一人一票已有落地案例", "治理组件按 DAO 订阅收费"],
+ ["KYC 供应商披露模块", "live", "Sumsub、Fractal ID 已随 KYC 套餐输出披露能力", "对既有 KYC 客户二次变现，边际成本低"],
+ ["旅行规则选择性披露", "live", "Notabene 已商用 IVMS101 选择性交换", "VASP 合规预算切分，客单价高"],
+ ["TLS 数据源证明", "pilot", "zkPass、Reclaim 主网上线但场景仍在开拓", "把任意网页数据变成可披露声明的连接器市场"],
+ ["资产门槛范围证明", "pilot", "净资产与收入证明有落地案例未规模化", "私人银行与合格投资者通道的谓词化"],
+ ["可撤销凭证与状态服务", "pilot", "W3C Status List 标准成形，跨体系托管服务未出现", "撤销即服务的独立赛道"],
+ ["机构披露网关", "pilot", "Notabene、Fireblocks 场景明确但渗透率仍低", "高客单价合规 SaaS，内嵌法务审批流"],
+ ["反女巫唯一性披露", "pilot", "World ID、Gitcoin Passport 有规模但隐私争议未解", "分层唯一性即服务"],
+ ["监管适配引擎", "pilot", "规则库产品在合规厂商内部成形，独立化尚未发生", "法规机器可读化的独立产品"],
+ ["EUDI Wallet 生态接入", "pilot", "eIDAS 2.0 法定凭证生态 2026 落地中", "欧洲法定身份到 Web3 验证方的谓词桥"],
+ ["储备证明谓词化", "pilot", "PoR 有实践但实时谓词化证明未普及", "交易所与稳定币发行方的合规刚需"],
+ ["证明聚合与验证外包", "pilot", "zkVerify、Succinct 商用早期", "按证明量计费的验证基建"],
+ ["FHE 与披露引擎融合", "explore", "FHE 让密文上直接计算，与 ZK 披露互补但性能差数量级", "密文域直接出证明的混合架构"],
+ ["AI Agent 披露授权", "explore", "代理身份与授权链标准未定", "机器轨道的权限最小化组件"],
+ ["跨链身份互操作标准", "explore", "DIF 与 W3C 推进中尚无落地霸主", "身份漫游协议层的标准卡位"],
+ ["后量子披露证明", "explore", "PQ 签名进入 NIST 标准但 ZK 电路成本高", "可升级验证器与后量子迁移服务"],
+ ["零知识 KYC 监管采信", "explore", "监管对 ZK 证明的采信框架未建立", "与监管共建证明采信标准的先发者红利"],
+ ["移动驾照谓词化出口", "explore", "ISO 18013-5 各国部署早期", "政府身份的选择性披露出口"],
+ ["MPC 生物特征唯一性", "explore", "生物模板分片可解隐私与唯一性矛盾", "隐私安全的人性证明组件"],
+ ["披露数据市场化", "explore", "用户授权数据分成的市场机制未经验证", "身份数据网络的商业模式终局"]
+];
+const MIDS = [
+ ["证明生成中心", "为终端用户在本地或边缘生成 ZK 证明", "WASM 优化、设备分档、证明缓存"],
+ ["电路与策略编译中心", "把披露策略编译为可审计电路", "DSL 编译、电路 CI、形式化验证"],
+ ["凭证签发中心", "对接发行方并批量签发标准化凭证", "发行方连接器、签发限速、责任链审计"],
+ ["证明请求中心", "承接应用方请求并路由到钱包", "请求解析、挑战防重放、多凭证编排"],
+ ["同意中心", "管理用户授权生命周期与撤回", "细粒度授权、撤回广播、同意存证"],
+ ["撤销中心", "维护凭证状态与撤销分发", "Status List、累加器、批量吊销演练"],
+ ["链上验证中心", "部署与运维多链验证合约", "Gas 优化、vkey 治理、多链一致性"],
+ ["信任注册中心", "维护发行方信任列表与分级", "链上注册表、除名机制、信任映射"],
+ ["审计中心", "记录披露全流并出具监管证据", "不可篡改日志、最小化度量、一键出证"],
+ ["合规规则中心", "维护法规机器可读规则库", "司法区矩阵、冲突裁决、规则版本管理"],
+ ["数据源连接中心", "把 TLS 与 API 数据源凭证化", "3P-TLS、连接器健康度、时效绑定"],
+ ["反女巫中心", "保障披露资格的唯一性", "多信号融合、租借检测、申诉治理"],
+ ["钱包体验中心", "负责披露请求的用户呈现与转化", "差异高亮、进度管理、披露账本"],
+ ["密钥与密码服务中心", "管理签名密钥、可信设置与轮换", "HSM、ceremony 组织、轮换与吊销"],
+ ["机构网关中心", "服务受监管机构的披露出口", "储备证明、IVMS101、四眼复核"],
+ ["互操作中心", "对接跨标准跨链跨钱包生态", "标准桥接、一致性测试、迁移通道"],
+ ["数据网络中心", "运营身份数据网络接入与授权经济", "节点接入、分成结算、网络级审计"],
+ ["开发者生态中心", "服务集成方与电路开发者", "SDK、仿真沙盒、计费对账"]
+];
+const RULES = [
+ ["披露默认必须是最小，只能显式扩大", "默认全量的产品一旦被曝光一次过度披露，监管处罚与用户流失同时发生，GDPR 数据最小化是硬性条款，典型场景是应用方贪图方便直接索取整本凭证"],
+ ["证明失败不得静默降级为明文披露", "有平台把验证失败降级为要求用户上传证件，等于在故障窗口把隐私承诺清零，事后集体投诉与监管问询都以此为核心证据"],
+ ["撤销生效窗口必须小于业务风险容忍度", "被吊销的 KYC 凭证在撤销广播延迟内继续通过合约门禁，直接构成为受制裁主体提供服务，OFAC 处罚按笔计算"],
+ ["电路变更必须走审计与版本化", "未经审计的电路迭代引入位宽溢出漏洞后，伪造证明可批量通过且链上无感知，出事后所有历史证明都不可信"],
+ ["同意必须可举证", "争议发生时拿不出用户何时同意披露什么的存证，GDPR 举证责任在数据控制方，败诉即罚，典型场景是同意记录只存在应用方自己的数据库"],
+ ["不可链接性必须在请求层保证", "同一证明跨场景复用形成行为画像，一旦被链上分析厂商实证关联，零知识卖点即被证伪，客户与生态同时流失"],
+ ["发行方作恶必须有除名与存量处理机制", "信任注册表无法除名作恶发行方时毒凭证会污染整个生态，验证方只能整体弃用该注册表，网络效应瞬间归零"],
+ ["最小必要校验必须对请求方强制", "不校验请求最小化的协议会演化为数据收割机，头部应用索权范围不受约束，监管追责时平台承担连带责任"],
+ ["委托证明生成必须预算隐私边界", "把 witness 委托给中心化 prover 等于把证明材料交给第三方，一旦泄露可回推出用户敏感值，隐私承诺整体破产"],
+ ["监管要求冲突必须显式裁决", "GDPR 最小化与旅行规则全量身份冲突时不做显式裁决，同一套披露策略全球化复用会在不同司法区同时违规"],
+ ["凭证必须绑定持有人", "不绑定活体或设备的资格凭证必然出现转卖市场，空投资格被女巫批量套利后生态激励彻底失效且无法追责"],
+ ["vkey 与验证合约升级必须有时间锁", "无时间锁的升级通道被入侵后可直接替换验证密钥放行伪造证明，历史上多起跨链桥攻击源于类似的紧急升级通道滥用"],
+ ["审计日志本身需要访问控制与锚定", "审计日志含全部披露谓词，无访问控制时审计系统成为最大泄露源，可被篡改的日志在监管检查时反而成为伪证"],
+ ["数据源证明必须绑定时效", "基于过期网页快照出具余额达标证明参与借贷，行情波动后即坏账，快照重放争议已在数据源证明场景多次出现"],
+ ["跨司法区数据本地化必须前置设计", "先全球集中存储再适配本地化的重构成本远超新建，欧盟用户数据被自动同步到境外节点即触发跨境传输违规"],
+ ["披露粒度承诺必须写进 SLA", "向应用方承诺只披露布尔值却在错误路径回退披露原文，一次事故即摧毁全部协议信誉并被合同与监管双重追责"]
+];
+const KPIS = [
+ ["规模指标", "月度证明生成与验证次数、活跃披露钱包数、接入应用方与发行方数量"],
+ ["质量指标", "证明生成成功率、验证通过率、误拒率（真实用户被拒比例）"],
+ ["性能指标", "移动端证明生成 P95 时延、链上验证 Gas、端到端披露完成时长"],
+ ["隐私指标", "谓词披露占比、实际披露与最小必要字段比、跨场景链接率、撤销生效延迟"],
+ ["信任指标", "发行方错误率、毒凭证拦截率、信任注册表覆盖率与除名响应时长"],
+ ["合规指标", "最小必要校验告警数、DPIA 覆盖率、监管检查出证响应时长"],
+ ["商业指标", "按请求计费收入、发行方与验证方双边渗透率、客户续约率"],
+ ["成本指标", "单次证明综合成本、电路迭代周期、连接器维护成本占比"]
+];
+const LIC_CN = [
+ ["个人信息保护法（PIPL）最小必要与单独同意", "可为境内个人信息处理提供数据最小化与授权撤回能力", "加密资产相关披露业务不可开展，披露引擎仅可面向非加密数据合规场景"],
+ ["区块链信息服务备案（网信办）", "可开展链上存证、披露日志锚定等已备案业务", "不得为境内加密资产交易提供身份披露通道"],
+ ["数据安全法与重要数据识别", "可开展数据分类分级与出境合规评估服务", "身份数据出境需通过安全评估，不得默认全球同步"],
+ ["密码法与商用密码管理", "可开展国密算法改造与合规密码服务", "ZK 电路涉及境外算法时需评估商用密码合规边界"],
+ ["网络安全等级保护 2.0", "可开展等保定级与测评合规的身份系统建设", "三级以上系统需境内部署并通过测评"],
+ ["eID/CTID 法定数字身份（公安部）", "可对接法定数字身份开展可信凭证签发合作", "法定身份凭证不得用于加密资产场景"],
+ ["PIPL 跨境传输三条路径", "可提供标准合同/认证/安全评估的披露出境合规设计", "默认跨境同步披露日志即构成违规"],
+ ["可信数据空间与数据要素政策", "可参与数据授权运营试点（京沪数据交易所范式）", "个人数据授权分成需符合数据三权分置框架"],
+ ["金融数据安全分级（JR/T 0197）", "可为持牌金融机构设计分级披露方案", "金融身份数据不得提供给境外无资质主体"],
+ ["互联网信息服务算法推荐管理规定", "不直接适用，但 AI 辅助披露策略需备案评估", "自动化披露决策必须提供人工复核通道"],
+ ["反洗钱法（2025 修订）客户尽职调查", "可提供金融机构 CDD 数据最小化技术方案", "不得以隐私技术规避 CDD 义务"],
+ ["信通院隐私计算评测", "可参加隐私计算产品测评获取政企采购资质", "联邦学习与 MPC 模块需通过功能与性能评测"],
+ ["网络数据安全管理条例（2025 施行）", "可开展敏感个人信息处理合规设计", "生物特征用于唯一性证明属敏感信息，需单独同意"],
+ ["香港 SFC VATP 牌照联动", "可经香港主体服务持牌 VATP 的披露合规需求", "大陆主体不得直接服务加密资产披露业务"],
+ ["地方金融科技监管沙盒", "可申请京深等地沙盒验证披露引擎合规形态", "沙盒内业务范围与用户规模受限"]
+];
+const LIC_INTL = [
+ ["欧盟 MiCA（2025 全面生效）", "可服务 CASP 的客户尽调与披露合规", "旅行规则全量身份识别与选择性披露需显式裁决逻辑"],
+ ["欧盟 GDPR 与 eIDAS 2.0 EUDI Wallet", "可开展数据最小化合规与 EUDI 生态凭证接入", "最小化是法定义务，EUDI 凭证接入需通过认证"],
+ ["FATF 建议 16 旅行规则", "可提供 VASP 间 IVMS101 选择性交换网关", "发起方与受益方信息交换是强制义务，不可用隐私技术豁免"],
+ ["美国 FinCEN MSB 与 BSA 阈值", "可服务 MSB 合规披露（3000 美元阈值场景）", "州级 MTL 叠加使牌照成本高企"],
+ ["新加坡 MAS 支付服务法与 DTSP", "可服务持牌 MPI 的披露与尽调科技", "跨境技术服务需 DTSP 资质评估"],
+ ["香港 SFC VATP 双牌照", "可服务持牌虚拟资产平台的合规披露模块", "穿透式监管要求与最小披露需平衡设计"],
+ ["阿联酋 VARA", "可服务迪拜 VASP 牌照持有者的披露科技", "本地化部署与数据留存有明确要求"],
+ ["欧盟 DORA 运营韧性", "披露基础设施作为 ICT 第三方需符合 DORA", "需退出预案、审计权与韧性证明"],
+ ["OFAC 制裁合规", "可开展制裁名单非成员证明与筛查集成", "为受制裁主体出证明即构成违规，名单版本需实时同步"]
+];
+const OPPS = [
+ ["谓词化 KYC 复用凭证", "用户每换平台重复 KYC，凭证不可携带且互不相认", "从交易所生态切入，先做成年与非制裁国两类高频谓词"],
+ ["旅行规则最小披露网关", "现有旅行规则产品只做全量交换，最小化裁决缺失", "面向中小 VASP 输出监管可接受最小集的交换网关"],
+ ["储备证明谓词化", "现有 PoR 粗粒度且审计滞后", "为稳定币发行方提供储备大于负债的实时可验证证明"],
+ ["机构披露网关", "机构基础设施产品无原生披露流与审批内嵌", "内嵌法务审批与四眼复核，按披露事件计费"],
+ ["撤销即服务", "各凭证体系自建撤销，无统一跨体系状态服务", "做状态列表托管与订阅分发的独立基础设施"],
+ ["法规机器可读化", "合规团队手工解读法规，滞后且不可审计", "从旅行规则与 GDPR 最小化两个高冲突规则切入"],
+ ["移动端证明性能分层", "低端设备证明生成超时造成流失", "提供设备分档加委托生成加缓存的三档方案"],
+ ["披露审计出证", "监管检查时机构拿不出披露全记录", "做不可篡改披露日志加一键出证 SaaS"],
+ ["EUDI Wallet 商业通道", "eIDAS 2.0 创造法定凭证市场但生态工具稀缺", "做 EUDI 凭证到 Web3 验证方的谓词桥"],
+ ["反女巫唯一性分级", "二值唯一性误伤率高且无法定价", "输出可解释的唯一性等级供应用方分层定价"],
+ ["TLS 数据源连接器市场", "现有连接器长尾数据源覆盖不足", "做连接器开发者市场，按调用量分成"],
+ ["AI Agent 权限最小化", "Agent 代理用户行动的披露授权标准空白", "做机器轨道的授权链与最小披露组件，绑定 Agent 身份标准早期生态"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：选择性披露引擎 / zkKYC 谓词证明 / 可验证凭证 / 同意管理与授权撤回 / 旅行规则最小披露`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

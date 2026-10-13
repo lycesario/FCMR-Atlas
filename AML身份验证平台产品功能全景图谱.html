@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AML身份验证平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>AML身份验证平台全景</b>
+    <span>AML身份验证平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>AML身份验证平台产品功能全景图谱</h1>
+    <p>AML技术栈之身份验证（IDV）平台是CDD/KYC的技术实现层，覆盖证件OCR、活体检测、生物识别与制裁筛查。全球链上洗钱年规模达 18 亿美元，合成身份包暗网仅售 54 美元，平台须把单次核验压到 231 毫秒级并贯穿持续尽调。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是「在匿名链上世界里给每个账户锚定一个可信真人」。它不是单一功能，而是从证件采集、生物核验到名单筛查、持续尽调的纵深防御链。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层 身份采集与生物特征（d1-d4）</td><td>证件识别OCR、证件真伪核验、活体检测、生物识别</td><td>把物理人与生物特征转化为可信结构，是所有后续判定的数据地基</td></tr>
+<tr><td>第2层 对抗与名单筛查（d5-d9）</td><td>多模态融合、Deepfake对抗、摄像头注入防护、制裁PEP筛查、SDN同步</td><td>在采集层之上叠加对抗攻击与受制裁者命中的实时防线</td></tr>
+<tr><td>第3层 身份图谱与持续尽调（d10-d13）</td><td>合成身份识别、跨源交叉验证、持续尽调、重复验证复用</td><td>用跨源图谱识破虚构人格，并给身份绑定时效性而非一次性结论</td></tr>
+<tr><td>第4层 决策治理与留存（d14-d18）</td><td>风险评分、工作流、合规留存、隐私增强、设备指纹</td><td>把信号汇成可解释决策，沉淀不可篡改留存并兼顾隐私与设备风险</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br>1. <b>名单必须实时可达</b>——OFAC更新后清单过期等于无筛查；<br>2. <b>活体结论必须可信</b>——采集链路不被注入替换；<br>3. <b>身份必须有时效</b>——KYC不是一次性盖章，须事件触发复检。</div>
+    <div class="danger">一条死亡陷阱：<b>把「核验通过率」当成成功信号</b>。高通过率往往意味着活体或名单防线被绕过，真实危险藏在被放行的攻击样本里。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">前沿方向落地优先级的标准：先看「攻击是否已在生产环境规模化」（Deepfake注入、合成身份），再看「监管是否被罚案例倒逼」（持续尽调、实时复检），最后才是纯技术炫技（联邦反欺诈、Agent身份SBT）。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>证件（Document）</td><td>由权威机关签发的物理或电子身份载体</td><td>OCR不验真会让假证通过，核验根基崩塌</td></tr>
+<tr><td>活体（Liveness）</td><td>证明镜头前是真实在场的人而非重放或合成</td><td>不验时域连续性，照片视频即可绕过</td></tr>
+<tr><td>生物模板（Biometric Template）</td><td>人脸声纹虹膜掌纹的不可逆加密特征值</td><td>明文存储被拖库即全网冒用</td></tr>
+<tr><td>名单命中（Hit）</td><td>主体与SDN/PEP/负面新闻库的交集</td><td>模糊匹配漏判会让受制裁者通行</td></tr>
+<tr><td>合成身份（Synthetic Identity）</td><td>跨源拼装的虚构人格，常源自暗网廉价包</td><td>单源验证无法发现，跨源图谱才露馅</td></tr>
+<tr><td>凭证（Credential）</td><td>一次验证后跨站复用的令牌</td><td>不限范围会被滥用冒名，须可撤销</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域的监管域组合：FATF旅行规则与制裁域（OFAC/SDN）、反洗钱域（BSA/SAR）、数据隐私域（PIPL/GDPR）、牌照域（MiCA/VASP/SFC VATP）在此交汇。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1. <b>名单同步延迟</b>——以为「有清单」就合规，过期即无筛查；<br>2. <b>跨境数据出境</b>——PIPL安全评估与GDPR被遗忘权常被忽略；<br>3. <b>生物信息单独存储</b>——未加密或越权访问直接定性违规。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步 接入权威证件与名单源，建立可信数据地基</li><li>第二步 叠加活体与多模态融合，阻断重放与Deepfake</li><li>第三步 接入制裁PEP实时筛查并硬阻断命中</li><li>第四步 用跨源图谱识别合成身份并绑定时效</li><li>第五步 沉淀可解释风险分与不可篡改七年留存</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A 一体化SaaS KYC（对标Sumsub，订阅制覆盖全链路）</li><li>路径 B 模块化验证API（对标Persona，按场景组合调用）</li><li>路径 C 隐私增强KYC（对标Worldcoin/Quadrata，VC加ZK复用）</li><li>路径 D 持续尽调实时风控（对标Sardine，事件触发复检）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：都先把「可信真人锚定」作为第一资产，再在其上叠加合规与体验优化。</div>
+  </section>
+
+  <footer>
+    <p>AML身份验证平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "总览与主线"],
+ ["s1", "平台形态"],
+ ["s2", "功能域全景"],
+ ["s3", "前沿方向"],
+ ["s4", "关键对象"],
+ ["s5", "运营中心"],
+ ["s6", "致命规则"],
+ ["s7", "监管域"],
+ ["s8", "指标体系"],
+ ["s9", "落地路径"]
+];
+const PLAYERS = [
+ ["一体化SaaS KYC平台", "Sumsub", "无直接主体(合规数据服务)", "订阅制身份核验与案件管理"],
+ ["模块化验证API", "Persona", "顶象/同盾风控", "按调用计费的可组合验证"],
+ ["证件OCR与活体SDK", "Jumio/Onfido", "商汤/旷视", "授权许可加按核验量"],
+ ["生物识别核身平台", "ID.me", "腾讯云慧眼", "政府或金融授权核身"],
+ ["制裁名单筛查服务", "ComplyAdvantage", "宇信/四方精创", "实时名单数据服务"],
+ ["持续尽调与实时风控", "Sardine", "邦盛科技", "事件驱动风险拦截"],
+ ["设备指纹反欺诈", "SEON", "数美/同盾", "设备风险评分"],
+ ["隐私增强KYC", "Worldcoin/Quadrata", "暂缺合规主体", "代币激励的生物凭证"],
+ ["合成身份图谱", "Socure", "邦盛/邦信", "跨源图谱关联"],
+ ["监管科技中台", "Featurespace", "监管报送中台", "合规规则自动化"],
+ ["活体检测SDK", "Veriff", "虹软/百度活体", "按活体核验量计费"],
+ ["真人身分证明网络", "Worldcoin", "暂缺", "虹膜球体生物凭证"]
+];
+const DOMAINS = [
+ ["d1", "证件识别OCR", "Document OCR and Capture", "核心", "把物理证件转化为结构化可信数据，是后续一切核验的数据入口", [["图像采集与预处理", [["畸变校正与反光抑制", "倾斜畸变未校正会让OCR漏读关键字段，KYC因图像质量被拒引发客诉与通过率崩塌", "Jumio"], ["多证件模板适配", "只支持主流证件会拒掉小国证件，海外用户流失且被指歧视", "Onfido"], ["实时质量检测", "不做前置质量门会让模糊图进模型，误识别率上升且复审成本翻倍", "Veriff"], ["边端采集SDK", "纯服务端处理在弱网环境超时，首次核验失败率高", "Persona"]]], ["文字与字段识别", [["MRZ机读码解析", "MRZ解析错一位会让姓名拼写在名单匹配时漏判PEP", "Sumsub"], ["多语种字段抽取", "语种映射错会把地址归错国，地理围栏失效", "Onfido"], ["字段一致性校验", "证件号与生日不自洽校验，假证仅靠格式即可过", "Jumio"], ["手写与盖章识别", "漏识签发机关盖章，无法判定签发主体真伪", "商汤"]]], ["结构化输出", [["标准化字段映射", "输出 schema 不统一会让下游名单匹配字段错位，命中失败", "Persona"], ["置信度透传", "不返回置信度会让决策引擎盲目信任低质识别，误放行", "Veriff"], ["截图防伪标记", "不标记屏幕翻拍会让翻拍件被当原件，核验前提崩塌", "Onfido"], ["可追溯采集日志", "无采集日志在争议时无法自证流程合规，举证失败", "Sumsub"]]]]],
+ ["d2", "证件真伪核验", "Document Authenticity", "核心", "判定证件本身是否为真实签发物，而非仅凭文字识别放行", [["物理防伪特征", [["全息与微缩文字检测", "不检全息会让高仿假证仅凭印刷通过，核验形同虚设", "Jumio"], ["安全底纹与荧光", "漏检荧光特征使 reprinted 证件过检，真伪边界消失", "Onfido"], ["材料与厚度感知", "不感知材料会让塑料证被纸证冒替，介质层失控", "ID.me"], ["紫外红外多光谱", "仅可见光检测被专业复刻绕过，需多光谱交叉", "Veriff"]]], ["签发逻辑校验", [["签发机关合法性", "不校验机关合法性会接受虚构机关证件，源头失守", "Sumsub"], ["证件号校验位", "不过校验位算法，乱码证号也能入库，脏数据泛滥", "Persona"], ["有效期与版本", "不判版本迭代会让作废版式证件通过，时效失控", "Onfido"], ["国籍与版式匹配", "国籍与版式不匹配未拦截，拼装证过关", "Jumio"]]], ["篡改与翻拍检测", [["PS痕迹取证", "不查修图痕迹，篡改生日字段的证畅通无阻", "Socure"], ["翻拍反光检测", "漏检屏幕摩尔纹会让翻拍件当原件，采集前提崩", "Veriff"], ["印章与签名比对", "不比对原印章库，仿章证件放行", "商汤"], ["证件库权威回源", "不回源权威库比对，仅凭本地特征易被针对性仿制", "Sumsub"]]]]],
+ ["d3", "活体检测", "Liveness Detection", "核心", "证明镜头前是真实在场的人，阻断照片视频面具重放", [["动作活体", [["随机动作指令", "固定动作被录播重放破解，须眨眼转头随机序列", "Veriff"], ["时域连续性分析", "不验帧间连续性会让拼接视频帧过检，攻击通过", "Onfido"], ["指令-响应一致性", "用户动作与指令不匹配仍放行，活体被脚本绕过", "Jumio"], ["抗面具材质", "不检材质反光会让硅胶面具通过，高价值账户失守", "ID.me"]]], ["静默活体", [["纹理与摩尔纹", "静默活体不查屏幕摩尔纹，手机翻拍即过", "Sumsub"], ["深度与光照一致性", "不验三维深度会被二维照片骗过，平面攻击生效", "Persona"], ["微表情微动", "漏检微动会让照片加轻微抖动蒙混，攻击得手", "Veriff"], ["多帧一致性", "单帧判定被裁剪攻击绕过，需多帧表决", "Onfido"]]], ["抗重放", [["一次性挑战令牌", "无挑战令牌让同一段活体被多次复用，重放成立", "Jumio"], ["会话绑定", "活体不与会话绑定会被截图注入到他人流程，身份错配", "Veriff"], ["活体有效期", "不过期活体被录下后长期可用，攻击窗口敞开", "Sumsub"], ["设备环境校验", "不校验设备环境会让模拟器批量生成活体，肉鸡网络", "Socure"]]]]],
+ ["d4", "生物识别", "Biometrics", "核心", "以人脸声纹虹膜掌纹建立唯一身份锚点", [["人脸比对", [["1:1阈值调参", "阈值过高误拒真实用户，过低放过高仿，须按场景分级", "Onfido"], ["光照归一化", "不归一化会让逆光比对失败，误拒率飙升客诉增多", "商汤"], ["姿态与遮挡", "口罩墨镜未处理会让比对分骤降，合法用户被拦", "旷视"], ["活体前置约束", "人脸比对前未强制活体会被照片直接撞库，核验崩塌", "ID.me"]]], ["声纹识别", [["文本相关声纹", "用固定口令声纹被录音重放，须随机语句朗读", "Veriff"], ["信道降噪", "不降噪会让环境杂音拉低匹配，误拒升高", "Sumsub"], ["跨设备适配", "设备麦克风差异未校准，换设备即误拒，体验崩", "Persona"], ["声纹活体", "不验声纹活体，合成语音可冒充，双模态失效", "Onfido"]]], ["虹膜与掌纹", [["虹膜纹理唯一性", "不采虹膜会让双因子退化成单因子，被换脸突破", "Humanity Protocol"], ["掌纹血管特征", "掌纹血管难伪造，缺它会失去高安全场景兜底", "Worldcoin"], ["模板加密存储", "生物模板明文存会被拖库冒用，须加密不可逆", "ID.me"], ["跨模态绑定", "人脸与掌纹不绑定，攻击者分头突破，关联失效", "Humanity Protocol"]]]]],
+ ["d5", "多模态融合验证", "Multimodal Verification", "成长", "将人脸声纹设备指纹等多信号加权决策，单模态被破即失效", [["多信号接入", [["人脸加声纹加设备三源", "单模态被Deepfake破，须多源冗余，缺一即降级", "Veriff"], ["信号质量门", "劣质信号参与融合会污染决策，须先质量过滤", "Onfido"], ["异步到达对齐", "多源时延不齐未对齐会让融合错位，误判真人", "Sumsub"], ["信号可信度权重", "不区分可信度会让弱信号主导，结论失真", "Persona"]]], ["融合决策", [["加权融合策略", "固定权重在某一模态被破时不自适应，须动态权重", "Jumio"], ["拒识与兜底", "不设置拒识会让低置信强行通过，风险外溢", "ID.me"], ["对抗样本鲁棒", "不测对抗样本，加噪人脸骗过融合，误放行", "Onfido"], ["决策可解释", "融合黑箱监管不认，须输出各源贡献，牌照风险", "Sumsub"]]], ["降级与容灾", [["单源降级路径", "全源失败无降级会让系统宕机拒绝服务，业务停摆", "Veriff"], ["故障注入演练", "不做故障演练，真实降级时链路错乱，误放行", "Persona"], ["一致性快照", "降级时状态不一致会让同一人两结论，审计冲突", "Onfido"], ["回退人工", "无人工回退兜底，极端case积压，合规延迟", "Sumsub"]]]]],
+ ["d6", "Deepfake对抗", "Deepfake Defense", "成长", "检测GAN合成与换脸，防御合成媒体绕过身份核验", [["合成媒体检测", [["GAN指纹识别", "不识别GAN指纹，合成脸以假乱真过活体，核验失效", "Socure"], ["频域伪影检测", "仅空域检测被频域伪造绕过，须频域取证", "Onfido"], ["生物信号一致性", "不验心率微动，合成视频缺生理信号，假人过关", "Veriff"], ["语义不合理", "不查光照阴影矛盾，拼接伪造露馅仍过，漏检", "Jumio"], ["模型对抗更新", "检测器不持续训练会被新模型绕过，防御滞后", "Sumsub"]]], ["换脸对抗", [["关键点一致性", "不验关键点运动学，换脸边缘抖动暴露仍过，误判", "Onfido"], ["身份一致性", "换脸后人脸与声纹主人不符未拦，冒名成立", "Veriff"], ["纹理高频缺失", "合成图高频纹理缺失未查，平滑假脸过检", "Socure"], ["重演攻击检测", "不查表情重演，驱动视频冒充真人，攻击得手", "Jumio"], ["多帧时序", "单帧检测被时序攻击绕过，须视频级判定", "Persona"]]], ["防御运营", [["样本库回流", "不回流攻击样本，检测器永远慢一步，猫鼠落后", "Sumsub"], ["红队对抗", "无红队持续攻击，防御自满被破，漏检累积", "Onfido"], ["告警阈值", "告警阈值僵化会淹没真实攻击，运营疲劳漏看", "Veriff"], ["跨场景泛化", "单场景模型换场景失效，跨国部署误判，误拒", "Socure"], ["可解释取证", "不输出取证证据，争议时无法自证，举证失败", "Jumio"]]]]],
+ ["d7", "摄像头注入防护", "Camera Injection Protection", "成长", "保护采集链路不被替换视频流，活体结论才可信", [["采集链路保护", [["摄像头签名采集", "不签名视频流会被注入替换，活体结论全假", "Veriff"], ["可信通道", "非可信通道让中间人替换帧，攻击零成本", "Onfido"], ["硬件级证明", "不取TEE证明，软件层伪造采集环境，链路失信", "Persona"], ["帧序列完整性", "不校验序列完整，丢帧重组骗过连续性，攻击过", "Jumio"]]], ["注入检测", [["注入特征识别", "不识注入特征如异常编码会让伪造流进模型，过检", "Sumsub"], ["环境异常监测", "不监环境异常，模拟摄像头即插即用，攻击易", "Socure"], ["多源帧比对", "单源易伪造，多摄像头交叉可揭穿注入，须冗余", "Veriff"], ["实时阻断", "检测到注入不实时阻断，攻击流持续污染，损失扩大", "Onfido"]]], ["终端可信", [["设备完整性", "不验设备完整性，root机随意hook，链路崩", "Persona"], ["SDK防篡改", "SDK被patch后静默放行，须完整性校验，否则失控", "Jumio"], ["运行环境 attestation", "不取环境证明，云端伪造客户端，信任崩塌", "Sumsub"], ["更新防回滚", "允许回滚到漏洞版，攻击固定利用旧版，须防回滚", "Veriff"]]]]],
+ ["d8", "制裁PEP负面新闻筛查", "Sanctions/PEP/Screening", "核心", "对命中受制裁者政治人物负面主体的实时识别，漏筛即巨额罚款", [["制裁名单筛查", [["SDN实时命中", "不实时命中会让OFAC更新后仍在放行受制裁者，罚款数亿", "ComplyAdvantage"], ["模糊匹配容错", "拼写变体漏判，PEP以别名绕过，漏筛致命", "Sumsub"], ["别名与变体库", "不建别名库，改名主体漏检，制裁失效", "Elliptic"], ["多清单并集", "只查单一清单漏掉多法域要求，跨境违规", "Chainalysis"], ["命中即阻断", "仅告警不阻断，人工漏看即放行，须硬阻断", "TRM Labs"]]], ["PEP筛查", [["职位层级判定", "不分层级会把低危当高危或反之，资源错配漏真", "ComplyAdvantage"], ["关联人扩展", "只查本人漏关联亲属，PEP借亲属通道，漏筛", "Sumsub"], ["任期状态", "不更新任期，离任仍标记或现任漏标，误判", "Elliptic"], ["地缘政治更新", "不跟地缘变化，新制裁国PEP漏检，时效失控", "Chainalysis"], ["风险评级", "不评级让所有PEP同权，复核拥堵漏真高危", "TRM Labs"]]], ["负面新闻筛查", [["媒体情报融合", "不融合推特暗网Discord情报，新风险滞后发现", "Chainalysis"], ["语义实体抽取", "不抽实体会误关联同名无辜，误伤客诉", "Elliptic"], ["情感与事件分级", "不分级让噪音淹没真实负面，运营疲劳漏看", "ComplyAdvantage"], ["多语种覆盖", "仅英文漏非英负面，跨境主体漏检，盲区", "Sumsub"], ["时效衰减", "不衰减旧闻权重，陈年负面误伤，通过率畸低", "TRM Labs"]]]]],
+ ["d9", "SDN清单实时同步", "Sanctions List Sync", "成熟", "将OFAC等清单毫秒级增量下发，过期名单等于无筛查", [["清单同步", [["增量实时下发", "全量拉取延迟高，名单过期即无筛查，须增量流式", "OFAC"], ["多源清单聚合", "只同步OFAC漏EU或UN清单，跨境违规", "Chainalysis"], ["版本与回滚", "无版本管理，错版清单误拦合法用户，客诉爆发", "ComplyAdvantage"], ["断点续传", "同步中断不续传会留空白窗口，期间命中漏检", "TRM Labs"]]], ["命中处理", [["毫秒级判定", "判定超一百毫秒会让交易卡顿，须缓存预计算压到二点五毫秒", "Elliptic"], ["命中分级", "不分级让疑似与确切断同一处理，误伤合规用户", "Sumsub"], ["误报白名单", "无误报白名单，重复误拦损害体验与口碑", "ComplyAdvantage"], ["审计留痕", "命中无留痕，争议时无法证明已筛查，举证失败", "Chainalysis"]]], ["更新治理", [["更新通知编排", "无编排让各节点版本漂移，判定不一致，审计冲突", "TRM Labs"], ["合规时段校准", "不校准时区会让生效时刻错位，窗口期漏检", "OFAC"], ["失效清单归档", "不归档旧版，回溯时无法复现当时判定，合规失败", "Elliptic"], ["多活容灾", "单点同步故障会让筛查停摆，须多活，否则业务中断", "ComplyAdvantage"]]]]],
+ ["d10", "合成身份识别", "Synthetic Identity", "成长", "通过跨源交叉发现暗网廉价合成包拼装的虚构人格", [["跨源关联", [["多源身份拼接", "单源无法发现合成，须跨源拼同一人，露馅", "Socure"], ["图计算聚类", "不聚类会让分散账户显独立，合成网络隐藏", "Elliptic"], ["时空对齐±30秒", "不对齐会让跨链关联失准，亲密度图谱失效", "TRM Labs"], ["金额特征匹配", "不匹金额特征，分拆洗钱识别不出，漏检", "Chainalysis"]]], ["合成包识别", [["暗网包特征", "不识暗网廉价合成包特征，虚构人格过关", "Socure"], ["信息矛盾检测", "生日地址矛盾不查，拼装身份畅通，核验崩", "Elliptic"], ["死数据引用", "引用已故或虚构实体做背书未验，合成得逞", "Sumsub"], ["社会关系断层", "不查关系断层，无真实社交图谱支撑，疑点漏", "ComplyAdvantage"]]], ["图谱运营", [["图谱可视化", "无可视化，调查员难追线索，复核低效漏真", "Elliptic"], ["置信传播", "不传播置信，孤立信号变噪声，漏判合成", "TRM Labs"], ["增量更新", "图不增量更新，新关联滞后，时效失控", "Chainalysis"], ["隐私合规", "图谱含PII须合规，越界采集被罚，GDPR违规", "Socure"]]]]],
+ ["d11", "跨源交叉验证", "Cross-source Verification", "成长", "用多源数据血缘证明同一人，单源无法证伪", [["数据源接入", [["权威源对接", "只接商业源漏官方库，核验根基不稳，误放行", "Sumsub"], ["数据源质量评估", "不评质量会让脏源污染结论，误判真假", "Socure"], ["覆盖地域", "覆盖不全漏小国用户，海外扩张受阻，误拒", "Onfido"], ["实时性分级", "不分级会让慢源拖累快路径，时延超标体验崩", "Veriff"]]], ["交叉验证", [["多源一致性", "多源矛盾不报警，拼装身份过关，核验崩塌", "Elliptic"], ["数据血缘追踪", "不追血缘无法定位错误源，整改无门，误续", "Chainalysis"], ["冲突仲裁", "冲突不仲裁会让系统两难放行，风险外溢", "TRM Labs"], ["阈值弹性", "阈值僵化误伤或漏真，须按场景弹性，平衡通过率", "Sumsub"]]], ["可信证明", [["第三方背书", "无第三方背书，自证无效，监管不认，牌照风险", "ComplyAdvantage"], ["可验证凭证VC", "不用VC让凭证易伪造，复用失控，冒名", "Worldcoin"], ["时间戳存证", "不存证时间戳，事后抵赖无法自证，举证失败", "Quadrata"], ["脱敏交换", "交换不脱敏泄露PII，违规被罚，须去标识", "Socure"]]]]],
+ ["d12", "持续尽调", "Continuous Due Diligence", "成长", "给身份设时效性，KYC过期或行为突变须触发实时复检", [["时效管理", [["KYC有效期", "不设有效期，数月前KYC仍当有效，洗钱通道开", "Sumsub"], ["事件触发复检", "IP国家突变加大额提币不触发复检，实时活体缺口，洗钱", "Sardine"], ["风险升期", "不随风险升期，高危账户仍低频，漏检放大", "ComplyAdvantage"], ["静默失效", "长期无活动不失效，休眠账户被控，冒用发生", "TRM Labs"], ["跨链提币触发", "大额跨链提币不实时复检，错过拦截窗口，损失", "Sardine"]]], ["行为突变监测", [["地理围栏跳变", "新加坡IP切俄罗斯IP不告警，relocation可疑漏检", "Chainalysis"], ["设备换绑", "设备突然换绑不监测，账户可能被盗用，冒名", "Elliptic"], ["交易模式异动", "模式突变不报，结构化洗钱藏其中，漏检", "TRM Labs"], ["关联网络异动", "关联账户集体异动不预警，协同作案漏，危害大", "Elliptic"], ["频率阈值", "频率阈值僵化误伤或漏真，须动态，平衡体验", "Sardine"]]], ["复检编排", [["实时活体重检", "不实时重检，攻击窗口敞开，须事件驱动即时", "Veriff"], ["降级人工", "自动复检失败无人工，积压合规延迟，风险滞留", "Sumsub"], ["复检结果回流", "不复检结果回流，画像不更新，时效失真", "ComplyAdvantage"], ["用户无感", "复检强打扰致流失，须无感静默，体验留存双保", "Persona"], ["留存合规", "复检记录须留存，不留存举证失败，审计崩", "Chainalysis"]]]]],
+ ["d13", "重复验证与凭证复用", "Repeat Verification", "成熟", "一次验证跨站复用，降低摩擦但须防凭证滥用", [["凭证复用", [["一次验证多站", "不复用，用户每站重验流失，须令牌复用降摩擦", "ID.me"], ["范围限定", "跨站滥用凭证冒用身份，须限定范围，防越权", "Persona"], ["令牌托管安全", "令牌明文托管被拖库，冒用全网，须加密", "Sumsub"], ["撤销机制", "无撤销，泄露凭证长期有效，风险敞口", "ID.me"]]], ["重复验证优化", [["风险分级复用", "全量重验浪费，按风险分级复用，提效降本", "Veriff"], ["同源去重", "同源重复核验不合并，成本翻倍体验差，客诉", "Onfido"], ["失败重试策略", "盲目重试触发限流，合法用户被锁，误伤", "Jumio"], ["缓存时效", "缓存过久复用过期结论，须时效绑定，防失准", "Persona"]]], ["账户关联", [["同人识别", "不识同人，重复开户养号，肉鸡网络滋生", "Socure"], ["关联图谱", "不建关联图谱，团伙分散难发现，协同漏检", "Elliptic"], ["跨站黑名单", "不共享黑名单，被禁者换站重来，风控失效", "Sumsub"], ["注销清理", "注销不清理关联，幽灵账户留存，隐患", "ComplyAdvantage"]]]]],
+ ["d14", "风险评分与决策引擎", "Risk Scoring Engine", "核心", "把多信号汇成可解释风险分，毫秒级放行或拦截", [["信号汇聚", [["多源特征拼接", "特征不全会让评分偏颇，误放行高危，须全量", "Sumsub"], ["实时计算管道", "管道超一百毫秒判定卡顿，须流式预计算压时延", "TRM Labs"], ["特征版本管理", "特征版本漂移让模型结论变，审计不一致，合规崩", "Elliptic"], ["缺失值处理", "缺失值不处理会让评分塌缩，误判或误拒，失衡", "ComplyAdvantage"]]], ["评分模型", [["可解释输出", "黑箱评分监管不认，须逻辑链输出，牌照风险", "Sumsub"], ["动态阈值", "阈值僵化，波动率偏高不降权，误放杠杆风险", "TRM Labs"], ["对抗鲁棒", "不测对抗样本，加噪特征骗评分，误放行", "Elliptic"], ["模型监控漂移", "不监控漂移，模型衰减无人知，漏检累积", "Chainalysis"]]], ["决策执行", [["放行拦截策略", "策略错配会让高危过低危拦，须分级，平衡", "ComplyAdvantage"], ["人工复核路由", "不路由高危到人工，自动放过致命case，漏检", "Sumsub"], ["规则版本留痕", "规则版本不留存，争议无法复现，举证失败", "TRM Labs"], ["回滚能力", "错误策略不回滚，误操作放大损失，须秒级回滚", "Elliptic"]]]]],
+ ["d15", "工作流与案件管理", "Workflow and Case Mgmt", "成熟", "人工复核与SARs留痕的运转中枢", [["案件流转", [["分级路由", "不分级让所有case同队列，高危被淹，漏检致命", "Sumsub"], ["SLA时效", "无SLA时效，复核无限拖延，合规延迟被罚", "ComplyAdvantage"], ["负载均衡", "不均衡会让热点坐席崩，积压风险滞留，漏检", "TRM Labs"], ["升级路径", "无升级路径，疑难case滞留一线，误判放行", "Elliptic"]]], ["人工复核", [["复核工作台", "无统一工作台，信息割裂复核慢，漏真高危", "Onfido"], ["证据聚合", "不聚合证据，复核靠记忆易漏，误判放行", "Veriff"], ["双人复核", "高危单人不复核，失误无替，须双签，防错", "Sumsub"], ["复核留痕", "不留存复核痕迹，争议无法自证，举证失败", "ComplyAdvantage"]]], ["SARs管理", [["SAR生成", "不自动生成SAR，手工漏报被罚，须规则驱动", "Chainalysis"], ["报送时效", "超时报送违规，须时限监控，防逾期", "TRM Labs"], ["版本与留痕", "SAR版本不留存，监管追问无法复现，合规崩", "Elliptic"], ["保密合规", "SAR泄露违规，须隔离访问，防泄密", "ComplyAdvantage"]]]]],
+ ["d16", "合规留存与审计", "Compliance Retention", "成熟", "不可篡改的七年留存，举证与监管检查的生命线", [["留存策略", [["七年留存", "不满七年留存，检查期记录缺失，举证失败罚款", "Sumsub"], ["不可篡改", "记录可改则审计失效，须哈希链，防篡改", "Chainalysis"], ["分级存储", "不分热温冷，成本爆炸或调取慢，效率合规双损", "Elliptic"], ["完整性校验", "不校验完整性，缺页记录被疑造假，信誉崩", "TRM Labs"], ["跨境合规", "跨境留存须属地，违规被罚，须分区，GDPR冲突", "ComplyAdvantage"]]], ["审计溯源", [["全链路日志", "无全链路日志，事件难回溯，定责失败，合规崩", "Sumsub"], ["时间线重建", "不能重建时间线，攻击路径不清，整改无门", "Chainalysis"], ["操作留痕", "操作不留痕，内部舞弊难查，须全记录，防内鬼", "Elliptic"], ["导出合规", "导出不合规泄露PII，违规被罚，须脱敏，GDPR", "ComplyAdvantage"], ["审计接口", "无标准审计接口，监管取数难，须开放，配合检查", "TRM Labs"]]], ["数据治理", [["PII最小化", "留存过度PII被罚，须最小化，防违规", "Socure"], ["加密存储", "明文留存被拖库，须加密，防泄露", "Sumsub"], ["销毁策略", "不退销毁，超期数据违规，须定时销毁，合规", "Elliptic"], ["访问分级", "无分级访问，内部越权看PII，须RBAC，防泄", "Chainalysis"], ["留存可验证", "留存不可验证，监管不信，须验真，防扯皮", "TRM Labs"]]]]],
+ ["d17", "隐私增强与最小化采集", "Privacy Enhancing", "成长", "用ZKP或去标识证明属性而不泄露原文，合规与体验双赢", [["最小化采集", [["必要字段裁剪", "过度采集被GDPR罚，须最小必要，防违规", "Worldcoin"], ["单独同意", "不取单独同意，敏感信息处理无效，合规崩", "Quadrata"], ["目的限定", "超目的使用数据被罚，须目的绑定，防滥用", "Sumsub"], ["采集告知", "不明示告知，用户不知情违规，须透明，防诉", "Persona"]]], ["隐私增强", [["ZK属性证明", "不证明成年或非美人布尔值，原文泄露，须ZKP", "zkPass"], ["去标识化", "不去标识，关联分析暴露个人，须脱敏，防泄", "Socure"], ["可验证凭证VC", "不用VC凭证易伪造，复用失控，须密码学", "Worldcoin"], ["选择性披露", "不选择性披露，多余信息外泄，须最小暴露", "Quadrata"]]], ["合规平衡", [["通过率权衡", "过度隐私降通过率，须平衡，防流失", "Sumsub"], ["监管可审计", "隐私不能废审计，须可审计，防牌照风险", "ComplyAdvantage"], ["跨境传输", "跨境不申报被罚，须安全评估，防违规", "Elliptic"], ["用户权利", "不提供被遗忘权，GDPR违规，须支持，防诉", "Quadrata"]]]]],
+ ["d18", "设备指纹与欺诈信号", "Device Fingerprint", "成熟", "以硬件级指纹识别模拟器与肉鸡批量养号", [["设备指纹", [["硬件级指纹", "不取硬件指纹，模拟器易伪造，肉鸡网络滋生", "SEON"], ["多维度特征", "单维度易变，须多维度稳，防误判", "数美"], ["稳定性建模", "不建模稳定性，设备换环境即变，误拒合法", "同盾"], ["越狱root识别", "不识越狱机，高危环境放行，须拦截，防控", "SEON"], ["模拟器检测", "不检模拟器，批量养号成立，须检测，防刷", "数美"]]], ["欺诈信号", [["IP风险标签", "不标IP风险，代理或VPN滥用漏，须标签，防匿", "SEON"], ["行为序列", "不析行为序列，脚本操作露馅仍过，须建模，防机", "同盾"], ["设备聚集", "不查设备聚集，同设备多号团伙，须聚类，防群", "数美"], ["环境异常", "不监环境异常，注入环境放行，须校验，防骗", "SEON"], ["黑产库匹配", "不匹配黑产库，已知作恶设备过，须比对，防漏", "同盾"]]], ["信号融合", [["跨源指纹关联", "不关联跨源指纹，换皮设备漏，须联邦，防逃", "Elliptic"], ["时空对齐", "不对齐±30秒，跨链关联失准，须对齐，防漏", "TRM Labs"], ["权重动态", "权重僵化，单信号主导误判，须动态，防偏", "SEON"], ["可信度评估", "不评可信度，弱信号污染，须过滤，防误", "数美"], ["实时阻断", "不实时阻断，欺诈完成才拦，须前置，防损", "同盾"]]]]]
+];
+const FRONTIER = [
+ ["端侧可信采集SDK", "live", "摄像头签名采集已在Sumsub或Veriff规模化", "把TEE证明加帧签名做进SDK降低注入风险"],
+ ["虹膜加掌纹双因子", "pilot", "Humanity Protocol路径明确未规模化", "以双生物因子兜底换脸攻击"],
+ ["随机语句声纹活体", "pilot", "朗读随机语句对抗录音重放已可行", "声纹加人脸双模态降Deepfake"],
+ ["设备指纹跨链关联", "explore", "±30秒时空对齐技术成形中", "跨机构设备图谱揭肉鸡网络"],
+ ["合成身份图联邦", "explore", "跨源图谱技术成熟联邦未落地", "联邦图谱在不泄露PII下联防"],
+ ["持续尽调事件触发", "live", "Sardine已有实时复检案例", "IP突变加大额提币自动活体重检"],
+ ["Deepfake频域取证", "pilot", "GAN指纹检测路径明确", "端侧轻量取证模型降时延"],
+ ["ZK-KYC凭证复用", "pilot", "zkPass 三方TLS已有验证", "证明属性布尔值不披露原文复用"],
+ ["暗网合成包监测", "explore", "廉价合成包情报可获取", "融合暗网情报前置识别"],
+ ["多模态融合决策", "pilot", "人脸加声纹加设备加权可行", "动态权重降单模态被破风险"],
+ ["摄像头注入三步防护", "live", "准备换脸注入防御已成体系", "链路签名加环境证明阻断"],
+ ["AI Agent身份凭证SBT", "explore", "接管合规元年概念成形", "能力凭证SBT可撤销"],
+ ["制裁名单毫秒同步", "live", "SDN流式同步已成熟", "多源清单并集压到二点五毫秒"],
+ ["意图推理风险引擎", "explore", "GNN加意图推理技术成形", "行为意图推理前置拦截"],
+ ["隐私计算跨源验证", "pilot", "MPC分片可落地", "跨源不泄露原始数据验证"],
+ ["活体时域连续性", "live", "眨眼转头视频分析成熟", "多帧表决抗拼接"],
+ ["生物模板保护", "explore", "加密不可逆模板技术成形", "防拖库冒用"],
+ ["监管自动报送", "pilot", "规则引擎可驱动SAR", "自动生成报送降手工漏报"],
+ ["链上身份凭证SBT", "explore", "Worldcoin或链上KYC可行", "链上徽章复用降摩擦"],
+ ["跨链提币实时复检", "pilot", "事件驱动复检路径明确", "大额阈值触发活体复检"],
+ ["自适应风险阈值", "live", "动态降权已应用", "波动率偏高自动降权"],
+ ["联邦反欺诈模型", "explore", "跨机构联邦训练成形", "不共享原始数据联防"]
+];
+const MIDS = [
+ ["证件采集中心", "高质量证件图像获取", "OCR预处理与畸变校正"],
+ ["真伪鉴定中心", "防伪特征判定", "材料印刷全息比对"],
+ ["活体核验中心", "防照片视频重放", "时域连续性分析"],
+ ["生物特征中心", "人脸声纹掌纹", "1:1比对阈值"],
+ ["多模态融合中心", "跨模态决策", "加权融合与拒识"],
+ ["深伪对抗中心", "合成媒体检测", "像素频域取证"],
+ ["注入防护中心", "摄像头链路保护", "签名与可信通道"],
+ ["名单筛查中心", "制裁PEP实时命中", "模糊匹配"],
+ ["名单同步中心", "SDN清单实时更新", "增量分发"],
+ ["身份图谱中心", "跨源关联", "图计算与聚类"],
+ ["交叉验证中心", "多源一致性", "数据血缘"],
+ ["持续监控中心", "身份时效性", "事件触发复检"],
+ ["凭证复用中心", "重复验证与SSO", "令牌托管"],
+ ["风险决策中心", "评分与规则", "实时引擎"],
+ ["案件中心", "Case流转", "人工复核"],
+ ["合规留存中心", "审计留痕", "不可篡改存储"],
+ ["隐私保护中心", "最小化采集", "ZKP与去标识"],
+ ["设备风险中心", "设备指纹", "异常设备识别"]
+];
+const RULES = [
+ ["名单必须实时同步", "延迟导致OFAC更新后仍放行受制裁者，罚款数亿且牌照受损"],
+ ["活体不能只靠静态照片", "照片重放即可绕过，KYC形同虚设，非法资金自由进出"],
+ ["证件OCR须校验防伪", "仅识别文字不验真，假证通过，核验根基崩塌"],
+ ["深度链接复用凭证须重验", "凭证被盗用冒名，账户被控，连锁损失"],
+ ["持续尽调须设时效", "数月前KYC加IP突变加大额提币未复检，成洗钱通道"],
+ ["多模态至少双因子", "单模态被Deepfake破解，误判真人，高价值账户失守"],
+ ["设备指纹须防模拟器", "模拟器批量养号，肉鸡网络泛滥，风控失效"],
+ ["合成身份须跨源验证", "单源无法发现合成，暗网廉价包虚构人格过关"],
+ ["摄像头链路须签名", "注入替换视频流，活体被欺骗，结论全假"],
+ ["风险评分须可解释", "黑箱决策监管不认，牌照风险与举证失败"],
+ ["合规留存须不可篡改", "记录可改则审计失效，检查期举证失败被重罚"],
+ ["名单模糊匹配须阈值", "拼写变体漏判，PEP漏筛，受制裁者通行"],
+ ["活体时域须连续性", "拼接视频帧绕过，攻击通过，账户被冒用"],
+ ["跨链提币须实时复检", "资金快速转移，错过拦截窗口，损失不可逆"],
+ ["隐私采集须最小化", "过度采集被罚，GDPR违规与声誉受损"],
+ ["复用验证须范围限定", "跨站滥用凭证，身份冒用与责任错配"]
+];
+const KPIS = [
+ ["通过率", "合法用户核验通过比例，衡量体验与漏拒平衡"],
+ ["误拒率", "真实用户被拒比例，过高致客诉与流失"],
+ ["欺诈拦截率", "攻击拦截比例，直接反映防御有效性"],
+ ["时延", "单次核验P95时延，超百毫秒损害交易体验"],
+ ["名单命中准确率", "制裁命中精度，误报误伤合规用户"],
+ ["活体攻击通过率", "活体被攻破比例，须逼近零"],
+ ["复用率", "凭证复用比例，反映摩擦优化程度"],
+ ["合规留存完整性", "记录可审计性，监管检查的生命线"]
+];
+const LIC_CN = [
+ ["网络内容安全与人脸核验许可", "不可开展加密资产KYC，可开展金融政务人脸核身", "需人脸识别备案与个人信息保护影响评估"],
+ ["个人信息保护法PIPL", "可开展去标识化身份验证", "最小必要单独同意跨境需安全评估"],
+ ["数据安全法", "可开展合规数据核验服务", "重要数据出境审批"],
+ ["公安部CTID可信身份认证", "可开展实名核身须合作", "须对接官方eID"],
+ ["央行金融科技规划", "可开展反欺诈数据服务", "不得为非法加密交易提供通道"],
+ ["区块链信息服务备案", "可开展链上凭证存证", "不得发币或交易"],
+ ["反洗钱法修订", "可开展机构反洗钱辅助", "金融机构须持牌"],
+ ["增值电信业务许可", "可开展SaaS身份服务", "须ICP或EDI备案"],
+ ["网络安全等级保护", "系统须等保三级", "定级备案加测评"],
+ ["生物识别安全规范", "可开展人脸指纹核身", "生物信息单独存储加密"],
+ ["跨境数据流动规定", "跨境核验须申报", "标准合同或认证"],
+ ["App违法违规收集整治", "采集须明示告知", "禁止强制索权"],
+ ["金融控股或支付牌照", "无牌不可开展支付实名", "须持牌机构合作"],
+ ["算法备案生成式", "深伪检测模型可备案", "须算法登记"],
+ ["网络安全审查", "关键系统须审查", "采购审查"],
+ ["征信业务资质", "无资质不可开展征信", "须持牌征信机构"]
+];
+const LIC_INTL = [
+ ["EU MiCA CASPs", "可开展加密资产KYC与旅行规则", "最低资本五至十五万欧元加DORA"],
+ ["US FinCEN MSB或BSA", "可开展货币服务KYC或AML", "BSA三千美元阈值加SAR"],
+ ["OFAC制裁清单", "须实时筛查SDN", "违规罚款或刑事"],
+ ["UK FCA", "可开展电子货币或支付身份", "注册加合规"],
+ ["Singapore MAS PS Act", "可开展DPT服务KYC", "牌照加DTSP"],
+ ["Hong Kong SFC VATP", "可开展虚拟资产交易KYC", "双牌照穿透监管"],
+ ["UAE VARA", "可开展VASP身份", "牌照分级"],
+ ["Travel Rule FATF", "须交换收发方信息", "FATF建议十五或十六"],
+ ["GDPR", "须数据最小化与被遗忘权", "欧盟用户权利"]
+];
+const OPPS = [
+ ["持续活体复检", "缺乏实时触发机制", "事件驱动复检编排"],
+ ["合成身份图谱", "跨源数据孤岛", "图联邦关联"],
+ ["深伪实时检测", "检测滞后于攻击", "端侧轻量模型"],
+ ["摄像头注入防护", "终端不可信", "可信采集SDK"],
+ ["多模态融合", "单模态脆弱", "人脸加声纹加设备"],
+ ["隐私KYC", "ZKP落地少", "VC加ZK"],
+ ["名单实时同步", "更新延迟", "流式推送"],
+ ["凭证复用", "重复成本高", "一次验证多站复用"],
+ ["风险决策可解释", "黑箱", "逻辑链输出"],
+ ["跨境合规", "多牌照割裂", "区域化部署"],
+ ["设备指纹", "模拟器对抗", "硬件级指纹"],
+ ["监管报送自动化", "手工漏报", "规则自动生成"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：AML身份验证平台 / KYC IDV 活体检测 / 制裁名单筛查 合成身份`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

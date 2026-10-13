@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>真实世界资产RWA平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>真实世界资产RWA平台全景</b>
+    <span>真实世界资产RWA平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>真实世界资产RWA平台产品功能全景图谱</h1>
+    <p>RWA（真实世界资产）代币化正把 <b>美债、房产与私募信贷</b> 搬上链，其中代币化美债规模已超 <b>18</b> 亿美元。它用 SPV 法律结构、合格投资者校验与预言机，把链下现金流变成可交易、可派息的链上资产。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是把受监管的链下资产，经法律隔离与合规校验后映射为链上可确权、可派息的代币；主线是资产真实性、合规可销售性与现金流可信三个闭环。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d6）资产与法律结构</td><td>标的识别、尽调估值、SPV包装、代币模型、证券认定、合格投资者</td><td>界定什么能上链、如何隔离与确权，是平台选品与合规闸门</td></tr>
+<tr><td>第2层（d7–d8）数据与上链</td><td>预言机数据接入、收益现金流上链</td><td>把房价、租金、利息等链下事实可信搬上链，是收益兑现前提</td></tr>
+<tr><td>第3层（d9–d12）托管清算与流通</td><td>持牌托管、清结算、二级市场、AML溯源</td><td>隔离客户资产并实现秒级过户与受监管流通，同时阻断洗白</td></tr>
+<tr><td>第4层（d13–d18）监管身份与可组合</td><td>跨境合规、信披、投资者保护、监管沙盒、链上身份、智能合约</td><td>在多法域监管框架内完成披露、保护与可组合接入</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br>1. 底层资产须真实存在且可法律确权；<br>2. 须先有持牌托管与合格投资者校验能力，再谈上链；<br>3. 销售地合规路径须先于客户存在。</div>
+    <div class="danger">最易被误当成成功信号的是 <b>AUM 规模增长</b>——若底层资产未真实隔离、现金流靠合成而非真所有权，规模越大爆雷越惨。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">前沿方向落地优先级的一条标准：先看是否已有监管 No-Action 或牌照路径（如 DTCC 2025.12 试点），而非技术炫酷度；无合规出口的方向再先进也只是试点玩具。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>SPV 特殊目的载体</td><td>持有底层资产并隔离破产风险的法律实体</td><td>错用则投资者在发起方破产时连带受损</td></tr>
+<tr><td>真所有权代币</td><td>对应 SPV 实际资产并含赎回权的代币</td><td>与合成敞口混淆构成证券欺诈</td></tr>
+<tr><td>预言机喂价</td><td>把链下估值/收益搬上链的可信数据源</td><td>被操纵会错误定价并连锁清算</td></tr>
+<tr><td>合格投资者凭证</td><td>核验身份资质后映射的链上可复用凭证</td><td>失效未撤销仍交易即持续违规</td></tr>
+<tr><td>持牌托管 attestation</td><td>托管人定期出具的资产持有证明</td><td>缺失则代币无实物支撑、投资者不安</td></tr>
+<tr><td>统一保证金代币</td><td>可作跨资产抵押品的代币化国债</td><td>互认失败则占用资本、流动性受限</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域的监管域组合：证券法认定、反洗钱（Travel Rule/制裁）、投资者适当性、跨境资本与数据合规四域在此交汇。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1. <b>Reg S 非美证明</b>未复核导致误售美国人，触发长臂管辖重罚；<br>2. <b>转让限制未链上强制执行</b>，散户可随意买卖证券型代币；<br>3. <b>链下资产未真实过户 SPV</b>，仅协议控制在破产时无效。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：选定第一资产（优先代币化美债，规模与合规最成熟）</li><li>第二步：搭建 SPV 与持牌托管，完成资产真实过户</li><li>第三步：接入预言机与现金流上链，实现自动派息</li><li>第四步：走 Reg D/Reg S 或 MiFID 合规发行，映射合格投资者凭证</li><li>第五步：对接 DTCC 试点或 ATS，提供二级流动与赎回</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：美债收益中台（Ondo 类，最稳）</li><li>路径 B：房地产碎片化租金（RealT 类）</li><li>路径 C：私募信贷池代币化（Centrifuge/Maple 类）</li><li>路径 D：黄金/商品持有权代币（Paxos Gold 类）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：都以 <b>代币化美债</b> 或高信用底层资产为第一资产，先解决合规与托管再谈流通。</div>
+  </section>
+
+  <footer>
+    <p>真实世界资产RWA平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "资产上链全景总览"],
+ ["s1", "资产类别与标的"],
+ ["s2", "结构设计与代币模型"],
+ ["s3", "法律合规与证券认定"],
+ ["s4", "预言机与链下数据"],
+ ["s5", "托管与清算结算"],
+ ["s6", "AML与资金溯源"],
+ ["s7", "监管牌照与跨境"],
+ ["s8", "平台生态与玩家"],
+ ["s9", "落地路径与机会"]
+];
+const PLAYERS = [
+ ["代币化美债平台", "Ondo Finance / BlackRock BUIDL / Franklin FOBXX", "大陆不可开展证券代币发行", "将美债收益权封装为链上代币，向合格投资者分发利息与赎回权"],
+ ["房地产碎片化平台", "RealT / Lofty", "大陆不可开展房产证券化", "将单套房产所有权拆分为小额代币，链上收取租金分红"],
+ ["私募信贷代币化", "Centrifuge / Maple", "大陆不可开展信贷资产公开发行", "将中小企业贷款池打包为代币化票据，投资者获取本息"],
+ ["大宗商品与黄金代币", "Paxos Gold / Tether Gold / Kinesis", "大陆可开展商品数据存证服务", "1:1 锚定实物黄金或其他大宗，链上代表持有权"],
+ ["碳信用代币化", "Toucan Protocol / KlimaDAO", "大陆可开展碳数据核证服务", "将碳减排量代币化，充当自愿碳市场清算单位"],
+ ["证券型代币发行 STO", "Securitize / Polymesh", "大陆不可开展证券公开发行", "提供合规发行、转让与股东名册上链"],
+ ["链上国债货币基金", "Ondo OUSG / Superstate", "大陆不可开展公募基金代币化", "把货币基金份额映射为代币，T+0 申赎"],
+ ["SPV 与法律实体包装", "Akin Gump / Walkers 架构服务", "大陆律所可提供境外 SPV 设立咨询", "设立离岸特殊目的载体隔离资产，承接链上发行"],
+ ["合格投资者合规中间件", "Securitize / Vertalo / Quadrata", "大陆可做 KYC 数据服务", "校验投资者资质并生成链上合规凭证"],
+ ["机构级持牌托管", "Fireblocks / Copper / BitGo", "大陆机构可合作境外持牌托管", "提供多签与 MPC 托管，隔离客户资产"],
+ ["估值与预言机数据上链", "Chainlink / RedStone / Pyth", "大陆可开展链下数据服务", "把房价、租金、收益等外部数据可信喂价上链"],
+ ["代币化证券二级场所", "tZERO / Archax / INX", "大陆不可开展证券交易平台", "为合规代币提供 ATS 撮合与流动性"]
+];
+const DOMAINS = [
+ ["d1", "资产类别与标的识别", "Asset Onboarding", "核心", "界定哪些 RWA 标的具备可代币化与可确权基础，是平台选品的入口闸门", [["标的筛选标准", [["可代币化四要素", "并非所有资产都适合上链，缺流动性/难估值/无现金流的资产上链后无人接盘，沦为僵尸代币", "Ondo"], ["破产远离测试", "若底层资产与发行方未做法律隔离，发行方破产会牵连投资者资产，丧失 RWA 核心卖点", "Securitize"], ["地域可确权性", "房产证、债券托管凭证必须在当地法律体系可强制执行，否则代币只是空气承诺", "RealT"], ["合规可销售性", "标的所处法域须允许向目标投资者销售，否则发行即违规", "Maple"]]], ["主流资产地图", [["美债类规模阈值", "2025 代币化美债规模已超 80 亿美元，是 RWA 最大单类，平台须优先支持国债收益分发", "Ondo BUIDL"], ["房地产碎片化边界", "单套住宅碎片化易合规，整栋商业体涉及证券与上市公司规则，需谨慎", "RealT"], ["私募信贷池筛选", "贷款池须有稳定历史回款与可验证底层合同，否则违约率失真", "Centrifuge"], ["大宗商品锚定审计", "黄金类代币须第三方定期审计库存，缺审计则脱锚风险骤增", "Paxos Gold"]]], ["标的准入闸门", [["负面清单机制", "明确禁止上链资产（如受制裁国资产、未注册证券），避免被动违规", "Securitize"], ["单标的上限", "单一资产占比过高会放大集中度风险，需设定组合上限", "Maple"], ["投资者适当性匹配", "复杂衍生品敞口不得对零售投资者开放，错配引发监管处罚", "tZERO"], ["标的生命周期管理", "资产到期或违约须有下链与清算流程，否则链上状态僵死", "Centrifuge"]]]]],
+ ["d2", "资产尽调与估值", "Asset Due Diligence", "成长", "对链下资产做法律与财务尽调并给出可审计估值，决定上链定价是否合理", [["法律尽调", [["产权链条完整性", "产权若有历史纠纷或抵押未解除，上链后买家可能买到瑕疵所有权", "RealT"], ["SPV 设立地合规", "SPV 注册地须与发行地税法及证券规则兼容，错配导致双重征税与无效发行", "Walkers"], ["监管意见函", "须取得发行地律所合规意见书，缺意见书在 SEC/ESMA 审查时直接违规", "Akin Gump"], ["制裁名单筛查", "底层资产相关方须过 OFAC/欧盟制裁筛查，漏筛构成违法", "Chainalysis"]]], ["财务与估值", [["独立估值口径", "估值须由第三方而非发行方自定，否则高估值诱骗投资者接盘", "Securitize"], ["租金现金流验证", "房产租金须用银行流水而非口头承诺验证，虚高租金是常见骗局", "RealT"], ["减值准备计提", "信贷资产须按预期违约计提减值，不计提会粉饰净值", "Centrifuge"], ["压力测试情景", "须给出利率上行/违约上升情景下的净值回撤，缺失让投资者误判风险", "Ondo"]]], ["持续尽调", [["定期复核节奏", "资产状态须按季/年复核，长期不复核会掩盖恶化", "Maple"], ["重大事件触发复评", "违约、诉讼、评级下调须触发即时复评，迟报构成信披违规", "Centrifuge"], ["外部审计接入", "引入四大或区域所年审，缺审计则估值不可信", "Franklin Templeton"], ["数据留痕存证", "尽调底稿须上链或哈希存证，事后争议无据将败诉", "Veridoc"]]]]],
+ ["d3", "SPV与法律实体包装", "SPV Wrapper", "核心", "用离岸或在岸特殊目的载体把资产装进可隔离、可破产远离的法律壳", [["实体架构设计", [["破产远离隔离", "SPV 须与发起机构资产完全隔离，隔离失效则投资者在发起方破产时连带受损", "Securitize"], ["税收中性选择", "设立地须避免双重征税且能被投资者母国认可，错配抬高综合成本", "Walkers"], ["控制权安排", "SPV 决策权须明确归属（投资者/受托人），模糊归属引发治理僵局", "Polymesh"], ["多地 SPV 协同", "跨境资产常需多 SPV 嵌套，结构过复杂会拖慢发行并增加合规面", "Ondo"]]], ["资产装入与托管", [["资产真实转移", "底层资产法律所有权须真实过户至 SPV，仅协议控制在破产时无效", "RealT"], ["托管人职责绑定", "托管人须对底层资产出具持有证明，缺失则代币无实物支撑", "Fireblocks"], ["权属登记同步", "链上代币总量须与 SPV 持有资产一一对应，错配即超发", "Centrifuge"], ["赎回时资产回转", "赎回须能把资产从 SPV 回转投资者或市场，无回转路径则流动性锁死", "Maple"]]], ["治理与决议", [["投资者投票权", "重大处置须经代币持有人投票，剥夺表决权违反证券属性", "Polymesh"], ["决议上链存证", "SPV 决议须链上存证以防篡改争议，口头决议不可举证", "Vertalo"], ["受托人监督", "须设独立受托人监督 SPV 履约，无监督易发内部人挪用", "Securitize"], ["违约触发机制", "预设违约事件触发资产处置流程，无触发条款则处置拖延", "Centrifuge"]]]]],
+ ["d4", "代币经济与所有权模型", "Tokenomics & Ownership", "核心", "区分真所有权代币与合成敞口，定义分红、投票与赎回权利边界", [["所有权 vs 合成", [["真所有权界定", "真所有权代币须对应 SPV 实际资产，合成代币仅是对赌敞口，混淆构成误导", "Ondo"], ["合成敞口披露", "合成产品须明确标注非持有底层资产，不披露触发证券欺诈风险", "Synthetix"], ["赎回权绑定", "所有权代币应含赎回权，无赎回权却称持有属虚假陈述", "RealT"], ["抵押品透明度", "合成代币的抵押品须实时可查，黑箱抵押引发挤兑", "Maker"]]], ["权益与分红", [["分红自动派发", "利息/租金须按链上快照自动派发，手动派发延迟引发投诉与违规", "Ondo"], ["分红税务处理", "派息须代扣或申报税务，漏税使平台与投资者双重受罚", "Franklin"], ["投票权设计", "治理投票须可验证且计权清晰，计权错误引发治理纠纷", "Polymesh"], ["费用结构透明", "管理费/托管费须预设并链上可见，隐藏费用违反信义义务", "Securitize"]]], ["代币标准与可组合", [["合规代币标准", "须用支持冻结/合规钩子的代币标准，普通 ERC20 无法合规冻结", "Polymesh"], ["转让限制钩子", "代币须内嵌合格投资者转让限制，无限制则散户可随意买卖违规", "Securitize"], ["可组合风险", "RWA 接入 DeFi 抵押时须设清算边界，无限杠杆放大系统性风险", "Centrifuge"], ["元数据可审计", "代币元数据须含资产证明链接，缺失则无法尽调", "Chainlink"]]]]],
+ ["d5", "证券法律认定与合规架构", "Securities Determination", "核心", "判断代币是否落入证券定义，据此选择发行地与监管路径", [["证券属性判定", [["Howey 测试适用", "若代币符合资金投入+共同事业+预期利润来自他人努力，即落入证券，须按证券监管", "SEC"], ["投资合同认定", "即便称实用代币，含分红承诺即可能被认定为投资合同", "ESMA"], ["认定后果差异", "非证券可宽监管，误判为非证券将导致发行后被勒令停售并罚款", "SEC"], ["司法辖区分歧", "美 SEC 与某些法域对证券界定不同，须逐地判定销售合法性", "ESMA"]]], ["发行地与路径", [["Reg D 私募路径", "美国常走 Reg D 仅向合格投资者私募，公开发行须 Reg A/Reg S", "Ondo"], ["欧盟 MiFID 路径", "欧盟须持 MiFID 投资服务牌照，否则不得面向零售", "ESMA"], ["豁免条款利用", "利用 Reg S 境外销售或各国豁免，误用豁免构成违规销售", "Securitize"], ["发行文件备妥", "证券发行须备募资说明书，缺文件被认定非法公开发售", "Polymesh"]]], ["持续合规义务", [["持续披露义务", "证券类代币须持续披露，停披触发监管处罚与投资者诉讼", "Securitize"], ["合格投资者维持", "投资者资格须定期重验，资格失效仍售卖即违规", "Vertalo"], ["变更登记义务", "持有人变更须依法登记，未登记影响权属效力", "Polymesh"], ["监管报告报送", "须按辖区分时报送持仓与交易，漏报构成行政违法", "ESMA"]]]]],
+ ["d6", "合格投资者准入校验", "Accredited Investor Onboarding", "核心", "在链下核验投资者身份与资产门槛，再映射为链上准入凭证", [["身份核验", [["实名四要素", "须核验姓名/证件/人脸/手机号四要素，缺一项易被冒名开户", "Sumsub"], ["证件防伪", "须识别伪造与过期证件，假证入金后追偿无门", "Fractal ID"], ["活体防深伪", "须用活体检测抵御 Deepfake 换脸，否则冒名通过 KYC", "Sumsub"], ["制裁与 PEP 筛查", "须筛查制裁名单与政治公众人物，漏筛构成违法", "Chainalysis"], ["负面信息核查", "须查洗钱/欺诈负面记录，高风险客户未拦截将连坐平台", "Elliptic"]]], ["资质与门槛", [["资产门槛证明", "须验证收入或资产达合格投资者线，虚报门槛售卖证券违规", "Securitize"], ["专业投资者认定", "机构/专业投资者须独立认定，错认导致零售保护缺失", "SFC"], ["非美国人证明", "面向美销售须取得非美身份证明，误售美国人违反 Reg S", "Ondo"], ["适当性评估", "须评估客户风险承受力，错配复杂产品引发客诉与罚单", "tZERO"], ["资质时效管理", "资质须设有效期并重验，过期仍服务即违规", "Vertalo"]]], ["链上凭证映射", [["准入代币化", "核验结果须映射为可复用的链上合规凭证，避免每笔重验", "Quadrata"], ["凭证可撤销", "凭证须支持监管撤销，撤销后仍交易即违规", "Fractal ID"], ["隐私保护", "资质证明须用 ZK 仅暴露布尔值，明文上链侵犯隐私", "zkPass"], ["跨平台互认", "凭证须跨平台互认降低摩擦，不互通则用户体验崩塌", "Civic"], ["审计留痕", "核验全过程须留痕 7 年，缺留痕在调查中败诉", "Sumsub"]]]]],
+ ["d7", "预言机与链下数据接入", "Oracle & Off-chain Data", "成长", "把房价、租金、利息等链下事实可信地搬上链，是收益兑现的前提", [["数据源选型", [["多源中位数", "须多源取中位数防单点篡改，单源被攻破即错误喂价", "Chainlink"], ["第一方数据优先", "优先用资产方第一方直连数据，二手数据易失真", "Pyth"], ["数据延迟控制", "美债收益等须低延迟（400ms 级），高延迟导致套利与错价", "RedStone"], ["抗操纵设计", "须防闪电贷操纵价格源，2025.10 USDe 爆仓即内部价源被砸", "Pyth"], ["数据来源审计", "数据源须可审计溯源，黑箱来源在争议时无法举证", "Chainlink"]]], ["估值与房价上链", [["房产估值多模型", "房价须用多模型交叉验证，单模型易被操纵误导定价", "RealT"], ["租金回款确认", "租金须以到账为准而非合同额上链，虚报租金骗派息", "Centrifuge"], ["估值更新频率", "须按资产波动设定更新频率，低频更新掩盖贬值", "Ondo"], ["异常熔断", "估值偏离阈值须熔断暂停，不断熔放大损失", "Chainlink"], ["链下证明留存", "估值底稿须哈希存证，缺底稿无法抗辩", "RedStone"]]], ["企业事件与利息", [["公司事件抓取", "分红/拆并/违约等公司事件须及时上链，漏报损害投资者", "Polymesh"], ["利息支付凭证", "利息支付须由托管行出具凭证上链，无凭证派息无效", "Ondo"], ["节假日日历", "须处理跨境付息节假日差异，错日导致违约误判", "Franklin"], ["数据责任界定", "须明确数据源与平台责任边界，扯皮时投资者无救济", "Securitize"], ["灾难恢复", "数据源中断须有备用通道，单点故障停摆派息", "Pyth"]]]]],
+ ["d8", "资产收益现金流上链", "Cash Flow Tokenization", "成长", "将利息、租金、分红等现金流转为链上可分配事件，驱动自动派息", [["现金流建模", [["回款周期建模", "须按资产真实回款周期建模，错周期导致错配赎回", "Centrifuge"], ["币种与对冲", "跨境利息须处理币种对冲，汇率波动侵蚀收益", "Ondo"], ["费用前置扣除", "管理费须先于派息扣除并透明，后扣引发争议", "Securitize"], ["违约冲减", "违约须从池内冲减，不冲减虚增可分配额", "Maple"], ["计息口径一致", "计息口径须一致披露，口径混乱构成误导", "Franklin"]]], ["自动派息", [["快照机制", "派息须按确定的持币快照，快照漏洞致重复或漏发", "Ondo"], ["派息成本可控", "派息交易成本须可控，高频派息成本吞噬收益", "Polygon"], ["失败重试", "派息失败须可重试与告警，静默失败损害信任", "Centrifuge"], ["税务代扣", "派息须按辖区分税代扣，漏代扣使平台担责", "Franklin"], ["链下到账核对", "链上派息须与链下托管行到账核对，不符即查", "Fireblocks"]]], ["再投资与处置", [["到期再投资", "到期资金须有再投资或返还路径，滞留无收益遭投诉", "Ondo"], ["违约处置流程", "违约资产须有处置与返还顺序，无顺序引发挤兑", "Maple"], ["提前赎回折价", "提前赎回须有折价规则，无规则被套利", "RealT"], ["收益可视化", "投资者须可实时查看收益明细，不透明降低复投", "Securitize"], ["现金流审计", "现金流须可第三方审计，不可审则净值存疑", "Centrifuge"]]]]],
+ ["d9", "持牌托管与私钥安全", "Licensed Custody", "核心", "用持牌机构托管底层资产与密钥，隔离客户资产并防止单点失窃", [["托管架构", [["持牌托管强制", "底层资产须由持牌机构托管，无牌托管在 SEC 审查即违规", "Fireblocks"], ["客户资产隔离", "客户资产须与平台自有资产隔离，混同导致挪用风险", "Copper"], ["破产远离托管", "托管安排须具破产远离效力，否则平台破产牵连客户", "BitGo"], ["多地持牌托管", "跨境资产须当地持牌托管，单一托管覆盖不全", "Copper"], ["托管职责界定", "托管人须出具持有证明与动作授权，权责不清易扯皮", "Fireblocks"]]], ["密钥安全", [["MPC 分片", "私钥须 MPC 分片无单点，单钥泄露即全损", "Fireblocks"], ["多签阈值", "关键动作须多签阈值，低阈值被内部人滥用", "Copper"], ["冷存储比例", "大额资产须冷存储，热钱包过高被黑客一扫而空", "BitGo"], ["灾难恢复", "须有密钥分片恢复机制，丢失分片则资产永久锁死", "Fireblocks"], ["内部权限分离", "密钥操作须职责分离，一人掌控全流程易挪用", "Copper"]]], ["链上资产托管", [["代币托管映射", "链上代币须与链下托管资产对账，错账即超发或短少", "Securitize"], ["冻结扣押合规", "须支持监管冻结与执法扣押，不支持则抗令", "Polymesh"], ["保险覆盖", "托管须投保 crime/theft 保险，无保险损失自担", "BitGo"], ["定期 attestation", "托管人须定期出具 attestation，缺证明投资者不安", "Fireblocks"], ["跨链托管一致", "多链部署须托管一致，某链漏管则资产遗漏", "Copper"]]]]],
+ ["d10", "清结算与过户", "Clearing & Settlement", "成长", "把传统 T+1 结算压缩为链上秒级过户，并对接机构清算网络", [["结算时效", [["T+1 压缩", "RWA 结算须从 T+1 压至秒级，慢结算占用资金与对手风险", "DTCC"], ["原子交换", "转让须原子化防半成功，半成功致账实不符", "Polymesh"], ["最终性确认", "须等链上最终性再确认过户，回滚致双重支付", "Centrifuge"], ["对手方风险", "须管理交易对手违约风险，无担保易损失", "Maple"], ["营业日对齐", "跨境须对齐营业日，错日导致延迟与争议", "DTCC"]]], ["过户与登记", [["持有人名册", "须维护链上持有人名册，名册缺失权属无效", "Polymesh"], ["转让限制执行", "合格投资者限制须链上强制执行，软限制被绕开", "Securitize"], ["遗产继承处理", "须支持继承与司法过户，不支持则资产僵死", "Vertalo"], ["错误更正机制", "误过户须有更正与回退，无机制损失难纠", "Polymesh"], ["碎片化合并", "碎片化代币须支持合并赎回，不可合并降低流动性", "RealT"]]], ["机构清算对接", [["DTCC 试点对接", "2025.12 DTCC 获 SEC No-Action 做 Russell 1000 代币化试点，须对接其网络", "DTCC"], ["统一保证金", "代币化国债作跨资产保证金须可互认，不互认占用资本", "Ondo"], ["回购逆回购", "须支持证券回购提升资金效率，不支持则流动性差", "Maple"], ["清算会员接入", "须接入清算会员完成机构交收，缺接入无法服务机构", "Centrifuge"], ["对账自动化", "日终须自动对账托管与链上，人工对账出错率高", "Fireblocks"]]]]],
+ ["d11", "二级市场与流动性", "Secondary Market", "成长", "为合规代币提供受监管的二级流转场所，解决 RWA 流动性稀缺", [["交易场所形态", [["ATS 牌照", "二级市场须持 ATS 等牌照，无牌撮合构成非法交易所", "tZERO"], ["专板服务", "可建专板服务特定资产，混板致合规错配", "Archax"], ["仅合格投资者", "二级买卖须限合格投资者，对零售开放违规", "INX"], ["跨平台互通", "跨平台订单互通提升流动性，孤岛致深度不足", "Ondo"], ["做市机制", "须引入做市商维持价差，无做市价差过大无人交易", "Maple"]]], ["价格发现", [["净值锚定", "价格须锚定底层净值，长期溢价/折价暴露结构问题", "Franklin"], ["大宗交易块", "须支持大宗块交易保护，暴露大单砸盘", "Centrifuge"], ["停牌机制", "重大事件须可停牌，不停牌散户接刀", "tZERO"], ["价格预言协同", "二级价格须与预言机净值协同，背离触发套利风险", "Chainlink"], ["历史波动率披露", "须披露价格波动，隐瞒致误判", "Polymesh"]]], ["流动性供给", [["赎回对冲", "须有赎回对冲防挤兑，无对冲遇赎回落空", "Ondo"], ["碎片合并激励", "须激励碎片合并提升单笔深度，过度碎片难成交", "RealT"], ["跨链桥流动性", "跨链须桥接流动性，断桥致某链枯竭", "Stellar"], ["机构 RFQ", "须支持机构 RFQ 大宗询价，仅零售单伤害机构", "Archax"], ["流动性监控", "须监控异常流动性抽离，骤撤预示风险事件", "Chainalysis"]]]]],
+ ["d12", "AML/KYT与资金溯源", "AML & Fund Tracing", "成长", "对认购资金来源与流转做穿透式监测，阻断黑产洗白通道", [["认购资金来源", [["入金链路穿透", "须穿透认购资金来源至最终受益人，仅看首层易放过洗白资金", "Chainalysis"], ["链上历史筛查", "须查入金地址历史是否涉混币器/制裁，漏查助长洗钱", "Elliptic"], ["法币通道核验", "法币入金须核验银行来源合规，黑钱经法币洗白更难追", "Sumsub"], ["金额阈值监控", "须对大额与 24h 累计设阈值告警，无阈值放过分批转移", "TRM"]]], ["流转监测", [["行为基线建模", "须为地址建行为基线，偏离基线提示异常", "Elliptic"], ["混币器识别", "须识别 Railgun 等 47+ 替代品，识别率 89% 降至 11% 须人工补", "Chainalysis"], ["跨链追踪", "须跨链追踪资金，5 分钟可穿透 7 条公链须全程留痕", "TRM"], ["关联图谱", "须构建资金亲密度图谱（时空±30s），无图谱难定位核心协调者", "Elliptic"]]], ["处置与报送", [["SARs 报送", "可疑须按辖区分报 SARs，漏报构成违法", "Chainalysis"], ["冻结与退出", "须能冻结可疑账户并退出，不能冻结则资金外逃", "Fireblocks"], ["7 年留存", "AML 记录须留存 5 至 7 年，缺留存调查中败诉", "TRM"], ["监管报送接口", "须对接监管报送接口，手工报送易漏报", "Elliptic"]]]]],
+ ["d13", "跨境证券合规", "Cross-border Compliance", "成熟", "协调多法域证券与 KYC 要求，决定代币能否向某国投资者销售", [["法域协调", [["长臂管辖应对", "美国对美投资者有长臂管辖，向美销售须走 Reg S/Reg D", "SEC"], ["欧盟 MiFID", "欧盟须 MiFID 投资服务牌照并满足 MiCA 要求", "ESMA"], ["英国 FCA", "英国须 FCA 授权，脱欧后规则独立须单独评估", "FCA"], ["新加坡 MAS", "新加坡须 MAS 资本市场服务牌照或 DTSP 豁免", "MAS"]]], ["投资者属地限制", [["属地屏蔽", "须按 IP/证件屏蔽受限法域投资者，不屏蔽构成违规销售", "Securitize"], ["非美证明复核", "Reg S 销售须复核非美身份，误售美国人被重罚", "Ondo"], ["零售禁止区", "部分法域禁止零售购 RWA，须强制合格投资者", "tZERO"], ["双牌照地区", "香港须 SFC VATP 双牌照，单牌照不足", "SFC"]]], ["跨境报告", [["跨境报送", "须按多法域分别报送持仓，漏一国即违规", "ESMA"], ["税务信息交换", "须支持 CRS/FATCA 信息交换，不交换构成逃税协助", "MAS"], ["制裁协同", "须同步多法域制裁名单，仅看本地名单漏筛", "OFAC"], ["法律冲突解决", "须预设法律冲突适用法，无预设争议无解", "Walkers"]]]]],
+ ["d14", "信息披露与定期报告", "Disclosure & Reporting", "核心", "持续披露资产净值、违约与重大事件，维持投资者知情权", [["定期披露", [["净值周月报", "须定期披露资产净值，长期不披露投资者无法估值", "Franklin"], ["持仓明细", "须披露底层资产明细与集中度，不披露隐藏风险", "Centrifuge"], ["审计报告", "须披露第三方审计，无审计净值不可信", "Ondo"], ["费用透明", "须披露全部费用与计提，隐藏费用违反信义", "Securitize"]]], ["重大事件披露", [["违约即时披露", "底层违约须即时披露，迟报构成信披违规与诉讼", "Maple"], ["估值调整披露", "重大估值调整须披露理由，暗调引发信任崩塌", "RealT"], ["法律事件披露", "诉讼/监管行动须披露，隐瞒致投资者误判", "Polymesh"], ["赎回异常披露", "赎回暂停/限额须即时披露，暗停引发挤兑", "Ondo"]]], ["披露渠道", [["链上存证", "披露文件须链上哈希存证防篡改，仅官网易被改", "Vertalo"], ["多语种", "跨境须多语种披露，单语致部分投资者不明", "Securitize"], ["可读格式", "须机器可读 + 人读双格式，纯 PDF 难分析", "Polymesh"], ["历史归档", "披露历史须可检索归档，不可检索难尽调", "Franklin"]]]]],
+ ["d15", "投资者保护与赎回机制", "Investor Protection", "成熟", "保障投资者赎回权与争议处理，防止锁定期与违约损害", [["赎回机制", [["赎回通道", "须提供明确赎回通道与时间，无通道流动性为零", "Ondo"], ["赎回周期透明", "赎回周期须预先透明，模糊周期引发挤兑预期", "RealT"], ["赎回折价规则", "折价须预设并披露，临时折价被诉欺诈", "Maple"], ["巨额赎回处理", "巨额赎回须有比例配售与暂停，不处理拖垮池子", "Franklin"]]], ["争议与救济", [["争议处理机制", "须设争议处理与仲裁路径，无路径投资者无救济", "Securitize"], ["损失分担", "须明确违约损失分担顺序，混乱引发集体诉讼", "Centrifuge"], ["投资者教育", "须做适当投资者教育，无教育致误购复杂产品", "tZERO"], ["投诉留痕", "投诉须留痕处理，无留痕监管调查中败诉", "SFC"]]], ["适当性保护", [["风险揭示", "须充分揭示风险，风险揭示不足被认定误导销售", "ESMA"], ["冷静期", "部分法域须设冷静期，无冷静期违规", "FCA"], ["适当性匹配", "销售须与风险承受匹配，错配受罚", "MAS"], ["弱势群体保护", "须保护弱势/零售投资者，忽视招致重罚", "ESMA"]]]]],
+ ["d16", "监管沙盒与试点对接", "Regulatory Sandbox", "成熟", "借监管沙盒或 No-Action 试点完成合规冷启动", [["沙盒路径", [["沙盒准入", "须申请监管沙盒获有限豁免，擅自试点构成违规", "MAS"], ["范围边界", "沙盒须明确业务边界，越界即失豁免", "FCA"], ["渐进退出", "沙盒结束须有转正规路径，无路径被叫停", "SFC"], ["数据报送", "沙盒内须按监管报送数据，漏报被踢出", "MAS"]]], ["试点对接", [["DTCC No-Action", "2025.12 DTCC 获 SEC No-Action 做 Russell 1000 代币化，可借道对接", "DTCC"], ["监管沟通", "须保持与监管持续沟通，失联被突查", "SEC"], ["试点指标", "须达成试点量化指标，未达不转正规", "ESMA"], ["退出机制", "试点须有退出与善后，骤停损害投资者", "FCA"]]], ["政策跟踪", [["立法追踪", "须追踪各国 RWA 立法动态，滞后错失窗口", "MAS"], ["行业协会", "须参与行业协会共建标准，孤立难影响规则", "Securitize"], ["监管科技", "须用 RegTech 自动化合规，手工难达标", "Elliptic"], ["跨境协调", "须协调多法域沙盒，单国试点难复制", "ESMA"]]]]],
+ ["d17", "链上身份与合规中间件", "On-chain Identity", "成熟", "把 KYC/资质证明转为可复用的链上凭证，降低重复验证成本", [["身份凭证", [["DID 三组件", "须实现 did:method:id、文档、VC 三组件，缺组件无法验证", "Polygon ID"], ["VC 可验证", "资质须以 VC 形式可验证，口头证明无效", "Fractal ID"], ["ZK 选择性披露", "须支持 ZK 仅披露布尔值（如非美国人），明文侵犯隐私", "zkPass"], ["撤销机制", "凭证须有撤销机制，无撤销使失效资质仍可用", "Civic"]]], ["合规可复用", [["一次核验复用", "KYC 结果须跨平台复用，重复核验赶走用户", "Quadrata"], ["标准碎片化规避", "须兼容主流标准避免 Polygon ID 与 Fractal 不互通", "Privado"], ["SBT 徽章", "可用 SBT 徽章表征资质，但须可撤销防女巫", "Galxe"], ["链下验证链上签名", "可采用链下验证+链上签名平衡隐私与合规", "Sumsub"]]], ["风险与对抗", [["女巫攻击防御", "须防女巫+AI 深伪批量注册，单点验证易被 flood", "Worldcoin"], ["IPFS 持久性", "VC 存储须解决 IPFS 持久性，丢失致凭证不可用", "Polygon ID"], ["深伪检测", "须持续升级深伪检测，旧模型被绕过", "Sumsub"], ["隐私合规", "身份数据须符合数据保护，违规被重罚", "Fractal ID"]]]]],
+ ["d18", "智能合约与可组合性", "Smart Contracts", "成长", "用可组合合约把 RWA 接入 DeFi 抵押、借贷与收益策略", [["合约安全", [["形式化验证", "核心合约须形式化验证，未经验证易留漏洞被 exploit", "Certora"], ["多签治理", "合约关键权限须多签，单签被内部人滥用", "OpenZeppelin"], ["升级权限控制", "升级权限须受限与时间锁，无锁可被恶意升级", "Polymesh"], ["审计与赏金", "须第三方审计+漏洞赏金，仅自审留隐患", "Trail of Bits"]]], ["可组合接入", [["DeFi 抵押集成", "RWA 须可作为 DeFi 抵押品，不可组合价值打折", "Centrifuge"], ["收益策略封装", "须封装收益策略供复用，重复造轮降低采用", "Ondo"], ["标准互操作", "须遵循代币与元数据标准，非标难互通", "Polymesh"], ["预言机依赖解耦", "合约须解耦单一预言机，强耦合单点失效", "Chainlink"]]], ["风险与边界", [["清算边界", "RWA 抵押须设清算边界，无限杠杆放大风险", "Maker"], ["黑天鹅熔断", "极端行情须熔断暂停清算，无熔断螺旋爆仓", "Aave"], ["赎回优先", "合约须保证赎回优先于策略，策略锁仓致无法赎", "Ondo"], ["可暂停开关", "须有紧急暂停，无暂停遇攻击扩大损失", "OpenZeppelin"]]]]]
+];
+const FRONTIER = [
+ ["代币化美债规模扩张", "live", "2025 代币化美债超 80 亿美元且持续增长，Ondo/BUIDL 已具成熟商业案例", "面向机构的美债收益分发与自动派息中台"],
+ ["房地产碎片化租金分红", "live", "RealT 等已规模化运营，租金链上分红模式跑通", "合规房产碎片化 + 租金预言机自动派息"],
+ ["私募信贷资产上链", "live", "Centrifuge/Maple 已发行数十亿信贷代币", "中小企业贷款池代币化与违约监测"],
+ ["黄金与大宗商品代币", "live", "Paxos Gold、Tether Gold 流通量大且锚定稳定", "1:1 审计锚定的商品持有权代币"],
+ ["持牌机构托管", "live", "Fireblocks/Copper 已服务大量机构客户", "MPC 多签 + 破产远离的托管即服务"],
+ ["STO 合规发行平台", "live", "Securitize 完成多笔合规证券发行", "一站式 STO 发行与股东名册"],
+ ["合格投资者 ZK 验证", "pilot", "zkPass 等已验证非美国人/合格布尔证明可行但未规模化", "ZK-KYC 中间件降低重复验证"],
+ ["DTCC 代币化清算试点", "pilot", "2025.12 DTCC 获 SEC No-Action 做 Russell 1000 代币化，路径明确未规模", "对接 DTCC 网络的机构级清结算"],
+ ["碳信用代币化市场", "pilot", "Toucan/Klima 建立自愿碳市场但流动性与合规待完善", "碳数据核证 + 代币化清算"],
+ ["RWA 抵押进 DeFi", "pilot", "Maker/Ondo 已将国债作抵押，但规模与边界受控", "RWA 作为跨协议抵押品的清算中台"],
+ ["链上投资者适当性分发", "pilot", "多平台尝试资质复用但标准碎片化", "统一合规凭证分发网络"],
+ ["跨境 Reg S 销售引擎", "pilot", "Ondo 等走 Reg S 境外销售，自动化合规未成熟", "多法域销售合规路由"],
+ ["Agentic AI 合规调查", "explore", "2026 被视为 Agentic AI 接管合规流程元年，多智能体调查成形中", "AI Agent 自动生成 SARs 与调查链"],
+ ["AI 融合预言机", "explore", "RedStone/Pyth 推模块化与 AI 预警，技术成形中", "估值异常 AI 预警喂价"],
+ ["统一跨资产保证金", "explore", "代币化国债作统一保证金在标准讨论与试点阶段", "跨资产保证金互认层"],
+ ["监管实时报送 API", "explore", "RegTech 自动化报送处于建设期", "监管直连接口即服务"],
+ ["链上身份可移植凭证", "explore", "DID/VC 标准仍碎片化，互操作成形中", "跨平台可移植身份层"],
+ ["RWA 指数与 ETF 化", "explore", "传统资管探讨 RWA 指数产品，产品形态试验中", "RWA 基准指数与 Token 化基金"],
+ ["隐私交易结算", "explore", "Aster 等探索 ZK 隐私结算，合规平衡点未定", "合规隐私结算通道"],
+ ["预言机保险与 SLA", "explore", "数据可用性保险尚在早期，模式未成型", "喂价 SLA 与差错保险"],
+ ["证券化不良资产上链", "pilot", "部分机构试点 NPL 代币化，法律框架待清晰", "不良资产重组与分级代币"],
+ ["主权级 RWA 试验", "explore", "多国央行研究国债代币化，主权级试点成形中", "主权级资产登记与结算"]
+];
+const MIDS = [
+ ["资产尽调中心", "对底层资产做法律与财务尽调并出具意见", "法律意见函、估值模型、审计接入"],
+ ["结构设计中心", "设计 SPV 与代币所有权/分红结构", "破产远离架构、代币标准、权益设计"],
+ ["合规认定中心", "判定证券属性并选择发行地与路径", "Howey 测试、Reg D/S、MiFID 适配"],
+ ["投资者准入中心", "核验身份资质并映射链上凭证", "KYC/PEP 筛查、ZK 凭证、跨平台互认"],
+ ["数据预言机中心", "把链下估值与收益可信搬上链", "多源中位数、低延迟喂价、熔断"],
+ ["现金流中心", "建模并自动派发利息租金分红", "快照派息、税务代扣、到账核对"],
+ ["托管中心", "持牌托管底层资产与密钥", "MPC 分片、资产隔离、attestation"],
+ ["清结算中心", "完成转让过户与机构交收", "秒级结算、DTCC 对接、统一保证金"],
+ ["流动性中心", "提供二级场所与做市", "ATS 牌照、做市机制、RFQ"],
+ ["AML 中心", "穿透资金来源与流转监测", "链上图谱、混币识别、SARs 报送"],
+ ["跨境合规中心", "协调多法域销售与报告", "属地屏蔽、CRS/FATCA、制裁协同"],
+ ["信披中心", "持续披露净值与重大事件", "周月报、链上存证、多语种"],
+ ["投资者保护中心", "保障赎回与争议救济", "赎回通道、损失分担、适当性"],
+ ["监管对接中心", "沙盒试点与政策跟踪", "沙盒准入、监管沟通、立法追踪"],
+ ["身份中间件中心", "提供可复用链上身份凭证", "DID/VC、撤销机制、深伪防御"],
+ ["合约工程中台", "构建安全可组合合约", "形式化验证、多签治理、紧急暂停"],
+ ["风险监控中心", "全链路风险与异常监测", "阈值告警、行为基线、流动性监控"],
+ ["产品与增长中心", "选品、定价与生态拓展", "标的筛选、流动性供给、合作拓展"]
+];
+const RULES = [
+ ["底层资产须真实过户至 SPV", "未真实转移仅协议控制，发起方破产时投资者资产被连带清算，RealT 类纠纷即源于此"],
+ ["代币须内嵌合格投资者转让限制", "无链上限制散户可随意买卖证券型代币，直接触发 SEC/ESMA 违规销售处罚"],
+ ["预言机须多源中位数与熔断", "单源被攻破或内部价源被砸（如 2025.10 USDe 爆仓）将错误定价并连锁清算"],
+ ["派息须按确定快照并与链下到账核对", "快照漏洞致重复或漏发，链下不符不查会虚增可分配额引发挤兑"],
+ ["客户资产须与平台隔离并由持牌托管", "混同或无牌托管在审查时即违规，且平台破产直接牵连客户"],
+ ["证券属性须依法判定不得自认非证券", "误判非证券公开发行，被勒令停售并追溯罚款，Ondo 路径即前车之鉴"],
+ ["认购资金须穿透至最终受益人", "仅看首层会放过经法币或混币洗白的资金，助长合法身份构建"],
+ ["AML 记录须留存 5 至 7 年", "缺留痕在监管调查与诉讼中证伪失败，并构成独立违规"],
+ ["重大事件须即时披露", "违约或估值调整迟报构成信披违规并引发集体诉讼与挤兑"],
+ ["赎回须有预设通道与折价规则", "暗停或临时折价被诉欺诈，且预期不明诱发挤兑踩踏"],
+ ["跨法域销售须属地屏蔽与资质复核", "误售美国人/零售触发长臂管辖重罚，Reg S 非美证明须复核"],
+ ["合约关键权限须多签加时间锁", "单签或无限升级权限可被内部人或攻击者滥用，卷走托管外资产"],
+ ["RWA 抵押须设清算边界", "无限杠杆放大系统性风险，极端行情螺旋爆仓波及整个抵押层"],
+ ["估值须由独立第三方而非发行方", "自定高估值诱骗接盘，净值失真后投资者维权无据"],
+ ["凭证须支持监管撤销", "失效资质仍能交易即持续违规，且平台承担连带责任"],
+ ["数据须可审计溯源", "黑箱来源在争议与监管质询时无法举证，导致责任全归平台"]
+];
+const KPIS = [
+ ["资产管理规模 AUM", "链上代币化资产总市值与净流向，衡量平台真实体量"],
+ ["底层资产净值 NAV", "按独立估值计算的每份资产净值及溢价/折价率"],
+ ["派息准确率", "实际派息与应付差额占比，反映现金流与合约可靠性"],
+ ["合规通过率", "KYC/合格投资者校验一次通过率与驳回原因分布"],
+ ["AML 命中率", "制裁/混币/异常资金识别数与误报率，衡量溯源能力"],
+ ["结算时效", "从指令到最终性的时延（目标秒级 vs T+1）"],
+ ["流动性深度", "买卖价差、订单簿深度与 24h 成交量"],
+ ["合规留存完整度", "5 至 7 年记录留存与可检索比例，审计就绪度"]
+];
+const LIC_CN = [
+ ["区块链信息服务备案", "可提供链上数据存证与溯源技术服务", "不得开展虚拟货币发行融资与交易"],
+ ["网络安全法与数据安全法", "可提供链下数据上链与隐私计算服务", "数据出境须安全评估，禁止敏感数据外传"],
+ ["央行虚拟货币禁令", "境内不得开展代币发行、交易、兑换与定价业务", "任何证券型代币公开发行与交易均违规"],
+ ["证券投资基金法", "境内公募基金代币化暂不可行", "不得面向公众销售代币化基金份额"],
+ ["反洗钱法", "可为境外合规平台提供 KYC/AML 技术输出", "不得为非法虚拟资产提供支付结算"],
+ ["证券期货法规", "境内不得开展证券型代币 STO 与交易场所", "证券发行须走持牌监管路径"],
+ ["外汇管理条例", "跨境资产数据服务须合规，资金跨境须审批", "不得变相突破资本项目可兑换"],
+ ["私募投资基金监管", "可服务合规私募的数据与登记，但不得代币化公开销售", "投资者须合格且不得公开募集"],
+ ["知识产权与标准", "可参与 RWA 技术标准与专利布局", "不得借标准规避金融监管"],
+ ["个人信息保护法 PIPL", "可做隐私计算 KYC，须单独同意与最小必要", "跨境身份数据须满足出境合规"],
+ ["征信业管理条例", "可接入合规数据源做尽调，不得自建征信", "须持牌机构合作"],
+ ["地方沙盒与试点", "可参与监管沙盒内的区块链应用试点", "试点外不得扩大业务边界"],
+ ["会计与审计准则", "可提供链上资产估值与审计技术支持", "估值须符合准则且独立"],
+ ["反洗钱 3 号令", "可为持牌金融机构提供监测工具", "非持牌不得履行报送义务"],
+ ["网络安全等级保护", "平台系统须等保备案与测评", "未测评不得上线对外服务"],
+ ["数据出境安全评估办法", "跨境预言机数据须评估或认证", "重要数据出境须申报"]
+];
+const LIC_INTL = [
+ ["美国 SEC Reg D/S/A", "可向合格投资者私募或境外 Reg S 销售", "零售公开发行须走严格注册"],
+ ["美国 GENIUS Act 稳定币", "可发行合规支付稳定币支撑结算", "须满足联邦储备与反洗钱框架"],
+ ["欧盟 MiCA 与 MiFID II", "可持 MiFID 牌照服务欧盟投资者", "须满足 CASP 资本与旅行规则"],
+ ["欧盟 ESMA 证券认定", "证券型代币须按投资服务监管", "零售销售受限且须持续披露"],
+ ["英国 FCA", "须 FCA 授权开展投资与托管", "脱欧后规则独立须单独评估"],
+ ["新加坡 MAS（CMS/DTSP）", "可持资本市场服务牌照开展 RWA", "须满足 DTSP 与反洗钱要求"],
+ ["香港 SFC VATP 双牌照", "可持牌开展虚拟资产交易与托管", "须穿透式监管与投资者保护"],
+ ["阿联酋 VARA", "可在迪拜持 VARA 牌照运营", "须满足本地合规与资本要求"],
+ ["FATF 旅行规则", "转账须附收发方身份并筛查", "跨境须全量身份识别"]
+];
+const OPPS = [
+ ["机构美债收益中台", "缺自动派息与税务合规一体化", "先做 Ondo 类收益分发 + 托管对接"],
+ ["合规 KYC 凭证网络", "标准碎片化致重复验证", "建 ZK 可复用凭证 + 跨平台互认"],
+ ["RWA 抵押清算层", "缺统一清算边界与保证金互认", "做抵押中台 + DTCC 试点对接"],
+ ["预言机估值保险", "缺喂价 SLA 与差错保险", "建多源喂价 + 差错保险 SLA"],
+ ["跨境销售合规路由", "各法域规则割裂", "做属地屏蔽 + Reg S/MiFID 路由引擎"],
+ ["不良资产代币化", "法律框架与分级不清", "先做 NPL 分级与 SPV 包装试点"],
+ ["碳信用核证上链", "流动性与核证标准弱", "做碳数据核证 + 自愿市场清算"],
+ ["Agentic 合规调查", "手工 SARs 慢且贵", "做多智能体自动调查 + 可解释链"],
+ ["投资者适当性分发", "销售错配风险高", "做风险揭示 + 冷静期 + 匹配引擎"],
+ ["链上身份可移植层", "DID/VC 互不兼容", "做兼容中间件 + 撤销机制"],
+ ["统一保证金跨资产", "代币化国债难作跨池保证金", "做跨资产互认层 + 监管报送"],
+ ["主权级资产试验", "主权级结算标准空白", "参与央行试点 + 标准共建"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：RWA 真实世界资产代币化 / 代币化美债 Ondo BUIDL / SPV 证券型代币合规`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

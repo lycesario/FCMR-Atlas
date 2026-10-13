@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DID数字身份平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>DID数字身份平台全景</b>
+    <span>DID数字身份平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>DID数字身份平台产品功能全景图谱</h1>
+    <p>DID 数字身份平台的本质，是<b>把「你是谁」从平台账户还原为你自己可携带的密码学事实</b>。全网 18 条 DID 标识符背后，真正的竞争不是发证速度，而是撤销时效、密钥恢复率与跨体系互认这三件没人愿意先做的事。谁先让身份<b>丢不了、销得掉、认得出</b>，谁才拥有身份基础设施的定价权。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线是：把 W3C DID 标识符、DID 文档与可验证凭证三组件，组装成一张「签发—持有—验证—撤销」全链路可运营的身份网络。它的价值不在发证，而在两件事：<b>让验证便宜到可以实时进行</b>，以及<b>让撤销快到被盗身份无处可逃</b>。锚定层（IPFS/Arweave/链上）只是成本-持久性的权衡工具，不是卖点。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）标识与锚定层</td><td>DID 方法体系、DID 文档、密钥管理与恢复、通用解析器、去中心化锚定存储</td><td>这一层的产品本质是身份的「户籍与地契」：方法选型即终身国籍，密钥恢复率决定身份能否活着</td></tr>
+<tr><td>第2层（d6–d10）凭证与信任层</td><td>凭证签发、验证与撤销、选择性披露与 ZK、信任注册表、钱包交互</td><td>这一层的产品本质是把信任变成可携带资产：最小披露+可撤销是合规与隐私的双重底线</td></tr>
+<tr><td>第3层（d11–d14）互操作与合规层</td><td>跨方法跨链互操作桥、链上 KYC、女巫防御与人格证明、监管报告与审计</td><td>这一层的产品本质是翻译与守法：在标准碎片化和监管硬约束之间架可审计的通道</td></tr>
+<tr><td>第4层（d15–d18）应用与生态层</td><td>企业 IAM 集成、AI Agent 机器身份、身份图谱洞察、生态治理与开放协议</td><td>这一层的产品本质是规模变现：把身份能力卖进存量 IAM、机器经济与数据洞察市场</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">先决判断一：<b>密钥恢复体系必须先于签发存在</b>——没有恢复的身份系统签得越多，未来作废与客服灾难越多。<br>先决判断二：<b>撤销机制与状态列表必须先于商业模式存在</b>——不可撤销的凭证卖给谁都是定时炸弹。<br>先决判断三：<b>信任注册表与签发方治理必须先于生态扩张存在</b>——先放水后治理的注册表会永久贬值。</div>
+    <div class="danger">最容易误当成成功信号的死亡陷阱：<b>签发量暴涨</b>。如果签发的是无撤销机制、验证强度不明、跨体系无人认的凭证，量越大说明补贴越狠、信任池污染越快——真实信号是「验证成功率×撤销时效×跨体系互认率」，而不是签了多少张。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断前沿方向落地优先级的一条标准：先看它是否与一个「法定强制时间表」（如 EUDI 2026）或「存量必改的合规义务」（如旅行规则数据接口）绑定——被监管时间表驱动的方向优先于纯技术驱动方向，因为前者自带客户与预算。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>DID 标识符</td><td>did:method:id 格式的全局唯一身份名，方法即身份的「国籍」</td><td>方法选型写入验证链后不可更换，选错等于所有凭证终身绑在错误的方法上</td></tr>
+<tr><td>DID 文档</td><td>描述公钥、验证方法与服务端点的机器可读文档</td><td>文档被劫持或回滚即身份被冒用，验证方法权限混用会放大任何一次密钥泄露</td></tr>
+<tr><td>可验证凭证 VC</td><td>签发方对持有人声明的密码学签名凭证</td><td>无撤销机制、过度披露或验证强度造假的凭证会把信任池整体污染</td></tr>
+<tr><td>验证方法与密钥</td><td>authentication/keyAgreement 等分权限的密钥关系</td><td>签名密钥与加密密钥混用破坏前向安全，一次泄露等于全能力失守</td></tr>
+<tr><td>状态列表 Status List</td><td>压缩存储凭证撤销状态的位图资源</td><td>撤销不生效=给伪造者发永久通行证，撤销查询本身还可能是隐私泄露源</td></tr>
+<tr><td>信任注册表</td><td>登记「谁有权签发什么」的权威名录</td><td>没有信任锚任何人都能自签官方凭证；注册表被灌水则信任锚整体贬值</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">这是四个监管域的交汇处：欧盟 eIDAS 2.0/MiCA 的身份钱包与 CASP 义务、FATF 旅行规则的数据交换义务、数据保护法（GDPR/个保法）的最小化与删除权、以及密码与网络安全法（商用密码/等保 2.0）的基础设施要求——身份平台必须同时在四套规则下自洽。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">最常被低估的合规红线：<b>①不可删存储与被遗忘权冲突</b>——把含个人数据的凭证放上 Arweave 即在欧盟市场埋雷；<b>②ZK 隐私与旅行规则的硬冲突</b>——只有布尔证明、无法按 FATF 16 提供对手方数据的方案会被认定协助规避；<b>③生物特征属敏感个人信息</b>——中心化存储生物模板在 CN 与 EU 都需单独同意，泄露即不可挽回的终身暴露。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：冻结 DID 方法选型与密钥恢复模型（自托管/MPC/云 KMS 三选一并做恢复演练），这是产品地基，返工等于重来</li><li>第二步：跑通最小凭证闭环——一个高信任签发方、一种凭证、一条五步验证链+状态列表撤销，先证明「签得对、验得动、销得掉」</li><li>第三步：接一个法定强制场景（EUDI 组件、交易所合规白名单或企业员工凭证），让收入来自监管时间表而非概念买单</li><li>第四步：铺信任注册表与互操作桥，解决「凭什么信你签的」与「别的体系认不认」两个扩张瓶颈</li><li>第五步：沉淀身份图谱与审计能力，向风控方与监管侧输出数据服务，完成从工具到基础设施的位置跃迁</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A（合规组件商）：只做链上 KYC 徽章与白名单准入，对接持牌交易所与 DeFi 机构池，按验证次数与席位收费，轻资产快回款</li><li>路径 B（EUDI 生态供应商）：对齐 eIDAS 2.0 规范做钱包/签发/验证组件，吃成员国强制时间表的政府采购预算</li><li>路径 C（企业 IAM 桥）：做 OIDC/SAML 与 DID 双栈桥接+员工凭证+Agent 审计网关，从存量企业安全预算里切份额</li><li>路径 D（协议网络方）：做撤销聚合网络或跨体系解析层，向全行业按查询收费，慢但天花板最高</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点是：都要求<b>「可验证的撤销时效」作为第一资产</b>——无论卖给监管、交易所、企业还是网络节点，客户买的核心都是「这张身份出事时你能多快让它失效」，其余能力都建立在这个可举证的承诺之上。</div>
+  </section>
+
+  <footer>
+    <p>DID数字身份平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "全景总览"],
+ ["s1", "平台形态"],
+ ["s2", "功能域全景"],
+ ["s3", "前沿方向"],
+ ["s4", "核心对象"],
+ ["s5", "中心职责"],
+ ["s6", "致命规则"],
+ ["s7", "合规监管"],
+ ["s8", "关键指标"],
+ ["s9", "落地路径"]
+];
+const PLAYERS = [
+ ["公共命名服务", "ENS、Unstoppable Domains", "星火·链网 BID", "把名字变成可续费的稀缺注册资产，赚注册费与溢价转售"],
+ ["轻量锚定网络", "ION（Sidetree）、Ceramic", "蚂蚁链 DID", "只锚哈希不存全量文档，用极低的写入费支撑海量身份"],
+ ["企业 SSI 平台", "Cheqd、KILT、Dock、Mattr", "WeIdentity（微众银行）", "按签发/验证次数向机构收费，做 B 端可信数据管道"],
+ ["生物识别人格网络", "Worldcoin、BrightID", "暂无合规对标", "用一次性人格稀缺性换空投/治理/女巫防御的场景溢价"],
+ ["合规身份层", "Civic、Quadrata、Fractal ID、idOS", "CTID 实人认证生态", "把 KYC 做成可复用凭证，按验证次数与白名单池抽成"],
+ ["政府数字身份", "EBSI、EUDI Wallet", "公安部 EID/CTID", "政府采购+法定强制生态，靠合规准入而非市场获客"],
+ ["钱包与凭证持有", "MetaMask、Trust Wallet、SpruceID", "imToken、TokenPocket（合规受限）", "流量入口价值：持有凭证并代理用户完成交互"],
+ ["密钥管理基础设施", "Fireblocks、Safe、ZenGo", "Safeheron（安签）", "MPC/多签托管费+保险溢价，吃机构安全预算"],
+ ["通用解析与 SDK 层", "DIF Universal Resolver、Veramo、Trinsic", "WeIdentity SDK", "开发者订阅+按调用量计费，卖\"少写一个月解析代码\""],
+ ["数据网络与个人数据锁", "Ceramic/ComposeDB、Lit Protocol、idOS", "暂无成熟对标", "把用户数据变成用户带走的可编程状态，赚存储与读写费"],
+ ["ZK 身份证明层", "Polygon ID（Privado）、zkPass、Aleo", "暂无公开对标", "卖电路与证明生成服务，按证明次数计费"],
+ ["AI Agent 身份网", "Skyfire、x402 生态", "蚂蚁/腾讯智能体身份在探索中", "给机器发身份并审计其行为，按调用与授权流水抽成"]
+];
+const DOMAINS = [
+ ["d1", "DID 标识符与方法体系", "DID Methods & Identifiers", "核心", "产品本质是替用户在几十种 DID 方法里做一次性选型，方法即身份的国籍，选错终身迁徙。", [["方法注册与选型", [["方法选型评审", "方法一旦写入凭证验证链就无法中途替换，换方法等于历史凭证全部失效重签；选型前必须按去中心化/持久性/成本/隐私四维打分，而不是按生态热度", "DIF DID 方法注册表、Veramo"], ["did:key 无状态标识", "did:key 把公钥直接编进标识符、零链上依赖，但不能轮换密钥；用于可轮换场景会导致密钥泄露后身份永久无法恢复，只能整号作废", "DIF Universal Resolver"], ["did:web 与 DNS 安全边界", "did:web 把信任压在 DNS 与 HTTPS 上，域名被劫持即可静默替换全部公钥冒充企业签发；生产环境必须强制 DNSSEC 并监控证书透明度日志", "Microsoft Entra Verified ID、Trinsic"], ["did:pkh 跨链地址身份", "did:pkh 把链上地址直接当身份，零部署成本，但地址复用会让多个场景的行为被拼成同一画像；默认应引导逐场景生成新地址，否则隐私承诺破产", "SpruceID"]]], ["标识符生命周期", [["创建去重与女巫成本", "任何人都能免费创建无限 DID，身份系统必须靠外部稀缺源（手机号/生物/质押）建立女巫成本，否则空投与治理场景第一天就被脚本刷穿", "Gitcoin Passport"], ["停用与墓碑机制", "DID 被弃用后若无 tombstone 记录，钓鱼者可重新激活旧标识符冒充历史用户；停用必须写入不可逆状态并被解析器强制返回", "ION"], ["alsoKnownAs 别名映射", "跨方法、跨链的等价声明是互操作的粘合剂，但映射关系本身可被伪造注入；别名必须由受信方签名背书，否则解析层会把攻击者钱包合法接入", "Ceramic"], ["标识符与账户解耦", "一个 DID 绑定多链多地址是常态，把 DID 等同于单个钱包地址是最常见的架构性错误，地址被盗不应等于身份被盗", "ENS"]]], ["解析与发现", [["DID URL 解引用", "did:example:123/path?query 这层语法是服务发现的入口，很多团队直接跳过导致端点写死在代码里；端点必须可经 DID 文档动态解析才能做迁移", "W3C DID Core"], ["上下文锁定", "JSON-LD 的 @context 版本不锁定时，上游悄悄改词表会让同一凭证不同时间验证结果不同；必须 pin 上下文哈希", "W3C Verifiable Credentials"], ["解析失败语义", "解析失败必须区分\"不存在/网络故障/文档无效\"三种错误并传递给下游，吞成空对象会让验证层把失效身份当存在并放行", "DIF Universal Resolver"], ["解析隐私", "每次向公共解析器发起解析都向第三方泄露\"谁在验证谁\"的访问模式；高敏感场景需本地解析或隐私代理", "SpruceID"]]]]],
+ ["d2", "DID 文档与验证方法", "DID Documents & Verification Methods", "核心", "产品本质是一张机器可验证的身份说明书：谁能代表我签名、谁能代表我加密、我提供哪些服务。", [["验证方法与权限分离", [["verificationMethod 绑定", "公钥用 JWK 还是 blockchainAccountId 引用，决定验签是否依赖链上状态；混用且不做降级会导致链拥堵时验证全量超时", "Veramo、did:ethr 规范"], ["authentication 与 assertionMethod 分离", "登录密钥和签凭证密钥必须分开，混用意味着拿到一次会话密钥就能伪造全部历史凭证，审计上也无法解释权限来源", "KILT、W3C DID Core"], ["keyAgreement 隔离", "拿 authentication 密钥去做端到端加密会破坏前向安全，且签名私钥出现在解密路径里大幅扩大泄露面；必须配独立 X25519 密钥", "DIDComm v2、SpruceID"], ["能力委托链", "capabilityInvocation/Delegation 让身份可以授权子身份代为操作，但委托链不设深度上限会形成无法审计的授权迷宫；必须限制层级与有效期", "ACDC/KERI 实践"]]], ["文档结构与端点", [["service endpoint 治理", "端点失效是凭证交互失败的头号原因，写死单一 endpoint 没有降级路径时，一次 DNS 故障就等于全网身份交互中断", "DIDComm Messaging"], ["防回滚序列号", "文档更新若无单调递增序号，攻击者可把带已泄露旧密钥的旧文档重新喂给解析层（回滚攻击），被盗密钥复活", "Sidetree/ION"], ["文档体积与成本", "全量文档直接上链在以太坊主网一次更新要花数美元且永久公开，必须哈希上链+文档外置；否则身份更新成本随规模线性爆炸", "ION Sidetree"], ["控制器多签阈值", "did:ethr 支持 owner + controller 多签阈值，机构身份不配阈值等于一个私钥决定企业身份生死", "Safe、did:ethr"]]], ["证明与签名格式", [["proofPurpose 语义", "签名不带 proofPurpose 时，同一签名可被重放到其他用途（拿登录签名冒充签发凭证）；每个签名必须声明用途并纳入验证", "W3C Data Integrity"], ["JWT-VC 与 VC-LD 双轨", "两种格式并存是行业现实，钱包不支持全格式时用户会拿到\"无法验证\"的凭证；验证层必须格式探测+双栈兼容，否则每次生态分裂都流失用户", "Mattr、Trinsic"], ["时间与时钟偏差", "proof.created 校验不预留时钟偏差容忍，手机时钟漂 3 分钟就会让大量合法凭证验证失败，客服工单激增", "OpenID4VP 实现"], ["多密钥加权验证", "机构身份需要\"3/5 密钥同意才有效\"的加权签名，不支持的验证栈会迫使机构退回传统 PKI，DID 落地止步", "Safe、Fireblocks"]]]]],
+ ["d3", "密钥管理与恢复", "Key Management & Recovery", "核心", "产品本质是承认\"人会丢钥匙\"之后仍然让身份活下来的工程学，这是 DID 平台的生死线。", [["密钥托管模式", [["托管模式选型", "自托管、MPC 分片、云 KMS 的丢失模型完全不同，把 MPC 包装成\"绝对丢不了\"去营销，分片可用性配置错误时照样全灭且用户毫无备份意识", "Fireblocks、ZenGo"], ["助记词与备份分层", "助记词是最后一道防线也是最容易被钓鱼窃取的资产；产品必须提供加密云备份选项，纯助记词方案的用户丢失率行业普遍超过两位数百分比", "MetaMask、ZenGo"], ["密钥轮换不换身份", "轮换密钥而保持 DID 不变是去中心化身份相对传统账号的核心优势；实现成\"轮换即换 DID\"会让全部已发凭证指向失效身份，等于自我否定", "ION、Ceramic"], ["泄露应急流程", "发现密钥泄露到全网拒绝旧密钥之间有时间窗，没有预案时攻击者可在窗口内冒名签发凭证并污染下游信任池；必须预置紧急轮换与撤销公告通道", "Fireblocks"]]], ["社会恢复与守护人", [["守护人相关性控制", "守护人全选家人或全在同一社交圈时，一次家庭手机被盗=身份与恢复同时失守；应引导跨设备、跨机构、跨人群分散，并校验守护人间关联度", "Argent、ZenGo"], ["恢复延迟窗口", "守护人发起恢复后立即生效，等于钓鱼拿到守护人授权即刻夺走身份；必须内置延迟期+原密钥可否决窗口，给被钓用户留抢救时间", "Argent、Safe"], ["恢复演练机制", "用户从没走过一遍恢复流程，真丢失时手忙脚乱被引导钓鱼；上线恢复演练并在完成时给予激励，是降低永久丢失率最便宜的手段", "ZenGo"], ["继承与死亡开关", "长期不活跃触发继承流程，没有它用户身故后机构客户资产与身份状态陷入法务僵局；需与法务文件联动而非仅链上判定", "Safe、Casa"]]], ["机构密钥治理", [["热温冷分层策略", "全部密钥放热钱包的机构在被拖库时一夜归零，分层+大额人工审批是保险承保的前提；不符合分层标准的客户保费和审计结论都会恶化", "Fireblocks、Safeheron"], ["撤销通知成本", "撤销控制器变更要发链上交易，gas 费高时机构倾向\"先观察\"，被盗密钥继续有效；必须预设应急额度并演练", "Safe"], ["签名审计留痕", "每笔签名必须绑定操作人、策略版本与业务上下文，否则事后无法向监管与保险证明\"密钥未被滥用\"", "Fireblocks"], ["导出与防锁定", "私钥分片无法导出=客户被供应商绑架，合同期结束迁移时全部身份资产作废；必须提供标准化的密钥迁移与联邦退出路径", "Safeheron"]]]]],
+ ["d4", "身份解析与通用解析器", "Identity Resolution Infrastructure", "成长", "产品本质是把几十种 DID 方法的解析差异抹平成一个稳定 API，是全平台可靠性的隐形地基。", [["解析器基础设施", [["多方法驱动管理", "Universal Resolver 靠几十个驱动支撑多方法，驱动版本漂移会让同一 DID 在不同节点解析出不同结果；驱动必须锁版本并做一致性回归", "DIF Universal Resolver"], ["错误语义透传", "解析层把所有异常吞成\"文档不存在\"，下游会把网络故障误判为身份注销并触发错误的业务动作；错误分类码必须进 API 契约", "DIF"], ["缓存与新鲜度", "缓存 TTL 过长会让密钥轮换延迟生效，被盗密钥在全网继续可用数小时；轮换与撤销类文档要走缓存失效通道", "ION、Ceramic"], ["did:web 解析安全", "did:web 解析即 HTTPS 请求，中间人替换文档=身份劫持；必须校验证书链并考虑 DNSSEC/DANE 加强", "Microsoft Entra"]]], ["性能与可用性", [["延迟预算分解", "端到端验证 100ms 目标里解析通常占大头，多源串行 JOIN 可拖到 1.3 秒以上；必须内存缓存+流式预计算，否则实时场景全部不可用", "DIF+风控栈实践"], ["降级策略取舍", "解析失败时\"拒绝\"还是\"容忍旧缓存\"是安全与可用性的经典矛盾，必须按业务场景显式配置而非全站一刀切", "Veramo"], ["多区域容灾", "解析服务单区域部署时一次云厂商故障=全球验证瘫痪；需多活+解析结果分区复制", "Trinsic"], ["解析请求代理", "敏感客户不希望解析行为暴露给公共设施，需提供自有解析节点或代理；这同时是 B 端合同里的常见安全条款", "Fireblocks"]]], ["解析结果可信", [["解析元数据完整性", "DID Resolution Metadata 缺少来源证明时，无法区分官方文档与缓存篡改；关键场景应要求带证明的解析响应", "DIF 规范草案"], ["方法特定参数", "不同方法支持不同的查询参数（版本、时间点），抽象层若不透传会静默给出非预期版本的结果", "Sidetree"], ["解析审计日志", "\"谁在何时解析了谁\"本身是敏感数据，既是合规证据也是隐私风险；要留存但做访问控制", "Sumsub"], ["驱动供应链安全", "恶意或被投毒的解析驱动包会返回伪造文档，第三方驱动必须走签名校验+沙箱运行", "npm 供应链事件教训"]]]]],
+ ["d5", "去中心化锚定与存储", "Anchoring & Decentralized Storage", "核心", "产品本质是在 IPFS 会丢、Arweave 不可删、链上太贵之间，为每类身份数据选对成本-持久性曲线。", [["锚定策略", [["最小化链上锚定", "链上只放哈希+指针，全文档上链既贵又把个人数据永久公开；写错成全量上链后，GDPR 删除权和 gas 成本双双无法收拾", "ION Sidetree"], ["IPFS 持久性悖论", "IPFS 不付费即随时被 GC，关键文档三个月后集中 404 是行业常态；必须接付费 pin 服务并做可达性监控与自动重 pin", "Pinata、Filecoin"], ["Arweave 与永久语义", "Arweave 一次性约 0.1 美元/KB 换永久存储，TCO 优于 IPFS 长期年费，但\"永久\"与\"被遗忘权\"直接冲突，含个人数据的凭证不能直接上", "Arweave"], ["锚定链选型", "主网贵但最终性强，侧链/L2 便宜但重组风险会短暂动摇身份状态；不同凭证等级应配不同锚定层", "Polygon、Arbitrum"]]], ["内容寻址与完整性", [["CID 版本兼容", "CIDv0 只支持 sha-256 且大小写敏感，混用 v0/v1 会让同一内容出现两个\"合法地址\"；统一编解码规范并在入口规范化", "IPFS 规范"], ["链下链上一致性", "校验\"存储返回的内容哈希=链上锚定哈希\"必须是验证流程强制步骤，跳过时被替换的链下文档会带着合法链上哈希通过验证", "Ceramic"], ["IPNS 可变内容陷阱", "用 IPNS 做可变端点时，解析失败或发布者离线即内容不可达；身份文档应默认用不可变 CID+链上指针切换", "IPFS 实践"], ["可达性探测自动化", "pin 服务宕机不会通知你，必须有持续 probe+多服务商冗余，否则身份基础设施会无声腐烂", "Pinata、web3.storage"]]], ["数据生命周期", [["留存与删除权冲突", "监管要求 KYC 数据留 5–7 年，用户行使删除权时两者冲突；架构上必须把\"个人明文\"与\"合规摘要/哈希\"分层存储分别处理，不做分层就是两头违规", "Sumsub"], ["加密与密钥绑定", "链下存储加密后密钥丢失等于数据变砖，恢复密钥与存储密钥必须纳入同一恢复体系；分开管理是最常见的丢数据方式", "Lit Protocol"], ["存储成本预算", "身份规模上量后 pin 费+状态列表更新费线性增长，不做单位成本模型的投资人在数据增长期会被存储账单打穿现金流", "Filecoin、Arweave"], ["冷热迁移", "活跃文档热 pin、历史文档归档到低成本层，迁移必须保持 CID 不变并可验证；粗暴搬迁会打断外部引用", "S3+IPFS 混合实践"]]]]],
+ ["d6", "可验证凭证签发", "Credential Issuance", "成长", "产品本质是把\"我们验证过这个人\"变成一行可携带、可撤销的密码学事实。", [["签发流水线", [["验证强度分级", "签发前把身份核验强度显式分级（自称/文档/活体/法定源），把 L1 自称身份签成\"已验证\" VC 会污染整个下游信任池，出事时按欺诈追责", "Sumsub、Fractal ID"], ["批量签发与防重放", "批量场景无 nonce/防重放时，同一签发请求可被截获重复使用；幂等键+请求签名是流水线标配", "KILT"], ["schema 治理", "凭证模板没有版本化时，上游改一个字段会让存量验证器全部报错；schema 必须版本化+兼容性测试", "W3C VC、Mattr"], ["签发方绑定证明", "凭证里必须能追溯到签发方 DID 及其密钥当时的合法状态，否则无法在争议时证明\"确实是我们签的\"", "EBSI"]]], ["凭证内容设计", [["最小化披露原则", "把身份证号整段签进凭证，一次泄露等于全量裸奔；凭证应拆成可独立披露的声明，能只给\"年满 18\"就不给生日", "W3C VC、SD-JWT"], ["有效期与续期", "永不过期的凭证在用户状态变化后仍有效（如吊销的执照），必须设计 expirationDate+续期/复核流程", "EUDI PID 规范"], ["credentialStatus 必填", "没有状态字段的凭证天然不可撤销，签发时省事、出事时无法回收；status 机制应在签发时就绑定", "Status List 2021"], ["标准映射对齐", "面向欧盟市场的凭证要对齐 eIDAS 2.0 PID 字段集，自造 schema 会在互认场景全部重做", "EBSI、EUDI"]]], ["签发运营", [["费率与经济模型", "按签发收费还是质押收费决定客户结构；KILT 式质押模型让发行方有持续风险敞口，签发方必须能算清单张凭证全成本", "KILT、cheqd"], ["发行方声誉资产", "发行方在信任注册表里的历史记录就是它的商誉，一次批量假凭证事件会永久推高其凭证的验证折扣", "EBSI 信任注册表"], ["失败重试与幂等", "网络抖动导致重复签发时，同一 subject 拿到两张效力相同的凭证且状态不同步；幂等键必须在签发 API 层强制", "Trinsic"], ["冷启动获客", "没有用户量时机构不愿接发行，没有发行就没有用户；通常从单一刚需场景（招聘学历/交易所 KYC）切入单点突破", "Fractal ID"]]]]],
+ ["d7", "凭证验证与状态检查", "Verification & Revocation", "核心", "产品本质是让\"验证\"便宜、快、可撤销——撤销失效的身份系统等于给伪造者发永久通行证。", [["验证流水线", [["五步验证链", "签名、时间、状态、schema、信任锚五步缺一不可，跳过状态检查时已撤销凭证照样通过，事故复盘时这就是监管认定\"内控失效\"的直接证据", "Trinsic、Mattr"], ["状态列表批量化", "每张凭证一条链上撤销记录在规模下 gas 不可持续；StatusList2021 用位图把百万级撤销压缩成单资源更新", "Status List 2021、cheqd"], ["零知识状态证明", "位图查询会泄露\"你在查第几号凭证\"，累加器/ZK 状态证明让撤销检查不暴露持有人；高隐私场景必须上，否则撤销系统本身成为追踪器", "RSA 累加器实践"], ["状态刷新窗口", "状态列表缓存刷新太慢时，撤销到全网生效有小时级延迟，被盗凭证窗口期内仍可消费；刷新 SLA 要写进产品承诺", "w3c-vc-status-list"]]], ["信任锚与信任链", [["信任注册表查询", "没有信任锚时任何钓鱼方都能自签\"官方凭证\"；验证必须先查发行方是否在受信注册表且未被除名", "EBSI Trusted Issuer Registry"], ["授权签发范围", "信任注册表要细化到\"该发行方可签哪些 schema\"，只有名单没有范围时，被授权签学历的机构也可签假 KYC 凭证", "EBSI、GLEIF vLEI"], ["X.509 与 DID 混合链", "企业存量 PKI 与 DID 并存是长期现实，混合链路必须明确优先级与失效传播，否则出现\"证书有效但 DID 已撤销\"的两态矛盾", "Microsoft Entra"], ["信任传递衰减", "发行方授权子发行方时，每层授权都应显式声明并可独立撤销；无衰减控制的传递链让根信任暴露在无数末端", "GLEIF vLEI"]]], ["撤销与更新", [["撤销触达持有人", "凭证被撤销而持有人不知情，会继续拿着失效凭证碰壁；撤销事件必须推送通知并提供重签发路径", "EUDI Wallet"], ["部分更新与重签", "字段更新走重签发还是增量更新，直接影响撤销状态是否延续；实现不一致会造成\"更新即丢撤销记录\"漏洞", "Mattr"], ["撤销隐私", "撤销查询不加密时，验证方可以批量枚举特定用户的凭证状态；查询需最小化并避免可枚举索引", "zk 状态证明"], ["撤销与监管共享", "重大欺诈场景需要向监管与同业同步撤销信息，没有共享通道时同一批假凭证会在多家机构反复通关", "Notabene"]]]]],
+ ["d8", "选择性披露与零知识证明", "Selective Disclosure & ZK Proofs", "成长", "产品本质是让\"证明结论而不交出原文\"成为产品能力，而不是把用户身份证整页截图给每个应用。", [["披露机制", [["盐值管理", "SD-JWT 每条披露的盐必须唯一且不可复用，盐复用让两条披露可被密码学关联，跨凭证拼接画像", "IETF SD-JWT"], ["BBS+ 派生关联性", "BBS+ 允许从一张凭证派生多个不同披露的证明，但派生不绑定验证方 nonce 时各证明仍可被关联；每次出示必须 fresh nonce", "BBS+ / W3C 草案"], ["原子凭证拆分度", "把凭证拆成原子布尔声明有利于最小披露，但拆得足够细后组合查询反而能重新识别个人；拆分粒度要做重识别风险评估", "Polygon ID"], ["谓词证明", "年龄、收入、辖区等只出示谓词结论（>18、非受制裁人），实现成\"给结论字段\"而不是密码学谓词时，等于换了个方式交原文", "zkPass、Aztec"]]], ["ZK 电路与合规", [["电路可审计性", "电路不开源不可审计时，\"证明成年\"可能实际证明的是别的；电路公开+第三方审计是 ZK-KYC 能被合规接受的门槛", "Circom/SnarkJS 实践"], ["ZK-KYC 数据来源证明", "zkPass 用 3P-TLS 证明\"数据确实来自官方渠道\"，没有数据源证明的 ZK 证明可以被伪造输入喂进去", "zkPass"], ["证明生成体验", "移动端生成证明数秒到数十秒的等待直接决定转化率，超时兜底与异步证明是产品必需而非优化项", "Polygon ID"], ["验证合约 gas", "链上验证 ZK 证明的 gas 消耗决定能否做实时准入，过贵就必须聚合批验或走链下验证+锚定", "Aleo、Polygon ID"]]], ["关联性与隐私预算", [["pairwise DID", "同一 DID 出示给所有应用时，行为可被全链路拼图；逐场景化名是隐私底线，全局标识符是产品事故", "AnonCreds"], ["元数据侧信道", "披露内容之外，请求时间、包大小、频率都在泄露信息；隐私设计必须覆盖元数据层", "DIDComm 实践"], ["跨应用关联图谱", "多个验证方共享数据后，\"最小披露\"形同虚设；要有跨方的数据流向声明与关联性审计", "隐私设计评审实践"], ["披露最小化基线", "给产品定一条硬规则：默认请求字段数上限与豁免审批流程，否则业务方会持续伸手要全量数据", "内部治理实践"]]]]],
+ ["d9", "信任注册表与发行方治理", "Trust Registries & Issuer Governance", "成长", "产品本质是回答\"我凭什么信这个签发方\"，把信任从人际背书升级为可查询、可撤销、可审计的基础设施。", [["注册表架构", [["链上链下一致裁决", "链上注册表与链下 GLEIF/官方名录不一致时以谁为准必须事先冻结，否则纠纷时各方各取所需", "GLEIF vLEI、EBSI"], ["发行方权限矩阵", "注册表必须支持分级（政府/企业/社区）与按 schema 授权，单一名单模型无法支撑真实业务里的差异化授权", "EBSI"], ["除名与联动失效", "发行方被除名后其存量凭证如何处理必须预先定义：立即失效会伤害无辜持有人，继续有效则污染持续；常见解法是\"停止新签+限期换签\"", "EBSI 实践"], ["跨辖区互认", "欧盟 EUDI、各国 eID 注册表互不映射时，同一用户每换一个辖区重做一次身份；互认协议是国际化产品的先决工程", "EUDI、EBSI"]]], ["发行方生命周期", [["发行方准入 KYB", "给发行方发\"发行资质\"之前要先对发行方本身做 KYB，注册表被垃圾发行方灌水后信任锚迅速贬值", "Fractal ID"], ["暴雷缓冲设计", "发行方跑路/被黑时，其凭证存量用户不应立即变\"黑户\"；缓冲期+替代发行方迁移机制是注册表的必备能力", "cheqd 治理讨论"], ["质押与经济约束", "要求发行方质押并在违规时罚没，把声誉风险变成经济风险，能显著提高造假成本", "KILT、cheqd"], ["责任划分条款", "发行方签发错误信息的法律责任边界要在注册表条款中写清，否则验证方、发行方、平台方在纠纷中互相推诿", "法律工程实践"]]], ["治理透明度", [["变更日志与审计", "注册表的每次增删改都可追溯时，\"谁把这家发行方放进来的\"才有答案；无审计的注册表会沦为公关橱窗", "EBSI"], ["符合性测试", "接入注册表前跑 DIF/W3C 互操作测试套件，把不兼容挡在门外；放任兼容性差的发行方接入会拖垮全网验证成功率", "DIF Interop"], ["多方共治", "注册表由单方控制时，其商业竞争对手不会接入，网络效应封顶；治理委员会/多签升级是打破冷启动的常规解", "Cheqd 治理"], ["开发者体验即治理", "注册表 API 文档差、接入周期长时，机构会绕开注册表直接互签，治理被架空", "EBSI 接入反馈"]]]]],
+ ["d10", "钱包与凭证交互", "Wallets & Holder Interactions", "成长", "产品本质是替用户持有身份资产并守住同意边界，钱包体验决定 DID 能否走出加密圈。", [["持有人钱包", [["凭证加密备份", "无备份时用户换机即身份清零、凭证全部重做，这比丢助记词更常见；加密云备份+恢复流程是钱包合格线", "Google Credential Manager、ZenGo"], ["展示请求匹配", "Presentation Exchange 的约束定义过宽时，应用会顺手索取超出业务需要的字段；钱包要在匹配层做最小化拦截而不是照单全收", "DIF Presentation Exchange"], ["同意界面粒度", "把\"披露 12 个字段\"包装成一个勾选框的同意在法律上站不住，且用户看不懂的同意等于没有同意；逐字段可视化是合规卖点", "EUDI Wallet 规范"], ["跨设备同步边界", "多端同步方便但扩大攻击面，同步通道密钥泄露=全部凭证泄露；需端到端加密+设备级授权", "Apple/Google 身份栈"]]], ["请求-响应流程", [["nonce 绑定防重放", "OID4VP 演示不绑定会话 nonce 时，攻击者用截图/中间人重放合法演示即可登录；nonce+受众绑定是强制项", "OpenID4VP"], ["签发授权流", "OID4VCI 里 issuer 直接推凭证给未经验证的 wallet 会把凭证发进钓鱼钱包；授权码+PKCE+客户端校验缺一不可", "OpenID4VCI"], ["SIOP 会话安全", "自签发 OP 登录会话若不与验证结果绑定，会出现\"验证的是 A、登录的是 B\"的会话混淆", "SIOPv2"], ["深链钓鱼面", "移动端跨 App 唤起凭证流程是钓鱼重灾区，唤起 URL 必须校验来源 App 身份并提示用户核验", "EUDI Wallet 安全评估"]]], ["Agent 与自动化", [["mediator 最小化", "DIDComm 中继能看到\"谁在何时联系谁\"的元数据，mediator 需做盲转发并承诺不留存，否则它就是最大的隐私单点", "DIDComm v2"], ["Agent 凭证边界", "AI Agent 替用户持凭证时必须限定可披露字段与预算上限，无边界时被盗 Agent 会把全部身份一次性交出", "Agentic 双轨实践"], ["离线验证缓存", "网络不可达场景（安检、航班）需要本地信任缓存，但缓存过期策略不当会把已撤销身份放行很久", "EUDI 离线验证"], ["交互超时降级", "验证方等待超时后自动降级到\"接受截图\"时，整个验证体系被绕过；宁可失败不可降级到伪造面", "产品安全基线"]]]]],
+ ["d11", "跨方法跨链互操作桥", "Interoperability Bridges", "成长", "产品本质是承认标准碎片化是长期现实，在碎片之上架一层可审计的翻译与等价层。", [["方法互通", [["等价声明受信化", "alsoKnownAs 自动互转会把高信任方法与低信任方法混同，攻击者用低成本方法伪造等价于高信任身份；等价必须由可信方签名背书", "Ceramic"], ["统一验证抽象", "验证层必须屏蔽方法差异（did:ethr/did:key/did:web/did:pkh 各异），抽象不彻底时每接一个新方法全链路改一遍", "DIF Universal Resolver、Veramo"], ["碎片化成本量化", "Polygon ID 与 Fractal 等体系互不认的直接后果是同一用户重复 KYC、成本全部转嫁给 B 端客户；报价时必须把多体系接入成本算进去", "Polygon ID、Fractal ID"], ["桥接信任模型声明", "跨体系桥接层自己是一个新的信任假设，必须显式披露\"过了桥等于信了谁\"，默认不透明会让客户误判风险敞口", "互操作架构评审"]]], ["跨链锚定", [["跨链状态一致性", "同一 DID 在两条链上锚定而序列号不互通时，状态分叉会产生\"哪个是真的我\"的仲裁难题；需全局单调序号或单锚定源", "Sidetree 实践"], ["L2 锚定的最终性", "L2 低成本锚定要等挑战期/批提交才有最终性，期间的身份状态更新可被重组；高价值操作需回退主网校验", "Arbitrum、Polygon"], ["跨链消息风险", "用通用跨链桥（LayerZero/Wormhole 类）传身份更新时，桥被攻破=全网身份可被篡改；身份更新宜走专用轻客户端验证", "LayerZero 事故复盘"], ["链 ID 防重放", "跨链签名不绑 chainId 时，同签名可在其他链重放；低级错误但在自研签名栈中反复出现", "EIP-155 经验"]]], ["演进与迁移", [["方法废弃路径", "方法被弃用时必须有官方迁移工具与时间表，无声废弃会让存量身份一夜失联；迁移期需双读", "DIF 方法治理"], ["版本协商与回退", "双方版本不匹配时应协商到共同支持的最高版本，硬失败会把一部分合法交互变成兼容性事故", "DIDComm 版本协商"], ["互操作回归测试", "每次升级跑跨实现回归（钱包×发行方×验证方矩阵），没有矩阵测试时互操作回归只能在客户现场被发现", "DIF Interop 套件"], ["迁移双写窗口", "新旧体系切换的双写窗口要定义冲突裁决与退出条件，无限双写的成本会吃掉迁移收益", "工程实践"]]]]],
+ ["d12", "链上 KYC 与合规身份", "On-chain KYC & Compliant Identity", "核心", "产品本质是把监管要求的\"知道你是谁\"压缩成一条可复用的链上事实，让合规成本从每次交易摊薄到每次认证。", [["合规路径选型", [["四路径权衡", "哈希存证/SBT 徽章/链下验证+链上签名/VC+ZK 四条路径的隐私、可撤销性、监管接受度完全不同；按场景硬套单一路径会导致合规返工", "Civic、Quadrata、zkPass"], ["SBT 可撤销设计", "灵魂绑定徽章签错无法转移也无法\"收回\"，合约必须在铸造时就内置撤销/重铸机制，否则错误徽章永久流通", "Galxe Passport、Quadrata"], ["ZK 与旅行规则张力", "ZK-KYC 能证明用户合规身份，但旅行规则要求交易时披露对手方信息；两者必须在架构层共存设计，否则 ZK 产品会被认定为协助规避旅行规则", "FATF 建议 16、zkPass"], ["合规准入即流动性", "合规身份白名单直接决定机构资金池准入，Aave Arc 式机构池的增量资金与身份覆盖正相关，这是向协议方收费的核心筹码", "Aave Arc"]]], ["责任与数据", [["留存与托管矛盾", "KYC 数据留 5–7 年是机构义务，但 DID 架构把数据还给用户钱包后，机构监管调取时拿不出数据=违规；必须设计机构侧留存副本或托管凭证", "Sumsub"], ["身份被盗责任归属", "合规徽章被盗用后损失算谁的是产品必须书面定义的问题，不定义时第一起大案就会把平台拖进诉讼", "Quadrata 条款实践"], ["重新验证触发器", "地址变更、制裁名单更新、证件过期都应触发复核，缺失触发器的白名单会慢慢腐化成风险名单", "OFAC 更新实践"], ["监管报告接口", "合规身份产品要能按辖区导出监管要求的身份数据（IVMS101 等），手工报表在客户被查时是灾难", "Notabene"]]], ["商业接入", [["接入模式分层", "协议级强制白名单与前端过滤、机构子池三档模式的法律效力与商业价值完全不同；只做前端过滤的产品在监管收紧时价值归零", "Uniswap 前端过滤 vs Aave Arc"], ["合规即服务定价", "按验证次数、按白名单席位、按资金流抽成三种定价对应不同客户生命周期；单一按次定价会在大客户处被议价击穿", "Fractal ID、Civic"], ["隐私池共存", "Privacy Pools 用合规证明集让资金与非法来源隔离，合规身份产品与其对接是\"既合规又隐私\"的叙事支点", "Privacy Pools、Railgun"], ["制裁筛查实时性", "OFAC 名单更新后瞬时收紧筛查阈值（如 0.1 跳），T+1 批量筛查会在制裁落地当天让机构继续与受制裁地址交易", "OFAC/风控实践"]]]]],
+ ["d13", "女巫防御与人格证明", "Sybil Resistance & Proof of Personhood", "成长", "产品本质是为\"一个真人\"制造不可廉价复制的稀缺性，这是空投、治理与信用场景的底层原料。", [["人格信号体系", [["生物模板不可撤销性", "虹膜/指纹泄露后无法像密码一样更换，生物模板必须本地处理、不落中心化数据库，只出证明不出原图", "Worldcoin 隐私架构"], ["弱信号组合防御", "设备指纹+行为信号单独都可被 AI 批量伪造，多信号交叉+异常聚集检测才有意义；单点弱信号上线等于没防", "BrightID、风控实践"], ["信任图人格", "社交图谱去中心化人格无需生物数据，但可被时间养号绕过；信任图要持续衰减与重新认证", "BrightID"], ["法定身份桥接", "接入 eID/移动驾照等法定身份源是最高强度人格证明，但各地 eID 进度不一是产品节奏的现实约束", "EUDI Wallet、ISO 18013-5"]]], ["攻击与对抗", [["女巫成本经济学", "防御有效的唯一标准是攻击成本>单地址期望收益；空投场景 5 美元成本的合成身份包即可起步，低于这个线的防御形同虚设", "Hop Protocol 女巫狩猎"], ["深伪对抗", "Deepfake 准备/面部交换/摄像头注入三步走已经工业化，仅做活体检测会被注入攻击穿透；需注入检测+设备完整性交叉", "iProov"], ["误杀与申诉", "女巫评分误杀真实用户且无申诉通道时，社区反噬比女巫本身更伤产品；评分要可解释+申诉可复核", "Gitcoin Passport"], ["信号融合时效", "多平台信号（交易所黑名单、链上聚类、设备农场特征）融合延迟过高时，攻击在窗口期已完成变现", "风控数据栈"]]], ["应用边界", [["空投与治理场景", "一人一票治理在无人格证明时就是持仓者民主的伪称；人格证明让治理票权重新有意义，但也要防\"一人多身份\"残余", "Gitcoin Passport、Optimism RetroPGF"], ["人格不等于信用", "人格证明回答\"是不是人\"，不回答\"可不可信\"，把它包装成信用分会诱导出超出设计意图的依赖与歧视", "产品设计伦理"], ["证明人格不披露身份", "用 ZK 让\"证明我是唯一真人\"与\"不暴露是谁\"并存，是人格证明能否进入隐私敏感场景的分水岭", "zk 人格证明"], ["场景溢出风险", "同一人格凭证跨场景复用时，一个场景的数据泄露会波及全部场景；场景隔离要在凭证设计层实现", "最小化披露原则"]]]]],
+ ["d14", "监管报告与身份审计", "Regulatory Reporting & Identity Audit", "成熟", "产品本质是让每一次身份验证都留下可回放的证据链，在被监管质询时能自证清白。", [["审计留痕", [["全链路验证留痕", "\"谁在何时验证了谁的什么凭证、用了哪个规则版本\"必须全量落盘，出事后无留痕=无法自证，监管直接按内控失效处罚", "Sumsub、Chainalysis"], ["规则与数据版本化", "验证时用的制裁名单版本、规则引擎版本必须与结果一起存证，用当前版本回放历史判定会得出相反结论", "风控审计实践"], ["不可篡改日志存储", "日志可被内部修改时审计证据即失效，需哈希链或 WORM 存储保证事后不可改", "S3 Object Lock 实践"], ["审计回放与抽样", "支持按凭证 ID 或时间窗回放完整验证过程，监管抽样时手工拼数据是灾难现场", "Notabene"]]], ["报告与义务", [["旅行规则数据交换", "VAASP 间需按 IVMS101 格式交换发起方/受益方信息，不支持 TRP 等协议即无法服务持牌 VASP", "Notabene、Shyft"], ["SARs 可疑活动报告流", "身份异常与可疑交易报告必须打通，SARs 积压本身就是被处罚事由（Block/Cash App 1.2 亿美元罚单的核心）", "FinCEN 案例实践"], ["FATF 建议 16 全量识别", "旅行规则要求全量身份识别而非抽样，产品若按金额阈值偷懒会在检查中被整体否定", "FATF 指引"], ["跨辖区报告差异映射", "同一事件在 MiCA、FinCEN、MAS 下的报告口径与时限不同，无映射表时多辖区客户各配一遍人力", "合规工程实践"]]], ["数据治理", [["删除权与留存分层", "个人明文、合规摘要、哈希证据分三层存储并分别响应删除请求与监管调取，混存时两个义务必违一个", "GDPR+BSA 实践"], ["数据分级与最小化", "内部报表默认带出全量身份字段是最常见的数据泄露源，按角色做字段级脱敏", "个保法/PDPA 实践"], ["第三方审计接入", "为外聘审计与监管开放只读、可追溯、不可截屏的取证接口，临时导 Excel 的取证方式在诉讼中证明力不足", "四大会计师事务所实践"], ["处罚案例对标复盘", "OKX 5.05 亿美元罚单中\"协助绕过 KYC\"的产品功能本身被追责，产品评审必须包含\"该功能会不会被认定为协助规避\"", "OKX 处罚案例"]]]]],
+ ["d15", "企业身份集成与 IAM 桥", "Enterprise IAM Integration", "成熟", "产品本质是承认企业不可能推倒存量 IAM，把 DID 变成 OIDC/SAML 世界旁边可渐进启用的增量层。", [["企业系统集成", [["SSO 双栈桥接", "把 DID 登录包装成标准 OIDC/SAML 应用接进 Okta/Entra，要求企业替换存量 IAM 的方案永远卖不动", "Microsoft Entra Verified ID"], ["员工凭证即时撤销", "离职员工凭证未撤会持续访问内部系统，HR 系统离职事件必须触发凭证撤销 webhook，靠人手工撤销必然漏", "Entra Verified ID"], ["供应链 B2B 凭证", "供应商资质、授信与合规状态做成可验证凭证后，采购方验证从邮件核验变成秒级验签", "GLEIF vLEI"], ["多租户隔离", "企业客户的签发数据、信任配置必须租户级隔离，串租户是企业 SaaS 的死刑级事故", "Trinsic/Dock"]]], ["API 与开发者体验", [["SDK 覆盖与版本策略", "企业技术栈横跨 Java/Python/JS，缺主流语言 SDK 或破坏性升级频繁都会直接出局", "Trinsic、Dock"], ["沙箱与测试凭证", "没有稳定沙箱和假凭证工厂时，客户 PoC 周期从两周拖到两个月，丢单于无形", "EBSI 沙箱"], ["SLA 与可用性承诺", "身份验证卡着客户的交易与登录链路，SLA 低于 99.9% 无法进企业采购短名单", "企业 SaaS 惯例"], ["计费与配额透明", "按签发/验证计量的账单不可解释时，客户财务会先于技术团队否决续约", "按量计费实践"]]], ["运维与可靠性", [["多区域容灾", "签发与验证服务必须多活部署，单区故障=客户登录与交易准入全面中断", "机构级 SaaS 惯例"], ["密钥服务 HSM 托管", "签发方根密钥必须 HSM 托管并支持双人操作，软件存根密钥过不了任何企业安全评审", "Fireblocks、Safeheron"], ["验证监控告警", "验证成功率骤降通常意味着上游 schema 变更或端点失效，无告警时客户比平台先发现故障", "可观测性实践"], ["单位经济核算", "按客户归集签发、验证、存储成本，算不清单客户成本的公司会在大客户定制需求下被拖入亏损", "SaaS 财务实践"]]]]],
+ ["d16", "AI Agent 机器身份", "AI Agent Machine Identity", "成长", "产品本质是给机器发身份证并让它可审计、可撤销——人类轨道高隐私、机器轨道高可审计的双轨制。", [["Agent 身份三层", [["所有权证明层", "每个 Agent 必须可归因到人类或组织所有者，无所有权层的 Agent 出事后无法追责，监管会直接处罚部署方", "Agentic AI 合规实践"], ["能力凭证 SBT 层", "Agent 能做什么、预算多少应做成不可转移的能力凭证，能力无边界声明时被盗 Agent 可行使全部权限", "SBT 实践"], ["实时状态可撤销层", "Agent 被盗或异常时须秒级吊销全部授权，T+1 撤销的 Agent 身份在事故中等于没设防", "授权网关实践"], ["人机授权桥接", "人类向 Agent 委托操作需显式授权+范围衰减，隐式全权委托会让一次提示注入变成身份劫持", "提示注入防御实践"]]], ["机器可审计", [["行为日志身份绑定", "Agent 每次 API 调用绑定其身份与授权上下文，事后才能回答\"这个操作是谁的哪个 Agent 在什么授权下做的\"", "企业 IAM 审计栈"], ["授权范围衰减", "授权随任务完成自动过期并写明剩余额度，长期有效的 Agent 授权是最常被滥用的后门", "零信任实践"], ["Agent 女巫防御", "批量注册 AI 账号会冲垮空投与治理场景，Agent 准入需更强的资金/实体门槛", "女巫防御实践"], ["责任链切分", "开发者、部署方、运营方的责任必须事先书面切分，出事后三方互相推诿是监管处罚加重的典型情节", "法律工程实践"]]], ["经济与协议", [["Agent 支付身份", "x402 类机器支付要求 Agent 身份与钱包分离且可限额，身份直接绑主钱包时被盗即资金全失", "x402 协议实践"], ["机器信任注册表", "哪些 Agent 被允许调用哪些服务需要注册表治理，无准入的开放调用会吸引灰产", "API 治理实践"], ["合规映射", "FATF 对非自然人主体有实益所有人（BO）要求，Agent 身份体系必须挂接 BO 信息才能进金融场景", "FATF BO 规则"], ["人机混合会话权限切换", "人类接管与 Agent 接管的会话必须显式切换并留痕，混用会话日志无法区分责任主体", "审计实践"]]]]],
+ ["d17", "身份图谱与洞察", "Identity Graph & Insights", "成熟", "产品本质是把碎片化的 DID、地址与凭证聚合成可查询的身份画像，卖给风控与商业分析方。", [["身份图谱构建", [["地址与标识符聚合", "用 alsoKnownAs+行为聚类聚合地址时，聚合错误的误伤会波及合规用户的资金与信誉，聚合精度比覆盖率更重要", "TRM Labs、Chainalysis"], ["身份-风险联合评分", "把凭证验证强度、地址行为、女巫信号融合成评分，单一来源评分的假阳性率在企业客户处不可接受", "风控评分实践"], ["时序行为基线", "身份行为的时间序列基线可发现被盗用（行为突变），无基线时只能事后止损", "异常检测实践"], ["图谱查询性能", "百亿边规模下图查询必须走预计算+OLAP（宽事件+ClickHouse），实时多跳查询直接超时", "ClickHouse 实践"]]], ["洞察产品", [["身份信誉 API", "向协议与机构输出可查询的信誉分，是图谱能力最直接的变现，但每类客户要的口径不同需分层产品化", "评分 API 实践"], ["女巫集群发现报告", "空投前女巫集群扫描已成刚需，误报名单的申诉处理决定口碑", "Hop 女巫狩猎实践"], ["合规画像导出", "向监管与机构导出的画像必须可追溯数据来源与时间点，无版本溯源的画像在诉讼中证明力不足", "取证实践"], ["行业基准报告", "发布行业身份验证基准（拦截率、虚假率）建立专业权威，是低成本获客渠道", "行业报告实践"]]], ["商业化边界", [["个人身份数据不可售", "VC 原文与个人身份字段绝不可作为数据商品出售，可售的是统计洞察与风险分，越界即触犯个保法/GDPR", "个保法/GDPR 红线"], ["隐私计算联合分析", "跨机构身份数据联合建模要走隐私计算，直接交换原始数据换来的收入撑不起一次处罚", "隐私计算实践"], ["计费模式", "订阅+按查询混合计费，纯按查询会让客户刻意减少调用并最终流失", "数据 API 商业实践"], ["数据质量 SLA", "图谱更新延迟与聚合错误率要写进 SLA 并赔付，质量无承诺的图谱产品在续约时最先被砍", "数据产品实践"]]]]],
+ ["d18", "生态治理与开放协议", "Ecosystem Governance & Open Protocol", "成熟", "产品本质是用开放协议与治理网络效应构建别人难以复制的生态位，把竞争对手变成生态成员。", [["开放协议治理", [["标准组织参与", "在 W3C/DIF/IETF 占有提案席位能把自家方案写进标准，缺席者只能永远跟随别人的接口演进", "DIF/W3C 实践"], ["开源核心与商业分层", "核心协议开源换生态、企业功能收费，全闭源 DID 协议在开发者生态无法冷启动", "Ceramic/Hyperledger 惯例"], ["网络效应与激励设计", "身份网络的价值随验证方与签发方双边增长，激励设计必须防刷，被刷的激励会永久扭曲生态结构", "双边网络实践"], ["反碎片化联盟", "主动兼容竞品方法与凭证格式，把\"碎片化\"变成自己的翻译生意而不是防御姿态", "DIF 互操作实践"]]], ["生态运营", [["生态基金与 Grant", "对钱包、发行方、验证方的定向 Grant 换生态卡位，无门槛撒钱只会引来羊毛工作室", "生态基金实践"], ["开发者认证体系", "认证开发者与集成商是治理质量与企业信任的传导层", "开发者生态实践"], ["案例库与背书资产", "一个持牌交易所或政府案例的背书价值超过十倍营销预算，案例获取要作为销售目标管理", "B2B 销售实践"], ["竞争定位", "对标 ENS（命名）、Ceramic（数据）、ION（锚定）、KILT/Cheqd（企业 SSI）、Worldcoin（人格）、idOS（合规层）选差异化生态位，全都要等于全都没有", "竞争战略实践"]]], ["长期演进", [["后量子迁移预留", "文档格式与签名算法要预留 PQC（Dilithium/SPHINCS+）位，不预留的体系未来要全量重签存量身份", "NIST PQC"], ["监管演进跟踪", "EUDI 2026、MiCA 实施细则、FATF 年度修订都直接改写产品需求，无专人跟踪的团队会被合规变化突然淘汰", "合规跟踪实践"], ["协议升级治理", "身份文档格式的升级要有社区治理与迁移工具，硬分叉式升级会让生态成员分裂", "治理实践"], ["退出与数据可携带", "为用户与生态成员提供标准导出路径，可携带性承诺本身是对抗供应商锁定质疑的治理资产", "数据可携带权"]]]]]
+];
+const FRONTIER = [
+ ["欧盟 EUDI 数字身份钱包接入", "live", "eIDAS 2.0 要求成员国 2026 年底前提供统一数字身份钱包，PID 凭证与私有凭证生态同步开放，是史上最大规模 DID 强制推广", "对齐 EUDI 架构规范做钱包、签发或验证组件，吃到法定生态红利"],
+ ["链上合规徽章规模化", "live", "Galxe Passport、Quadrata 已把链上 KYC 徽章做成 DeFi 机构池准入标准，商业模式已被验证", "做徽章可撤销性与多链发行，向协议方收准入订阅费"],
+ ["企业可验证员工身份", "live", "Microsoft Entra Verified ID 已把员工凭证接入存量企业 IAM，离职即撤销是刚需场景", "做 IdP 桥接与 HR 系统集成的中间件，按员工席位收费"],
+ ["DID 命名与域名商业化", "live", "ENS 已证明命名层的注册+续费+转售商业模式，年费模型跑通多年", "在垂直领域（机构身份命名/机器身份命名）复刻 ENS 模式"],
+ ["NFT 票务与会员身份", "live", "POAP、门票 NFT 已大规模验证\"凭证即身份\"的消费场景，续费与身份进阶有付费意愿", "把链上履历做成可验证的社交资本层"],
+ ["ZK-KYC 布尔证明落地", "pilot", "zkPass 等用 3P-TLS 证明\"成年/非受制裁辖区/合格投资者\"而不披露原文，路径明确但规模与监管认可度未定", "与交易所和机构池合作做首批 ZK 准入场景，以合规案件背书"],
+ ["AI Agent 机器身份授权", "pilot", "Agent 身份三层（所有权证明/能力 SBT/实时可撤销状态）架构已清晰，x402、Skyfire 在探索机器支付身份，但责任归属与监管框架未定型", "先做 Agent 行为审计与授权网关，卖\"可审计的机器员工\""],
+ ["选择性披露移动端落地", "pilot", "SD-JWT/ISO 18013-5 mDL 已进入手机 OS 与 EUDI 钱包实现，但跨生态互认测试仍在推进", "做移动端披露 SDK 与字段级同意 UI 组件"],
+ ["社会恢复钱包普及", "pilot", "Argent、ZenGo 验证了社会恢复与 MPC 可用性，但用户教育成本高、守护人设计仍粗糙", "把恢复做成\"开箱默认\"并接入机构守护人服务"],
+ ["供应链与机构 vLEI", "pilot", "GLEIF 的 vLEI 把法定实体身份做成可验证凭证，供应链 KYB 场景路径明确", "做 vLEI 与 DID 生态桥接及企业签发代理"],
+ ["学历与职业凭证", "pilot", "MIT 数字文凭、KILT 颠覆式证书验证了教育/职业凭证需求，发证机构接入意愿在增强", "从职业资格与招聘背调切入，做成人才身份层"],
+ ["DAO 一人一票治理", "pilot", "Gitcoin Passport、Optimism 在治理反女巫上已规模试点，人格证明投票未成主流但路径清晰", "做治理反女巫 SaaS，按治理规模收费"],
+ ["生物人格证明的隐私合规化", "explore", "Worldcoin 的虹膜方案在多辖区遭遇隐私审查，合规化改造（本地计算/可撤销模板）在探索中", "若合规方案跑通，人格证明是 DID 最大的稀缺源生意"],
+ ["后量子 DID 文档迁移", "explore", "NIST PQC 标准落地后，存量 DID 文档的签名算法迁移方案尚无共识，迁移成本被普遍低估", "提前做双算法文档格式与混合签名方案，抢占迁移工具位"],
+ ["身份数据市场与隐私计算", "explore", "用户授权下的身份数据联合分析（不泄露原文）商业模式未成形，涉及跨辖区数据法规", "以隐私计算为合规外壳，做 B 端身份数据洞察订阅"],
+ ["跨链身份统一层", "explore", "多链多方法身份状态统一视图尚无赢家方案，跨链消息安全事故频发拖慢进度", "做身份状态聚合层，向钱包与风控方输出统一 API"],
+ ["CBDC 与合规身份互认", "explore", "各国 CBDC 均要求分层身份，DID 作为其隐私分层框架的方案在论证阶段", "跟进央行试点，做身份分层架构咨询与组件"],
+ ["IoT 与机器 DID 规模化", "explore", "设备身份（车辆、传感器）需要海量低成本 DID，Sidetree 类方案适配但商业模式未验证", "从车联网/供应链溯源的单点场景切入设备身份"],
+ ["医疗数据主权钱包", "explore", "患者持凭证授权跨机构调阅的架构已被多次论证，受法规与系统集成成本拖累", "从跨境医疗与保险理赔窄场景试点"],
+ ["去中心化撤销基础设施", "pilot", "Status List 批量化已可用，但跨链跨体系统一撤销视图缺失，被盗身份的全网秒级吊销仍不可达", "做撤销聚合网络，按状态查询收费"],
+ ["身份验证攻击面情报", "live", "深伪与注入攻击迫使远程 KYC 持续升级，iProov 等已把注入检测做成独立收费能力", "把深伪/注入检测作为 DID 验证流水线的增值模块"],
+ ["监管沙盒与 DID 审计", "pilot", "欧盟 DORA 与 MiCA 要求的可审计身份流程，催生\"合规身份审计\"独立服务需求", "做面向 CASP 的身份流程审计与留痕中间件"]
+];
+const MIDS = [
+ ["DID 方法中心", "维护方法选型、注册与弃用流程，守住标识符层的长期一致性", "四维选型评估模型、方法注册表治理、迁移工具链"],
+ ["DID 文档中心", "负责文档结构、验证方法与端点的全生命周期管理", "文档版本化、防回滚、proofPurpose 语义治理"],
+ ["密钥管理中心", "托管模式、轮换、恢复与应急响应的统一治理", "MPC/多签/云 KMS 三栈、社会恢复设计、应急演练"],
+ ["解析中心", "把多方法解析抹平成稳定低延迟 API 并保障其安全", "Universal Resolver 运维、缓存与失效策略、驱动供应链管控"],
+ ["锚定存储中心", "为每类身份数据选择锚定与存储组合并管理成本", "IPFS/Arweave/链上三档策略、可达性监控、生命周期分层"],
+ ["签发中心", "把验证结果转成标准凭证并管理 schema 与模板", "验证强度分级、schema 版本化、幂等批量签发"],
+ ["验证中心", "执行五步验证链并输出可解释的验证结论", "签名/时间/状态/schema/信任锚流水线、双格式兼容"],
+ ["撤销状态中心", "让撤销快速生效且不泄露持有人隐私", "Status List 位图、ZK 状态证明、刷新 SLA"],
+ ["披露证明中心", "管理选择性披露与 ZK 证明的电路与策略", "SD-JWT/BBS+、电路审计、pairwise 化名策略"],
+ ["信任注册中心", "回答\"凭什么信这个签发方\"的权威源", "准入 KYB、权限矩阵、除名联动与缓冲机制"],
+ ["钱包交互中心", "守住持有人备份、同意与展示的安全边界", "加密备份、Presentation Exchange 最小化、OID4VP/VCI"],
+ ["互操作桥中心", "在碎片化标准间架可审计的等价与翻译层", "alsoKnownAs 受信化、跨链锚定一致性、互操作回归矩阵"],
+ ["合规身份中心", "把 KYC/AML 义务压缩成可复用链上事实", "四路径选型、SBT 可撤销、旅行规则接口"],
+ ["女巫防御中心", "为人格与账户制造不可廉价复制的稀缺性", "多信号融合、深伪对抗、误杀申诉体系"],
+ ["审计报告中心", "让每一次验证可自证并满足监管调取", "全链路留痕、IVMS101 报告、版本化证据链"],
+ ["企业集成中心", "把 DID 接进存量 IAM 与业务系统", "SSO/OIDC 桥、SDK 覆盖、SLA 与单位经济"],
+ ["Agent 身份中心", "为机器身份建立授权、审计与撤销体系", "身份三层架构、行为归因、授权衰减"],
+ ["生态治理中心", "运营开放协议、标准参与与反碎片化联盟", "开源分层治理、生态 Grant、PQC 演进路线"]
+];
+const RULES = [
+ ["私钥丢失等于身份永久死亡", "没有恢复机制时，用户换机或丢失设备即所有凭证作废、全部场景重新 KYC；典型场景：钱包 App 下架或用户清除本地数据后客服涌入，机构客户信任归零"],
+ ["撤销机制缺失是给伪造者发永久通行证", "已撤销/被盗身份继续通过验证，事故复盘时监管会把\"无法撤销\"直接认定内控失效；典型场景：合规徽章被盗后仍在借贷协议中作为白名单使用"],
+ ["标准碎片化让用户重复付费", "Polygon ID 与 Fractal 等体系互不认，同一用户在每个体系重复 KYC，成本转嫁 B 端客户；典型场景：客户同时接两个生态后发现认证账单翻倍而选择弃用"],
+ ["IPFS pin 失效让身份无声腐烂", "未付费固定的文档随时被 GC，三个月后集中 404，验证大面积失败；典型场景：活动凭证批量失效、客服无感知、直到统计验证成功率才暴露"],
+ ["女巫攻击在激励场景必然发生", "5 美元成本的合成身份即可领取空投，无女巫防御的激励活动等于补贴脚本工作室；典型场景：空投后女巫集群占比过半，真实用户收益与社区口碑双输"],
+ ["生物模板泄露无法挽回", "虹膜/面部模板不可更换，中心化库一次泄露即终身暴露；典型场景：人格证明项目被要求导出模板用于审计时发生外泄"],
+ ["发行方单点暴雷殃及全部持有人", "发行方跑路或被黑时其签发凭证若立即失效，无辜持有人瞬间变黑户；典型场景：小型发行方停运后其学历凭证在招聘平台批量不可验证"],
+ ["did:web 的 DNS 劫持即身份劫持", "域名被攻破即可静默替换全部公钥并签发假凭证；典型场景：企业邮箱+域名托管同遭钓鱼攻破，攻击者以企业身份批量签发供应商凭证"],
+ ["签名格式双轨导致验证静默失败", "JWT-VC 与 VC-LD 并存，验证器只支持一种时另一类用户全体无法验证；典型场景：钱包升级后老用户凭证突然\"格式无效\"，故障被误判为数据丢失"],
+ ["缓存延迟让被盗密钥继续作案", "文档缓存过期窗口内，密钥轮换未生效、旧密钥签名仍被放行；典型场景：密钥泄露后已完成轮换，攻击者凭缓存窗口继续冒名签发数小时"],
+ ["监管留存与删除权两头违规", "KYC 数据需留 5–7 年而用户行使删除权，无分层存储设计时删也不是留也不是；典型场景：GDPR 删除请求与监管现场检查先后到达，法务无法同时满足"],
+ ["ZK 隐私与旅行规则硬冲突", "ZK-KYC 产品若无法在交易时按 FATF 16 提供对手方身份数据，会被认定协助规避旅行规则；典型场景：监管现场要求调取交易对手身份而系统只有布尔证明"],
+ ["全局 DID 复用让隐私承诺破产", "同一标识符跨全部场景出示，行为被完整拼图，\"隐私\"沦为营销词；典型场景：用户发现各应用行为被数据商聚合出售后引发社区声讨"],
+ ["供应商锁定即客户资产绑架", "私钥分片不可导出时，迁移服务商等于放弃全部身份资产；典型场景：托管商涨价或停服，客户因密钥无法迁移被迫续约"],
+ ["深伪穿透污染整个信任池", "摄像头注入攻破远程 KYC 后批量签发合规徽章；典型场景：一批深伪账户通过验证进入白名单池，事件曝光后整个徽章体系被交易所下架"],
+ ["Agent 无审计即无追责", "AI Agent 批量操作无法归因到责任主体时，监管按内控失效处罚部署方；典型场景：被盗 Agent 高频交易致损后无法举证操作链，机构被认定未尽管理义务"]
+];
+const KPIS = [
+ ["信任规模", "累计签发凭证数、活跃 DID 数、月活钱包数、接入发行方数——衡量网络规模与生态卡位，是估值的锚"],
+ ["验证质量", "验证成功率、假阳性/假阴性率、深伪与注入拦截率——质量塌方一次就能摧毁整个信任池"],
+ ["撤销时效", "从撤销请求到全网状态生效的 P99 延迟——被盗身份到被全网拒绝的时间窗，直接对应资金损失"],
+ ["解析性能", "DID 解析 P99 延迟、可用性 SLA、缓存命中率——决定能否进入实时交易与合规判定链路"],
+ ["隐私水平", "平均披露字段数、跨场景可关联率、pairwise 化名覆盖率——隐私是产品承诺也是监管红线"],
+ ["成本效率", "单凭证签发成本、单次验证成本、存储 TCO（pin 费+锚定费）——单位经济决定规模化可行性"],
+ ["合规覆盖", "支持司法辖区数、信任注册表登记与互认数、审计通过率——覆盖面即市场准入面"],
+ ["商业健康", "B 端客户数、NDR 收入留存、单客户验证毛利——验证 DID 平台不是\"有用户没收入\"的伪商业模式"]
+];
+const LIC_CN = [
+ ["网络安全法+数据安全法+个人信息保护法三法框架", "可开展境内身份数据处理与区块链信息服务", "身份数据须境内存储，处理敏感个人信息（生物特征）需单独同意并做个人信息保护影响评估"],
+ ["密码法与商用密码管理条例", "可开展商用密码改造的 DID 系统", "密钥体系应支持 SM2/SM9 等商用密码算法，密码产品需经国家密码管理部门认证"],
+ ["区块链信息服务管理规定（网信办备案）", "可开展链上 DID/凭证服务备案运营", "链上身份锚定服务须完成区块链信息服务备案，未备案不得对外提供服务"],
+ ["星火·链网 BID 与国家级标识体系", "可开展国家级 DID 标识对接服务", "面向政企客户需支持 BID 等境内标识体系，纯境外方法体系在政企采购中受限"],
+ ["电子签名法", "可开展可靠电子签名与身份认证服务", "身份平台输出的签名需满足可靠电子签名要件才有法律效力，验证流程须可举证"],
+ ["公安部 CTID/eID 实人身份认证", "可开展法定身份源对接的实人核验服务", "身份核验必须经官方身份源渠道，自建身份库与官方数据比对受限"],
+ ["大陆禁止加密资产交易业务", "不可开展代币激励的身份产品与交易相关身份服务", "身份代币发行、空投激励、交易白名单等业务不可面向大陆开展，产品须去代币化"],
+ ["反洗钱法（2025 修订施行）", "可开展虚拟资产相关的合规数据服务", "虚拟资产相关义务扩展后，为境外 VASP 提供身份组件需评估协助合规的边界与责任"],
+ ["个人信息保护法最小必要原则", "可开展最小化披露的身份凭证设计", "凭证设计默认收集全量字段即违规，生物识别必须提供替代选项"],
+ ["数据出境安全评估办法", "可开展境内数据不出境的锚定架构", "把含个人身份数据的文档锚定到境外链/境外存储需通过出境安全评估或标准合同"],
+ ["人工智能生成合成内容标识办法（2025 施行）", "可开展 AI Agent 身份与内容标识服务", "Agent 身份与 AI 生成内容显式标识挂钩，未标识的机器身份服务面临合规风险"],
+ ["网络安全等级保护 2.0", "可开展等保三级的密钥管理服务运营", "密钥管理系统按等保三级建设，未达标不得承接金融政企客户"],
+ ["金融行业分布式身份标准（JR/T 系列）", "可开展金融领域 DID 对标建设", "金融客户采购按行标验收，不支持行标字段与流程的方案无法进入金融供应链"],
+ ["不可开展证券型身份代币与融资", "不可开展以身份权益为名的代币发行融资", "以身份凭证收益权、节点权益发币融资构成非法集资风险"],
+ ["跨境数据与旅行规则执行口径", "可开展跨境合规身份咨询与组件服务", "大陆对虚拟资产旅行规则无专门牌照，相关业务只能以技术组件形态服务境外持牌机构"],
+ ["可开展的合规业务方向总结", "可开展：联盟链 DID、实人认证集成、数据合规服务、星火链网生态", "产品须以\"身份基础设施技术服务\"形态落地，与加密资产交易业务切割"]
+];
+const LIC_INTL = [
+ ["EU MiCA（CASP 义务）", "可开展面向 CASP 的身份合规件", "身份组件作为 CASP 合规栈的一部分需满足 MiCA 审计与外包要求"],
+ ["EU eIDAS 2.0 / EUDI Wallet", "可开展 EUDI 生态钱包与凭证服务", "对齐 EUDI 架构规范与互认框架（ITB 测试）才有资格进入成员国采购"],
+ ["FATF 建议 15/16 与旅行规则", "可开展 VASP 身份与数据交换服务", "须支持 IVMS101 与 TRP 等旅行规则数据交换协议，未对接即无法服务持牌 VASP"],
+ ["美国 FinCEN MSB 注册", "可开展美国市场的 KYC/AML 身份服务", "身份服务若触碰资金传输边界需 MSB 注册，KYC 记录按 BSA 保存"],
+ ["纽约 BitLicense / 州级货币转移牌照", "可开展纽约州受监管客户服务", "纽约客户对身份审计留痕要求最严，产品须支持 DFS 现场检查口径"],
+ ["新加坡 MAS 支付服务法（MPI）与 DTSP", "可开展新加坡支付与数字资产身份服务", "MPI 机构对身份外包有尽调义务，DTSP 框架下境外服务商需配合监管调取"],
+ ["香港 SFC VATP 双牌照与 AMLO", "可开展香港虚拟资产平台身份服务", "穿透式监管要求平台可随时调取用户身份全链路，纯去中心化匿名层不可用"],
+ ["GDPR", "可开展数据最小化与可携带设计", "不可删存储（Arweave）与被遗忘权冲突必须架构级处理，否则欧盟市场无法进入"],
+ ["迪拜 VARA 与韩国 VAUPA", "可开展中东韩国市场身份服务", "VARA 对身份验证与数据本地化有专门规则，VAUPA 要求实名与旅行规则落地"]
+];
+const OPPS = [
+ ["EUDI 生态组件供应", "成员国需在 2026 年底前交付钱包但组件稀缺", "对齐 EUDI 架构规范做签发/验证/钱包组件，进 ITB 互认测试拿入场券"],
+ ["机构池合规准入", "DeFi 机构资金需要白名单但方案碎片化", "做可撤销链上徽章+机构子池接入，对标 Aave Arc 模式抽成准入流"],
+ ["企业员工与机器身份", "离职凭证未撤与 Agent 无审计是企业 IAM 两大盲区", "做 Entra Verified ID 桥接+Agent 审计网关，按席位与调用双计费"],
+ ["ZK-KYC 隐私合规中间件", "交易所需要\"合规且隐私\"的准入叙事", "zkPass 式布尔证明+旅行规则接口共存设计，先做 1–2 个持牌交易所标杆"],
+ ["凭证撤销聚合网络", "跨体系撤销视图缺失，被盗身份吊销延迟以小时计", "做统一状态查询网络，向钱包与验证方按查询收费"],
+ ["社会恢复 B2B2C 服务", "钱包厂商自建恢复体验成本高", "把守护人网络与恢复演练做成可嵌入 SDK，按备份账户收费"],
+ ["学历职业凭证签发代理", "院校与发证机构有防伪刚需但无技术团队", "做签发 SaaS+信任注册表登记，从招聘背调场景收验证费"],
+ ["供应链 vLEI 桥接", "vLEI 与 DID 生态互认通道缺失", "做法定实体身份与链上身份的桥接与 KYB 自动化"],
+ ["深伪对抗验证模块", "远程 KYC 注入攻击迫使持续升级", "把注入检测与设备完整性交叉验证做成验证流水线增值模块"],
+ ["DID 解析企业级托管", "自建解析器运维重且驱动碎片化", "做多方法解析托管+SLA 承诺，向机构按解析调用量收费"],
+ ["多链合规身份聚合视图", "风控方需要跨链跨方法的身份统一视图", "向 Chainalysis/TRM 类风控栈输出身份聚合 API，按查询与订阅混合收费"],
+ ["后量子迁移工具链", "存量 DID 文档的 PQC 迁移无现成方案", "做双算法文档格式与迁移评估工具，锁定 2027 前后的强制升级窗口"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：DID 数字身份平台 / 去中心化标识符 W3C / 可验证凭证 VC / did:ethr did:web / 社会恢复 密钥管理`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

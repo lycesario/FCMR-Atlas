@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web3风控AML合规范式平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>Web3风控AML合规范式平台全景</b>
+    <span>Web3风控AML合规范式平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>Web3风控AML合规范式平台产品功能全景图谱</h1>
+    <p>AML 合规范式平台把合规从<b>事后追责</b>重构为<b>事前预防+结果问责</b>：具备技术能力却未部署实时监控即构成违规。全球年链上洗钱规模超 18 亿美元，OKX 60 亿、KuCoin 239 亿、Block 60 亿罚单揭示 SARs 积压即违规。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是监管范式的方法论底座：把反洗钱从流程审查推进到结果问责，用实时监控、风险为本与可举证运营，让合规成为可被监管验证的持续能力而非文档。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）</td><td>监管范式演进、风险为本RBA、FATF映射、KYC/CDD、KYT交易监控</td><td>合规定位与基础尽调，定义义务边界与风险基线</td></tr>
+<tr><td>第2层（d6–d9）</td><td>制裁筛查OFAC、旅行规则、STR/SAR报告、合规组织三道防线</td><td>拦截与报告，把风险在链上链下实时拦下并闭环上报</td></tr>
+<tr><td>第3层（d10–d14）</td><td>0.1跳收紧、跨境三态判定、RegTech沙盒、数据基础设施、图分析溯源</td><td>智能判定与数据，用图谱与冷热分层支撑毫秒级筛查</td></tr>
+<tr><td>第4层（d15–d18）</td><td>100ms实时判定、自适应模型、Agentic AI、度量审计留痕</td><td>实时自适应与演进，让合规模型随监管与行情持续进化</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br>1. 先确定自身是否属于<b>VASP</b>及适用法域，边界模糊也按高风险处理；<br>2. 必须先有<b>不可篡改的留痕与七年留存</b>能力，否则无法向监管举证；<br>3. 必须先冻结的口径是<b>具备能力即须部署实时监控</b>，有预算不上线等于违规。</div>
+    <div class="danger">最易被误当成成功信号的是<b>制度文档齐全</b>：流程写满不等于实际拦截，OKX式有流程无监控正是被重罚的根因。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">跨境三态判定落地优先级的标准是：先覆盖<b>冲突法域取最严</b>的兜底规则，再优化单法域体验；任何以客户便利为由放宽管辖权的设计都应被判低优先级。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>SAR/STR 报告</td><td>监管定义的可疑活动结构化报告</td><td>写错字段或超期即构成违规，KuCoin无SAR被罚3亿</td></tr>
+<tr><td>可疑案件队列</td><td>待识别与待上报案件的优先级队列</td><td>无优先级致高危滞留过期，积压即违规</td></tr>
+<tr><td>报告证据包</td><td>支撑每笔SAR的链上、链下证据集合</td><td>七年留存灭失则无法自证已尽责</td></tr>
+<tr><td>上报时效</td><td>从识别到报送的法定时限</td><td>超30天等阈值即违规可被罚</td></tr>
+<tr><td>保密义务</td><td>报案行为本身须保密的约束</td><td>泄密致嫌疑人转移即协同犯罪</td></tr>
+<tr><td>责任人</td><td>每案明确到人的问责归属</td><td>群体负责等于无人负责</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域的监管域组合是制裁（OFAC/FATF）、旅行规则（FATF 16）、客户尽调（FATF 15/CDD）与数据跨境（MiCA/DORA）四域在此交汇。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1. <b>具备能力未部署实时监控即违规</b>，非已注册就安全；<br>2. <b>SARs 积压即违规</b>，产能不足不是免责理由；<br>3. <b>名单延迟同步的窗口期</b>内每一笔放行都算违规。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：界定VASP身份与适用法域，建立义务边界</li><li>第二步：部署KYC/CDD与KYT基础尽调与监控</li><li>第三步：接入OFAC等多源制裁筛查并0.1跳收紧</li><li>第四步：打通STR/SAR报告与七年留存举证</li><li>第五步：引入自适应与Agentic AI接管调查闭环</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：合规托管SaaS（中小VASP一站式）</li><li>路径 B：跨境三态判定中台（多法域API）</li><li>路径 C：链上取证与溯源（面向执法与银行）</li><li>路径 D：RegTech中台（传统金融机构）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点是<b>第一资产</b>：一套不可篡改、可检索、可举证的合规数据与留痕底座，其上才能长出不同形态的产品。</div>
+  </section>
+
+  <footer>
+    <p>Web3风控AML合规范式平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "监管范式层（合规定位与分层）"],
+ ["s1", "风险为本方法（RBA）"],
+ ["s2", "制裁与旅行规则运营"],
+ ["s3", "跨境多法域三态判定"],
+ ["s4", "STR/SAR 报告与情报运营"],
+ ["s5", "合规组织与三道防线"],
+ ["s6", "RegTech 与数据基础设施"],
+ ["s7", "实时监控与自适应合规"],
+ ["s8", "AI Agent 合规自动化"],
+ ["s9", "落地演进路径"]
+];
+const PLAYERS = [
+ ["链上分析取证平台", "Chainalysis / TRM Labs / Elliptic", "无（大陆禁加密交易，可做区块链取证服务如欧科云链）", "对公链做反洗钱数据服务的商业本质"],
+ ["实时交易监控KYT", "Chainalysis KYT / TRM", "可对公链做反洗钱监控数据服务", "持续风险评分与异常识别"],
+ ["制裁名单筛查", "ComplyAdvantage / Refinitiv WorldCheck", "跨境支付机构合规筛查（非加密）", "OFAC等名单实时命中阻断"],
+ ["旅行规则网关", "Notabene / Sygna", "不适用（加密交易禁）", "VASP间身份信息强制交换"],
+ ["风险情报与新闻监控", "Feedzai / LexisNexis", "企业尽调与舆情服务", "风险信号融合与预警"],
+ ["身份认证KYC", "Sumsub / Jumio / Onfido", "实名认证活体+证件（旷视、商汤）", "识别真实身份与风险画像"],
+ ["行为生物识别与活体", "Veriff / iProov", "活体检测服务商（如虹软）", "防Deepfake冒名开户"],
+ ["图计算与关联分析", "Elliptic Nexus / TRM Phoenix", "图数据库厂商（蚂蚁图计算）", "跨链跨账户资金亲密度图谱"],
+ ["监管报告与SAR管理", "NICE Actimize / BAE NetReveal", "金融机构反洗钱报送系统", "可疑活动结构化上报与闭环"],
+ ["监管沙盒与合规中台", "各地监管沙盒", "RegTech合规中台（传统金融）", "用技术压缩合规成本"],
+ ["隐私增强合规ZK-KYC", "zkPass / Aztec", "隐私计算联邦学习厂商", "证属性不披露原文的合规凭证"],
+ ["自适应规则引擎", "Feedzai / Featurespace", "风控规则引擎厂商", "动态阈值与模型迭代"]
+];
+const DOMAINS = [
+ ["d1", "监管范式演进", "Regulatory Paradigm Evolution", "核心", "把合规从事后追责重构为事前预防+结果问责的方法论底座，定义具备技术能力却未部署实时监控即构成违规的判定基准", [["范式迁移认知", [["事后追责到事前预防", "事后追责把责任推给已发生损失，事前预防要求具备能力即须部署；未部署实时监控会被直接判定违规而非免责", "Chainalysis"], ["程序审查到结果问责", "旧范式只查流程文件是否齐全，新范式查实际拦截结果；流程齐全但漏拦截仍问责", "NICE Actimize"], ["能力即义务基准", "具备技术能力却未部署实时监控即违规是核心判定；有预算却不上线等于明知故犯", "TRM Labs"], ["合规可举证性", "范式迁移后须能向监管证明持续运营，口头声明无效，须有日志与指标", "Elliptic"]]], ["监管映射", [["FATF互评估对齐", "互评估不合格将导致国家被列入灰名单，影响本国VASP出海；须逐条映射建议15/16", "FATF"], ["本地化法律转化", "FATF建议须落地成本国法条，直接照搬会漏掉本地附加义务如阈值差异", "MAS"], ["监管预期管理", "监管机构对合理努力有隐性预期，低于行业中位数会被质疑懈怠", "FinCEN"], ["跨境一致性缺口", "同一业务在两国合规口径不同，须识别缺口并设最高标准兜底", "SFC"]]], ["义务边界", [["VASP定义边界", "未正确识别自身是否属于VASP会导致整个合规体系缺位；边界模糊也须按高风险处理", "FATF"], ["非金融活动豁免", "某些链上行为如单纯持有不触发义务，误判会浪费资源或漏管", "Elliptic"], ["关联实体穿透", "集团内实体互免会制造盲区，须穿透至最终控制人统一评估", "Refinitiv"]]], ["范式度量", [["预防性指标", "用拦截率与提前量而非罚单数衡量，倒推才补是事后思维", "Chainalysis"], ["违规暴露面", "定期测算若被检查最可能的失分项预先收敛；不测等于裸奔", "TRM Labs"], ["范式成熟度自评", "建立五级自评（无、文档、流程、实时、自适应）定位所处阶段", "NICE Actimize"], ["董事会可理解报告", "范式进展须能用业务语言向董事会汇报，否则资源拿不到", "Feedzai"]]]]],
+ ["d2", "风险为本方法RBA", "Risk-Based Approach", "核心", "以风险等级而非业务规模为资源配置依据的合规方法论，决定监控强度与尽调深度", [["风险识别", [["风险因子建模", "RBA核心是给客户、产品、地域、渠道四维打分；维度漏一则画像失真导致高风险的被低看", "Chainalysis"], ["国家风险分级", "与FATF灰黑名单国交易默认高风险，误降级会被视为纵容", "FATF"], ["产品风险矩阵", "匿名币与混币相关产品须定为最高风险；错定级使监控强度不足", "Elliptic"], ["渠道风险识别", "VPN与匿名网络接入须触发增强尽调，忽略等于给黑产开后门", "ComplyAdvantage"]]], ["资源配置", [["风险强度配比", "监控与尽调资源须与风险成正比；平均用力会让高危客户获得最少关注", "Feedzai"], ["差异化尽调", "高风险客户走EDD，低风险走SDD；全部走EDD会拖垮运营，全走SDD会漏", "Sumsub"], ["动态重评触发", "风险评分须随行为变化重算，静态画像一年才更新等于没画像", "TRM Labs"], ["成本有效性度量", "RBA要求用最低成本控最高风险，只看拦截数不看单位成本会错配", "NICE Actimize"]]], ["缓解措施", [["风险缓释组合", "单一措施如仅IP封禁易被绕过，须组合技术、流程、人工", "Chainalysis"], ["高风险退出机制", "对持续高风险的客户与关系须能暂停或终止，不敢退出会持续出血", "Elliptic"], ["增强监控阈值", "EDD客户应降低触发阈值并加密审查频率，沿用标准阈值形同虚设", "ComplyAdvantage"], ["残余风险接受", "须书面界定可接受的残余风险边界，无边界则无法证明尽职", "FinCEN"]]], ["治理闭环", [["RBA政策落地", "方法论须转为可执行规则与岗位责任，仅写进手册无约束力", "Feedzai"], ["独立性保障", "风险判定部门须独立于业务线，被业务KPI绑架会系统性放水", "NICE Actimize"], ["监管沟通口径", "RBA取舍须能与监管解释合理性，事后无法自圆其说即违规", "MAS"], ["回溯验证", "用真实案件回溯RBA是否把坏人判为低风险的盲点，不回溯则盲点永存", "TRM Labs"]]]]],
+ ["d3", "FATF建议15/16映射", "FATF Rec 15/16 Mapping", "成熟", "将虚拟资产服务商纳入反洗钱义务的法定映射框架，旅行规则是其核心落地条款", [["建议15落地", [["VASP义务映射", "建议15要求VASP承担与金融机构同等AML义务；漏映射任何一项即构成监管缺口", "FATF"], ["注册许可挂钩", "未将建议15转化为本地许可前置，等于无牌经营，面临刑事风险", "FinCEN"], ["DNFBP覆盖", "特定非金融中介如律师会计师也被纳入，漏管会被利用做结构化规避", "FATF"], ["无牌经营后果", "未持牌即开展VASP业务在多数法域属刑事，补注册不能免除既往责任", "FinCEN"]]], ["建议16旅行规则", [["Travel Rule阈值", "超过阈值的转账须交换双方身份信息，低于阈值豁免会漏掉拆分规避", "FATF"], ["信息完整性", "传输的身份字段不完整会使接收方无法尽调，整条链合规失效", "Notabene"], ["互操作标准", "不同VASP用不同网关协议需互通，单边自洽造成对手方合规断点", "Sygna"], ["豁免阈值滥用", "低于阈值豁免被拆分转账滥用，须监测拆分行为而非机械免", "FATF"]]], ["互评估", [["互评估证据", "灰名单国家VASP出海受阻，须持续留存互评估达标证据", "FATF"], ["技术合规证明", "监管要的是系统真能拦而非制度写了，须提供运行日志", "Chainalysis"], ["缺陷整改闭环", "互评估指出的缺陷须限期整改并验证，拖延会被升级为制裁", "Elliptic"], ["同行评审跟踪", "每年同行评审口径会变，须跟踪最新解释性note调整映射", "TRM Labs"]]]]],
+ ["d4", "KYC客户尽调", "KYC / CDD", "成熟", "识别客户真实身份与风险画像的入口，决定后续所有监控与筛查的基线", [["身份采集", [["证件真伪核验", "证件造假或盗用未被识别会让整个KYC失效，后续监控全建在假身份上", "Sumsub"], ["活体防深伪", "Deepfake三步走可伪造真人，无活体注入检测会被AI冒名开户", "Veriff"], ["受益所有人识别", "只看表面申请人会漏掉实际控制人，洗钱往往藏在UBO背后", "Jumio"], ["负面新闻筛查", "开户前未查PEP与制裁关联，事后发现早已是红线人物", "ComplyAdvantage"]]], ["风险分级", [["客户风险评分", "CDD须输出可量化风险分驱动后续强度，模糊高风险无操作性", "Onfido"], ["PEP增强", "政治公众人物须EDD并持续监控，降级处理等同故意放行", "WorldCheck"], ["地理风险加权", "来自高风险司法辖区须加权，忽略地域因子会系统性低估", "Chainalysis"], ["关系网络初判", "开户时关联已知可疑地址须即时预警，放过则进入资金网络", "Elliptic"]]], ["持续尽调", [["资料定期更新", "KYC信息过期仍当有效会让监控基线失真，须强制重验周期", "Sumsub"], ["行为漂移检测", "客户行为偏离开户画像须触发重评，静态档案无法反映新风险", "TRM Labs"], ["退出与冻结", "确认涉案须能快速冻结并保留证据，流程卡顿会错失窗口", "NICE Actimize"], ["留痕不可篡改", "所有KYC动作须留痕且防篡改，事后补录会被认定造假", "Veriff"]]]]],
+ ["d5", "KYT交易监控", "KYT Monitoring", "成熟", "对链上、链下资金流进行实时风险评分与异常识别的持续监控能力", [["实时评分", [["链上地址风险分", "每笔交易须带发送与接收地址风险分，无分则无法判断该不该拦", "Chainalysis KYT"], ["行为异常基线", "基于历史行为建模，偏离即告警；无基线则正常与异常无差", "TRM Labs"], ["资金分层识别", "识别快速多层拆分转账是洗钱核心手法，漏判则资金已洗白", "Elliptic"], ["混币器命中", "地址关联Tornado Cash类混币器须高危，误判正常会放行黑钱", "Chainalysis"]]], ["规则引擎", [["阈值动态化", "固定阈值易被试探摸清后规避，须按波动动态降权", "Feedzai"], ["场景化规则", "不同产品如换汇、游戏、DeFi规则不同，套用单一规则漏检率高", "NICE Actimize"], ["规则回测", "新规则须用历史案件回测命中率，未回测上线等于盲拦", "Featurespace"], ["误报治理", "误报率过高会致告警疲劳漏真，须用反馈闭环压误报", "ComplyAdvantage"]]], ["溯源与图谱", [["资金来源溯源", "须能向上追溯资金来源至干净源头，断链则无法定责", "TRM Phoenix"], ["跨链关联", "资金跨链须原子化关联，否则跨链即消失", "Elliptic Nexus"], ["关联账户聚类", "同控多账户的协调者须聚类识别，单点视角会漏网络", "Chainalysis"], ["风险传播打分", "与已知坏地址邻近度须量化，邻居即危险要可度量", "TRM Labs"]]]]],
+ ["d6", "制裁名单筛查OFAC", "Sanctions Screening", "核心", "对交易对手与地址做制裁名单命中的实时阻断能力，监管红线中的最高优先级", [["名单管理", [["名单实时同步", "OFAC更新名单须秒级同步至生产，延迟期内交易即违规放行", "OFAC"], ["名单版本化", "须记录每条记录命中的名单版本，审计时无法对版即失职", "Refinitiv WorldCheck"], ["多源名单融合", "仅用单一名单源会漏SDN外其他制裁集，须融合多源", "ComplyAdvantage"], ["模糊匹配误判", "拼写变体与音译须模糊匹配，硬性相等匹配让规避者漏网", "LexisNexis"]]], ["交易阻断", [["发送方筛查", "转账发起即须筛查发送地址，事后拦等于已放行黑钱", "Chainalysis"], ["接收方筛查", "接收方在制裁名单须阻断，仅查一方会留半边门", "Elliptic"], ["0.1跳关联收紧", "名单更新瞬间将关联半径收紧至0.1跳，不收紧会漏近端关联方", "TRM Labs"], ["阻断不可逆留证", "阻断动作须留证且可复核，私自放行无痕即重大违规", "NICE Actimize"]]], ["制裁判定", [["所有权穿透", "须穿透至最终受益所有人是否在名单，表面干净也须查", "OFAC"], ["管辖适用判定", "交易是否落入美jurisdiction决定OFAC适用性，误判会漏管", "FinCEN"], ["间接制裁识别", "二级制裁下与受制裁方交易也禁，漏判使机构自身被制裁", "Refinitiv"], ["豁免与许可", "存在通用许可场景须可走审批，一律拦会误伤合规业务", "OFAC"]]], ["运营问责", [["筛查失效追责", "Block与Cash App因筛查失效被罚1.2亿，失效即代价", "NICE Actimize"], ["覆盖完整性", "所有资金出入口须纳入筛查，留一个口子即全功尽弃", "ComplyAdvantage"], ["压力测试", "定期用已知制裁案例压测系统，不测不知能否真拦", "Chainalysis"], ["董事会知晓", "筛查失效风险须上达董事会，隐瞒即治理失当", "Elliptic"]]]]],
+ ["d7", "旅行规则运营化", "Travel Rule Operations", "成长", "在VASP间传递交易双方身份信息的合规互操作能力，跨境转账的强制门槛", [["信息交换", [["双方身份传递", "超过阈值转账须把收发双方身份信息传给对手方，缺失则违规", "Notabene"], ["字段标准对齐", "发送字段须符合FATF要求的姓名、账号、地址格式，错位对手方无法用", "Sygna"], ["加密传输", "身份信息须端到端加密，明文传输泄露即二次违规", "Veriff"], ["对手方可达性", "找不到对手方合规入口须拒绝交易，强行发送等于违规外溢", "Travel Rule"]]], ["网关互操作", [["协议兼容", "不同VASP用TRP与IVMS101等须互通，不兼容造成合规断点", "Notabene"], ["往返确认", "须确认对手方已收并已尽调，单向发送无闭环", "Sygna"], ["阈值本地化", "各国阈值不同须按接收国规则执行，统一阈值会跨境失配", "FATF"], ["异常处理", "对手方无响应须有超时降级策略，卡死则业务瘫痪", "Chainalysis"]]], ["运营闭环", [["报文留痕", "每次交换须完整留痕供审计，缺痕无法证明已履行", "Elliptic"], ["失败重送", "交换失败须重试并有界，无限重试拖垮系统", "NICE Actimize"], ["合规证明", "可向监管导出已交换证据包，口头声明无效", "TRM Labs"], ["客户体验平衡", "强制信息收集须最小化摩擦，过度索权引发客户流失", "Sumsub"]]]]],
+ ["d8", "STR/SAR报告运营", "SAR Reporting Ops", "核心", "将可疑活动转化为可审计监管报告并闭环管理的运营体系，积压即违规", [["可疑识别", [["可疑阈值触发", "须定义可量化可疑标准而非靠人工直觉，标准模糊致漏报", "NICE Actimize"], ["模式化识别", "结构化识别资金分层与归集等模式，靠肉眼无法规模化处理", "Chainalysis"], ["跨域汇聚", "可疑信号跨KYC、KYT、制裁须汇聚单视图，孤岛致误判无嫌疑", "TRM Labs"], ["去误报后上报", "须先压缩误报再上报，纯告警灌水会被监管视为敷衍", "ComplyAdvantage"]]], ["报告生成", [["结构化报告", "SAR须按监管schema结构化生成，自由文本难审查且易漏要素", "FinCEN"], ["时效性约束", "监管限期上报如30天内，超期即违规且可被罚", "FinCEN"], ["报送字段完整", "漏填关键字段如金额、对象使报告无效，等于未报", "NICE Actimize"], ["保密义务", "报案行为本身须保密，泄密致嫌疑人转移即协同犯罪", "Elliptic"]]], ["积压治理", [["积压即违规", "KuCoin因无SAR被罚3亿、Block因SARs积压被罚1.2亿，积压等于违规", "FinCEN"], ["队列优先级", "须按风险优先级排队处理，先处理低危致高危滞留过期", "Chainalysis"], ["产能弹性", "可疑量突增须能扩产能，固定人力遇峰即积压", "NICE Actimize"], ["滞留预警", "单案超阈值停留须预警升级，静默积压至过期才知", "TRM Labs"]]], ["闭环与留痕", [["报告后跟踪", "上报后须跟踪监管反馈与补充要求，单向上报断联", "FinCEN"], ["复盘沉淀", "每案复盘反哺规则，不复盘同类案件重复漏", "Elliptic"], ["七年留存", "SAR及支撑证据须留七年，到时灭失无法自证", "NICE Actimize"], ["问责到人", "每案须明确责任人，群体负责等于无人负责", "Chainalysis"]]]]],
+ ["d9", "合规组织与三道防线", "Three Lines of Defense", "成熟", "业务、合规、内审三层职责划分的治理框架，决定问责能否落到人", [["三道防线", [["业务一道防线", "业务部门须承担一线合规责任，全推给合规部会彻底失守", "NICE Actimize"], ["合规二道防线", "合规职能须独立设岗并有权叫停，虚设则无制衡", "MAS"], ["内审三道防线", "内审须独立验证前两道，自己审自己等于没审", "IIA"], ["职责不清兜底", "职责边界模糊处须有兜底归属，空白区必被钻", "FinCEN"]]], ["治理机制", [["合规官权责", "首席合规官须有实权与上报通道，花瓶COO无法拦截", "MAS"], ["董事会监督", "董事会须对合规结果负责，甩锅给中层无效", "SFC"], ["利益冲突隔离", "合规与业务KPI须隔离，利益绑定致系统性放水", "NICE Actimize"], ["晋升问责绑定", "重大违规须可回溯追责至个人，无后果则无约束", "FinCEN"]]], ["能力与文化", [["胜任力标准", "合规岗须有专业能力认证，外行上岗致误判", "ACAMS"], ["培训闭环", "培训须有考核与留痕，走过场无法抗辩已告知", "MAS"], ["吹哨保护", "内部举报须受保护，封口导致隐患无人报", "SFC"], ["文化度量", "合规文化须可度量如举报率、拦截率，口号文化无价值", "NICE Actimize"]]]]],
+ ["d10", "制裁判定与0.1跳收紧", "0.1-Hop Tightening", "成长", "在名单更新瞬间将筛查关联半径从常规收紧至0.1跳的实时判定机制", [["关联半径", [["0.1跳定义", "0.1跳指直接资金往来的一跳内近端关联方，须毫秒级识别", "TRM Labs"], ["瞬时收紧", "名单更新瞬间关联半径从常规收紧至0.1跳，延迟收紧漏近端", "Chainalysis"], ["关联度量化", "邻近度须量化打分而非二元，硬阈值致边界误放", "Elliptic"]]], ["判定逻辑", [["多源JOIN", "判定须JOIN制裁、图谱、交易多源，单源致片面放行", "NICE Actimize"], ["实时性约束", "判定须落在交易链路内，事后判定等于已放款", "TRM Labs"], ["可解释输出", "每个判定须输出可解释理由链，黑箱判定监管不认", "Chainalysis"], ["假阳性权衡", "过紧致误伤合规客户，须设复核通道平衡", "ComplyAdvantage"]]], ["运营保障", [["名单热更新", "热数据层须热加载名单，冷加载致窗口期违规", "TRM Labs"], ["回滚机制", "误收紧须可快速回滚，错误全局生效致业务中断", "Chainalysis"], ["压测验证", "须定期压测0.1跳在高并发下仍准确，不测不知边界", "Elliptic"], ["审计留痕", "每次收紧动作留痕可溯，无痕无法证明已尽责", "NICE Actimize"], ["命中可复核", "0.1跳命中须可人工复核闭环，纯自动无复核致误冻难纠正", "NICE Actimize"]]]]],
+ ["d11", "跨境三态判定", "Cross-Border Tri-State", "核心", "同一笔跨国资金在美国冻结、新加坡披露、韩国拒绝的三态合规判定引擎", [["三态模型", [["冻结披露拒绝", "同笔资金在美冻结、新披露、韩拒绝是三态判定，须并行评估", "Chainalysis"], ["管辖权识别", "交易落点国决定适用法，错判管辖权致整链失配", "FinCEN"], ["冲突解决序", "三国冲突须有优先级与兜底取最严，无规则则瘫痪", "MAS"], ["状态可解释", "三态结论须附带法域依据，黑箱无法向客户解释", "TRM Labs"]]], ["法域知识库", [["各国阈值库", "各国旅行规则与申报阈值不同须建库，硬编码致跨境错配", "FATF"], ["牌照映射", "交易对方国持牌状态须可查，无牌对接即违规", "SFC"], ["制裁差异", "各国制裁名单有差异须并集处理，取单国会漏", "OFAC"], ["监管动态跟踪", "法域规则常变须订阅更新，停滞即过期失效", "Elliptic"]]], ["实时判定", [["链路内判定", "跨境判定须嵌入交易链路实时返回，异步致放行后撤销", "NICE Actimize"], ["多法域并行", "须并行计算各法域结论再聚合，串行拖垮延迟", "TRM Labs"], ["失败降级", "某法域接口不可达须安全降级而非放行，沉默即冒险", "Chainalysis"], ["快照留证", "每笔跨境判定须存法域快照供审计，无快照无法举证", "FinCEN"]]], ["运营闭环", [["客户告知", "三态结果须清晰告知客户可、不可、需披露，含糊致误用", "MAS"], ["争议申诉", "客户对判定异议须有申诉通道，无通道引监管投诉", "SFC"], ["规则迭代", "跨境案例须反哺法域库，不迭代越用越错", "TRM Labs"], ["问责口径", "跨境误判须能定责到法域与规则版本，混责则无改进", "Chainalysis"]]]]],
+ ["d12", "RegTech与监管沙盒", "RegTech & Sandbox", "成长", "用技术压缩合规成本并借沙盒验证新模式的创新通道", [["技术降本", [["自动化替代", "用自动化替代人工尽调可降成本，但错配致高危仍人工漏", "Feedzai"], ["数据集成", "RegTech须打通多源数据，孤岛致判断片面", "NICE Actimize"], ["可解释AI", "模型须可解释供监管，黑箱AI不被接受", "Featurespace"], ["部署弹性", "合规模块须弹性扩缩，峰谷失衡致积压或浪费", "ComplyAdvantage"]]], ["沙盒验证", [["沙盒准入", "新合规模式须先入沙盒验证再推广，裸上线即冒险", "MAS"], ["边界界定", "沙盒须明确免责令边界，越界仍违规", "FCA"], ["退出机制", "沙盒结束须有转常规路径，卡在沙盒无法商用", "SFC"], ["监管共建", "沙盒须与监管共建指标，单方定义不被认", "FATF"]]], ["创新治理", [["创新风险评级", "新技术须先评风险再上，无评级致失控", "FinCEN"], ["供应商管理", "RegTech供应商须尽调，外包不免责", "NICE Actimize"], ["效果度量", "创新须度量是否真降违规率，否则是花架子", "Feedzai"], ["责任归属", "技术故障致违规仍由机构负责，甩锅供应商无效", "MAS"]]]]],
+ ["d13", "数据基础设施冷热分层", "Data Infrastructure", "成熟", "以热、温、冷、冰四层与宽事件架构支撑毫秒级筛查与七年留存的底座", [["分层架构", [["热数据内存化", "0到7天热数据内存与NVMe毫秒级，落盘致实时判定超100ms", "ClickHouse"], ["温数据块存", "7天到1年温数据块存储秒级，错层致查询慢拖累监控", "S3"], ["冷冰归档", "1到7年冷、7年加冰数据按留存策略归档，误删致七年留痕断裂", "对象存储"], ["分层迁移", "数据须按年龄自动迁移层，人工迁移易漏且错层", "ClickHouse"]]], ["宽事件", [["Wide Event schema", "宽事件记录身份、设备、地理、风险上下文，窄表致溯源断链", "ClickHouse"], ["跨账户图查", "宽事件支撑跨账户图查询，无则洗钱网络不可见", "ClickHouse"], ["OLAP支撑", "OLAP引擎支撑交易溯源分析，OLTP无法规模遍历", "ClickHouse"], ["事件不可变", "宽事件须append-only防篡改，可改等于可销毁证据", "区块链存证"]]], ["留存与性能", [["七年留存", "合规留存5到7年须保障，到年灭失即违规", "FinCEN"], ["100ms判定支撑", "内存缓存与流式预计算保判定小于100ms，多源JOIN超1.35s不可接受", "Local Zones"], ["网络优化", "Local Zones将网络25ms降至2.5ms，跨区域拖垮实时性", "AWS"], ["容量弹性", "数据增长须弹性扩容，封顶致写入丢弃即丢证据", "ClickHouse"]]]]],
+ ["d14", "图分析与链上溯源", "Graph Analytics", "成长", "跨链跨账户的资金亲密度图谱与溯源能力，对抗混币与分层洗钱", [["全域图谱", [["跨链原子关联", "须跨链原子化关联资金，否则跨链即断点", "TRM Phoenix"], ["毫秒级整体筛查", "全域图谱须毫秒级整体筛查，逐链查致漏实时转账", "Elliptic Nexus"], ["地址归属聚类", "同控地址须聚类为实体，单地址视角漏网络", "Chainalysis"], ["实体解析", "分散地址须解析为同一实体，否则画像碎片化", "Elliptic"]]], ["亲密度图谱", [["时空对齐", "跨链资金亲密度须时空对齐正负30秒，偏差致误关联或漏关联", "TRM Labs"], ["金额特征匹配", "金额特征匹配识别资金拆分，纯地址匹配漏分层", "Chainalysis"], ["邻近度量化", "与坏地址邻近度须量化打分，二元判定致边界误放", "Elliptic Nexus"], ["动态更新", "图谱须随新交易动态更新，静态图过期即失真", "TRM Phoenix"]]], ["溯源反混淆", [["混币后追踪", "混币后追踪准确率89%降到11%，须用图谱与情报补回可视性", "Chainalysis"], ["分层周期识别", "识别45天洗钱周期各阶段，错位干预错过窗口", "Elliptic"], ["跨链桥穿透", "跨链桥5分钟穿透7条公链须能追踪，失察即断链", "TRM Labs"], ["资金归因", "须将资金归因到具体犯罪类型，泛化可疑无操作性", "Chainalysis"]]], ["情报融合", [["暗网情报", "融合暗网与Discord情报补全图谱盲区，纯链上漏线下", "TRM Labs"], ["开源情报", "推特等开源情报须纳入，错过预警致滞后", "Elliptic"], ["情报可信度", "情报须评分去噪，误信假情报致误拦", "Chainalysis"], ["闭环反馈", "图谱命中须反馈训练，不闭环越用越钝", "TRM Phoenix"]]]]],
+ ["d15", "实时合规判定100ms", "Real-Time Determination", "成长", "在交易链路内完成多源JOIN与风险判定的低延迟目标能力", [["延迟目标", [["100ms硬目标", "合规判定须小于100ms落交易链路，超则只能事后拦", "Chainalysis"], ["多源JOIN优化", "多源JOIN原超1.35s须用内存缓存压到百ms内，不优化即违规", "TRM Labs"], ["流式预计算", "风险分须流式预计算而非实时算，冷启动致超时", "Feedzai"], ["链路位置", "判定须置于撮合前闸门，置于后则已成交难撤", "NICE Actimize"]]], ["架构优化", [["内存缓存", "热名单与图谱须常驻内存，回源DB必超时才行", "Redis"], ["Local Zones", "就近计算将网络25ms降到2.5ms，跨区拖垮实时性", "AWS Local Zones"], ["并行化", "多规则须并行判定后聚合，串行累加超预算", "TRM Labs"], ["降级保底", "依赖不可达须安全降级而非超时放行，沉默即冒险", "Chainalysis"]]], ["度量与压测", [["P99度量", "须看P99延迟而非均值，均值达标下长尾仍违规", "Feedzai"], ["峰值压测", "须在高并发峰值压测，低峰达标高峰崩", "NICE Actimize"], ["超时熔断", "单依赖超时须熔断保主链路，一棵树挂整片", "TRM Labs"], ["可观测", "判定链路须全链路可观测定位瓶颈，黑盒无法优化", "Chainalysis"]]]]],
+ ["d16", "自适应合规模型", "Adaptive Compliance", "成长", "随监管更新与行情波动自动调整阈值权重的动态模型", [["动态阈值", [["波动自适应", "波动率大于8%自动降权防误报，固定阈值在极端行情崩", "Feedzai"], ["行情联动", "保证金与风险权重随行情自动调整，人工调参滞后致穿仓", "Hyperliquid"], ["监管更新自适应", "新规发布须模型自动吸收，人工改规则滞后违规", "NICE Actimize"], ["衰减机制", "旧模式权重须衰减，模型僵化致新手法漏检", "Featurespace"]]], ["反馈学习", [["误报反馈", "误报须回流重训压低，不反馈误报率攀升致漏真", "ComplyAdvantage"], ["命中复盘", "真实案件须复盘模型是否该拦，不复盘盲点永存", "Chainalysis"], ["概念漂移", "须检测数据分布漂移并再训练，忽视则模型悄悄失效", "TRM Labs"], ["可解释输出", "自适应结果须可解释，不可解释监管不认且难追责", "Featurespace"]]], ["治理约束", [["人机协同", "自适应须保留人工兜底，全自动失控无救", "NICE Actimize"], ["版本管理", "模型须版本化可回滚，坏版本全量生效致事故", "Feedzai"], ["偏见审计", "须审计模型是否歧视特定群体，偏见致合规与声誉双失", "FinCEN"], ["上线审批", "模型变更须审批留痕，私自上线出事无责可追", "MAS"]]]]],
+ ["d17", "Agentic AI合规自动化", "Agentic AI Compliance", "成长", "多智能体协作完成调查、报告与情报融合的合规流程接管能力", [["多智能体", [["调查协作", "多智能体分工调查提升吞吐，单智能体瓶颈致积压", "Chainalysis"], ["可解释逻辑链", "AI须生成监管语言逻辑链，不可解释结论不采信", "NICE Actimize"], ["实时情报融合", "融合推特、暗网、Discord情报，滞后致预警晚", "TRM Labs"], ["任务编排", "调查任务须可编排重试，无序并发致遗漏", "Feedzai"]]], ["Agent身份", [["所有权证明", "AI Agent须有所有权证明防冒用，无证明致责任不清", "Chainlink"], ["能力凭证SBT", "Agent能力须SBT凭证可验证，无凭证难定权责", "Polygon ID"], ["实时状态可撤", "Agent状态须可实时撤销，失控难停等于失控", "Privado"], ["双轨隔离", "人类高隐私、机器高可审计双轨，混轨泄隐私或失审", "Fractal ID"]]], ["接管边界", [["人类兜底", "2026接管元年仍须人类终审，全AI致不可逆误判", "FinCEN"], ["审计可溯", "Agent每步须留痕可审，黑盒自动化无法举证", "Chainalysis"], ["失败降级", "Agent异常须降级人工，硬撑致错误放大", "NICE Actimize"], ["责任归属", "Agent失误仍由机构担责，甩锅技术无效", "MAS"]]]]],
+ ["d18", "合规度量与审计留痕", "Metrics & Audit", "核心", "用可量化指标与不可篡改留痕证明已尽合规义务的证据体系", [["指标体系", [["预防性指标", "用拦截率与提前量衡量，罚单数倒推是事后思维", "Chainalysis"], ["覆盖率指标", "筛查与监控覆盖率须100%可证，留口子即不达标", "NICE Actimize"], ["质量指标", "误报率与漏报率须双控，单控致另一失控", "Feedzai"], ["时效指标", "SAR时效与判定延迟须度量，超时即违规信号", "FinCEN"]]], ["留痕存证", [["不可篡改", "所有合规动作须防篡改留痕，可改等于可销毁", "区块链存证"], ["七年可查", "留痕须七年可检索，到期灭失无法自证", "对象存储"], ["版本关联", "留痕须关联规则与数据版本，断版无法复现当时判定", "NICE Actimize"], ["全链路", "从KYC到SAR全链路串联，断点致责任难追", "Chainalysis"]]], ["审计与举证", [["监管举证", "须一键导出已尽责证据包，口头声明无效", "Elliptic"], ["内部审计", "定期内审验证前两道防线，自己审自己无效", "IIA"], ["外部审计", "须可接入外部审计，封闭致盲点", "ACAMS"], ["持续审计", "审计须持续而非年度，年度审计留巨大空窗", "NICE Actimize"]]]]]
+];
+const FRONTIER = [
+ ["实时制裁筛查", "live", "OFAC名单秒级同步与阻断已有成熟商业方案如ComplyAdvantage与Refinitiv", "向中小VASP输出筛查API与合规托管"],
+ ["链上KYT监控", "live", "Chainalysis与TRM已规模化服务交易所与银行", "将KYT做成可嵌入的钱包与网关插件"],
+ ["旅行规则网关", "live", "Notabene与Sygna已在多国VASP间运营", "做跨境互操作网关降低中小机构接入成本"],
+ ["SAR结构化报送", "live", "NICE Actimize与FinCEN E-Filing已成熟", "SaaS化SAR生成与队列管理"],
+ ["KYC活体认证", "live", "Sumsub、Veriff、Onfido全球商用", "防Deepfake活体检测下沉到移动端SDK"],
+ ["全域图谱溯源", "live", "TRM Phoenix与Elliptic Nexus已商用", "向监管与银行输出图谱查询服务"],
+ ["RBA风险评分", "live", "Feedzai等已规模化", "将RBA做成行业中性评分中台"],
+ ["RegTech沙盒", "pilot", "多地监管沙盒运行但跨域互认未规模", "建跨境沙盒互认与指标共建平台"],
+ ["跨境三态判定", "pilot", "美、新、韩差异已被识别但无统一引擎", "做跨境合规判定中台输出三态结果"],
+ ["0.1跳瞬时收紧", "pilot", "技术可行但名单更新联动仍依赖人工配置", "做成名单热更新与自动收紧订阅"],
+ ["100ms实时判定", "pilot", "局部可达但全链路多源JOIN仍常超1.35s", "用内存缓存与Local Zones卖低延迟判定"],
+ ["自适应阈值", "pilot", "行情联动降权已有试点未普及", "做可解释自适应引擎按波动率自动调权"],
+ ["七年留存归档", "pilot", "对象存储可行但合规检索仍弱", "做合规留存即服务带秒级检索"],
+ ["ZK-KYC隐私合规", "pilot", "zkPass与Aztec有试点未规模", "做证明属性不披露原文的合规凭证"],
+ ["Agentic合规调查", "explore", "2026接管元年多智能体仍在验证", "做可解释调查Agent与人类终审闭环"],
+ ["AI实时情报融合", "explore", "推特、暗网、Discord融合技术成形中", "做合规情报订阅与风险信号融合"],
+ ["AI Agent身份凭证", "explore", "SBT能力凭证标准未统一", "做Agent所有权、能力、状态三层凭证"],
+ ["跨链原子关联", "explore", "跨链桥穿透技术成熟但全域标准化中", "做跨链资金亲密度图谱标准服务"],
+ ["监管语言生成", "explore", "可解释AI生成监管逻辑链仍试验", "做SAR与报告自动生成及理由链"],
+ ["合规自适应闭环", "explore", "动态模型与反馈学习仍在早期", "做模型版本化与偏见审计托管"],
+ ["合规度量大屏", "pilot", "指标已定义但中小机构无能力", "做开箱即用合规度量与举证SaaS"],
+ ["制裁差异并集", "pilot", "多国名单差异处理靠人工", "做多法域制裁并集自动引擎"]
+];
+const MIDS = [
+ ["监管情报中心", "跟踪FATF、OFAC、MAS等规则变化并转化", "规则订阅、差异比对、影响评估"],
+ ["客户尽调中心", "统一KYC与CDD及风险分级", "身份核验、活体、UBO识别、风险评分"],
+ ["交易监控中心", "实时KYT与异常告警", "地址风险分、行为基线、模式识别"],
+ ["制裁筛查中心", "OFAC等多源名单实时阻断", "名单融合、0.1跳收紧、阻断留证"],
+ ["旅行规则中心", "跨境身份信息安全交换", "网关互操作、字段对齐、闭环确认"],
+ ["可疑报告中心", "SAR与STR识别与报送", "模式识别、结构化生成、积压治理"],
+ ["图谱情报中心", "全域链上图谱与溯源", "跨链关联、亲密度、资金归因"],
+ ["判定引擎中心", "100ms内多源风险判定", "内存缓存、并行判定、降级保底"],
+ ["数据基座中心", "冷热分层与宽事件留存", "分层迁移、OLAP、七年留存"],
+ ["自适应中心", "动态阈值与模型迭代", "波动联动、反馈学习、版本管理"],
+ ["跨境合规中心", "多法域三态判定", "法域库、并行判定、冲突序"],
+ ["Agent运营中心", "多智能体调查与编排", "任务编排、可解释、人类兜底"],
+ ["合规治理中心", "三道防线与问责", "职责界定、独立审计、问责绑定"],
+ ["度量举证中心", "指标与审计留痕", "预防性指标、不可篡改、一键举证"],
+ ["培训文化中心", "胜任力与合规文化", "培训考核、吹哨、文化度量"],
+ ["供应商中心", "RegTech与外包管理", "供应商尽调、效果度量、责任归属"],
+ ["沙盒创新中心", "新模式验证与推广", "准入、边界、退出路径"],
+ ["危机响应中心", "违规与制裁事件应急", "冻结、取证、监管沟通"]
+];
+const RULES = [
+ ["具备能力未部署实时监控即违规", "新范式下有能力却不上线被直接判定违规；OKX因未注册加协助绕KYC被罚5.05亿美元即此逻辑，注册不等于安全"],
+ ["SARs积压即违规", "KuCoin因无SAR被罚3亿、Block因SARs积压被罚1.2亿；人力固定遇峰即积压，积压本身就是已失职的证据"],
+ ["制裁筛查失效必被重罚", "Block与Cash App因筛查失效加制裁漏拦被罚1.2亿；失效瞬间即代价，无失效告警等于裸奔"],
+ ["0.1跳不收紧漏近端关联", "名单更新不瞬时收紧，近端关联方趁机转移资金逃避冻结；常规半径下第一跳内关系被放过"],
+ ["KYC造假未识别后果", "证件与Deepfake冒名开户，后续监控全建在假身份上致整链失效；活体检测缺失即开门"],
+ ["混币器命中误判正常", "Tornado Cash类地址误判正常会放行黑钱；混币后追踪准确率89%降到11%仍须高危处理"],
+ ["旅行规则信息缺失违规", "超阈值转账未交换双方身份，接收方无法尽调致整链合规断点；FATF 16明确要求"],
+ ["跨境判定错管辖权", "错判交易落点国致整链失配；美冻结、新披露、韩拒绝三态错配使合规动作全反"],
+ ["七年留存灭失即违规", "合规留痕到年灭失无法自证已尽责；遇检查即被认定失职，FinCEN要求5到7年"],
+ ["三道防线虚设失守", "业务全推合规部且无独立内审，系统性放水无人制衡；独立职能缺失即崩"],
+ ["实时判定超100ms只能事后拦", "多源JOIN超1.35s致已成交难撤；黑钱已出闸门，事后拦无实质意义"],
+ ["RBA资源错配漏高危", "平均用力使高危客户获最少关注；被利用洗白后追责发现监控强度与风险倒挂"],
+ ["名单延迟同步窗口期违规", "OFAC更新未秒级同步，延迟期内交易放行即违规；热更新缺位即风险"],
+ ["图分析跨链断点漏网络", "跨链不原子关联，资金跨链即消失漏洗钱网络；全域图谱缺失即盲"],
+ ["自适应失控无人工兜底", "全自动模型误判不可逆；人类终审缺失致连锁损失，FinCEN要求保留人工"],
+ ["Agent失控难停即失控", "AI Agent无实时可撤销机制，异常放大成事故；MAS要求状态可撤销"]
+];
+const KPIS = [
+ ["拦截率", "已拦截违规交易占识别总量的比例，衡量事前预防实效"],
+ ["提前量", "从风险出现到被拦的时间差，越大越主动"],
+ ["覆盖率", "KYC、KYT、制裁筛查覆盖的业务出入口比例，须100%可证"],
+ ["误报率", "错误告警占比，过高致告警疲劳漏真"],
+ ["漏报率", "未识别的真实违规占比，直接对应罚单风险"],
+ ["SAR时效", "可疑案件从识别到上报的时长，超期即违规"],
+ ["判定延迟P99", "合规判定P99延迟，须小于100ms保实时"],
+ ["留存完整度", "七年留痕可检索比例，灭失即无法举证"]
+];
+const LIC_CN = [
+ ["人民银行与公安部反洗钱法", "区块链反洗钱数据服务、链上溯源分析（面向执法与机构）", "不得开展加密资产交易、兑换、ICO等金融业务"],
+ ["反电信网络诈骗法", "涉诈资金链监测与预警服务", "不得为非法交易平台提供支付通道"],
+ ["网络安全法与数据安全法", "链上数据合规采集与脱敏分析", "数据出境须安全评估，个人信息须匿名化"],
+ ["个人信息保护法", "KYC身份认证（证件加活体）服务", "生物识别须单独同意，不得超范围留存"],
+ ["区块链信息服务管理规定", "区块链存证与溯源产品备案", "须完成备案，内容审核责任到人"],
+ ["金融机构反洗钱规定", "为银行与支付机构提供AML系统（非加密资产）", "客户须持牌，不得触碰加密资产"],
+ ["央行金融科技监管", "RegTech合规中台（面向传统金融）", "沙盒须监管准入，不得涉加密资产"],
+ ["商用密码管理条例", "加密传输与隐私计算（联邦学习）", "须使用合规密码算法与资质"],
+ ["反洗钱客户尽调办法", "企业、个人实名尽调与PEP筛查（非加密）", "不得为匿名币相关业务服务"],
+ ["征信业管理条例", "企业风险评分与信用画像服务", "须持征信牌照或与持牌机构合作"],
+ ["跨境数据流动新规", "跨境合规数据传输（非加密资产）", "出境须申报，重要数据本地化"],
+ ["公安部净网行动", "黑产情报与涉诈溯源服务", "仅面向执法与合规机构，不得私自侦查"],
+ ["电信业务经营许可证", "合规SaaS平台运营", "须ICP与EDI，内容须合规备案"],
+ ["人工智能法（征求意见稿）", "可解释AI合规模型服务", "须可解释、可审计、防偏见"],
+ ["数据安全分级", "合规数据分层存储与留存", "重要数据须分级保护本地化"],
+ ["打击虚拟货币交易公告", "可提供链上取证与追赃技术支撑（非交易）", "严禁为虚拟货币交易提供定价、兑换、清算"]
+];
+const LIC_INTL = [
+ ["FATF建议15/16", "VASP反洗钱与旅行规则义务", "须注册或许可并履行Travel Rule"],
+ ["美国BSA与FinCEN", "MSB注册与BSA报告（3000美元阈值）", "须SAR上报与OFAC筛查"],
+ ["OFAC制裁", "SDN名单实时筛查与阻断", "违规面临巨额罚款与刑事"],
+ ["欧盟MiCA", "CASPs许可与旅行规则全量身份", "须最低资本5到15万欧元加DORA"],
+ ["新加坡MAS PS Act与DTSP", "持牌数字支付与托管服务", "须穿透式监管与申报"],
+ ["香港SFC VATP", "虚拟资产交易平台双牌照", "须客户资产隔离与合规托管"],
+ ["韩国VAUPA", "虚拟资产服务商注册", "须实名与旅行规则"],
+ ["英国FCA", "加密资产注册与金融犯罪防控", "须沙盒准入与持续报告"],
+ ["阿联酋VARA", "虚拟资产监管牌照", "须本地实体与合规运营"]
+];
+const OPPS = [
+ ["中小VASP合规托管", "缺专职合规团队与系统", "卖筛查加KYT加SAR一体化SaaS"],
+ ["跨境三态判定中台", "无统一多法域引擎", "先做美、新、韩三态API输出"],
+ ["0.1跳自动收紧订阅", "名单更新仍靠人工配置", "做名单热更新加自动收紧服务"],
+ ["100ms低延迟判定", "全链路多源JOIN常超1.35s", "卖内存缓存加Local Zones方案"],
+ ["SAR积压治理", "人力固定遇峰即积压", "做队列优先级加弹性产能SaaS"],
+ ["ZK-KYC凭证", "隐私与合规冲突", "做证明属性不披露原文的凭证"],
+ ["Agentic调查闭环", "人工调查吞吐低", "做可解释调查Agent加人类终审"],
+ ["合规度量举证", "中小机构无举证能力", "做开箱即用度量大屏与证据包"],
+ ["链上取证服务（CN）", "大陆禁交易但需追赃", "面向执法做溯源取证"],
+ ["RegTech中台（CN）", "传统金融机构合规成本高", "做可解释合规中台"],
+ ["跨链图谱标准", "跨链关联无统一标准", "做亲密度图谱标准服务"],
+ ["监管沙盒互认", "跨境沙盒不互认", "建指标共建与互认平台"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：Web3 AML 合规范式 / 反洗钱监管范式演进 / FATF 旅行规则 RBA 制裁筛查`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>温数据平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>温数据平台全景</b>
+    <span>温数据平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>温数据平台产品功能全景图谱</h1>
+    <p>温数据平台是介于热（<b>18</b>天内存）与冷（<b>54</b>年对象存储）之间的近线分析层，覆盖 <b>216</b> 天到 <b>54</b> 年数据，以秒级查询支撑OLAP分析与近线合规。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是：用分层的块存储与列存OLAP，把7天到1年的近线数据变成可秒级查询、可合规回放的分析底座。其价值不在单点性能，而在热↔温↔冷的分层闭环。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）</td><td>近线存储/宽事件/OLAP引擎/湖仓表格式/列存索引</td><td>物理底座：介质、Schema、执行内核与索引，决定秒级查询是否可达</td></tr>
+<tr><td>第2层（d6）</td><td>查询路由与分层调度</td><td>调度中枢：决定查询落点与资源隔离，是分层成本与体验的总开关</td></tr>
+<tr><td>第3层（d7–d12）</td><td>事件溯源/关联图谱/风控规则/合规审计/预计算/治理</td><td>分析能力：把近线数据转成可审计、可识别的风险信号</td></tr>
+<tr><td>第4层（d13–d18）</td><td>批流/接入/权限/可观测/容灾/生态</td><td>供给与保障：数据持续可信供给与平台可信底线</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br>1. <b>第一资产</b>是链上或交易的可信事件源，缺它温层无意义；<br>2. <b>最短闭环</b>是宽事件建模加秒级OLAP，先把跨账户查询跑通；<br>3. <b>必须先冻结的口径</b>是字段语义与合规留存期，否则审计对比失效。</div>
+    <div class="danger">一条死亡陷阱：<b>把温层当成便宜的大仓库</b>。若只做存储不做索引、路由与回放，秒级查询退化、合规无法还原历史，客户会误以为买了温数据就等于有了近线能力。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">前沿方向落地优先级的标准：能否在不破坏100ms合规判定与7年不可变留存两条红线前提下，带来可举证的成本或命中率收益。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>宽事件</td><td>一次业务动作的全部上下文压扁为单行</td><td>错则跨账户关联断裂、洗钱漏报</td></tr>
+<tr><td>温层分区</td><td>按时间与账户分区的块存储组织</td><td>错则单分区超十亿行、查询退化</td></tr>
+<tr><td>快照</td><td>湖仓表格式的不可变时间点</td><td>错则合规无法还原历史遭重罚</td></tr>
+<tr><td>关联图谱</td><td>跨账户资金/身份/设备关系</td><td>错则多跳超时、实时识别失效</td></tr>
+<tr><td>风控规则版本</td><td>带版本的可回滚规则</td><td>错则误拦截无法回滚、审计无据</td></tr>
+<tr><td>审计留痕</td><td>不可篡改且大于等于7年的操作记录</td><td>错则监管抽查缺失即重罚</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域的监管域组合：数据合规（个保/数安）、金融监管（AML/KYT/旅行规则）、跨境流动、密码与等保四域在此交汇。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1. <b>旅行规则全量身份识别</b>，跨机构转账须随附收发方信息；<br>2. <b>7年不可变留存</b>，留存不足或可调即重罚；<br>3. <b>大陆不可开展虚拟货币交易业务</b>，温层只可做合规数据服务。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：以宽事件建模打通可信事件源</li><li>第二步：用列存OLAP跑通秒级跨账户查询</li><li>第三步：接入实时湖仓表格式做时间旅行</li><li>第四步：叠加近线风控规则与关联图谱</li><li>第五步：补齐审计留存与分层路由闭环</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径A：交易所近线AML（宽事件加ClickHouse）</li><li>路径B：合规时间旅行审计（Iceberg/Paimon快照）</li><li>路径C：温冷自动分层（生命周期加容量感知）</li><li>路径D：流式预计算特征平台（Flink加缓存）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：都以<b>宽事件</b>为第一资产，先把跨账户与跨时间的近线查询跑通，再叠加合规与成本能力。</div>
+  </section>
+
+  <footer>
+    <p>温数据平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "近线数据总览"],
+ ["s1", "存储介质与形态"],
+ ["s2", "OLAP查询引擎"],
+ ["s3", "宽事件与事件建模"],
+ ["s4", "数据对象与治理"],
+ ["s5", "近线风控合规分析"],
+ ["s6", "热温冷分层流转"],
+ ["s7", "监管与合规域"],
+ ["s8", "商业形态与厂商格局"],
+ ["s9", "落地路径与演进"]
+];
+const PLAYERS = [
+ ["云原生数仓", "Snowflake", "阿里云AnalyticDB", "存算分离弹性供给"],
+ ["实时OLAP", "ClickHouse", "腾讯云CDW ClickHouse", "列存高压缩秒级查询"],
+ ["MPP分析库", "Apache Doris", "SelectDB", "高并发报表与即席分析"],
+ ["实时分析", "StarRocks", "字节云", "物化视图加速交互分析"],
+ ["湖仓一体", "Databricks", "阿里云Lakehouse", "开放表格式统一分析"],
+ ["实时湖仓", "Apache Paimon", "阿里云", "流批一体近线表"],
+ ["表格式", "Apache Iceberg", "腾讯云", "快照时间旅行"],
+ ["表格式", "Apache Hudi", "华为", "增量湖仓与事务"],
+ ["时序数据库", "InfluxDB", "涛思TDengine", "高频指标与降采样"],
+ ["日志检索", "Elasticsearch", "百度Elasticsearch", "倒排索引全文检索"],
+ ["近线对象存储", "Amazon S3近线层", "阿里云OSS", "冷热分层低成本"],
+ ["链上数据平台", "Chainalysis", "欧科云链OKLink", "链上情报与溯源"]
+];
+const DOMAINS = [
+ ["d1", "近线分层存储", "Warm Tiered Storage", "核心", "在内存热层与对象冷层之间提供秒级可达、成本可控的块存储底座，是温数据平台存在的物理前提", [["介质与生命周期", [["温层介质选择", "温层误用NVMe会令TCO翻倍而收益有限；误用对象存储则秒级查询退化为分钟级，OTC对账超时", "阿里云ESSD"], ["生命周期策略", "生命周期边界配置错误会导致热数据被过早沉降，跨层JOIN失效引发风控漏判", "AWS S3 Lifecycle"], ["分层阈值", "7天与1年阈值若与合规留存口径冲突，审计抽查将判定留存不完整", "MinIO Tiering"], ["副本与纠删", "温层副本数低于2会在单盘故障期间造成近线查询不可用，合规窗口内数据缺失", "Ceph"]]], ["成本与容量", [["容量规划", "容量预估不足触发温层回溢热层，内存成本暴涨且查询争用", "Grafana"], ["压缩编码", "未启用列存压缩使温层体积膨胀3至5倍，跨账户扫描超时", "ClickHouse Compression"], ["配额与限流", "缺失配额会让单租户全表扫描拖垮整集群，近线风控掉线", "Apache Ranger"], ["弹性伸缩", "温层无法按交易日弹性扩容，行情高峰查询排队超时", "Kubernetes CSI"]]], ["数据组织", [["分区粒度", "分区过粗使单分区超10亿行，秒级查询退化为分钟级", "Hive Partition"], ["分桶策略", "分桶键选错导致跨桶Shuffle，宽事件JOIN放大10倍IO", "StarRocks Bucketing"], ["文件合并", "小文件未合并造成元数据爆炸，NameNode内存溢出集群雪崩", "Hudi Clustering"], ["冷热标记", "冷热标记错置会让查询路由到错误层，命中率骤降", "Apache Paimon"]]]]],
+ ["d2", "宽事件建模", "Wide Event Modeling", "核心", "把一次业务动作的全部上下文压扁为单行宽事件，使跨账户查询无需多表JOIN", [["宽表设计", [["宽表维度选择", "维度遗漏关键字段如设备指纹会让跨账户关联退化为多次回查，洗钱检测漏报", "ClickHouse Wide Event"], ["嵌套结构", "滥用嵌套导致反序列化开销翻倍，秒级查询变慢", "Apache Arrow"], ["字段冗余边界", "过度冗余使单行长到数KB，写入吞吐下降、存储浪费", "StarRocks"], ["版本演进", "宽表Schema变更无向后兼容，历史回放失败、审计断档", "Apache Avro"]]], ["事件上下文", [["上下文注入", "未在宽事件内置风险分与地理围栏，风控需二次计算，100ms目标不可达", "内部风险引擎"], ["身份锚定", "身份ID未与宽事件绑定，跨账户图谱无法聚合，关联查询失准", "Chainalysis"], ["时序对齐", "多源事件时间未对齐（±30秒容差），资金亲密度图谱错配", "TRM Phoenix"], ["去重幂等", "来源重复投递未幂等，宽事件重复计数扭曲交易额统计", "Flink"]]], ["语义与口径", [["业务语义层", "缺失统一语义层，分析师对交易与转账定义不一，报表互相矛盾", "dbt Semantic"], ["口径冻结", "口径未冻结，同一指标跨月口径漂移，合规对比失效", "内部指标平台"], ["枚举标准化", "状态枚举未标准化（pending与processing混用），规则命中率下降", "内部字典"], ["单位归一", "金额单位未归一（聪与wei与法币），跨链聚合总额错乱", "内部清算"]]]]],
+ ["d3", "OLAP查询引擎", "OLAP Query Engine", "核心", "面向秒级交互式分析的执行内核，决定跨账户、大盘、明细溯源三类查询能否在温层闭环", [["执行与优化", [["向量化执行", "未向量化令聚合查询CPU打满，秒级退化为分钟级", "ClickHouse"], ["查询规划", "规划器低估跨分区扫描，误用全表扫描拖垮集群", "StarRocks CBO"], ["并发控制", "缺失并发隔离，大查询阻塞风控实时查询致判定超时", "Apache Doris"], ["内存限制", "单查询无内存上限，OOM杀死节点引发温层整体抖动", "ClickHouse max_memory"]]], ["索引与加速", [["主键索引", "关键字段（账户与时间）无主键索引，点查退化为全扫描", "StarRocks Primary Key"], ["跳数索引", "缺失跳数索引（granule），范围扫描读放大10倍", "ClickHouse Skip Index"], ["物化视图", "常用聚合未物化，每次重算浪费算力且超时", "Materialized View"], ["字典编码", "低基数字段未字典化，过滤效率骤降", "ClickHouse Dictionary"]]], ["查询路由", [["层间路由", "路由错误把温查询打到冷层，分钟级延迟破坏体验", "查询网关"], ["缓存策略", "热点查询结果未缓存，重复计算浪费资源", "Redis"], ["降级熔断", "下游拥塞未熔断，查询雪崩拖垮整条风控链路", "Sentinel"], ["结果分页", "超大数据集未分页流式返回，前端卡死、内存溢出", "内部网关"]]]]],
+ ["d4", "实时湖仓表格式", "Lakehouse Table Format", "核心", "以开放表格式统一管理流批写入与快照，是温数据可时间旅行、可合规回放的存储契约", [["表格式能力", [["时间旅行", "无快照时间旅行，合规审计无法还原历史状态，罚单抗辩失败", "Apache Iceberg"], ["事务一致", "批流并发写无ACID，读到半写入文件导致风控误判", "Apache Hudi"], ["小文件合并", "流写产生海量小文件，元数据膨胀查询变慢", "Paimon Compaction"], ["Schema演化", "Schema变更阻断写入，实时链路中断、数据积压", "Iceberg Schema Evolution"]]], ["流批一体", [["流批同一表", "流批分表导致双口径，对账差异无法解释", "Paimon"], ["增量读取", "消费端无法增量读取，全量重扫浪费资源", "Flink CDC"], ["乱序处理", "迟到事件未正确处理，窗口聚合漏算交易额", "Watermark"], ["精确一次", "缺乏精确一次语义，重复入账扭曲余额", "Flink Checkpoint"]]], ["合规快照", [["快照保留", "快照保留短于合规留存期，历史审计无据可查", "Iceberg Snapshot"], ["不可变留存", "留存层可篡改，监管质疑数据真实性", "WORM存储"], ["版本标注", "快照未标注规则与数据版本，回放无法对应当时口径", "内部版本库"], ["跨表一致", "多表快照时点不一致，跨表JOIN审计错误", "事务快照"]]]]],
+ ["d5", "列存与索引", "Columnar Store and Index", "核心", "通过列存压缩与多级索引把大宽表的IO降到最低，是秒级查询的物理支柱", [["存储结构", [["列存压缩", "行存替代列存使扫描IO涨5倍，温层寿命缩短", "ClickHouse"], ["排序键", "排序键错配查询模式，范围扫描退化为全扫描", "StarRocks"], ["稀疏索引", "缺失稀疏主键索引，点查需遍历分片", "Apache Doris"], ["编码选择", "编码选错（如字典用于高基数字段）压缩比骤降", "ClickHouse Codec"]]], ["索引体系", [["倒排索引", "文本与标签无倒排，标签过滤退化为全扫描", "Elasticsearch"], ["位图索引", "低基数列无位图，多值过滤极慢", "StarRocks Bitmap"], ["二级索引", "热字段无二级索引，高频过滤走全表", "Doris Secondary Index"], ["索引维护", "索引未随写入重建，查询计划误用陈旧统计", "Auto Analyze"]]], ["物化与缓存", [["聚簇索引", "未按查询聚类，随机IO多、延迟高", "ClickHouse"], ["结果缓存", "重复聚合未缓存，算力浪费", "Query Cache"], ["预热策略", "冷启动未预热热分区，首查超时", "Cache Warmup"], ["bloom过滤", "高基数列无bloom，误读无关分片", "Bloom Filter"]]]]],
+ ["d6", "查询路由与分层调度", "Query Routing and Tiering", "核心", "决定一条查询落在热温冷哪一层，是分层架构真正产生成本与体验收益的总开关", [["路由策略", [["时效路由", "按数据时效误路由，温查询打冷层致分钟级延迟", "查询网关"], ["成本路由", "不计成本全打热层，内存账单失控", "内部计费"], ["负载路由", "节点过载仍定向该节点，查询超时堆积", "负载均衡"], ["兜底路由", "目标层不可用无兜底，查询直接失败", "路由降级"]]], ["分层调度", [["沉降调度", "沉降作业与查询争用IO，温层查询抖动", "Spark"], ["回热调度", "回热无优先级，紧急风控查询被排队", "内部调度"], ["错峰调度", "沉降未在低峰执行，交易高峰IO争用", "Cron"], ["容量感知", "调度不看温层容量，沉降失败数据滞留热层", "容量监控"]]], ["多租户隔离", [["资源组", "无资源组隔离，大租户扫全表拖垮他租户", "Resource Group"], ["配额限流", "缺失配额，单租户压垮集群", "Ranger Quota"], ["优先级队列", "风控查询无最高优先级，被报表挤占", "优先级调度"], ["隔离粒度", "隔离过粗，小租户受大租户影响", "Virtual Warehouse"]]]]],
+ ["d7", "事件溯源与时序", "Event Sourcing and Time-series", "成长", "以事件流为唯一事实源，支持从任意时点重放业务状态，是合规可审计的基础", [["事件流", [["事件不可变", "事件可篡改破坏溯源链，监管质疑完整性", "Event Store"], ["全局有序", "缺全局时序，重放后状态错乱、余额对不上", "Kafka"], ["重放能力", "无法重放，事故定责与审计回放失败", "Flink"], ["事件补丁", "补事件无幂等，重放重复计入", "Idempotency Key"]]], ["时序建模", [["时间语义", "事件时间与处理时间混用，迟到数据归入错误窗口", "Watermark"], ["时序对齐", "多源时钟未对齐，跨源聚合错位", "NTP"], ["降采样", "高频指标未降采样，存储与查询双爆", "TDengine"], ["滑动窗口", "窗口参数误配，风控指标计算错误", "Flink Window"]]], ["溯源审计", [["状态快照", "无状态快照，重放成本高、审计慢", "Snapshot"], ["变更留痕", "状态变更无留痕，无法证明谁改了什么", "Audit Log"], ["因果链", "缺失因果链，异常无法回溯根因", "Trace"], ["版本对照", "重放结果无版本对照，口径漂移难发现", "内部版本"]]]]],
+ ["d8", "跨账户关联图谱", "Cross-account Graph", "成长", "把宽事件中的资金、身份、设备关系构建为图，支撑秒级跨账户洗钱与关联识别", [["图构建", [["关系抽取", "关系抽取遗漏设备与IP维度，关联网络断裂漏报", "TRM Phoenix"], ["图存储", "用关系表代替图库，多跳查询超时无法实时", "Neo4j"], ["时空对齐", "资金亲密度未时空对齐±30秒，误判伪造关联", "Elliptic Nexus"], ["权重计算", "边权重未含金额与频率特征，低危交易被误判高危", "GNN"]]], ["图查询", [["多跳查询", "多跳未优化，3跳查询超秒级破坏体验", "Neo4j"], ["实时增量", "图未增量更新，新交易数分钟才入图致漏判", "Kafka Graph"], ["子图提取", "无法快速提取嫌疑子图，调查耗时", "Graph Algorithms"], ["规模扩展", "图超内存未分片，单点OOM整体失效", "Graph Partition"]]], ["模式识别", [["模式库", "无模式库（如5分钟跨账户分层），新型洗钱漏报", "内部规则"], ["团伙聚类", "泊松分布检测缺失，机械化肉鸡账户漏网", "GNN Clustering"], ["动态阈值", "波动率大于8%未自动降权，误报淹没真信号", "动态阈值"], ["误报消减", "误报未反馈学习，分析师被噪音淹没", "Feedback Loop"]]]]],
+ ["d9", "近线风控规则引擎", "Nearline Risk Rule Engine", "成长", "在温层提供可配置、可回放的风控规则执行，使合规判定与业务解耦、可独立演进", [["规则管理", [["规则版本", "规则无版本，误拦截无法回滚、审计无据", "Drools"], ["规则热更", "规则变更需重启，紧急封堵滞后致损失", "热加载"], ["规则冲突", "冲突规则未检测，同笔交易双重结论", "规则校验"], ["灰度发布", "规则全量生效无灰度，误杀真实用户", "灰度"]]], ["实时判定", [["判定时延", "多源JOIN超1.35秒未缓存，100ms目标破灭", "内存缓存"], ["流式预计算", "未流式预计算特征，判定时需现算超时", "Flink"], ["特征一致性", "线上线下特征不一致，模型效果崩塌", "Feature Store"], ["兜底策略", "下游超时无兜底，判定挂起致交易卡单", "降级"]]], ["调查协同", [["告警分派", "告警无分派，调查响应延迟致证据灭失", "Case Mgmt"], ["证据固化", "告警未固化证据链，复议时数据已沉降", "证据快照"], ["协作留痕", "调查无留痕，无法证明尽职履职", "审计留痕"], ["闭环反馈", "处置结果未回流，规则永不进化", "反馈闭环"]]]]],
+ ["d10", "合规审计近线", "Compliance Audit Nearline", "成长", "把KYC与KYT与SARs与审计留痕沉淀在温层，满足秒级查证与5至7年留存双重要求", [["审计留痕", [["不可篡改", "审计日志可改，监管质疑真实性遭重罚", "WORM"], ["7年留存", "留存短于7年，抽查缺失遭处罚", "归档存储"], ["版本绑定", "日志未绑定规则与数据版本，回放对不上当时口径", "版本库"], ["操作留痕", "运维操作无留痕，内部越权难追责", "操作审计"]]], ["SARs管理", [["SARs生成", "可疑交易未生成SARs，违反BSA遭罚（参考Cash App 1.2亿）", "SARs系统"], ["上报时限", "上报超期，监管追责", "上报计时"], ["积压监控", "SARs积压未告警，类似Block 1.2亿事件重演", "积压看板"], ["留档复核", "SARs无复核留档，错报难追溯", "复核流"]]], ["旅行规则", [["信息随附", "跨机构转账未随附收发方信息，违反旅行规则", "Travel Rule"], ["对手校验", "未校验对手VASP合规状态，间接助长违规", "VASP校验"], ["阈值判定", "阈值判定错误（如BSA 3000美元），漏报需报交易", "阈值引擎"], ["跨境映射", "跨境字段映射错，信息缺失致拦截失败", "映射表"]]]]],
+ ["d11", "实时预计算与物化视图", "Real-time Precompute and Materialized View", "成长", "用流式预计算把多源JOIN与聚合前置，使温层查询从现算变为查表", [["预计算管线", [["特征预计算", "特征现算致判定超1.35秒，100ms目标破灭", "Flink"], ["管线SLA", "预计算管线无SLA，特征延迟使风控误判", "SLA监控"], ["数据新鲜度", "新鲜度无监控，用陈旧特征误放行", "Freshness"], ["重算兜底", "管线故障无重算，特征缺口致漏报", "重算"]]], ["物化视图", [["视图刷新", "物化视图未增量刷新，常用聚合现算超时", "MV Refresh"], ["一致性", "视图与基表不一致，报表与明细对不上", "事务MV"], ["选择策略", "哪些聚合物化靠拍脑袋，热点仍现算", "命中分析"], ["失效处理", "基表变更视图未失效，返回脏数据", "失效通知"]]], ["缓存体系", [["多级缓存", "无多级缓存（内存与本地与分布式），热点击穿", "Cache Tier"], ["缓存失效", "缓存无失效策略，陈旧结果致误判", "TTL"], ["缓存击穿", "热点Key失效瞬间打爆后端", "互斥锁"], ["命中率监控", "命中率无监控，缓存形同虚设", "命中看板"]]]]],
+ ["d12", "数据治理与血缘", "Data Governance and Lineage", "成长", "让温层每一份数据可追源、可定责、可分类，是合规与可信分析的地基", [["血缘追踪", [["字段血缘", "缺字段级血缘，监管问数据来源无法回答", "DataHub"], ["影响分析", "无影响分析，改字段误伤关键报表", "Lineage"], ["端到端", "血缘断裂（采集到应用），溯源中断", "OpenLineage"], ["版本关联", "血缘未关联数据版本，回放对不上", "版本血缘"]]], ["分类分级", [["数据分级", "未分级，敏感字段无差别开放致泄露", "分类分级"], ["标签体系", "标签混乱，合规检索漏掉应管数据", "标签"], ["敏感识别", "敏感字段未自动识别，脱敏遗漏", "DLP"], ["定责到人", "数据无owner，出问题相互推诿", "Data Catalog"]]], ["质量管控", [["质量规则", "无质量校验，脏数据进温层致误判", "Great Expectations"], ["异常告警", "异常无告警，数据漂移数日才发现", "质量监控"], ["修复闭环", "问题无修复闭环，脏数据长期滞留", "修复流"], ["口径一致", "跨域口径不一致，合并报表矛盾", "口径中心"]]]]],
+ ["d13", "批流处理", "Batch and Stream Processing", "成熟", "以统一引擎处理历史回刷与实时接入，是温层数据持续供给的成熟底座", [["流处理", [["精确一次", "缺精确一次，重复入账扭曲余额与额度", "Flink"], ["背压处理", "无背压，突发流量压垮算子丢数据", "Backpressure"], ["检查点", "检查点过频拖慢吞吐，过疏丢数", "Checkpoint"], ["乱序容错", "乱序无容错，窗口聚合漏算", "Watermark"]]], ["批处理", [["回刷隔离", "回刷与实时争用，在线查询抖动", "批流隔离"], ["任务依赖", "依赖未编排，上游失败下游空跑", "DAG调度"], ["资源弹性", "批作业无弹性，高峰排队资源闲置", "YARN"], ["断点续跑", "失败无续跑，重跑整库浪费数小时", "Checkpoint"]]], ["流批统一", [["同一API", "流批API不一，逻辑双份维护易错", "Flink Table"], ["结果一致", "流批结果不一致，对账差异无法解释", "对齐测试"], ["共享元数据", "元数据不共享，口径漂移", "统一Catalog"], ["统一调度", "调度割裂，运维复杂易漏跑", "统一调度"]]]]],
+ ["d14", "数据接入与CDC", "Ingestion and CDC", "成熟", "把链上、交易系统、风控事件低延迟、不丢不改地搬入温层，是数据可信的第一关", [["接入通道", [["不丢不重", "接入丢条或重条，余额与交易额失真", "Kafka"], ["协议适配", "多源协议未适配，字段错列数据错位", "接入网关"], ["限流保护", "无源端限流，突发打爆下游", "限流"], ["断点续传", "断连无续传，补数期间数据空洞", "Offset管理"]]], ["CDC捕获", [["增量捕获", "未CDC全量扫库，源库压力倍增", "Flink CDC"], ["Schema变更", "源Schema变更未同步，写入失败数据积压", "Schema Registry"], ["事务一致性", "CDC不保事务边界，读到中间态", "事务CDC"], ["延迟监控", "捕获延迟无监控，温层数据陈旧致漏判", "延迟看板"]]], ["数据清洗", [["格式归一", "格式未归一，下游解析失败丢数", "清洗"], ["去重", "重复事件未去重，宽事件计数虚高", "去重"], ["缺值处理", "缺值未约定，聚合结果偏差", "缺值策略"], ["异常拦截", "非法报文未拦截，脏数据污染温层", "校验拦截"]]]]],
+ ["d15", "权限与脱敏", "Access Control and Masking", "成熟", "在温层对敏感字段做最小权限与动态脱敏，平衡分析可用与隐私合规", [["访问控制", [["最小权限", "权限过宽，分析师可见全量PII致泄露", "RBAC"], ["行级权限", "无行级权限，跨租户可见他方数据", "Row Policy"], ["权限审计", "权限变更无审计，越权难发现", "权限审计"], ["临时授权", "临时授权无回收，权限长期滞留", "临时工单"]]], ["动态脱敏", [["动态脱敏", "静态脱敏破坏分析，动态才能兼顾", "动态脱敏"], ["脱敏策略", "策略错配，合规字段未脱敏致违规", "脱敏引擎"], ["角色差异", "不同角色同策略，分析师被过度限制", "角色策略"], ["可逆控制", "可逆脱敏无管控，匿名重识别风险", "密钥管理"]]], ["加密与密钥", [["静态加密", "温层未加密，盘丢失致数据外泄", "KMS"], ["密钥轮换", "密钥不轮换，泄露长期有效", "密钥轮换"], ["密文查询", "密文无法查询，脱敏与性能难兼顾", "密态计算"], ["密钥隔离", "密钥未隔离，一处泄露全局沦陷", "密钥隔离"]]]]],
+ ["d16", "监控与可观测性", "Observability", "成熟", "把温层平台的延迟、命中率、成本暴露为可观测指标，使风险在用户体验前被发现", [["指标监控", [["查询延迟", "延迟无监控，秒级目标被悄悄突破无人知", "Prometheus"], ["命中率", "命中率掉无告警，成本与体验双降", "命中看板"], ["分层占比", "温层占比异常无感知，容量失控", "容量看板"], ["成本归因", "成本无归因，优化无从下手", "成本监控"]]], ["日志链路", [["全链路Trace", "无Trace，慢查询难定位根因", "OpenTelemetry"], ["结构化日志", "日志非结构化，排障靠肉眼低效", "日志规范"], ["关联ID", "缺关联ID，跨系统调用难串联", "TraceID"], ["日志留存", "日志留存短，事后定责无据", "日志归档"]]], ["告警体系", [["告警分级", "告警无分级，真问题淹没噪音", "告警分级"], ["根因定位", "无根因分析，救火式运维反复", "AIOps"], ["容量预测", "无容量预测，突发打爆无准备，区域故障损失大", "预测"], ["值班闭环", "告警无闭环，漏处理致事故", "OnCall"]]]]],
+ ["d17", "备份与归档", "Backup and Archive", "成熟", "保证温层在故障、误删、合规留存下的可恢复与可归档，是平台可信的底线", [["备份恢复", [["定期备份", "无备份，盘损即永久丢失合规数据", "备份"], ["恢复演练", "只备不演，真恢复时发现备份损坏", "演练"], ["增量备份", "全量备份占带宽，恢复慢", "增量"], ["跨区复制", "单区备份，区域故障全丢", "跨区复制"]]], ["归档留存", [["合规留存", "留存不足7年，抽查缺失遭罚", "归档"], ["温转冷", "温层不转冷，存储成本逐年膨胀", "生命周期"], ["不可变归档", "归档可改，监管质疑真实性", "WORM"], ["检索召回", "归档不可检索，合规查证超时", "冷检索"]]], ["容灾", [["RTO目标", "无RTO，故障恢复靠运气超时", "容灾预案"], ["多活", "单活无多活，区域故障整体不可用", "多活"], ["数据校验", "副本无校验，静默损坏未被发现", "校验和"], ["演练闭环", "容灾无演练，预案纸上谈兵", "演练"]]]]],
+ ["d18", "开放生态与标准", "Open Ecosystem and Standards", "成熟", "以开放表格式、SQL标准与生态集成降低锁定，决定平台能否融入既有数据栈", [["开放标准", [["表格式开放", "私有格式锁定，迁移动辄重构", "Iceberg"], ["SQL兼容", "SQL不兼容，分析师重写全部查询", "ANSI SQL"], ["接口标准", "接口私有，集成成本高难扩展", "OpenAPI"], ["格式互通", "与Parquet与ORC不互通，生态割裂", "Parquet"]]], ["生态集成", [["BI集成", "无BI集成，分析师回退Excel低效", "Tableau"], ["调度集成", "与调度割裂，运维双套", "Airflow"], ["湖仓互通", "与既有湖仓不互通，成数据孤岛", "Catalog Federation"], ["工具链", "缺工具链，导入导出全靠手写", "生态"]]], ["社区与治理", [["版本节奏", "版本混乱，升级踩坑生产事故", "版本管理"], ["安全补丁", "补丁滞后，已知漏洞被利用", "CVE跟踪"], ["贡献治理", "无上游治理，关键Bug无人修", "社区"], ["许可合规", "许可不合规（如AGPL），商用受限", "License"]]]]]
+];
+const FRONTIER = [
+ ["AI原生风控近线", "pilot", "用Agentic AI在温层自动编排多源调查，实时融合推特与暗网情报", "合规调查副驾产品"],
+ ["宽事件加ClickHouse洗钱检测", "live", "5分钟内跨账户分层模式实时识别已落地交易所", "交易所近线AML模块"],
+ ["实时湖仓统一温层", "live", "Paimon与Iceberg流批一体已成主流近线存储", "温层统一存储底座"],
+ ["向量与图混合检索", "pilot", "图与向量混合做关联与语义检索", "情报混合检索"],
+ ["存算分离弹性温层", "live", "对象存储加计算分离显著降低温层成本", "弹性温层服务"],
+ ["机密计算查询", "explore", "密态下做跨机构查询不泄原文", "跨机构合规查询"],
+ ["动态风险阈值引擎", "pilot", "波动率大于8%自动降权已验证有效", "自适应风控组件"],
+ ["跨链资金亲密度图谱", "pilot", "时空对齐±30秒跨链关联识别", "跨链AML能力"],
+ ["Local Zones网络优化", "pilot", "25ms降至2.5ms降低合规判定延迟", "低延迟合规节点"],
+ ["意图推理引擎", "explore", "推理资金意图识别规避行为", "意图风控模型"],
+ ["流式预计算特征平台", "live", "特征前置满足100ms判定目标", "实时特征平台"],
+ ["温冷自动分层", "live", "生命周期自动流转降成本", "分层自动化"],
+ ["合规时间旅行审计", "live", "快照回放支撑罚单抗辩", "审计产品"],
+ ["多源JOIN内存缓存", "pilot", "多源JOIN超1.35秒靠缓存兜底", "合规判定加速"],
+ ["合成数据训练", "explore", "用合成数据训练检测模型规避隐私", "模型训练管线"],
+ ["ZK合规证明", "explore", "ZK证明合规布尔值而不披露原文", "隐私合规组件"],
+ ["边缘温层节点", "explore", "在交易所本地布温层降延迟", "边缘合规节点"],
+ ["异构数据联邦", "pilot", "跨温层联邦查询打通孤岛", "联邦查询服务"],
+ ["自动物化视图推荐", "pilot", "基于命中分析自动物化与刷新", "自动调优"],
+ ["GNN肉鸡检测", "pilot", "泊松分布检测机械化肉鸡账户", "反欺诈能力"],
+ ["大模型语义分层", "explore", "用LLM理解非结构化事件语义", "语义建模"],
+ ["监管沙盒近线", "explore", "在温层跑监管沙盒回放测试", "沙盒产品"]
+];
+const MIDS = [
+ ["分层存储中心", "管理热温冷介质与生命周期", "介质选型/生命周期/容量规划"],
+ ["宽事件中心", "定义与维护宽事件Schema", "维度设计/版本演进/语义层"],
+ ["查询引擎中心", "提供秒级OLAP执行", "向量化/查询规划/并发控制"],
+ ["表格式中心", "维护湖仓表格式与快照", "ACID/时间旅行/Compaction"],
+ ["索引中心", "管理列存与多级索引", "列存压缩/跳数索引/物化视图"],
+ ["路由调度中心", "决定查询落点与资源调度", "时效路由/成本路由/多租户隔离"],
+ ["事件溯源中心", "维护事件流与重放", "不可变事件/全局有序/重放"],
+ ["关联图谱中心", "构建与查询跨账户图", "图构建/多跳查询/模式识别"],
+ ["风控规则中心", "管理近线规则与判定", "规则版本/实时判定/调查协同"],
+ ["合规审计中心", "沉淀SARs与审计留痕", "不可篡改/7年留存/旅行规则"],
+ ["预计算中心", "流式预计算与物化", "特征预计算/视图刷新/缓存"],
+ ["治理中心", "血缘分类与质量", "字段血缘/分类分级/质量管控"],
+ ["流批中心", "批流处理与供给", "精确一次/背压/流批统一"],
+ ["接入中心", "CDC与数据接入", "不丢不重/增量捕获/清洗"],
+ ["安全中心", "权限脱敏与加密", "最小权限/动态脱敏/密钥管理"],
+ ["可观测中心", "监控告警与链路", "延迟监控/Trace/告警分级"],
+ ["容灾中心", "备份归档与恢复", "跨区复制/不可变归档/容灾演练"],
+ ["生态中心", "标准与开放集成", "开放表格式/SQL兼容/BI集成"]
+];
+const RULES = [
+ ["温层介质不可误配", "误用对象存储做温层使秒级查询退化为分钟级，OTC对账超时、风控漏判，用户体验与合规双输"],
+ ["宽事件维度不可遗漏关键字段", "遗漏设备指纹与IP致跨账户关联断裂，5分钟洗钱模式漏报，类似72%罚金源于未拦截混币器地址"],
+ ["关键字段必须建主键与跳数索引", "无索引点查退化为全扫描，跨账户查询超秒级，合规判定100ms目标破灭"],
+ ["分层路由不可错层", "温查询误打冷层致分钟级延迟，用户误以为系统故障弃用，近线价值归零"],
+ ["表格式必须ACID与时间旅行", "无事务一致读到半写入文件致风控误判；无时间旅行合规无法还原历史遭重罚"],
+ ["审计与SARs必须不可篡改且大于等于7年", "可篡改或留存不足，监管抽查缺失即重罚（参考Cash App 1.2亿SARs积压）"],
+ ["旅行规则信息必须随附", "跨机构转账未附收发方信息违反旅行规则，类似OKX 5.05亿未注册加绕KYC处罚"],
+ ["风控判定时延必须小于等于100ms", "多源JOIN超1.35秒且无缓存，实时拦截失效，大额交易放行致损失"],
+ ["精确一次语义不可缺", "流处理重复入账扭曲余额与额度，风控基于错误余额放行超额交易"],
+ ["动态风险阈值必须启用", "波动率大于8%不自动降权，误报淹没真信号；OFAC更新需瞬时收紧至0.1跳"],
+ ["跨账户图谱必须时空对齐±30秒", "未对齐致资金亲密度错配，伪造关联误判或真关联漏报"],
+ ["权限必须最小且行级", "权限过宽使分析师见全量PII泄露；无行级致跨租户可见他方数据"],
+ ["温层必须加密与密钥轮换", "未加密盘丢失即数据外泄；密钥不轮换泄露长期有效"],
+ ["备份必须演练且跨区", "只备不演恢复时发现损坏；单区备份区域故障全丢合规数据"],
+ ["分层阈值须与合规留存一致", "7天与1年边界与5至7年留存冲突，审计判定留存不完整"],
+ ["血缘与口径必须冻结可追", "缺字段血缘监管问来源无法答；口径漂移跨月对比失效"]
+];
+const KPIS = [
+ ["查询性能", "P99查询延迟须小于等于秒级，直接决定风控判定与用户体验"],
+ ["分层命中率", "温层命中率衡量路由正确性，掉标即成本与体验双降"],
+ ["数据新鲜度", "温层数据相对源端延迟，决定风控是否基于陈旧特征"],
+ ["合规留存", "温冷留存覆盖大于等于7年且不可变，审计抽查的硬指标"],
+ ["成本效率", "每查询与每TB成本，分层架构的核心收益证明"],
+ ["判定时延", "风控判定端到端时延须接近100ms目标"],
+ ["数据质量", "缺失与重复与越界比例，脏数据直接致误判"],
+ ["可用性", "温层查询可用率与RTO，故障即合规窗口数据缺失"]
+];
+const LIC_CN = [
+ ["虚拟货币交易禁令：大陆禁止开展虚拟货币交易与兑换及面向境内用户的交易监控", "温数据平台仅可做区块链数据服务与合规数据分析", "不得涉交易业务、不得服务境内违规交易"],
+ ["数据安全法：须数据分类分级并做出境安全评估", "含个人信息的温层分析可对外提供", "出境须走安全评估"],
+ ["个人信息保护法：最小必要与脱敏要求", "温层PII分析可在授权下开展", "须动态脱敏、加密、限定用途"],
+ ["网络安全等级保护：平台须定级备案与测评", "合规温层系统可运营", "须达相应等保级别"],
+ ["密码法：商用密码合规要求", "加密存储与传输可开展", "须用合规算法与密钥管理"],
+ ["区块链信息服务备案：提供链上数据索引与分析须备案", "完成备案后对外提供链上分析", "未备案不得运营"],
+ ["跨境数据流动：受控须评估是否属重要数据", "境内温层分析可开展", "含境外链上数据须做出境评估"],
+ ["金融业监管报送：机构客户须满足数据治理与报送", "为金融机构提供技术可开展", "须签合规协议"],
+ ["反垄断与数据共享：跨机构关联查询须获授权", "授权下关联分析可开展", "不得非法聚合他方数据"],
+ ["内容安全合规：平台不得为非法交易提供分析便利", "合规风控分析可开展", "建立内容审核与用途约束"],
+ ["网络安全审查：关键基础设施须过审", "涉关基温层系统可建设", "须通过审查"],
+ ["数据本地化：重要数据须境内存储", "境内温层服务可开展", "重要数据不得出境"],
+ ["反洗钱非金融机构要求：为金融机构提供技术须签保密与合规协议", "技术外包服务可开展", "明确不承担持牌AML义务"],
+ ["算法备案：风控与推荐算法须备案可解释", "可解释规则与模型可上线", "须备案"],
+ ["征信业务资质：涉信用评估须持牌", "持牌后可开展征信评分", "无牌不得开展"],
+ ["云服务监管：云计算服务须符合安全要求", "温层云服务可对外提供", "须满足监管与安全"]
+];
+const LIC_INTL = [
+ ["MiCA（EU）：CASPs须持牌、最低资本5至15万欧元、DORA韧性、旅行规则全量识别", "可开展欧盟VASP合规数据服务", "须满足旅行规则与GDPR数据保护"],
+ ["FinCEN BSA（US）：MSB注册、SARs上报、3000美元阈值、OFAC制裁筛查", "可开展美国AML与KYT数据服务", "须BSA报送与OFAC实时筛查"],
+ ["MAS（SG）：支付服务牌与DTSP、旅行规则与AML", "可服务新加坡VASP", "须MAS合规与本地留痕"],
+ ["SFC VATP（HK）：双牌照与穿透式监管", "可服务香港虚拟资产交易平台", "须SFC报备与审计留痕"],
+ ["VARA（UAE）：迪拜VASP牌照与规则", "可服务中东VASP", "须VARA合规"],
+ ["FCA（UK）：加密资产注册与金融促销规则", "可服务英国机构", "须FCA注册"],
+ ["FATF：旅行规则与风险评估建议15与16", "跨境须随附收发方信息", "须VASP间协议"],
+ ["FINMA（CH）：瑞士VASP与DLT法案", "可服务瑞士机构", "须FINMA合规"],
+ ["Japan FSA：加密交易所牌照与旅行规则", "可服务日本VASP", "须FSA合规"]
+];
+const OPPS = [
+ ["交易所近线AML", "多数交易所温层仅做报表未做实时AML", "以宽事件加ClickHouse切入5分钟跨账户检测"],
+ ["合规时间旅行审计", "现有审计难还原历史状态", "以Iceberg与Paimon快照做可回放审计产品"],
+ ["温冷自动分层", "分层靠人工配置易错", "以生命周期加容量感知做自动沉降回热"],
+ ["动态风险阈值", "规则阈值静态致误报多", "内置波动率自适应与OFAC瞬时收紧"],
+ ["跨链亲密度图谱", "单链图谱无法跨链关联", "以时空对齐±30秒做跨链资金图谱"],
+ ["流式预计算特征平台", "特征现算超时延", "以Flink前置预计算加多级缓存满足100ms"],
+ ["多源JOIN加速", "多源JOIN超1.35秒", "内存缓存加Local Zones网络优化25ms降至2.5ms"],
+ ["智能物化推荐", "物化靠经验热点仍现算", "基于命中分析自动推荐与刷新物化视图"],
+ ["隐私合规查询", "跨机构合规需披露原文", "以ZK证明布尔合规而不泄原文"],
+ ["边缘温层节点", "跨境查询延迟高", "在交易所本地布温层降延迟保合规"],
+ ["监管沙盒回放", "监管测试缺近线回放", "以温层快照跑沙盒回溯"],
+ ["开放生态集成", "私有格式锁定客户", "以开放表格式加ANSI SQL加BI集成降锁定"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：温数据平台 / 近线分析层 / 宽事件 ClickHouse 风控`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AML数据处理平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>AML数据处理平台全景</b>
+    <span>AML数据处理平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>AML数据处理平台产品功能全景图谱</h1>
+    <p>AML数据处理平台是把<b>多链原始数据</b>加工成可举证风控证据的底座：从全节点采集、协议语义解码，到特征指纹与版本化标签治理，最终支撑54级跨链资金关联与234毫秒合规判定。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质主线是<b>把不可信的链上原始数据</b>逐步加工成可审计、可复现、可举证的风控证据。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d4）采集与解析</td><td>多链节点接入、区块解析、协议语义解码、地址-交易-事件抽取</td><td>把二进制区块变成结构化实体与关系</td></tr>
+<tr><td>第2层（d5–d8）加工与特征</td><td>批流ETL、组合性序列解析、特征工程、行为指纹</td><td>把实体关系加工成可建模的风险特征</td></tr>
+<tr><td>第3层（d9–d12）标签与智能</td><td>标签治理、误报治理、实时解析器、RiskTagger代理</td><td>把特征转成版本化标签与可解释结论</td></tr>
+<tr><td>第4层（d13–d18）质量与底座</td><td>数据质量血缘、版本快照、延迟一致、分层存储、查询引擎、可观测审计</td><td>保障证据可举证、可复现、可留存</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三件必须先于产品存在：<br>1) 多链节点的<b>重组监听与归档</b>能力；<br>2) 标签的<b>版本化与数据版本绑定</b>机制；<br>3) 端到端<b>血缘与审计留痕</b>底座。</div>
+    <div class="danger">最容易被误当成成功信号的是<b>标签覆盖率</b>——覆盖广但误报率高、不可复现，反而让分析师弃用，表面繁荣实则失效。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断前沿方向落地优先级的一条标准：凡依赖跨机构数据共享或监管尚未明确的（如标签市场、隐私计算联合建模），优先级低于有成熟商业案例且单方可闭环的方向（如跨链原子图谱、实时合规判定）。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>地址实体</td><td>链上控制资金的EOA或合约主体</td><td>归类错会把整个关联链追溯到错误主体，误伤无辜或放过真凶</td></tr>
+<tr><td>交易事件</td><td>带语义的结构化链上行为</td><td>语义错会让借贷与清算被当普通转账，风险意图完全失真</td></tr>
+<tr><td>风险标签</td><td>对实体或行为的版本化风险判定</td><td>无版本则监管问询时无法复现当时结论，审计失败</td></tr>
+<tr><td>资金边</td><td>地址间的有向资金流动关系</td><td>方向或金额错会让资金亲密度图谱倒置，关联分析反推</td></tr>
+<tr><td>行为指纹</td><td>跨地址稳定的操作习惯信号</td><td>指纹错配会把脚本团伙当散户，或把自然人当机器人</td></tr>
+<tr><td>数据版本</td><td>某时刻数据或算子的不可变快照</td><td>不绑版本则结论不可复现，监管举证无效</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域的监管域组合在四个域交汇：<b>数据合规（个保与数安）</b>、<b>反洗钱（BSA与MiCA）</b>、<b>制裁筛查（OFAC）</b>、<b>旅行规则身份识别</b>。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1) <b>12至72小时同步延迟</b>内把陈旧数据当实时，构成违规放行；<br>2) <b>标签未绑数据版本</b>，监管复现不出旧结论；<br>3) <b>审计日志可篡改</b>，举证无效且客户流失。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：搭建多链全节点与重组监听，保真原始数据</li><li>第二步：建设协议语义解码与地址-交易-事件抽取</li><li>第三步：构建批流一体ETL与特征工程平台</li><li>第四步：落地版本化标签治理与实时解析器</li><li>第五步：补齐数据质量血缘与可观测审计底座</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径A：以实时KYT判定API切入中小交易所</li><li>路径B：以跨链亲密度图谱切入调查类客户</li><li>路径C：以可举证证据链SaaS切入合规报送</li><li>路径D：以误报自收敛引擎切入数据治理</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：都以<b>可复现、可举证的数据版本</b>为第一资产，先沉淀可信数据再谈上层智能。</div>
+  </section>
+
+  <footer>
+    <p>AML数据处理平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "产品全景分层"],
+ ["s1", "数据采集底座"],
+ ["s2", "数据加工管道"],
+ ["s3", "特征与行为指纹"],
+ ["s4", "标签与治理体系"],
+ ["s5", "智能解析与代理"],
+ ["s6", "数据质量与血缘"],
+ ["s7", "合规与监管约束"],
+ ["s8", "存储与查询引擎"],
+ ["s9", "落地路径与机会"]
+];
+const PLAYERS = [
+ ["链上数据API平台", "Covalent / Bitquery", "欧科云链OKLink / 蚂蚁链", "本质是售卖干净、结构化的链上原始与解码数据"],
+ ["分析型数据仓库", "Dune / Allium", "腾讯云TBaaS数据服务", "本质是让分析师用SQL自助查询链上行为"],
+ ["地址标签与情报终端", "Nansen / Arkham", "合规链上情报产品", "本质是售卖谁在做什么的实体情报"],
+ ["索引器即服务", "The Graph / SubQuery", "溪塔科技", "本质是托管subgraph解码与查询"],
+ ["区块链节点服务", "Infura / Alchemy", "万向区块链", "本质是提供多链RPC与归档节点"],
+ ["风控数据管道", "Flipside / 自有中台", "金融机构数据中台", "本质是批流一体的链上数据加工底座"],
+ ["实时流式平台", "Kafka+Flink生态", "华为云实时流", "本质是低延迟接入与增量计算"],
+ ["特征存储平台", "Tecton类 / Feature Store", "同态数据平台", "本质是把行为转成可建模特征"],
+ ["图谱数据库", "Neo4j / TigerGraph", "华为图引擎", "本质是跨链资金关联与亲密度计算"],
+ ["合规数据终端", "Chainalysis / TRM Labs", "合规科技数据服务", "本质是KYT与AML筛查报送"],
+ ["数据治理平台", "Collibra类 / 自研", "数据治理中台", "本质是标签版本化与质量血缘"],
+ ["开源数据栈", "Dune社区 / Ethereum ETL", "国产生态开源", "本质是社区共建解码与指标"]
+];
+const DOMAINS = [
+ ["d1", "多链全节点与RPC接入", "Multi-chain Full Node & RPC Ingestion", "成熟", "从源头获取链上原始数据的接入底座", [["全节点部署运维", [["节点健康监测", "节点落后一个epoch会导致解析出陈旧交易，误把已回滚交易当确认，污染全量标签", "Infura/Alchemy"], ["归档节点管理", "追溯历史攻击需要归档节点，只用全节点查数年前区块会失败，调查旧盗窃案直接卡死", "QuickNode"], ["多客户端冗余", "单客户端Bug会静默丢块，双客户端交叉校验可发现异常", "Erigon"], ["链分叉处理", "重组期间未标记未确认的交易被当成终态，会错误解除地址风险标记", "Self-hosted"]]], ["多链RPC聚合", [["多供应商路由", "单一RPC供应商限流会漏掉mempool内可疑交易，聚合路由按延迟与配额切流降低漏检", "Alchemy/Ankr"], ["速率与配额治理", "无配额治理的批量回溯会触发封禁，历史回灌任务整批失败", "Pokt Network"], ["失败重试与降级", "RPC超时未重试会丢区块，导致地址交易序列断裂无法还原资金路径", "Public RPC"], ["私有节点专线", "公网RPC被运营商QoS丢包时实时告警延迟突增，专线保解析连续性", "Infura"]]], ["区块订阅与回溯", [["实时区块订阅", "订阅中断后未补订阅会漏掉整段区块，对应地址风险事件缺失", "WebSocket"], ["历史区块回溯", "错误高度起点会让回灌重复或遗漏，标签覆盖出现空洞", "Archive Node"], ["Reorg监听", "忽略重组事件会把被回滚的混币交易当真实流出，误判资金去向", "Chain tip"], ["Trace/Debug API", "仅用receipt无法还原内部调用，Trace API才能看清合约内资金搬运", "Parity Trace"], ["创世与快照", "错误创世配置导致链ID混淆，把测试网交易混入主网图谱", "Genesis"]]]]],
+ ["d2", "区块解析与交易解码", "Block Parsing & Transaction Decoding", "成熟", "把二进制区块转成结构化可查询的事件", [["原始区块解析", [["区块到交易展开", "漏解交易级字段会让地址首笔交易时间算错，影响新地址风险判定", "Covalent"], ["内部交易还原", "只看外部交易会漏掉合约内转账，地址余额与资金流出现缺口", "Etherscan"], ["事件日志解析", "错误解析Transfer event的from/to会把资金接收方识别成发送方", "abigen"], ["代币元数据对齐", "同符号不同合约归一时混淆，跨链多版本被当成同一资产", "CoinGecko"]]], ["交易语义结构化", [["方法签名解码", "未解码的调用无法识别transfer与approve，风控规则无法命中", "4byte.directory"], ["参数类型还原", "uint256与address错位会导致金额放大或归零，误判大额异动", "ethers.js"], ["ABI版本兼容", "协议升级ABI后旧解析器静默丢字段，借贷头寸状态读错", "The Graph"], ["失败交易标记", "把reverted交易当成功会虚增地址活跃度，干扰行为指纹", "Block explorer"]]], ["跨链数据对齐", [["链ID标准化", "未统一chainId会把BSC交易误标以太坊，跨链图谱错乱", "Chainlist"], ["资产桥映射", "漏掉桥映射会把跨链后资产当新资产，资金路径断裂", "LI.FI"], ["区块时间归一", "各链出块时间不同未归一会让时序序列错位，无法对齐亲密度", "Node"], ["去重与幂等", "重放区块未幂等会重复计数交易，地址频次指标失真", "Kafka"], ["终结性确认", "未等确认数就入库，重组后数据回滚却已打标签", "Finality"]]]]],
+ ["d3", "DEX与协议语义解码", "DEX & Protocol Semantic Decoding", "成熟", "还原AMM与借贷等协议调用的业务语义", [["AMM解码", [["池子与价格还原", "错算池子储备会误判套利与洗价，错误标记正常LP", "Uniswap Subgraph"], ["Swap路径还原", "多跳swap未还原中间路径，会把路由地址误判为资金控制方", "1inch"], ["流动性事件解码", "加撤流动性未识别会把LP操作当普通转账，持有时长特征失效", "Uniswap V3"], ["滑点与MEV识别", "忽略三明治攻击会让被攻击地址被错标为获利方", "MEV-Boost"]]], ["借贷与衍生品解码", [["头寸状态机", "借贷存入借出清算状态错会误判抵押率，错过清算风险信号", "Aave Subgraph"], ["健康因子计算", "预言机价格源错配会让健康因子失真，真实资不抵债未被告警", "Compound"], ["杠杆与仓位还原", "永续开仓未还原会把对冲当单向投机，错误评估风险偏好", "dYdX"], ["收益农场识别", "把质押奖励当转账会漏掉收益来源，地址画像缺一块", "Yearn"]]], ["组合性调用还原", [["原子交易序列", "Aave存入ETH再入Uniswap的调用未串成序列，语义被切碎成孤立动作", "Tenderly"], ["代理合约解析", "代理升级后逻辑地址变化，旧解析器读不到新实现导致数据断流", "OpenZeppelin"], ["多步调用依赖", "跨合约调用依赖未建图，无法还原借出提供流动性的资金意图", "Call trace"], ["回调与钩子", "忽略回调会漏掉瞬时资金搬运，误判余额", "Hooks"], ["协议版本差异", "V2与V3池结构不同，统一模板会解析失败致特征缺失", "Uniswap"]]]]],
+ ["d4", "地址-交易-事件抽取", "Address-Transaction-Event Extraction", "核心", "构建实体与关系的图谱抽取层", [["实体抽取", [["地址聚类", "未聚类同一主体的多地址会低估其资产规模与关联风险", "Elliptic"], ["交易所与混币器识别", "把已知交易所热钱包当普通地址会让上游资金源误判", "Chainalysis"], ["合约vsEOA判定", "误把合约当EOA会让地址行为特征全错，指纹失效", "Nansen"], ["标签实体绑定", "标签绑错实体会让整条关联链追溯到一个错误主体", "TRM"]]], ["关系与边抽取", [["资金边抽取", "漏抽内部交易边会让图缺失关键资金流，关联分析断裂", "GraphSense"], ["时序边排序", "边未按区块时间排序会让资金亲密度图谱时空错位", "TRM Nexus"], ["跨链边对齐", "未对齐跨链桥两边交易，资金出境无法追踪", "Elliptic Nexus"], ["共花与共同输入", "忽略coinjoin共花费会漏掉混币网络核心节点", "Chainalysis"]]], ["事件与意图抽取", [["业务事件归一", "同一业务在不同协议事件名不同，未归一无法横向统计", "Dune"], ["金额与币种归一", "跨链同资产计价不一致，资金规模对比失真", "Allium"], ["意图分类", "未识别洗币分层意图会把洗钱序列当正常交易", "TRM"], ["角色标注", "未标注发送接收桥接角色，关联图语义模糊", "Arkham"], ["实体解析消歧", "同名标签指向不同主体会污染子图，误伤无辜地址", "Nansen"]]]]],
+ ["d5", "批流一体ETL管道", "Batch-Stream Unified ETL", "核心", "统一历史回灌与实时增量的管道骨架", [["接入与缓冲", [["流式接入", "仅批处理会让新区块滞后数小时，实时风控错过最佳拦截窗口", "Kafka"], ["批式回溯", "无回溯能力则协议升级前的历史无法补齐，标签覆盖有空洞", "Spark"], ["背压与限流", "下游慢时未背压会丢消息，资金事件静默丢失", "Flink"], ["死信与重放", "解析失败进死信未重放，错误数据永久缺失", "DLQ"]]], ["加工与转换", [["一次建模双跑", "批流各写一套逻辑会算出两套数字，对账永远对不上", "Flink SQL"], ["schema演进", "协议字段变更未兼容会让整批任务失败，特征断更", "Avro"], ["幂等写入", "重复消费未幂等会重复累计金额，地址指标虚高", "Exactly-once"], ["延迟监控", "无端到端延迟监控，12至72小时同步延迟无人知晓", "Prometheus"]]], ["编排与调度", [["任务依赖编排", "上游未就绪就跑下游，特征用旧标签训练，模型漂移", "Airflow"], ["数据回灌触发", "协议补数据未触发回灌，新旧口径混用致结论矛盾", "Dagster"], ["断点续跑", "长任务失败从头跑浪费数小时，阻断实时刷新", "Checkpoint"], ["资源隔离", "重回溯抢占实时资源致在线查询超时，告警漏发", "YARN"], ["血缘埋点", "任务无血缘，出错无法定位是哪步污染了标签", "OpenLineage"]]]]],
+ ["d6", "协议组合性序列语义解析", "Composability Sequence Resolution", "成长", "还原跨协议调用链的业务序列", [["调用序列重建", [["原子序列归并", "未归并单笔tx内多步调用会把借换存拆成噪声，意图丢失", "Tenderly"], ["跨tx因果链", "仅看单tx无法还原跨多笔的清算连锁，风险传导看不全", "Graph"], ["子调用展开", "只看顶层调用漏掉内部swap，资金真实去向被掩盖", "Trace"], ["序列模板库", "无模板库则每次重新解析，新协议接入慢且口径不一", "Custom"]]], ["业务语义标注", [["语义标签映射", "原始调用未映射到提供流动性与清算等语义，分析师读不懂", "Nansen"], ["组合意图识别", "Aave到Uniswap到Aave的循环未识别为杠杆循环，误判为分散投资", "Model"], ["失败路径剔除", "reverted分支未剔除会污染成功路径统计，胜率失真", "Sim"], ["金额流聚合", "未聚合序列内资金流，无法算净头寸变化，风险敞口算错", "Aggregate"]]], ["上下文断裂治理", [["上下文拼接", "协议升级致上下文断点未拼接，序列被腰斩成两段", "Versioned"], ["跨协议状态", "未维护跨协议状态会让序列语义缺前提", "State"], ["时间窗对齐", "同步延迟未对齐，序列前后状态对不上", "Window"], ["缺失补全", "中间调用缺失未补全，序列逻辑不自洽误判意图", "Impute"], ["语义版本化", "同一序列因解析版本不同出两种语义，结论不可复现", "Version"]]]]],
+ ["d7", "特征工程平台", "Feature Engineering Platform", "核心", "从原始行为生成可建模的风险特征", [["行为特征", [["Gas支付习惯", "忽略Gas支付币种与代付习惯会漏掉机器人代付信号，误判为自然人", "Feature Store"], ["操作时间窗", "不统计活跃时区，无法区分不同地域操盘，团伙聚类失败", "Pandas"], ["调用频次熵", "频次分布熵低说明机械化操作，泊松分布可识别肉鸡账户", "Scikit"], ["nonce连续性", "nonce跳跃暴露多客户端并发，识别批量地址群", "Node RPC"]]], ["协议交互特征", [["交互协议熵", "协议交互熵值低等于高度专一，可能自动化脚本而非散户", "Shannon"], ["LP持有时长", "LP持有时长极短等于快进快出洗量，误当长期流动性", "Uniswap"], ["资金轮动路径", "轮动路径固定等于程序化搬砖，特征可标记MEV bot", "Graph"], ["首次交互延迟", "新地址上线即精准交互等于获牌地址，预警前置信号", "Feature"]]], ["图与关联特征", [["邻居风险聚合", "只算一跳会漏掉二跳混币器，风险被稀释", "PageRank"], ["资金亲密度", "时空对齐与金额匹配等于同一控制人，强关联证据", "TRM"], ["中心度", "高中心度地址可能是协调者，需抓网络核心", "Centrality"], ["闭环检测", "未检测资金回流闭环会漏掉自循环洗钱", "Cycle"], ["子图密度", "密度异常高的子图疑似有组织网络，优先调查", "Community"]]]]],
+ ["d8", "地址行为指纹", "Address Behavior Fingerprint", "成长", "刻画操作习惯的稳定身份信号", [["操作习惯指纹", [["RPC节点偏好", "专用RPC节点偏好可区分机构与散户，误并会污染画像", "Infura"], ["交易构造风格", "构造tx的字段习惯是稳定指纹，换地址仍可追", "Style"], ["错误处理模式", "面对revert的重试模式稳定，可跨地址关联同一主体", "Pattern"], ["设备与客户端", "客户端User-Agent稳定，配合操作习惯锁定实体", "Client"]]], ["时间与社会指纹", [["活跃时区", "时区稳定可聚类跨国团伙，误判为本地散户", "TZ"], ["批量节奏", "固定间隔操作暴露脚本化，泊松检验可证伪自然人", "Poisson"], ["节假日模式", "节假日突变说明自动化中断，识别人工接管", "Calendar"], ["关联地址同步", "同主体多地址操作极高同步等于共控，强证据", "Sync"]]], ["风险演化指纹", [["行为漂移", "地址行为突变是风险升级信号", "Drift"], ["新地址冷启动", "新地址零历史却大额操作等于获牌地址高危", "Cold"], ["休眠唤醒", "长期休眠地址突然激活常涉盗币变现", "Wake"], ["指纹衰减", "指纹随时间衰减需重算，过期指纹致误判", "Decay"], ["对抗性伪装", "故意打乱节奏试图规避指纹，需对抗样本检测", "Evasion"]]]]],
+ ["d9", "风险标签体系治理", "Risk Label System Governance", "核心", "标签的版本化与上下文一致性管理", [["标签建模", [["标签本体设计", "标签无本体层级会让制裁与高风险混用，规则冲突", "Taxonomy"], ["标签粒度", "粒度太粗无法区分类型，太细则爆炸，需平衡可解释", "Schema"], ["标签生命周期", "无生命周期的标签永不过期，旧制裁名单仍生效误伤", "Lifecycle"], ["多源标签融合", "多源标签冲突未融合，同一地址得相反结论", "Fusion"]]], ["版本化管理", [["标签版本化", "标签无版本，OFAC更新后无法追溯当时判定，审计失败", "Git-like"], ["数据版本绑定", "标签未绑定数据版本，复现旧结论时数据已变结果不同", "DVC"], ["灰度发布", "新标签直接全量上线，误报瞬间扩散全网", "Canary"], ["回滚机制", "坏标签无法回滚，误报持续数小时扩大损失", "Rollback"]]], ["上下文断裂治理", [["上下文一致性", "跨链同一实体上下文断裂致标签丢失，需拼接", "Context"], ["同步延迟补偿", "延迟未补偿，标签在延迟窗口内失效", "Delay"], ["标签溯源", "标签无来源溯源，分析师不敢用调查效率低", "Provenance"], ["冲突仲裁", "两标签矛盾无仲裁规则，系统给出随机结论", "Arbitration"], ["治理审批", "标签变更无审批留痕，监管问询无法举证", "Approval"]]]]],
+ ["d10", "误报治理与反馈闭环", "False Positive Governance", "成长", "把分析师反馈转成标签与规则迭代", [["误报捕获", [["分析师反馈入口", "无反馈入口则误报无人上报，标签越错越深", "UI"], ["误报归因", "不归因只删标签，同类误报反复出现治理无效", "Root-cause"], ["误报度量", "无误报率指标，团队不知模型在变差", "Metric"], ["抽样复核", "不抽样复核，低概率误报长期潜伏成系统性偏差", "Audit"]]], ["闭环迭代", [["反馈转规则", "反馈未转成规则，下次还错闭环断在半路", "Rule-gen"], ["标签修正回流", "修正未回流训练集，模型不进化误报率持平", "Retrain"], ["A/B验证", "新规则未A/B直接上，误报可能更糟且无对照", "Experiment"], ["衰减重评", "旧规则不重评，环境变后仍按旧阈值误杀", "Re-eval"]]], ["可信度管理", [["标签置信度", "无置信度则高不确定标签与确定标签同样处理误伤", "Confidence"], ["人工覆盖留痕", "人工改标签不留痕，无法区分系统与人工结论", "Override"], ["误报成本计量", "不计量误报成本，团队盲目压召回伤业务", "Cost"], ["白名单治理", "白名单无限期生效，被滥用的白名单成洗钱通道", "Allowlist"], ["反馈偏见修正", "分析师只报明显误报致样本偏见，需主动挖掘", "Bias"]]]]],
+ ["d11", "实时语义解析器", "Real-time Semantic Parser", "成长", "流式还原交易意图的轻量引擎", [["流式解析", [["内存态解析", "落盘后再解析延迟超1秒，错过100ms合规判定目标", "Flink"], ["增量图更新", "全量重算图每次数分钟，实时无法用需增量", "Graph"], ["滑动窗口", "无滑动窗口，资金序列跨批被切断意图丢失", "Window"], ["热点地址缓存", "热点地址不缓存，重复计算拖垮实时吞吐", "Cache"]]], ["轻量意图识别", [["规则优先", "纯模型实时太慢，规则优先加模型兜底兼顾速度与准度", "Rules"], ["意图轻模型", "轻量模型识别分层与归集意图，重模型离线复核", "LightML"], ["阈值流式判定", "动态阈值未流式化，极端行情误放行", "Stream"], ["黑名单流匹配", "新增OFAC名单未流式匹配，制裁地址仍放行数分钟", "Match"]]], ["降级与容错", [["超时降级", "解析超时未降级，阻塞主链路致全站风控停滞", "Fallback"], ["结果可解释", "实时结果不可解释，分析师无法快速决断拦截", "Explain"], ["重复事件去抖", "同交易多次推送未去抖，重复打标浪费资源", "Debounce"], ["解析保序", "乱序到达未保序，资金边方向错图谱倒置", "Ordering"], ["容量弹性", "突发流量未弹性扩容，实时解析掉队漏检", "Autoscale"]]]]],
+ ["d12", "RiskTagger智能代理", "RiskTagger Agentic Tagger", "成长", "多智能体协作调查与可解释标注", [["代理编排", [["多智能体协作", "单代理无法同时查链上与暗网与社媒，需多体分工调查", "Agent"], ["任务规划", "无规划则代理乱调工具，调查无头绪耗时且跑偏", "Planner"], ["工具调用治理", "代理随意调高危接口致数据泄露或误改标签", "Tool-gov"], ["人类在环", "关键拦截无人在环，自动误杀无法拦截损失扩大", "HITL"]]], ["可解释推理", [["逻辑链生成", "只给结论不给逻辑链，监管不认可调查不可信", "XAI"], ["证据链举证", "无证据链则结论不可复核，审计失败", "Evidence"], ["不确定性表达", "代理不表达不确定，过度自信致误判被采纳", "Calibrate"], ["溯源到原始交易", "结论不能跳回原始tx，分析师需下钻复核", "Traceback"]]], ["知识与时序", [["实时情报融合", "不融合推特与暗网情报，新骗局滞后数日才标签", "Feed"], ["记忆与上下文", "代理无跨会话记忆，重复调查同一地址浪费资源", "Memory"], ["版本化结论", "同地址结论随模型变而变，无版本不可复现", "Versioned"], ["对抗鲁棒", "攻击者对代理投毒提示词致误标，需防护", "Guardrail"], ["自动报告", "不自动生成调查报告的代理价值大减，人工成本高", "Report"]]]]],
+ ["d13", "数据质量与血缘", "Data Quality & Lineage", "核心", "可举证证据链与审计元数据", [["质量校验", [["多源交叉校验", "单源数据不交叉校验，节点Bug致错误数据入库无人知", "Reconcile"], ["完整性检查", "丢块未检，地址交易序列断裂溯源断点", "Completeness"], ["时效性检查", "超12至72h延迟未告警，风控用陈旧数据做判定", "Freshness"], ["异常值检测", "金额单位错未检出，巨量误报", "Anomaly"]]], ["血缘与证据", [["端到端血缘", "无血缘则标签说不清来源，监管举证失败", "Lineage"], ["字段级溯源", "只能到表级溯源不够，需到字段级定位污染点", "Column-lineage"], ["可举证证据链", "结论无证据链，法庭与监管不采纳客户流失", "Evidence"], ["变更影响分析", "改一处不知影响哪些标签，盲目改动致误报扩散", "Impact"]]], ["审计元数据", [["处理留痕", "每步处理无留痕，出事无法还原当时逻辑", "Audit-log"], ["算子版本", "解析算子版本未记录，复现不出旧结果", "Operator-ver"], ["数据快照引用", "结论不引用快照，重算数据已变结果不同", "Snapshot-ref"], ["质量评分", "无质量评分，脏数据照常进模型特征失真", "Quality-score"], ["合规留存", "未保留5至7年元数据，监管检查直接不合规", "Retention"]]]]],
+ ["d14", "数据版本与快照管理", "Data Versioning & Snapshots", "成熟", "让每条结论可回溯到数据版本", [["版本模型", [["不可变版本", "版本可改会导致当时结论无法复现，审计失败", "Immutability"], ["快照隔离", "快照不隔离，回灌时在线查询读到半成品", "Snapshot"], ["版本寻址", "无内容寻址，版本靠名字易冲突引用错版本", "CAS"], ["增量存储", "全量快照存储爆炸，需增量降成本", "Delta"]]], ["快照服务", [["时间点还原", "无时间点还原，误删标签无法回到出事前", "PITR"], ["快照生命周期", "快照永不过期占满存储成本失控", "TTL"], ["跨版本对比", "不能对比两版本差异，难定位标签何时变坏", "Diff"], ["快照一致性", "快照非事务一致，还原出矛盾数据", "Consistent"]]], ["复现与归档", [["结论复现", "结论绑定版本才能复现，否则监管问询答不上", "Reproduce"], ["冷归档", "7年加冰数据无归档，合规留存成本与检索难兼顾", "Archive"], ["版本清理策略", "清理策略错会删掉仍在审计期的数据", "Policy"], ["引用完整性", "标签引用已删版本致悬浮，结论失效", "Ref-integ"], ["归档可检索", "归档不可检索，监管调证时拿不出视同缺失", "Searchable"]]]]],
+ ["d15", "同步延迟与时序一致性", "Sync Latency & Temporal Consistency", "成长", "控制12至72小时同步窗口的一致性", [["延迟治理", [["延迟预算", "无延迟预算则各链延迟不一，跨链图谱时间错位", "Budget"], ["延迟可视化", "延迟不可见，延迟窗口内误判地址无活动", "Dashboard"], ["关键路径优先", "不区分优先级，慢链拖累快链整体变慢", "Priority"], ["延迟告警", "超阈值不告警，实时风控用旧数据放行风险交易", "Alert"]]], ["时序对齐", [["时钟归一", "各链区块时间未归一到UTC，时序序列错乱", "NTP"], ["跨链时间窗", "跨链对齐未做，亲密度图谱失准", "Align"], ["终态等待", "未等确认数就当终态，重组后状态回滚却已用", "Confirm"], ["历史重订正", "历史时间戳错不重订正，老数据始终偏斜", "Correct"]]], ["一致性保障", [["读写一致", "延迟窗口内读写不一致，调查看到半截状态", "Consistency"], ["补偿回写", "延迟到达的数据未补偿旧标签，标签陈旧", "Compensate"], ["幂等合并", "迟到数据重复合并致计数翻倍，指标失真", "Idempotent"], ["因果序", "跨链事件因果序错，资金流向倒置", "Causal"], ["一致性级别声明", "不声明级别，调用方误当强一致用做错决策", "SLA"]]]]],
+ ["d16", "分层存储与宽事件架构", "Tiered Storage & Wide Event", "成熟", "按冷热分层支撑跨账户图查询", [["冷热分层", [["热数据内存化", "0至7天数据不内存化，实时查询超百毫秒失守", "NVMe"], ["温数据块存", "7天至1年不块存，查询秒级变分钟体验崩", "BlockStore"], ["冷数据对象存", "1至7年不进对象存储，成本翻数倍", "S3"], ["冰数据归档", "7年加不归档只存摘要，调证时细节缺失", "Glacier"]]], ["宽事件模型", [["宽事件设计", "窄事件无法跨账户关联，洗钱网络查不出", "Wide-Event"], ["上下文内嵌", "事件不内嵌身份上下文，溯源缺维度", "Context"], ["schema演进兼容", "宽表schema变更不兼容，旧查询全报错", "Evolution"], ["事件去重", "重复事件未去重，账户频次指标虚高", "Dedup"]]], ["数据留存与合规", [["留存周期", "合规留存不足5至7年，检查直接不合格", "Retention"], ["加密留存", "留存数据不加密，泄露即合规事故", "Encrypt"], ["留存可检索", "留存不可检索，监管调证超时视同未留存", "Indexed"], ["删除合规", "错误数据不按合规删除，残留成隐患", "Erasure"], ["跨域复制", "多地域不复制，单点故障致查询全不可用", "Replica"]]]]],
+ ["d17", "图谱与OLAP查询引擎", "Graph & OLAP Query Engine", "核心", "跨链资金关联与溯源的查询底座", [["图查询", [["多跳遍历", "只支持单跳，二跳混币器关联查不出风险稀释", "GraphDB"], ["跨链图", "无跨链原子关联，资金出境追踪断链", "Nexus"], ["实时图更新", "图不实时更新，新交易进来数分钟才可见", "Stream-Graph"], ["子图提取", "不能快速提取子图，分析师手动拼图低效", "Subgraph"]]], ["OLAP分析", [["宽表OLAP", "非宽表支撑，跨账户聚合需多表join超1秒", "ClickHouse"], ["预聚合", "不预聚合，ad-hoc查询超时分析师流失", "Pre-agg"], ["内存缓存", "热点查询不缓存，多源JOIN拖垮实时判定", "Cache"], ["下钻溯源", "不能从聚合下钻到原始tx，结论不可复核", "Drill"]]], ["性能与优化", [["100ms目标", "多源JOIN超1秒未优化，100ms合规判定失守", "Local-Zones"], ["流式预计算", "不预计算，实时特征现算超时拦截漏发", "Precompute"], ["索引策略", "索引错配，图遍历全表扫描查询雪崩", "Index"], ["并发隔离", "重查询压垮实时链路，在线风控掉队", "Isolation"], ["查询配额", "无配额，单用户重查询拖垮全员平台不可用", "Quota"]]]]],
+ ["d18", "可观测性与审计留痕", "Observability & Audit Trail", "成熟", "合规留存与操作可审计", [["运行可观测", [["管道监控", "管道无监控，静默丢数据数小时无人知", "Prometheus"], ["数据延迟看板", "无延迟看板，12至72h延迟被当正常", "Grafana"], ["解析失败告警", "解析失败不告警，脏数据持续入库", "Alert"], ["容量预警", "不预警，流量峰值时管道崩实时断流", "Capacity"]]], ["操作审计", [["操作留痕", "谁改了标签无留痕，内部滥用无法追责", "Audit"], ["规则版本审计", "规则变更无版本，监管问当时依据答不出", "Rule-audit"], ["数据版本审计", "数据版本无审计，复现不出旧判定", "Data-audit"], ["访问审计", "谁查了敏感地址无记录，合规与隐私双风险", "Access-log"]]], ["合规留存与举证", [["7年保留", "敏感操作未保留7年，监管检查直接不通过", "Retention"], ["不可篡改", "审计日志可篡改，举证无效客户不信任", "WORM"], ["调证导出", "不能一键导出证据包，响应监管耗时数日", "Export"], ["留痕完整性", "留痕缺字段，出事还原不出完整时间线", "Completeness"], ["合规报表", "无合规报表，定期报送靠手工易出错漏报", "Report"]]]]]
+];
+const FRONTIER = [
+ ["ZK-KYC数据管道", "pilot", "zkPass等可在不披露身份下证明属性，链上数据可与之桥接", "为合规数据平台提供可验证属性接入层"],
+ ["意图推理引擎", "pilot", "从调用序列推断业务意图，Nansen等已验证需求", "做可解释的意图标签产品"],
+ ["图神经网络风控", "pilot", "GNN图卷积识别复杂洗钱网络已有实战", "提供预训练关联风险分"],
+ ["Agentic合规调查", "explore", "多智能体接管合规流程仍处成形期", "做可调度的调查代理编排"],
+ ["流式特征平台", "pilot", "实时特征已在交易风控成熟可迁移", "面向AML的实时行为特征服务"],
+ ["跨链原子图谱", "live", "TRM Phoenix与Elliptic Nexus已商用", "做跨链资金亲密度标准化产品"],
+ ["数据可观测性", "pilot", "数据管道可观测已成趋势", "提供AML数据质量SLA看板"],
+ ["隐私计算联合建模", "explore", "MPC与联邦学习合规共享情报仍早期", "建跨机构标签联邦"],
+ ["合成数据训练", "explore", "Deepfake与合成身份激增需对抗样本", "生成对抗样本强化检测"],
+ ["实时合规判定", "pilot", "100ms判定目标明确靠缓存与预计算", "卖低延迟KYT判定API"],
+ ["链上行为基线", "live", "Nansen地址画像已商用", "做行业行为基线订阅"],
+ ["误报自学习", "pilot", "反馈闭环已被大厂采用", "做误报自收敛标签引擎"],
+ ["监管报送自动化", "pilot", "SARs管理需留痕与版本", "做合规报送与审计一体化"],
+ ["数据血缘举证", "live", "可举证证据链是刚需", "做字段级溯源与证据包导出"],
+ ["边缘节点采集", "explore", "Local Zones网络优化仍前沿", "做就近采集降低延迟"],
+ ["动态风险阈值", "pilot", "波动率超阈值降权已有实践", "做自适应阈值引擎"],
+ ["标签市场", "explore", "标签作为数据资产交易仍监管模糊", "建合规标签分发市场"],
+ ["AI原生风控", "explore", "极端行情自动调保证金权重前沿", "做行情联动的风控权重"],
+ ["开放指标平台", "live", "Dune社区指标已规模", "做AML开放指标共建"],
+ ["跨机构情报网", "pilot", "TRM与Elliptic共享情报已成形", "做可审计情报交换"],
+ ["语义版本治理", "pilot", "标签版本化已被监管看重", "做版本化治理SaaS"],
+ ["实时图谱更新", "pilot", "增量图更新支撑实时关联", "卖实时跨链图API"]
+];
+const MIDS = [
+ ["采集中心", "接入并保真多链原始数据", "多链RPC与归档与重组监听"],
+ ["解析中心", "把区块转成结构化语义事件", "ABI与方法与事件解码"],
+ ["协议解码中心", "还原AMM与借贷等协议业务语义", "池子头寸与组合调用还原"],
+ ["抽取中心", "构建地址-交易-事件实体与关系", "聚类边与意图抽取"],
+ ["管道中心", "批流一体加工与编排", "Flink与调度与血缘埋点"],
+ ["序列中心", "还原组合性调用序列语义", "原子归并与上下文拼接"],
+ ["特征中心", "生成行为与图与交互特征", "指纹熵与亲密度"],
+ ["指纹中心", "刻画稳定地址身份信号", "时区节奏与构造风格"],
+ ["标签中心", "版本化治理风险标签", "本体灰度与回滚"],
+ ["误报中心", "闭环治理误报与反馈", "归因回流与置信度"],
+ ["实时解析中心", "流式还原交易意图", "内存态增量图与降级"],
+ ["代理中心", "多智能体协作调查与标注", "规划工具治理与可解释"],
+ ["质量中心", "校验数据质量与血缘", "交叉校验证据链与审计元数据"],
+ ["版本中心", "管理数据版本与快照", "不可变时间点还原与复现"],
+ ["延迟中心", "治理同步延迟与时序一致", "预算对齐与补偿"],
+ ["存储中心", "分层存储与宽事件模型", "冷热宽事件与留存"],
+ ["查询中心", "图谱与OLAP查询服务", "多跳预聚合与100ms优化"],
+ ["可观测中心", "运行监控与审计留痕", "管道监控操作审计与7年留存"]
+];
+const RULES = [
+ ["重组后必须等确认数再打标签", "未等确认数就把回滚交易当终态，会错误解除盗币地址风险标记，致其在重组前已放行后续交易"],
+ ["跨链两边交易必须原子对齐", "未对齐桥两侧交易，资金出境追踪断链，洗钱者借跨链穿透多条公链洗白却查不到"],
+ ["标签必须绑定数据版本", "标签不绑数据版本，监管问询时复现不出当时结论，审计直接失败并面临罚没"],
+ ["同步延迟窗口内不可当终态", "延迟内把陈旧数据当实时，会放行已在新数据中被标制裁的地址，造成违规放行"],
+ ["协议升级必须同步解析器", "协议ABI升级后旧解析器静默丢字段，借贷头寸状态读错，漏掉真实资不抵债地址"],
+ ["内部交易边不可省略", "只看外部交易漏掉合约内转账，地址资金流出现缺口，二跳混币器关联查不出致风险稀释"],
+ ["误报必须闭环归因", "只删误报标签不归因，同类误报反复出现，白名单被滥用于洗钱通道而无人发现"],
+ ["实时判定须有降级而非阻塞", "解析超时未降级会阻塞主链路，全站风控停滞，期间大额可疑交易零拦截"],
+ ["OFAC名单必须流式即时匹配", "新增制裁名单未流式匹配，制裁地址仍放行数分钟，违反旅行规则面临天价罚款"],
+ ["血缘必须到字段级", "只能表级溯源，出脏数据时定位不到污染字段，误报扩散数小时才止血"],
+ ["关键操作必须7年不可篡改留痕", "审计日志可篡改，监管举证无效，客户因不信任流失且检查不通过"],
+ ["图谱必须支持多跳", "只单跳查询，二跳混币器关联查不出，无实名地址的团伙网络完全漏检"],
+ ["金额单位必须统一校验", "wei与ether单位错未检出，金额放大或归零，触发虚假巨量异动告警淹没真信号"],
+ ["上下文断裂必须拼接", "协议升级致序列腰斩成两段，意图误判为孤立动作，分层洗钱被当正常交易"],
+ ["指纹需对抗性检测", "攻击者故意打乱节奏规避指纹，无对抗样本检测会把脚本团伙当散户放过"],
+ ["快照必须事务一致", "还原出矛盾数据的快照被用作证据，法庭不采纳且调查结论自相矛盾"]
+];
+const KPIS = [
+ ["采集完整性", "丢块率与重组漏检率，衡量源头是否漏掉交易"],
+ ["解析准确率", "方法签名与事件解码错误率，决定标签地基稳不稳"],
+ ["同步延迟", "各链端到端延迟中位数与P95，边界12至72小时"],
+ ["标签质量", "误报率与召回率与覆盖率，直接决定风控可用性"],
+ ["特征稳定性", "特征跨版本PSI漂移，漂移大则模型失真"],
+ ["血缘覆盖率", "关键标签可溯源比例，监管举证硬指标"],
+ ["查询性能", "多跳图与OLAP P99延迟，对标100ms合规判定"],
+ ["合规留存", "5至7年元数据与审计留存完整率，检查一票否决"]
+];
+const LIC_CN = [
+ ["区块链信息服务备案", "可提供链上数据解析、溯源与存证服务", "不得面向境内用户提供加密资产交易相关服务，数据产品须去金融化"],
+ ["数据安全法与个人信息保护法", "可开展匿名化链上行为分析", "不得处理未脱敏个人身份信息，跨境传输需安全评估"],
+ ["禁止代币发行融资公告", "可卖数据与风控SaaS、不涉代币", "不得发行或交易任何虚拟货币及衍生品"],
+ ["网络安全等级保护", "可运营合规数据平台", "需通过等保测评，重要数据出境受控"],
+ ["反洗钱法修订", "可向持牌机构输出KYT能力", "不得自行开展需牌照的支付与汇兑业务"],
+ ["人民银行反洗钱规定", "可服务银行虚拟资产风险筛查", "仅限持牌金融机构采购，不得直接对C端"],
+ ["增值电信业务许可", "可提供数据API与SaaS", "ICP与EDI等资质须齐，内容合规审查"],
+ ["密码法", "可使用商用密码保护数据", "加密产品须合规，密钥管理受监管"],
+ ["跨境数据流动新规", "可在安全评估后对外提供", "重要数据出境需申报，不得绕开监管"],
+ ["科技伦理审查", "可做合规AI风控模型", "深度合成与自动化决策需透明可解释"],
+ ["网络安全审查", "可向关键信息基础设施供应", "涉及CII需审查，供应链受控"],
+ ["征信业务资质如涉", "可输出风险评分给持牌方", "不得未经许可从事个人征信"],
+ ["区块链标准国标行标", "可参与标准共建", "产品需符合互联互通与可审计要求"],
+ ["反垄断与数据合规", "可对多源数据合规聚合", "不得滥用市场地位排他性接入"],
+ ["金融科技创新监管试点", "可在沙盒内验证风控产品", "出沙盒前不得规模化展业"],
+ ["内容安全与舆情合规", "可发布链上研究不含交易引导", "不得含荐币与喊单等违规内容"]
+];
+const LIC_INTL = [
+ ["美国FinCEN BSA与MSB", "可注册MSB开展KYT与合规数据服务", "需SARs报送、BSA阈值与OFAC筛查"],
+ ["美国OFAC制裁名单", "可嵌入制裁筛查与阻断", "须瞬时更新至收紧，违规面临天价罚款"],
+ ["欧盟MiCA生效", "可向CASPs提供数据与分析", "需DORA韧性与旅行规则全量身份识别"],
+ ["欧盟旅行规则", "可做交易对手身份传输", "需源与目的VASP互认与数据共享协议"],
+ ["新加坡MAS PS Act与DTSP", "可申请牌照服务数字支付", "需资本与合规、反哺情报共享"],
+ ["香港SFC VATP双牌照", "可向持牌交易所供数据", "穿透式监管，需数据可审计"],
+ ["阿联酋VARA", "可在VASP框架下供数据", "需本地实体与持续合规报告"],
+ ["英国FCA crypto注册", "可做AML合规数据服务", "需注册并遵守MLR反洗规则"],
+ ["FATF建议15与16", "可做跨境KYT与情报共享", "需风险评估与互评达标，防止监管套利"]
+];
+const OPPS = [
+ ["实时KYT判定API", "中小交易所缺低延迟筛查能力", "以100ms判定加缓存预计算做标准化API"],
+ ["跨链资金亲密度图谱", "现有工具跨链关联弱", "做时空对齐的标准化亲密度产品"],
+ ["误报自收敛引擎", "大厂误报率高且闭环慢", "以反馈归因与回流做自学习标签"],
+ ["可举证证据链SaaS", "监管调证靠手工", "做字段级血缘与一键证据包导出"],
+ ["协议组合性解析", "Aave到Uniswap类序列难还原", "做原子序列归并与语义模板库"],
+ ["行为指纹服务", "地址画像靠规则不够", "做Gas与时区与构造风格的稳定指纹"],
+ ["数据质量SLA看板", "数据团队无质量可视", "做AML数据完整性延迟SLA监控"],
+ ["标签版本化治理", "标签混乱不可复现", "做版本化与灰度与回滚的治理SaaS"],
+ ["Agentic调查代理", "调查靠人工低效", "做多智能体协作与可解释报告编排"],
+ ["合规数据留存归档", "7年留存成本高", "做冰数据归档与可检索的合规存储"],
+ ["开放AML指标平台", "指标共建生态弱", "做社区共建的可复用指标库"],
+ ["边缘就近采集", "跨境延迟高", "做Local Zones就近节点降低延迟"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：AML数据处理平台 / 链上风控数据管道 / 跨链资金亲密度图谱`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

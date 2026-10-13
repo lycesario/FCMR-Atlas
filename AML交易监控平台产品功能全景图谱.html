@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AML交易监控平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>AML交易监控平台全景</b>
+    <span>AML交易监控平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>AML交易监控平台产品功能全景图谱</h1>
+    <p>覆盖 18 个功能域、66 个功能簇与 264 个功能点，构建从实时判定到监管报送的链上反洗钱全景。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是：在交易发生的 100ms 内，把多源数据、规则、图卷积与对手方筛查收敛成一个可解释、可举证的风险判定，并贯穿到告警处置与监管报送。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d4）：实时监测与处置底座</td><td>d1 实时流式监控、d2 规则引擎、d3 交易对手方筛查、d4 告警分级与案例管理</td><td>把'看得到风险'变成'拦得住风险'的实时闭环</td></tr>
+<tr><td>第2层（d5–d9）：识别与智能</td><td>d5 大额报告与CTF、d6 行为模式检测、d7 GNN图卷积、d8 意图推理、d9 跨链溯源</td><td>从单点阈值走向序列、关系与意图的多维识别</td></tr>
+<tr><td>第3层（d10–d14）：治理与实体</td><td>d10 误报治理、d11 实体解析、d12 情报融合、d13 制裁筛查、d14 KYC关联</td><td>把噪声压下去、把实体串起来，让风险可归因</td></tr>
+<tr><td>第4层（d15–d18）：数据与合规底座</td><td>d15 数据分层、d16 审计留痕、d17 监管报送、d18 可观测</td><td>让一切判定可回放、可审计、可报送</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br>1. <b>必须先有数据分层与宽事件底座</b>，否则跨账户图查询与 100ms 判定无从谈起；<br>2. <b>必须先冻结制裁名单与规则版本口径</b>，否则回放、审计、报送全部失真；<br>3. <b>必须先具备可解释与留痕能力</b>，否则监管不采信、抗辩必败。</div>
+    <div class="danger">一条死亡陷阱：<b>用'告警数量'当成功信号</b>。2300+ 每日告警里绝大多数是噪声，告警越多往往说明误报治理越失败，而非风控越强。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断前沿方向（意图推理、Agentic AI、隐私计算）落地优先级的一条标准：<b>能否先以可解释分值喂给既有规则引擎、而非替换判定</b>——能渐进嵌入的优先，需推倒重来的暂缓。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>交易（Transaction）</td><td>一次链上或平台内的价值转移事件，含对手、金额、时间</td><td>错判会把分层洗钱当正常业务，放行被盗资金</td></tr>
+<tr><td>地址（Address）</td><td>链上价值容器，约 99.2% 无实名关联</td><td>误标会让高危对手被当普通地址放行</td></tr>
+<tr><td>实体（Entity）</td><td>由多地址/账户归并出的统一主体</td><td>不归并会让一人多身份风险分散、低估</td></tr>
+<tr><td>警报（Alert）</td><td>满足规则/模型触发的待处置信号</td><td>错分级会让真实风险淹没在疲劳中</td></tr>
+<tr><td>案例（Case）</td><td>合并去重后的可处置调查单元</td><td>不合并会让一个案件拆成数十工单</td></tr>
+<tr><td>报送（Filing）</td><td>SAR/CTR/旅行规则等监管报文</td><td>错报文会被退回甚至构成违法</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域是四条监管域的交汇：<b>反洗钱（AML）/ 反恐融资（CFT）、制裁合规（OFAC 等）、旅行规则（Travel Rule）、数据隐私与跨境（PIPL/GDPR）</b>，任一域缺位都会让整体合规失效。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1. <b>提币前对手地址扫描</b>——滞后一步资金即不可逆；<br>2. <b>名单零空窗更新</b>——刚制裁地址被放行就是违法；<br>3. <b>7 年留存与不可篡改留痕</b>——缺证据即抗辩失败。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：搭建数据分层与宽事件底座（热温冷冰+ClickHouse）</li><li>第二步：落地 100ms 流式判定与规则引擎热更新</li><li>第三步：接入对手方筛查与制裁/混币器拦截</li><li>第四步：用 GNN+意图推理提升识别、用回测+标注治理误报</li><li>第五步：打通告警案例管理与 SAR/CTR 报送闭环</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：实时流式判定即服务（Kafka+Flink 托管）</li><li>路径 B：GNN 风险传播分值 API 喂规则</li><li>路径 C：误报治理与规则市场（回测+标注）</li><li>路径 D：执法/机构链上溯源（CN 合规场景）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：<b>都先把'可解释、可回放、可审计'作为第一资产</b>，再谈智能与规模——不可举证的能力在监管面前等于零。</div>
+  </section>
+
+  <footer>
+    <p>AML交易监控平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "产品本质与分层主线"],
+ ["s1", "实时流式监控底座"],
+ ["s2", "规则引擎与图卷积智能"],
+ ["s3", "前沿方向：意图推理与Agentic AI"],
+ ["s4", "核心对象与实体解析"],
+ ["s5", "交易对手方与跨链筛查"],
+ ["s6", "行为模式与机器流量检测"],
+ ["s7", "监管合规域交汇"],
+ ["s8", "告警处置与误报治理"],
+ ["s9", "落地路径与商业化"]
+];
+const PLAYERS = [
+ ["链上交易监控 SaaS（KYT）", "Chainalysis KYT / Elliptic Navigator", "欧科云链 OKLink / 成都链安", "以 API 提供实时地址与交易风险评分的订阅制风控"],
+ ["实时风控规则引擎", "Feedzai / Solidus Labs", "受限自建合规中台", "用可热更新规则表达策略并热插拔模型"],
+ ["制裁与名单筛查", "ComplyAdvantage / Refinitiv World-Check", "同盾 / 百融（金融反欺诈）", "对 OFAC/UN/EU 名单实时命中与阻断"],
+ ["跨链图谱分析", "TRM Labs Phoenix / Elliptic Nexus", "成都链安 / 慢雾", "跨链原子化关联与毫秒级整体筛查"],
+ ["行为生物识别与异常检测", "Feedzai / Featurespace", "邦盛科技", "用统计与 ML 区分肉鸡与人类行为"],
+ ["监管报送平台（SAR/CTR）", "Verafin / BAE Systems NetReveal", "恒生 / 金证（合规报送）", "生成并提交监管报文并管理生命周期"],
+ ["情报融合平台", "Elliptic / TRM Labs", "智器云（情报分析）", "融合开源情报前瞻风险"],
+ ["隐私计算合规（ZK-KYC）", "zkPass / Aztec / Polygon ID", "矩阵元 / 趣链（隐私计算）", "证明属性布尔值而不披露原文"],
+ ["云原生流式风控平台", "AWS Fraud Detector / GCP", "阿里云 / 腾讯云风控", "Kafka+Flink 流式判定即服务"],
+ ["监管科技咨询与审计", "Kroll / PwC Forensic", "中审众环 / 四大（区块链审计）", "合规评估、模型验证与审计抗辩"],
+ ["区块链分析（执法/调查）", "Chainalysis Investigations / CipherTrace", "欧科云链 / 慢雾（链上追踪）", "为执法与机构提供链上溯源服务"],
+ ["开源与联盟链分析工具", "Elliptic / Breadcrumbs", "WeIdentity / BSN（联盟链身份）", "开源情报与联盟链合规组件"]
+];
+const DOMAINS = [
+ ["d1", "实时流式监控引擎", "Real-time Streaming Monitoring Engine", "核心", "在交易发生的 100ms 内完成多源数据 JOIN 与风险判定的流式底座", [["流式接入与事件归一", [["多源行情/链上/链下事件归一", "事件 schema 不统一会让下游 JOIN 错位，导致同一笔交易被重复或漏判，且只在高峰流量暴露", "Kafka"], ["内存缓存与预计算热点特征", "多源 JOIN 峰值可超 1.35s，远超市 100ms 目标会让实时拦截变成事后告警", "Local Zones"], ["流式状态管理与 Exactly-Once", "状态重复或丢失会让判定结果前后不一致，造成重复告警或漏报且难复现", "Flink"], ["背压与降级策略", "下游慢查询拖垮整条流会让判定整体超时，正常交易被误拦", "Flink"]]], ["100ms 判定链路", [["判定路径裁剪与短路", "全量特征实时计算不可能 100ms 完成，不裁剪会让 P0 拦截被延迟放过", "内部系统"], ["网络优化 25ms 到 2.5ms", "跨区域多源 JOIN 的网络往返是主要时延来源，不做 region 就近会让 100ms 目标失效", "Local Zones"], ["批流一体特征服务", "流与批特征口径不一致会让回测与线上结果对不上，模型上线即失真", "Feature Store"], ["判定结果可回放", "结果不可回放会让争议交易无法举证，监管抗辩失败", "内部系统"]]], ["实时拦截与放行", [["提币前同步拦截点", "拦截点若异步会导致已放行交易被追拦，引发客诉与合规风险", "钱包 / 托管"], ["拦截决策可追溯", "无决策链路留痕会让\"为何放行\"无法解释，审计不通过", "内部系统"], ["跨链场景拦截一致性", "跨链提币在两条链拦截状态不一致会让资产半路放行，资损且合规争议", "内部系统"], ["拦截可逆与人工复核", "完全自动拦截无人工复核会让误拦无法补救，客诉升级", "内部系统"]]], ["弹性与容量", [["流量峰值弹性扩容", "黑产集中攻击时流量翻倍，不弹性会让判定雪崩造成大面积漏检", "K8s"], ["判定节点多活容灾", "单节点故障会让判定全停、漏检爆发，需多活容灾", "内部系统"], ["冷启动预热", "新节点冷启动无缓存会让首批判定超 100ms，需预热避免超时", "内部系统"], ["容量压测基线", "无压测基线会让大促/攻击时不知瓶颈，扩容失据", "内部系统"]]]]],
+ ["d2", "规则引擎与阈值管理", "Rule Engine & Threshold Management", "核心", "用可热更新的布尔阈值规则表达监管与业务策略，并管理版本与回测", [["规则表达与编译", [["布尔阈值规则的局限认知", "纯布尔阈值规则无法捕捉序列与关系，会把分层洗钱判为正常，误以为覆盖实则盲区", "内部系统"], ["规则热更新与灰度", "规则变更需全量发布会引入回归风险，热更新失败即漏拦截", "内部系统"], ["规则版本与数据版本绑定", "规则与数据版本脱节会让历史回放结果不可信，审计抗辩失败", "内部系统"], ["规则冲突检测", "多条规则相互矛盾会让同一交易既告警又放行，处置混乱", "内部系统"]]], ["阈值与参数管理", [["动态风险阈值调整", "波动率>8% 时不降权会让噪声触发海量告警，淹没真实风险", "内部系统"], ["阈值分级与例外", "无例外通道会让大客户正常大额被反复拦截，业务流失", "内部系统"], ["阈值回测验证", "阈值未回测直接上线会让误报率飙升且无从归因", "内部系统"], ["阈值可解释性", "阈值不可解释会让调查员与监管都无法理解判定，信任崩塌", "内部系统"]]], ["规则生命周期", [["规则提案-评审-上线闭环", "无评审闭环会让野规则累积，误报治理失控", "内部系统"], ["规则收益度量", "不度量每条规则命中/误报会让劣规则长期占用算力且污染告警", "内部系统"], ["规则废弃退役", "只加不弃会让规则库膨胀、冲突加剧且算力浪费", "内部系统"], ["规则影响评估", "上线前不评估影响面会让存量告警被规则改动大规模扰动", "内部系统"]]], ["与模型协同", [["规则+模型双轨判定", "纯模型不可解释会被监管拒绝，纯规则漏检，双轨互补才过审", "内部系统"], ["模型分入规则", "模型分值不入规则引擎则智能与判定脱节，价值流失", "内部系统"], ["异常自动转规则", "高频异常不沉淀成规则会让同类事件反复消耗模型算力", "内部系统"], ["规则白名单机制", "无白名单会让已核实低风险被反复拦截，业务体验差", "内部系统"]]]]],
+ ["d3", "交易对手方风险筛查", "Counterparty Risk Screening", "核心", "在提币/转账前对地址与对手实体做风险扫描与拦截", [["地址风险扫描", [["提币前地址扫描", "提币后才发现对手是混币器地址则资金已出，无法追回，损失不可逆", "Chainalysis KYT"], ["混币器/制裁地址拦截", "混币后追踪准确率从 89% 降到 11%，不拦截则资金几乎不可追", "Elliptic"], ["地址标签与实体归属", "地址无标签会让风险评分缺失，把高危对手当普通地址放行", "TRM Labs"], ["新地址冷启动评分", "新生成地址无历史会让评分失效，被黑产利用做首笔洗白", "内部系统"]]], ["实体与名单关联", [["对手实体制裁命中", "OFAC 命中未阻断会触发天价罚单（某所 4.7 亿美元 72% 因未拦混币器）", "ComplyAdvantage"], ["关联实体风险传导", "仅看对手不看其关联实体会漏掉\"干净地址-高危实体\"的间接风险", "Elliptic Nexus"], ["旅行规则对手识别", "未识别对手 VASP 身份会让 Travel Rule 报送缺失，监管违法", "Notabene"], ["对手风险分阈值", "无分层阈值会让所有对手同等扫描，高风险的反而漏过", "内部系统"]]], ["交互式筛查", [["调查员可解释对手视图", "对手风险不可解释会让处置员无法判断是否放行，决策拖延", "内部系统"], ["风险阈值可调拦截", "阈值不可调会让低风险对手频繁拦截，业务体验差", "内部系统"], ["对手历史关联回溯", "不回溯历史关联会让\"曾关联\"风险被忽略，漏检持续威胁", "内部系统"], ["批量对手预筛", "无批量预筛会让大客户对账时逐个扫描，效率极低", "内部系统"]]], ["实时性保障", [["扫描时延控制", "扫描超 100ms 会拖垮提币链路，用户流失", "内部系统"], ["黑名单增量更新", "名单更新滞后会让刚制裁地址被放过，合规事故", "内部系统"], ["缓存命中优化", "高频对手不缓存会让重复扫描拖慢链路，峰值超时", "内部系统"], ["扫描降级策略", "下游不可用时无降级会让提币链路整体卡死，业务中断", "内部系统"]]]]],
+ ["d4", "告警分级与案例管理", "Alert Tiering & Case Management", "核心", "把海量告警收敛为可处置案例，治理告警疲劳", [["告警分级", [["告警疲劳治理", "2300+ 每日告警若不分优先级，真实风险被淹没，调查员麻木漏检", "Verafin"], ["风险分值驱动分级", "无分值分级会让低级告警占用高级人力，资源错配", "NetReveal"], ["曾关联 vs 当前关联上下文", "上下文断裂会让调查员重复劳动且误判，\"看似新实则旧\"被漏掉", "内部系统"], ["告警关联归并", "同源多告警不归并会刷屏，真实信号被稀释", "内部系统"]]], ["案例处置", [["案例合并与去重", "同一实体多告警不合并会让一个案件被拆成数十工单，处置混乱", "内部系统"], ["处置 SLA 与升级", "无 SLA 会让高危案例超时未处置，监管问责", "内部系统"], ["处置结论可复用", "结论不可复用会让同类案件反复从头调查，效率极低", "内部系统"], ["证据链自动归集", "证据散落会让 SAR 撰写耗时且易漏关键链路，报送质量差", "内部系统"]]], ["调查协作", [["多角色协作视图", "调查/合规/法务无统一视图会让口径不一致，报送出错", "内部系统"], ["处置留痕防篡改", "留痕可篡改会让审计时无法自证，抗辩失败", "内部系统"], ["任务分派与交接", "无分派会让案例在队列空转，超时未处置", "内部系统"], ["调查知识库", "无知识库会让新人重复踩坑，处置质量波动", "内部系统"]]], ["闭环反馈", [["处置结果回流标注", "不回流会让模型与规则无监督，误报率持续攀升", "内部系统"], ["误报归因", "误报不归因会让治理盲目，规则越加越多越乱", "内部系统"], ["规则命中归因", "不归因命中会让劣规则长期存在，污染告警", "内部系统"], ["处置效率度量", "不度量效率会让瓶颈不可见，资源错配且无改进依据", "内部系统"]]]]],
+ ["d5", "大额交易报告与 CTF", "Large Transaction Reporting & CTF", "核心", "按阈值做 24h 聚合的现金交易报告与主动预警式合规", [["阈值与聚合", [["24h 聚合 1 万美元阈值", "不按 24h 聚合会让分笔拆交易规避报告，CTF 失效", "FinCEN BSA"], ["现金交易阈值判定", "阈值误配会让应报未报，构成违法", "内部系统"], ["阈值的可配置合规", "不同法域阈值不同，硬编码会让跨境业务违规", "内部系统"], ["多币种聚合", "多币种不折算聚合会让拆分币种规避报告，CTF 失效", "内部系统"]]], ["主动预警式合规", [["阈值前主动预警", "事后报告让监管被动，主动预警式合规降低处罚风险", "内部系统"], ["阈值临界监控", "临界值附近频繁试探是典型拆分信号，不监控则漏", "内部系统"], ["异常模式预警", "异常时间/对手组合不预警会让结构化拆分逃避 aggregation", "内部系统"], ["客户风险预警", "客户层级风险不预警会让高危客户持续大额不被关注", "内部系统"]]], ["报告生成", [["CTR/SAR 报文生成", "报文格式错误会被监管退回甚至罚，报送无效", "内部系统"], ["报送时效管理", "超时报送触发罚款且视为不合作，加重处罚", "内部系统"], ["报文模板管理", "无模板会让各国报文手工拼装，错误率高", "内部系统"], ["报送校验前置", "不前置校验会让错误报文提交后才被发现，来回返工", "内部系统"]]], ["跨境与法域", [["多法域阈值映射", "法域映射错会让同一交易在不同辖区结论矛盾，合规冲突", "内部系统"], ["跨境资金链路还原", "不还原链路只会报单点，监管看不到资金全貌，调查受阻", "Chainalysis"], ["集团内合并申报", "集团内不合并会让同一主体多实体重复或遗漏申报", "内部系统"], ["代理行报送", "代理行链路不报送会让跨境最后一跳缺失，Travel Rule 违规", "Notabene"]]]]],
+ ["d6", "行为模式与机器流量检测", "Behavioral Pattern & Bot Detection", "核心", "用泊松分布等行为统计区分机械化肉鸡与人类随机行为", [["泊松分布检测", [["机械化肉鸡识别", "2100 个 KYC 账户操作间隔严格泊松分布，与人类随机性对比可锁定肉鸡，漏检则被养号洗白", "Feedzai"], ["人类随机性基线", "无人类基线会让正常用户被误判为机器，体验受损且投诉上升", "内部系统"], ["分布偏离告警", "偏离基线不告警会让渐进化养号逃过检测，长期渗透洗白", "内部系统"], ["泊松拟合显著性", "不做显著性检验会让偶发规律被误判为机械，误伤正常用户", "内部系统"]]], ["行为序列特征", [["操作节奏特征", "只看金额不看节奏会让\"小额高频\"肉鸡漏网", "内部系统"], ["设备/网络指纹一致性", "同设备多账号是典型肉鸡特征，不关联则漏", "内部系统"], ["行为漂移检测", "行为渐变会被静态阈值放过，需漂移检测", "内部系统"], ["群体协同行为", "多个账户同步操作是协调洗钱信号，单看个体漏检", "内部系统"]]], ["异常账户处置", [["肉鸡账户冻结策略", "冻结过宽误伤正常用户，过窄放走黑产，需分层处置", "内部系统"], ["风险分值联动拦截", "分值不联动会让检测与拦截脱节，检测到了却放行", "内部系统"], ["阈值自适应校准", "静态阈值会被黑产摸透规律，需自适应", "内部系统"], ["处置反馈闭环", "处置不回流会让检测模型无监督，误报攀升", "内部系统"]]], ["人类 vs 机器区分", [["人机判别置信度", "无置信度会让低置信误判触发拦截，业务受损", "内部系统"], ["误判人工复核", "人机误判不复核会让正常高活用户被长期误拦", "内部系统"], ["行为熵特征", "行为熵低是机械化标志，不量化会漏掉伪随机肉鸡", "内部系统"], ["设备农场识别", "同设备农场是规模化肉鸡，不识别则群控洗白", "内部系统"]]]]],
+ ["d7", "GNN 图卷积风险传播", "GNN Graph Convolution Risk Propagation", "成长", "用图卷积把风险沿资金与关系网络传播，突破单点规则盲区", [["图构建", [["资金/关系图建模", "单点规则忽略关系，图建模缺失会让\"干净地址中转高危\"漏检", "Elliptic Nexus"], ["实时图更新", "图更新滞后会让新链路风险未及时传播，拦截滞后", "TRM Phoenix"], ["异构实体融合", "地址/账户/实体不融合会让同一对手多身份，风险分散", "内部系统"], ["图 schema 版本", "图 schema 演进不兼容会让历史子图不可查，溯源失败", "内部系统"]]], ["图卷积传播", [["风险沿边传播", "风险只在节点不传播会低估中转地址，低估链式风险", "内部系统"], ["多跳风险聚合", "只看一跳会漏掉 0.1 跳收紧后的深层关联，OFAC 更新需瞬时收紧", "内部系统"], ["可解释图分值", "图分值不可解释会被监管拒绝采纳，调查受阻", "内部系统"], ["子图快照留存", "不留存快照会让事后溯源无法还原当时风险传导，抗辩失败", "内部系统"]]], ["与规则协同", [["图特征喂规则", "图特征不入规则引擎则智能与判定脱节，价值流失", "内部系统"], ["图告警降噪", "图告警不降噪会叠加规则告警，疲劳加剧", "内部系统"], ["图规则联合判定", "图与规则不联合会让深层关联被规则单点漏掉", "内部系统"], ["图分值阈值化", "图分值不阈值化会让调查员无从处置，需可操作阈值", "内部系统"]]], ["性能与规模", [["十亿级图查询时延", "图查询超时会拖垮 100ms 判定，实时性破功", "内部系统"], ["图计算弹性", "图规模暴涨（新链/新地址）不弹性会让查询雪崩", "内部系统"], ["图存储分层", "全量热存图会让成本爆炸，需分层", "内部系统"], ["图增量计算", "全量重算图会让更新慢，需增量保实时", "内部系统"]]]]],
+ ["d8", "意图推理引擎", "Intent Inference Engine", "成长", "推断交易序列背后的资金意图，区分正常业务与分层洗钱", [["序列建模", [["交易序列意图推断", "只看单笔无法区分正常业务与分层洗钱，序列意图缺失漏检", "内部系统"], ["时间窗模式识别", "分层洗钱有典型时间窗（0-5 天极速分层），不识别则误判正常", "内部系统"], ["多笔关联意图", "不关联多笔会让分散的分层被当独立正常交易", "内部系统"], ["资金流向建模", "不建模资金流向会让\"兑出-分层-归集\"看不出意图", "内部系统"]]], ["意图图谱", [["资金意图分类", "不分类意图会让\"兑出\"与\"分层\"混为一谈，处置错误", "内部系统"], ["意图置信度校准", "置信度不准会让低置信意图触发拦截，误伤业务", "内部系统"], ["意图可解释链条", "意图不可解释无法生成调查假设，调查员无从下手", "内部系统"], ["意图标签体系", "无标签体系会让意图结论难沉淀、难检索", "内部系统"]]], ["与调查联动", [["生成调查假设", "不自动生成假设会让调查从零开始，效率低", "内部系统"], ["假设可证伪", "不可证伪的假设会让调查跑偏，浪费人力", "内部系统"], ["假设优先级排序", "不排序会让调查员在海量假设中迷失，漏真", "内部系统"], ["调查提示推送", "不推送会让一线不知模型怀疑点，处置慢", "内部系统"]]], ["对抗演进", [["对抗样本鲁棒性", "黑产针对意图模型做对抗会让检测失效，需持续对抗训练", "内部系统"], ["意图漂移监测", "意图分布漂移会让模型 silently 退化，漏检上升", "内部系统"], ["在线学习更新", "不在线更新会让新手法长期不被识别", "内部系统"], ["概念漂移告警", "概念漂移不告警会让模型静默失效无人知", "内部系统"]]]]],
+ ["d9", "跨链资金追踪与溯源", "Cross-chain Tracing & Attribution", "成长", "跨多条公链对齐时空与金额特征，还原资金链路", [["跨链对齐", [["时空对齐 ±30 秒", "跨链桥 5 分钟穿透 7 条公链，不对齐会让链路断裂，资金消失", "Elliptic"], ["金额特征匹配", "仅按时间不对金额会让错误拼接，溯源失真", "TRM Labs"], ["时间窗对齐", "不约束时间窗会让无关跨链被误连，链路污染", "内部系统"], ["nonce/序号对齐", "不按序号对齐会让同笔多段被拆错，归因错", "内部系统"]]], ["跨链图谱", [["跨链原子化关联", "非原子化关联会让同一笔跨链被拆成多段，关系丢失", "Elliptic Nexus"], ["桥与路由识别", "不识别桥/路由会把中转当终点，链路截断", "内部系统"], ["跨链资产映射", "不同包装 token 不映射会让同一资产被当两种，漏算", "内部系统"], ["包装 token 识别", "包装/锚定 token 不识别会让跨链价值断点", "内部系统"]]], ["溯源与归因", [["资金链路还原", "不还原链路监管看不到全貌，调查受阻", "Chainalysis"], ["归因到实体", "只到地址不到实体让责任主体缺失，报送无效", "内部系统"], ["混币后归因", "混币后准确率 89% 降到 11%，不专项归因会让洗白资金逃逸", "Elliptic"], ["归因置信度", "无置信度会让弱归因被当铁证，误报冤案", "内部系统"]]], ["性能", [["多链并行查询", "串行查询多链超时会拖垮溯源，调查卡顿", "内部系统"], ["溯源结果可复现", "不可复现会让证据不被采信，抗辩失败", "内部系统"], ["溯源缓存", "重复溯源不缓存会拖慢调查，算力浪费", "内部系统"], ["溯源任务编排", "多链溯源无编排会让调查员手动拼，效率低", "内部系统"]]]]],
+ ["d10", "误报率治理与规则回测", "False Positive Governance & Backtest", "成长", "用回测与标注闭环持续压降误报、评估规则收益", [["回测引擎", [["离线规则回放", "规则不回放直接上线误报率不可知，治理盲目", "内部系统"], ["回放数据版本一致", "数据版本不一致让回放结果失真，决策错误", "内部系统"], ["回放覆盖历史黑产", "回放不含真实黑产样本会让规则\"看起来好\"实则漏检", "内部系统"], ["回放性能基准", "回放太慢会让治理迭代周期长，误报久治不下", "内部系统"]]], ["标注闭环", [["处置结果回流标注", "不回流标注模型无监督，误报持续攀升", "内部系统"], ["标注质量控制", "标注噪声会让模型学到错误模式，误报反升", "内部系统"], ["主动学习采样", "不主动采样会让难例无人标，边界案例误报高", "内部系统"], ["标注一致性校验", "多人标注不一致会让标签不可信，治理失准", "内部系统"]]], ["指标治理", [["误报率/召回度量", "不度量会让劣规则长期存在，污染告警", "内部系统"], ["规则收益排名", "不排名会让治理无优先级，资源错配", "内部系统"], ["阈值敏感度分析", "不做敏感度分析会让阈值微调引发误报剧变，措手不及", "内部系统"], ["规则冲突度量", "不度量冲突会让矛盾规则互相抵消，判定失真", "内部系统"]]], ["规则市场", [["规则效果可对比", "规则不可对比会让团队重复造轮，治理内耗", "内部系统"], ["优规则沉淀复用", "不沉淀会让经验随人走，组织能力流失", "内部系统"], ["规则共享与权限", "无权限会让敏感规则泄露或被滥用", "内部系统"], ["规则 A/B 评测", "无 A/B 会让规则收益靠猜，治理无据", "内部系统"]]]]],
+ ["d11", "实体解析与用户画像", "Entity Resolution & Profiling", "成长", "把分散地址/账户解析为统一实体，构建动态风险画像", [["实体解析", [["多地址归并实体", "约 99.2% 地址无实名关联（数据荒漠），不归并会让单一用户多身份风险分散", "Elliptic"], ["实体冲突消解", "归并冲突不消解会让一个实体被拆成两个，风险低估", "内部系统"], ["跨平台实体对齐", "不跨平台对齐会让同一人在不同所各自低风险，合起来高危", "内部系统"], ["实体解析置信度", "无置信度会让弱关联被当同实体，误并冤案", "内部系统"]]], ["动态画像", [["实时风险画像更新", "画像不实时会让新行为未反映，拦截滞后", "内部系统"], ["画像可解释", "不可解释画像会让处置员不信任，绕过系统", "内部系统"], ["画像版本管理", "无版本会让回放与线上不一致，审计失败", "内部系统"], ["画像特征血缘", "无血缘会让画像分数不可追溯，监管质疑", "内部系统"]]], ["关系网络", [["实体关系图谱", "无关系图谱会让关联风险（曾关联）看不见，漏检", "Elliptic Nexus"], ["关系强度量化", "不量化强度会让弱关联占权重，误报上升", "内部系统"], ["关系时效衰减", "关系不按时效衰减会让陈旧关联长期误判", "内部系统"], ["关系路径发现", "无路径发现会让多跳关联需人工，效率低", "内部系统"]]], ["画像应用", [["画像驱动分级", "画像不入分级会让分级失真，资源错配", "内部系统"], ["画像与处置联动", "不联动会让检测与处置两张皮，效率低下", "内部系统"], ["画像驱动拦截", "画像不入拦截会让高分实体仍被放行", "内部系统"], ["画像驱动报送", "画像不入报送会让 SAR 缺主体维度，质量差", "内部系统"]]]]],
+ ["d12", "情报融合与暗网监测", "Intelligence Fusion & Darknet Monitoring", "成长", "融合推特/暗网/Discord 等开源情报，前瞻风险", [["开源情报采集", [["推特/Discord 信号", "新型混币器（Railgun 等 47+ 个）先在社区发酵，不监测则拦截滞后", "Elliptic"], ["暗网市场监测", "暗网泄露的合成身份包（5 美元）用于养号，不监测则肉鸡源头失控", "内部系统"], ["链上标签情报", "新标签不采集会让已知风险地址未被纳入", "内部系统"], ["监管公告监测", "监管新指引不监测会让合规滞后，被动整改", "内部系统"]]], ["情报结构化", [["情报到实体映射", "情报不落到实体会让信号悬空，无法触发筛查", "内部系统"], ["情报置信度", "无置信度会让谣言触发误拦，业务受损", "内部系统"], ["情报去重", "重复情报会让分析师疲劳，真信号被忽略", "内部系统"], ["情报分类标签", "无分类会让情报难检索、难运营", "内部系统"]]], ["预警联动", [["情报驱动名单更新", "情报不驱动名单会让新威胁名单滞后，漏拦", "内部系统"], ["情报预警推送", "不推送会让一线不知新风险，处置慢", "内部系统"], ["情报可溯源", "不可溯源情报不被监管采信，报送无效", "内部系统"], ["情报订阅管理", "无订阅管理会让关键源遗漏，覆盖不全", "内部系统"]]], ["对抗", [["情报去噪", "噪声情报会让分析师疲劳，真信号被忽略", "内部系统"], ["情报时效管理", "过期情报触发旧规则会让误报上升", "内部系统"], ["虚假情报识别", "不识别虚假情报会让黑产反向投毒，误导筛查", "内部系统"], ["情报覆盖度度量", "不度量覆盖度会让盲区长期存在，新威胁漏", "内部系统"]]]]],
+ ["d13", "制裁名单筛查", "Sanctions Screening", "成熟", "对 OFAC/UN/EU 等制裁名单做实时命中与阻断", [["名单管理", [["OFAC/UN/EU 名单实时更新", "名单更新滞后会让刚制裁地址被放行，天价罚单（某所 4.7 亿）", "ComplyAdvantage"], ["名单版本一致性", "名单版本不一致让回放与线上结论矛盾，审计失败", "World-Check"], ["名单增量流式更新", "批量更新会留空窗，空窗期内命中被漏，合规事故", "内部系统"], ["名单质量校验", "名单错录会让正常实体被永久误拦，客诉与法律风险", "内部系统"]]], ["命中与阻断", [["实时命中阻断", "OFAC 命中未阻断是严重违法，触发制裁与罚单", "内部系统"], ["近似匹配与误拦", "匹配过严误拦正常用户，过松漏掉变体地址", "内部系统"], ["命中可解释", "命中不可解释会让合规无法抗辩，争议升级", "内部系统"], ["命中复核机制", "无复核会让误命中直接拦截，正常业务中断", "内部系统"]]], ["覆盖与穿透", [["多法域名单覆盖", "只覆盖 OFAC 漏 EU/UN 会让跨境业务违规", "内部系统"], ["实体与 beneficial owner", "只看实体不看实控人会让制裁对象借壳规避", "Elliptic Nexus"], ["关联实体风险传导", "只看主体不看关联会让制裁对象经关联实体洗白，漏检", "Elliptic Nexus"], ["名单冲突处理", "不同名单结论冲突不处理会让处置混乱，合规风险", "内部系统"]]]]],
+ ["d14", "KYC 与身份关联", "KYC & Identity Linkage", "成熟", "把 KYC 身份与链上活动关联，支撑穿透式监管", [["KYC 准入", [["KYC 与链上活动关联", "KYC 与链上脱节会让\"实名低分、行为高危\"漏检，穿透失败", "Sumsub"], ["KYC 失败阻断交易", "未过 KYC 放行会让匿名账户洗白，合规崩塌", "Fractal ID"], ["持续 KYC 更新", "一次性 KYC 会让身份过期仍交易，风险失控", "内部系统"], ["制裁身份预筛", "KYC 阶段不预筛制裁会让事后才发现，资金已动", "ComplyAdvantage"]]], ["身份关联", [["多账户同人识别", "同人不合并会让一人多账户拆分规避，风险分散", "内部系统"], ["跨所身份对齐", "不跨所对齐会让同一人在不同所各自低风险", "Elliptic"], ["设备/网络关联", "不关联设备会让同设备多账号肉鸡漏网", "内部系统"], ["身份图谱构建", "无身份图谱会让关联风险不可见，漏检", "Elliptic Nexus"]]], ["隐私与合规", [["选择性披露合规", "过度收集身份会违反最小必要，监管处罚", "Polygon ID"], ["ZK-KYC 布尔证明", "证明\"非美国人\"不披露原文降低暴露，不做则数据风险高", "zkPass"], ["身份撤销机制", "无撤销机制会让已风险身份仍有效，持续威胁", "内部系统"], ["深伪/合成身份防御", "Deepfake 三步走加 5 美元合成包会让假身份过 KYC，养号洗白", "Sumsub"]]]]],
+ ["d15", "数据分层与宽事件存储", "Data Tiering & Wide Event Store", "成熟", "热温冷冰分层 + 宽事件架构支撑跨账户图查询", [["数据分层", [["热温冷冰四层", "热数据（0-7 天）毫秒级、冷数据分钟级，不分层的查询会拖垮实时判定", "S3/对象存储"], ["合规留存 5-7 年", "留存不足会让审计时证据缺失，抗辩失败", "内部系统"], ["分层迁移策略", "迁移策略错会让热数据被降级，实时查询超时", "内部系统"], ["冰数据摘要留存", "冰数据（7 年+）不摘要会让检索不可行，合规查询失败", "内部系统"]]], ["宽事件架构", [["宽事件记录认证上下文", "不记录设备指纹/地理/VPN 会让溯源缺上下文，调查受阻", "ClickHouse"], ["宽事件跨账户查询", "无宽事件支撑跨账户图查询会让关联分析失效", "ClickHouse"], ["事件 schema 演进", "schema 演进不兼容会让历史数据不可查，回放失败", "内部系统"], ["事件不可篡改", "事件可篡改会让证据不被采信，审计失败", "内部系统"]]], ["存储与性能", [["OLAP 实时聚合", "无 ClickHouse OLAP 支撑会让交易溯源秒级变分钟，调查卡顿", "ClickHouse"], ["冷热混合查询", "混合查询不优化会让冷数据拖慢热查询，体验差", "内部系统"], ["数据血缘追踪", "无血缘会让数据版本不清，审计与回放失真", "内部系统"], ["存储成本治理", "不分层的全量热存会让成本爆炸，项目不可持续", "内部系统"]]]]],
+ ["d16", "合规审计与留痕", "Compliance Audit & Trail", "成熟", "规则版本、数据版本与 7 年留痕，支撑审计抗辩", [["留痕", [["规则版本留痕", "规则版本不留痕会让\"当时为何这样判\"无法解释，抗辩失败", "内部系统"], ["数据版本留痕", "数据版本不留痕会让回放与当时不一致，审计失败", "内部系统"], ["决策链路留痕", "无决策链路留痕会让放行无法举证，监管问责", "内部系统"], ["留痕不可篡改", "留痕可篡改会让审计时自证无效，信任崩塌", "内部系统"]]], ["审计支持", [["7 年保留策略", "保留不足 7 年会让旧案审计证据缺失，处罚加重", "内部系统"], ["审计导出合规", "导出格式不合规会被监管退回，视为不配合", "内部系统"], ["审计轨迹可回放", "不可回放会让审计员无法复核，结论存疑", "内部系统"], ["第三方审计接口", "无接口会让外部审计无法验证，信任缺失", "内部系统"]]], ["抗辩", [["判定依据可举证", "依据不可举证会让争议交易败诉，资金损失", "内部系统"], ["模型决策解释", "模型决策不可解释会让监管拒绝采纳，整改", "内部系统"], ["整改闭环留痕", "整改不闭环留痕会让问题重复发生，监管加重处罚", "内部系统"], ["责任归属可追溯", "责任不可追溯会让内部推诿，整改失效", "内部系统"]]]]],
+ ["d17", "监管报送与 SAR", "Regulatory Reporting & SAR", "成熟", "生成并提交 SAR/CTR 等监管报文，管理报送生命周期", [["报送类型", [["SAR 报文生成", "SAR 遗漏会让未报告可疑活动构成违法，罚款（KuCoin 3 亿无 SARs）", "内部系统"], ["CTR 现金交易报告", "应报未报 CTR 触发违法与处罚", "FinCEN BSA"], ["旅行规则报送", "Travel Rule 身份未报送会让跨境转账违规，监管问责", "Notabene"], ["其他法域报文", "法域报文遗漏会让跨境业务在某辖区违规", "内部系统"]]], ["报送生命周期", [["报送时效管理", "超时报送视为不合作，加重处罚", "内部系统"], ["报送状态追踪", "状态不追踪会让重复报送或漏报，合规混乱", "内部系统"], ["报送撤回/补正", "无补正机制会让错误报文持续生效，风险累积", "内部系统"], ["报送归档留存", "不归档会让监管复查时无据，抗辩失败", "内部系统"]]], ["质量", [["报文校验", "报文格式错会被退回且视为不专业，影响评级", "内部系统"], ["报送数据一致性", "报送与内部数据不一致会让监管质疑诚信，重罚", "内部系统"], ["报送依据可查", "依据不可查会让报送被挑战，被动", "内部系统"], ["多法域报送映射", "法域映射错会让同一交易跨境结论矛盾，违规", "内部系统"]]]]],
+ ["d18", "可观测性与监控大盘", "Observability & Monitoring Dashboard", "成熟", "对监控链路延迟、命中率、误报率做端到端可观测", [["链路可观测", [["判定时延监控", "不监控 100ms 判定时延会让劣化无感知，实时性静默失效", "内部系统"], ["多源 JOIN 时延监控", "JOIN 超 1.35s 不报警会让事后告警变常态，拦截失效", "Flink"], ["命中率/误报率大盘", "不监控会让误报率攀升无预警，疲劳加剧", "Grafana"], ["图查询时延监控", "图查询超时拖垮判定，不监控则雪崩无预警", "内部系统"]]], ["质量可观测", [["规则健康度监控", "规则退化不监控会让劣规则长期污染告警", "内部系统"], ["数据质量监控", "数据源异常不监控会让错误特征喂入，判定失真", "内部系统"], ["模型漂移监控", "模型漂移不监控会 silently 漏检上升", "内部系统"], ["图计算健康度", "图计算异常不监控会让关系风险漏传，漏检", "内部系统"]]], ["业务可观测", [["告警量趋势", "不监控告警量会让疲劳治理无依据，资源错配", "内部系统"], ["制裁拦截统计", "不统计会让拦截效果不可见，合规汇报缺失", "内部系统"], ["跨境链路可视化", "不可视化会让调查员难定位，效率低下", "内部系统"], ["容量与成本可观测", "不监控容量成本会让扩容无依据，预算失控", "内部系统"]]]]]
+];
+const FRONTIER = [
+ ["GNN 图卷积实时风险传播", "pilot", "在资金图上做毫秒级风险扩散，突破单点规则盲区", "把图特征做成可解释分值喂给规则引擎"],
+ ["意图推理引擎", "explore", "推断交易序列背后的资金意图，区分正常业务与分层洗钱", "与案例库联动生成调查假设"],
+ ["Agentic AI 自动调查", "explore", "多智能体协作完成初步尽调，生成可解释逻辑链", "可解释 AI 生成监管语言逻辑链"],
+ ["泊松分布肉鸡检测", "live", "2100 个 KYC 账户操作间隔严格泊松分布可识别机械化账户", "把统计量做成实时特征纳入风险分"],
+ ["跨链资金亲密度图谱", "pilot", "时空对齐 ±30 秒还原跨链链路，跨链桥 5 分钟穿透 7 条公链", "开放 API 给调查员自助溯源"],
+ ["100ms 流式判定优化", "pilot", "内存缓存+预计算+Local Zones 把 JOIN 从 1.35s 降到 2.5ms", "按 region 就近部署判定节点"],
+ ["动态风险阈值", "pilot", "波动率>8% 自动降权、OFAC 更新瞬时收紧至 0.1 跳", "策略热更新不重启"],
+ ["混币器/制裁地址拦截", "live", "提币前地址扫描拦截 Tornado Cash 替代者（Railgun 等 47+）", "黑名单+行为混合判定降低误拦"],
+ ["ZK-KYC 选择性披露", "pilot", "证明非美国人/合格投资者而不披露原文", "合规前提下降低数据暴露面"],
+ ["主动预警式 CTF", "pilot", "阈值前主动预警而非事后报告，监管更友好", "预警触发人工复核前置"],
+ ["告警疲劳治理（曾关联 vs 当前关联）", "live", "上下文断裂导致疲劳与漏检", "用图快照恢复上下文衔接"],
+ ["规则回测与收益评估", "pilot", "离线回放评估每条规则误报/命中", "规则市场沉淀优规则"],
+ ["实时制裁名单更新", "live", "OFAC 更新瞬时生效阻断", "流式名单管道零空窗"],
+ ["合成身份/Deepfake 检测", "pilot", "Deepfake 三步走与 5 美元合成包检测", "活体+链下验证双因子"],
+ ["暗网/Discord 情报融合", "explore", "前瞻风险信号先于拦截", "情报订阅驱动名单更新"],
+ ["隐私计算合规分析", "explore", "在不获取明文下做关联分析", "MPC/联邦学习跨机构"],
+ ["监管大模型问答", "explore", "监管问答与报文生成降本", "降低合规人力依赖"],
+ ["跨机构情报共享联盟", "pilot", "联盟内共享风险地址提升整体防御", "隐私保护共享协议"],
+ ["可解释 AI 分值", "pilot", "监管可理解的 AI 判定结果", "解释面板对接审计"],
+ ["地理围栏与 VPN 检测", "live", "OFAC 地理阻断加 VPN 置信度识别", "网络指纹融合判定"],
+ ["宽事件 OLAP 溯源", "live", "ClickHouse 跨账户图查询与交易溯源", "溯源 API 开放给调查"],
+ ["AI 原生风控（极端行情）", "explore", "极端行情自动调整保证金与风险权重", "交易+合规联动防护"]
+];
+const MIDS = [
+ ["实时判定中心", "在 100ms 内完成多源 JOIN 与风险判定", "流式特征、短路判定、region 就近"],
+ ["规则治理中心", "规则全生命周期管理与收益度量", "热更新、版本绑定、冲突检测"],
+ ["对手方筛查中心", "提币前地址与实体风险扫描拦截", "标签归属、制裁命中、黑名单增量"],
+ ["告警处置中心", "告警分级与案例合并处置", "优先级、SLA、证据归集"],
+ ["大额报告中心", "24h 聚合 CTF/CTR 与主动预警", "阈值聚合、报文生成、时效"],
+ ["行为检测中心", "泊松分布与序列特征识别肉鸡", "分布基线、节奏特征、群体协同"],
+ ["图计算中心", "GNN 风险传播与十亿级图查询", "实时图更新、多跳聚合、快照"],
+ ["意图推理中心", "交易序列意图推断与假设生成", "序列建模、置信校准、可证伪"],
+ ["跨链溯源中心", "跨链时空对齐与链路还原", "±30 秒对齐、桥识别、归因实体"],
+ ["误报治理中心", "回测与标注闭环压降误报", "离线回放、标注回流、敏感度"],
+ ["实体解析中心", "多地址归并与动态风险画像", "实体融合、关系量化、版本"],
+ ["情报融合中心", "开源情报结构化与预警联动", "信号映射、置信度、去噪"],
+ ["制裁筛查中心", "OFAC/UN/EU 实时命中阻断", "流式更新、近似匹配、穿透"],
+ ["身份关联中心", "KYC 与链上活动关联与同人识别", "持续 KYC、跨所对齐、深伪防御"],
+ ["数据治理中心", "热温冷冰分层与宽事件存储", "四层策略、OLAP、血缘"],
+ ["审计留痕中心", "规则/数据/决策留痕与抗辩", "不可篡改、7 年保留、回放"],
+ ["监管报送中心", "SAR/CTR/旅行规则报送生命周期", "时效、校验、多法域映射"],
+ ["可观测中心", "判定时延与质量业务大盘", "时延监控、漂移、容量成本"]
+];
+const RULES = [
+ ["提币前必须完成对手地址扫描", "提币后才发现是混币器地址则资金已出不可追回，某所 4.7 亿美元罚金 72% 源于未拦截混币器地址"],
+ ["OFAC 命中必须实时阻断", "OFAC 命中未阻断属严重违法，会触发天价罚单与制裁，合规根基崩塌"],
+ ["规则与数据版本必须绑定", "规则与数据版本脱节会让历史回放不可信，审计抗辩失败时责任无法厘清"],
+ ["判定结果必须可回放", "结果不可回放会让争议交易无法举证，监管抗辩失败并加重处罚"],
+ ["24h 聚合阈值不可硬编码", "不同法域阈值不同，硬编码会让跨境业务在某辖区应报未报，构成违法"],
+ ["告警必须分级去重", "2300+ 每日告警不分优先级会让真实风险被淹没，调查员麻木导致漏检"],
+ ["曾关联上下文必须衔接", "上下文断裂会让\"看似新实则旧\"案件被误判，重复劳动且漏掉持续风险"],
+ ["泊松分布偏离必须告警", "肉鸡账户操作间隔严格泊松分布，不告警会让渐进化养号长期渗透洗白"],
+ ["跨链必须时空对齐", "跨链桥 5 分钟穿透 7 条公链，不对齐会让链路断裂资金\"消失\"，溯源失败"],
+ ["图风险必须多跳传播", "只看一跳会漏掉 OFAC 更新后需收紧至 0.1 跳的深层关联，低估链式风险"],
+ ["名单更新必须零空窗", "名单更新滞后会让刚制裁地址被放行，直接造成合规事故与罚单"],
+ ["处置结果必须回流标注", "不回流标注会让模型与规则无监督，误报率持续攀升且治理盲目"],
+ ["留存必须满足 7 年", "留存不足 7 年会让旧案审计证据缺失，处罚加重且抗辩无效"],
+ ["决策链路必须留痕", "无决策链路留痕会让\"为何放行\"无法解释，审计不通过"],
+ ["KYC 必须与链上关联", "KYC 与链上脱节会让\"实名低分、行为高危\"漏检，穿透式监管失败"],
+ ["模型决策必须可解释", "不可解释模型会被监管拒绝采纳，导致整改与业务中断"]
+];
+const KPIS = [
+ ["判定时延", "从事件到放行/拦截的端到端耗时，目标 100ms"],
+ ["误报率", "误报告警占全部告警比例，治理核心目标"],
+ ["命中率/召回", "真实风险被成功捕获的比例"],
+ ["制裁拦截率", "制裁与混币器地址被成功拦截的比例"],
+ ["跨链还原率", "跨链资金链路被完整还原的比例"],
+ ["规则覆盖率", "已知风险模式被规则或模型覆盖的比例"],
+ ["数据分层命中率", "热数据命中占比，反映存储策略有效性"],
+ ["合规留存完整度", "7 年证据可检索的完整比例"]
+];
+const LIC_CN = [
+ ["人民银行反洗钱法/反电信网络诈骗法", "为持牌金融机构与执法提供链上反洗钱技术分析、区块链溯源与可疑交易研判服务", "不得面向公众开展加密资产交易、不得为境内加密交易所提供交易监控运营"],
+ ["网络安全法/数据安全法/个人信息保护法", "提供链上地址聚类、风险标签与调查取证的数据分析服务", "匿名化与最小必要采集，跨境数据出境需安全评估"],
+ ["区块链信息服务管理规定", "提供区块链基础数据分析与存证类合规服务", "需完成区块链信息服务备案，内容合规审核"],
+ ["金融机构反洗钱相关规定（央行令）", "为银行/支付机构提供涉虚拟货币交易监测与可疑报送辅助", "仅限机构客户，不参与虚拟资产交易本身"],
+ ["公安部涉虚拟货币犯罪打击协作", "为执法机关提供链上追踪、资金流向还原与取证支持", "数据仅用于办案，严格权限与脱敏"],
+ ["禁止代币发行融资（924 公告）", "提供合规科技与风控技术输出，不参与 ICO/代币融资", "禁止任何代币发行与募资活动"],
+ ["个人信息出境标准合同/安全评估", "跨境合规机构的数据合规分析服务", "出境需评估或标准合同，禁止批量个人信息外传"],
+ ["密码法", "提供链上数据加密、隐私计算与可追溯存证", "商用密码需合规使用与备案"],
+ ["反恐怖主义法", "涉恐资金监测与线索报送辅助", "与反恐线索平台对接，线索及时报送"],
+ ["反洗钱客户身份识别要求", "提供 KYC/身份关联技术组件给持牌机构", "不得自行开展需牌照的 KYC 核验营业"],
+ ["数据安全分级分类要求", "对链上数据做分级分类与合规使用", "重要数据需重点保护，禁止违规交易"],
+ ["增值电信与算力服务资质", "提供云化风控分析与算力支撑服务", "需相应电信与算力资质，数据本地化"],
+ ["执法数据协作保密要求", "配合监管的链上监测与预警服务", "保密义务，数据不对外披露"],
+ ["行业自律与备案要求", "参与联盟链合规组件与标准共建", "遵循自律规范，主动备案"],
+ ["审计与留痕合规要求", "提供 7 年留存与审计留痕技术能力", "留存周期与不可篡改满足监管"]
+];
+const LIC_INTL = [
+ ["美国 FinCEN BSA / MSB 注册", "为 MSB/VASP 提供 KYT、SAR/CTR 报送与制裁筛查", "需 MSB 注册，BSA 3000 美元阈值与 SAR 义务"],
+ ["OFAC 制裁合规", "实时 OFAC/UN/EU 名单命中阻断与阻断留痕", "命中必须阻断，违者重罚"],
+ ["欧盟 MiCA（2025 全面生效）", "为 CASP 提供旅行规则与 AML 合规能力", "CASPs 最低资本 5-15 万欧元、DORA 韧性要求"],
+ ["FATF 建议 15/16 与旅行规则", "VASP 间旅行规则身份报送与全量识别", "旅行规则需全量身份识别"],
+ ["新加坡 MAS 支付服务法 / DTSP", "持牌提供数字支付代币风控与监测", "需 MAS 牌照，DTSP 跨境服务准入"],
+ ["香港 SFC VATP 双牌照", "为 VATP 提供链上监控与穿透式监管支持", "双牌照与穿透式监管，SFC 报备"],
+ ["阿联酋 VARA 牌照", "在 VARA 框架下提供 VASP 合规监控", "需 VARA 授权，本地合规官"],
+ ["英国 FCA / 欧盟 EBA 指引", "为注册 VASP 提供 AML 监控与报送", "遵循 FCA 与 EBA 指引"],
+ ["旅行规则技术规范（如 IVMS101）", "跨 VASP 标准报文交换与身份字段对齐", "报文需符合 IVMS101 字段"]
+];
+const OPPS = [
+ ["实时流式判定即服务", "多数中小所缺乏 100ms 判定工程能力", "以 Kafka+Flink 托管判定链路切入"],
+ ["GNN 风险传播分值", "单点规则无法表达关系风险", "提供图特征 API 喂给既有规则引擎"],
+ ["误报治理闭环", "规则只加不减，疲劳加剧", "回测+标注闭环做规则市场"],
+ ["跨链溯源 API", "跨链资金断裂难还原", "时空对齐 ±30 秒的溯源服务"],
+ ["泊松肉鸡检测组件", "行为检测依赖规则", "统计特征组件嵌入既有风控"],
+ ["ZK-KYC 合规组件", "身份过度收集风险高", "布尔证明\"非美国人/合格投资者\""],
+ ["主动预警式 CTF", "事后报告被动", "阈值前主动预警前置复核"],
+ ["告警疲劳治理", "上下文断裂重复劳动", "图快照恢复曾关联上下文"],
+ ["监管大模型助手", "合规人力成本高", "可解释逻辑链生成监管语言"],
+ ["情报融合订阅", "新威胁（47+ 混币器）滞后", "推特/暗网/Discord 情报驱动名单"],
+ ["隐私计算跨机构共享", "机构间风险信息孤岛", "MPC 联邦共享风险地址"],
+ ["执法/机构链上溯源服务（CN）", "大陆禁交易但需链上分析", "为执法与持牌机构提供溯源取证"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：AML 交易监控 / 实时风控 KYT / 链上反洗钱 Chainalysis Elliptic`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

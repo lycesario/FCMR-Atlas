@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>监管图谱平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>监管图谱平台全景</b>
+    <span>监管图谱平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>监管图谱平台产品功能全景图谱</h1>
+    <p>全球监管规则正以 18 个司法辖区、216 部法规的速度膨胀为不可人工阅读的知识洪流——同一笔跨国资金，在美国要冻结、在新加坡要披露、在韩国要拒绝。<b>监管图谱平台把散落的法规与制裁名单结构化为可计算的知识库</b>，用规则引擎在 100ms 内给出带条款引用的三态判定，让每一条合规结论都可解释、可复现、可审计。从 Chainalysis 到 TRM Labs，合规知识库正在成为数字资产的入场券而非成本项。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">20 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是把全球监管规则变成一台可计算的判定机器：法规知识层把条款结构化，规则执行层把知识变成毫秒级判定，报告与证据层把判定变成监管可见的合规证据。它的价值不在功能数量，而在每条结论都能回链到法规版本与数据版本的不可抵赖证明。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）法规知识层</td><td>法规知识图谱、辖区规则矩阵、牌照地图与准入、规则变更管理、监管分类学本体</td><td>把散落在各国公报与律所网页里的规则，变成有版本、有溯源、有辖区的可计算知识</td></tr>
+<tr><td>第2层（d6–d10）规则执行层</td><td>规则引擎、地理围栏与制裁筛查、交易监控规则库、实体风险评分、冲突校验与死锁检测</td><td>把知识变成 100ms 内可解释的判定，多套规则并行叠加而不冲突、不卡死</td></tr>
+<tr><td>第3层（d11–d14）报告与证据层</td><td>监管报告自动化、Travel Rule 数据交换、SAR 管理与审计留痕、影响分析沙盒</td><td>把判定变成监管可见、时限可控、历史可复现的合规证据链</td></tr>
+<tr><td>第4层（d15–d18）智能演进层</td><td>监管情报融合、AI 调查协作、误报治理与规则调优、合规即服务 API</td><td>让整个体系自我更新、自我解释，并把知识资产以 API 形态商业化</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<b>① 覆盖 18 个辖区的法规图谱与版本管理必须先于任何判定功能存在</b>——没有可溯源的知识底座，所有判定都是不可审计的黑箱；<br><b>② 规则版本化与数据版本双留痕必须先于第一个客户上线</b>——事后补留痕等于没有留痕；<br><b>③ 制裁名单分钟级更新通道必须先于获客</b>——名单时效是这类产品被采购的第一理由。</div>
+    <div class="danger">死亡陷阱：把「告警量上去、拦截率好看」当成产品成功。<b>最大宗罚款（如 Block 1.2 亿美元）恰恰来自筛查失效与 SARs 积压</b>——只会产生告警却不能给出可解释、可复现、带条款引用结论的平台，只是在批量生产合规噪音，调查积压越高，客户离监管处罚越近。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">判断前沿方向落地优先级的一条标准：该方向是否让某条致命规则的「证明负担」从人工转移到系统——能降低监管问询时举证成本的先做（如影响分析沙盒、可复现留痕），只提升演示效果的缓做（如纯大屏图谱可视化）。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>规则（Rule）</td><td>由法规条款翻译而来、带版本与生效期的可执行判定单元</td><td>规则与条款引用断链，整个平台的判定在监管问询中不可信</td></tr>
+<tr><td>辖区（Jurisdiction）</td><td>一套独立立法与执法体系的最小规则作用域</td><td>辖区归属判定错误会套用错误法规，跨境业务的三态判定全盘失真</td></tr>
+<tr><td>规则矩阵（Rule Matrix）</td><td>司法辖区×资产类型×业务行为的三维判定索引</td><td>矩阵空白格默认放行是最大隐性违规源，漏一格就是漏一类业务</td></tr>
+<tr><td>三态判定（Tri-State Verdict）</td><td>同一事件在不同辖区分别给出冻结/披露/拒绝及条款依据的结论</td><td>只给单态结论无法支撑跨境业务，且冲突结论必须有仲裁留痕</td></tr>
+<tr><td>规则版本（Rule Version）</td><td>不可变、带生效时间轴与变更审批记录的规则快照</td><td>覆盖式更新让历史判定失据，SAR 复核与监管复查时无法自证</td></tr>
+<tr><td>false_positive_rate</td><td>按规则/客群/时段多维拆解的误报率（0.002 级目标）</td><td>只看总误报率找不到治理抓手，误报失控即调查积压即罚款</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域是四个监管域的交汇点：以 FATF 建议与 Travel Rule 为底座的全球反洗钱框架、以 MiCA 与 GENIUS Act 为代表的辖区立法潮、以 OFAC/UN/EU 为核心的制裁体系，以及 FinCEN/MAS/SFC/VARA 等辖区牌照与报告义务——四套体系叠加在同一笔交易上，正是三态判定与冲突校验存在的根本原因。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<b>① 名单更新窗口期</b>——OFAC 名单更新到生效之间放行受制裁实体，是 Block 1.2 亿美元罚款的核心问题；<br><b>② SARs 积压与 30 天时限</b>——超期与积压本身即违规事项，与是否真的漏报无关；<br><b>③ 长臂管辖</b>——非美国实体低估 OFAC/FinCEN 域外效力，用宽松辖区规则处理含美国触点的业务。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：先做法规图谱与版本管理（覆盖主要辖区的可溯源知识底座），再谈判定与 API</li><li>第二步：以制裁筛查+地理围栏单点切入，用名单时效 SLA 与阻断证据留痕拿到首批标杆客户</li><li>第三步：上规则引擎与冲突校验，把 MiCA/MAS/FinCEN 三套规则并行叠加跑通三态判定</li><li>第四步：补齐报告自动化与 Travel Rule 交换，形成从判定到证据的完整闭环</li><li>第五步：开放筛查/图谱/判定 API 与私有化双轨交付，把知识资产变成可规模化订阅</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径 A：数据订阅先行——先卖牌照地图与监管情报订阅，用轻产品建立客户关系再上重判定</li><li>路径 B：旗舰 API 先行——直接以跨辖区三态判定 API 打跨境交易所，用最难场景立壁垒</li><li>路径 C：执法侧先行——从公安/FIU 取证溯源切入，用真实案例反哺图谱再转向商业合规侧</li><li>路径 D：报告工厂先行——从报告自动化外包切入，用按件计费现金流养图谱与引擎建设</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点：第一资产都是「带版本与条款引用的可计算法规图谱」——没有这个底座，API 站不住、订阅没壁垒、案例不可复用、报告不可复现。</div>
+  </section>
+
+  <footer>
+    <p>监管图谱平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "全景总览"],
+ ["s1", "法规知识层"],
+ ["s2", "规则执行层"],
+ ["s3", "前沿方向"],
+ ["s4", "能力中心"],
+ ["s5", "报告与证据层"],
+ ["s6", "智能演进层"],
+ ["s7", "监管与牌照"],
+ ["s8", "致命规则与指标"],
+ ["s9", "机会与路径"]
+];
+const PLAYERS = [
+ ["链上合规分析套件", "Chainalysis / TRM Labs", "慢雾科技 / 知帆科技", "以法规与链上双图谱为底座，订阅+调用量复合收入"],
+ ["名单与筛查情报商", "ComplyAdvantage / Moody's(BVP)", "企业征信风控厂商", "名单与风险数据的规模效应生意，API 调用量驱动"],
+ ["交易监控平台", "NICE Actimize / SAS", "宇信科技 / 恒生电子", "大客户私有化部署，年度许可+实施+维护费"],
+ ["Travel Rule 交换网络", "Notabene / Sygna(CoolBitX)", "暂无成熟本土代表", "网络效应生意：接入方越多，对端覆盖越值钱"],
+ ["KYC/身份验证平台", "Sumsub / Jumio / Fractal ID", "蚂蚁数科 / 腾讯云身份", "按验证次数计费，向合规自动化纵向扩展"],
+ ["云厂商合规模块", "AWS / Azure 合规服务", "阿里云 / 华为云合规中心", "绑定云消费的合规能力货架，粘性来自集成深度"],
+ ["监管科技咨询+软件", "KPMG / 普华永道合规工具线", "安永 / 德勤中国", "咨询带软件，卖的是信任与责任背书的溢价"],
+ ["取证与执法工具", "Chainalysis Reactor / TRM 追踪", "中科链安 / 知帆科技", "面向公安与监管的取证级溯源，单案高客单价"],
+ ["牌照与法务数据平台", "Vantage / ComplyAdvantage 情报", "传统律所信息库", "结构化法规与牌照数据的时效性订阅"],
+ ["交易所自研内化", "Binance / Coinbase 内部合规体系", "OKX 合规中台", "自用能力打磨后外溢输出，案例真实但中立性受质疑"],
+ ["开源规则与本体社区", "OpenSanctions / 开源 AML 工具", "开源社区", "开源获客+企业版与托管服务商业化"],
+ ["AI 合规副驾", "TRM AI / ComplyAdvantage Matrix", "早期探索", "把调查与报告的人力成本转化为可订阅的智能体工时"]
+];
+const DOMAINS = [
+ ["d1", "法规知识图谱", "Regulatory Knowledge Graph", "核心", "把全球监管法规条款结构化为实体-关系-属性的可计算网络，是一切判定的可溯源事实底座。", [["条款抽取与结构化", [["法规条款抽取", "LLM 抽取必须保留原文条款号与生效日期，丢了溯源链在监管检查时整份图谱不可信", "ComplyAdvantage"], ["实体关系建模", "辖区-监管机构-法规-条款-行为五层关系不建全，规则矩阵会漏判跨条款冲突", "Chainalysis"], ["多语言法规对齐", "同一指令的英文官方版与本地语言版条款号不一致，对齐错误会导致引用错条款", "Elliptic"], ["图谱增量更新", "法规修订以增量补丁写入而非重建全图，否则历史判定无法复现，审计断链", "TRM Labs"]]], ["语义检索与问答", [["自然语言检索", "合规官用「MiCA 下 CASP 资本要求」提问需命中条款而非网页，检索失败等于平台没价值", "LexisNexis Risk"], ["条款引用规范", "每条结论必须回链法规编号与版本，无引用的答案在监管问询中构成执业风险", "ComplyAdvantage"], ["图+向量混合检索", "向量检索必须与图遍历混合，纯向量会把相似措辞的无关条款混入判定", "TRM Labs"], ["版本化问答", "同一问题在不同法规版本下答案不同，问答必须绑定时间点否则回测失真", "Elliptic"]]], ["辖区差异标注", [["立法状态标注", "同一主题在各辖区的已立法/草案/禁止状态不标注，跨辖区产品规划会误判窗口期", "Chainalysis"], ["执法案例关联", "条款挂真实执法案例（如 OKX 5.05 亿美元和解），无案例支撑的条款解释说服力为零", "TRM Labs"], ["从属性文件收录", "指引、FAQ、执行框架比法条更决定执法尺度，只收法条会高估合规确定性", "ComplyAdvantage"], ["灰色地带标记", "明确标注监管未明确区域，把灰色区当成已定规则会让产品在监管真空里裸奔", "Elliptic"]]]]],
+ ["d2", "辖区规则矩阵", "Cross-Jurisdiction Rule Matrix", "核心", "用司法辖区×资产类型×业务行为的三维规则矩阵，让同一笔资金在不同辖区得到可解释的三态判定。", [["三维规则矩阵", [["辖区×资产×行为索引", "矩阵缺一个维度（如稳定币发行×新加坡）就会在该场景直接放行，等于无监管", "MAS"], ["三态判定输出", "同一笔跨国资金在美冻结/新加坡披露/韩拒绝的三态结论必须同时给出与条款依据，只给单态无法支撑跨境业务", "Chainalysis"], ["资产分类映射", "同一代币按 MiCA 归 EMT/ART 还是按美国归证券，映射错误直接决定适用法规", "Elliptic"], ["行为辖区相反性", "质押等同一行为在不同辖区合法性相反，硬编码全局规则会一边合规一边违法", "TRM Labs"]]], ["交叉判定与冲突", [["最严者胜原则", "多辖区叠加时默认执行最严规则，取宽松规则是业务想要但监管审查最先抓的点", "NICE Actimize"], ["长臂管辖标注", "OFAC 与 FinCEN 的域外效力必须显式标注，非美国实体漏算长臂条款是亿美元级罚款来源", "OFAC"], ["属地判定", "IP、注册地、实际经营地不一致时属地判定错误，会套用错误辖区规则", "Sumsub"], ["冲突日志", "每次冲突判定落日志并含全部候选规则，事后问询要能还原当时的判定依据", "NICE Actimize"]]], ["场景化规则包", [["交易所场景包", "现货/衍生品/托管场景规则包分开维护，混用会让衍生品客户被套用现货 KYC 阈值", "Chainalysis"], ["稳定币发行场景包", "GENIUS Act 与 MiCA EMT 的储备金与赎回规则双轨不同，单包通吃会漏储备审计要求", "Elliptic"], ["DeFi 前端场景包", "前端运营者责任各辖区认定不一，规则包必须可配置是否视为 VASP", "TRM Labs"], ["支付场景包", "BSA 3000 美元阈值与欧盟旅行规则全量身份识别不同，混用阈值导致漏报", "FinCEN"]]]]],
+ ["d3", "牌照地图与准入", "Licensing Map & Admissibility", "成长", "把全球牌照数据库与业务准入判定产品化，回答在哪个辖区、以什么牌照、能做什么业务。", [["牌照数据库", [["牌照要素结构化", "许可范围、资本要求、报告义务不结构化，准入判定退化为人工翻网页", "ComplyAdvantage"], ["州级牌照覆盖", "美国各州 MTL 各不相同，只记联邦 MSB 会在纽约 BitLicense 州直接违规", "FinCEN"], ["牌照时效追踪", "牌照有效/暂停/撤销状态不实时追踪，与被吊销牌照机构合作会连带被查", "Chainalysis"], ["申请路径推演", "从当前状态到目标牌照的条件（如 MiCA CASP 最低资本）自动推演，人工推演漏条件会浪费数月", "Elliptic"]]], ["准入判定引擎", [["业务-牌照匹配", "每项上线业务自动反查所需牌照清单，缺牌展业是监管执法的第一抓点", "NICE Actimize"], ["母子公司穿透", "牌照在集团内哪个实体、能否服务本实体，穿透错误会让无牌实体开展受牌业务", "TRM Labs"], ["护照化权益", "欧盟牌照 passporting 到 27 国的权益范围判定错误，要么白付成本要么越界经营", "ComplyAdvantage"], ["合作方准入", "对流动性商、托管商等上游的牌照尽调进平台化流程，口头尽调在执法时无法自证", "Chainalysis"]]], ["牌照成本与优先级", [["多辖区优先级排序", "按目标用户分布与执法密度排序申请顺序，全辖区齐头并进会烧光预算", "Elliptic"], ["维护义务日历", "年度报告、审计、本地董事等持续义务未进日历，牌照被暂停往往不是申请难而是维护漏", "TRM Labs"], ["资本金动态监控", "资本跌破 MiCA CASP 最低线要实时预警，事后才发现直接触发监管介入", "ComplyAdvantage"], ["牌照组合视图", "集团牌照全景一张图，监管问询时数分钟内出证据包，翻邮箱找文件要一周", "Chainalysis"]]]]],
+ ["d4", "规则变更管理", "Rule Change Management", "成长", "监管政策的版本化、生效管理与下游影响分析，防止规则漂移与审计断链。", [["规则版本化", [["旧版只读归档", "旧版本规则只读封存，覆盖式更新让历史判定失据，SAR 复核说不清当时为什么放过", "NICE Actimize"], ["三条时间轴", "公布日/生效日/宽限期分开管理，把公布日当生效日提前执法是常见事故", "ComplyAdvantage"], ["变更审批流", "规则变更双人审批与留痕，单人可改阈值等于内部人员可随时关闭风控", "Chainalysis"], ["配置即代码", "规则变更走 CI/CD 与回滚，手工改生产配置无法回滚，一次错误变更可致全线误杀", "Elliptic"]]], ["影响分析", [["影响面测算", "新规上线前算清命中多少存量客户与交易，直接上线可能一次性冻结数十万合规账户", "TRM Labs"], ["回放验证", "用历史 30 天交易回放新规则看误报漏报变化再上线，不回放的变更是拿生产环境做实验", "NICE Actimize"], ["灰度发布", "规则按流量比例灰度，全量切换时阈值计算错误会瞬时产生海量误报挤爆调查团队", "ComplyAdvantage"], ["级联影响评估", "评分与报告依赖上游规则，上游改动未评估级联影响会出现报告口径不一致", "Elliptic"]]], ["监管响应", [["名单转化时效", "制裁名单更新到生效阻断要求分钟级，按周更新名单的窗口期足够被 OFAC 记一次违规", "OFAC"], ["变更通知分发", "监管公告按业务线自动路由到责任团队，靠转发邮件会漏掉边缘业务线的义务", "Chainalysis"], ["追溯重算开关", "新规是否追溯适用存量业务要有显式开关，默认追溯会重翻全部历史合规债", "TRM Labs"], ["变更审计包", "每次变更自动生成谁、何时、为何、依据哪条公告的审计包，问询现场拿不出即视为管理失效", "NICE Actimize"]]]]],
+ ["d5", "监管分类学本体", "Regulatory Taxonomy & Ontology", "成熟", "统一业务行为、资产类型、违规类型的分类标准与跨辖区映射，是矩阵与报告口径一致的语义地基。", [["标准映射", [["IVMS 101 映射", "Travel Rule 数据字段对不上 IVMS 101 会被对端 VASP 拒收，交换失败等于没做", "Notabene"], ["ISO 20022 对齐", "监管报告报文与 ISO 20022 对齐，自定义报文格式在跨境提交时被退回", "ComplyAdvantage"], ["资产类型词表", "同一资产在不同辖区叫法不同（支付型代币/虚拟资产/数字商品），词表不统一则矩阵查询漏行", "Elliptic"], ["违规类型枚举", "可疑行为类型枚举对齐 FinCEN SAR 字段，自由文本填写导致报告被退补", "FinCEN"]]], ["本体治理", [["本体变更委员会", "分类标准变更需多方评审，单方改枚举会让历史报表与新增据口径断裂", "NICE Actimize"], ["跨标准映射表", "MAS 支付服务法与 MiCA 的机构类型映射要持续维护，逐单人工翻译是长期成本黑洞", "ComplyAdvantage"], ["别名与音译", "制裁名单别名与音译不收录会漏筛，OFAC 名单同义词漏检直接构成制裁违规", "OFAC"], ["本体开放导出", "本体以开放格式导出供客户系统对齐，封闭本体让客户集成成本高到放弃", "TRM Labs"]]], ["术语一致性", [["统一 ID 分发", "同一业务在图谱存统一 ID、报告时按辖区渲染本地术语，混用本地术语入库会让跨辖区统计失真", "Elliptic"], ["定义冲突显式化", "合格投资者各辖区定义不同且必须存为不同概念，合并定义会互相污染", "Chainalysis"], ["版本化词表", "词表带版本与生效期，报表引用错版本会被审计质疑数据可信度", "NICE Actimize"], ["机器可读定义", "定义需结构化可计算而非自然语言段落，否则自动化判定无法引用定义本身", "ComplyAdvantage"]]]]],
+ ["d6", "规则引擎", "Rule Engine", "核心", "MiCA/MAS/FinCEN 多套规则并行叠加加载与冲突校验的执行中枢，是合规判定性能与正确性的咽喉。", [["多规则集叠加", [["并行加载", "三套规则集并行叠加而非切换，切换式设计在多辖区客户并存时必然漏判某一辖区", "NICE Actimize"], ["优先级与覆盖语义", "规则间优先级、覆盖、合并语义要形式化定义，靠 if-else 堆叠的引擎在百条规则后不可维护", "Drools"], ["规则隔离与故障域", "单辖区规则集故障不得拖垮全局判定，无隔离时一条坏规则能让全平台阻断", "Chainalysis"], ["热更新不停服", "规则热更新分钟内生效，重启生效的引擎在制裁名单紧急更新时留下阻断真空期", "OFAC"]]], ["性能工程", [["加载性能预算", "75% 性能损耗在规则引擎加载与冲突校验，加载不预编译则每次判定都付出全量解析成本", "NICE Actimize"], ["预编译与缓存", "规则集预编译为决策表常驻内存，动态解释执行的引擎在 100ms 合规判定目标下必然超时", "Drools"], ["流式预计算", "高频规则结果流式预计算，全部现算的多源 JOIN 可超 1.35 秒，缓存加预计算才能压进 100ms", "Chainalysis"], ["降级策略", "引擎过载时先放行缓判而非放行直过的降级顺序要预设，混乱降级要么雪崩要么裸奔", "Elliptic"]]], ["冲突校验", [["上线前冲突扫描", "规则集变更先跑静态冲突扫描（互斥/包含/环路），运行时才发现的冲突直接造成合规死锁", "NICE Actimize"], ["死锁检测", "规则 A 要求阻断、规则 B 要求披露的循环依赖要能检测并给出仲裁建议，死锁会让交易永远卡在待处理", "TRM Labs"], ["可解释输出", "每次判定输出命中的规则链与依据条款，不可解释的判定在监管问询与申诉复核中都站不住", "ComplyAdvantage"], ["影子模式", "新规则集先影子运行对比结果再切流量，直接切换等于把客户资金当测试集", "Elliptic"]]]]],
+ ["d7", "地理围栏与制裁筛查", "Geofencing & Sanctions Screening", "核心", "IP+VPN+GPS 多源置信度融合的访问阻断与 OFAC/UN/EU 名单实时筛查，是制裁合规的第一道闸门。", [["多源地理判定", [["IP+VPN+GPS 融合", "IP+VPN 检测置信度 0.95 以上才可单源判定，单靠 IP 的围栏被住宅代理一穿就破", "MaxMind"], ["设备 GPS 佐证", "高敏操作叠加设备 GPS 与基站佐证，只信客户端自报位置等于围栏由用户说了算", "Sumsub"], ["置信度分层阈值", "不同操作按风险分层设信度阈值，一刀切会把所有边缘地区用户全挤到人工", "Chainalysis"], ["判定证据留存", "每次地理判定存原始信号与置信度，事后被质疑时拿不出证据即推定违规", "Elliptic"]]], ["制裁阻断", [["OFAC rule_id 硬阻断", "制裁命中走 rule_id 硬阻断且不可人工放行，可绕过的阻断在处罚认定中等于没做", "OFAC"], ["禁运国家软阻断无效", "禁运国家访问直接拒绝并留痕，提示后可继续的软阻断被 OFAC 认定为无效管控", "Chainalysis"], ["名单更新时效", "OFAC/UN/EU 名单更新到全局生效必须分钟级，周级更新窗口内放行受制裁实体是 Block 1.2 亿美元罚款的核心问题", "TRM Labs"], ["50% 规则穿透", "被制裁实体持股 50% 以上的子公司同样受限，只筛名单主体会漏掉整个受控实体网络", "OFAC"]]], ["规避对抗", [["住宅代理识别", "住宅代理与主流 VPN 网段库持续更新，识别库过期的围栏对专业规避形同虚设", "IPQS"], ["行为一致性校验", "登录地与常用设备/语言/时区不一致触发复核，账号被盗后的地理跳变是最强信号之一", "Sift"], ["规避行为升级", "用户反复切 IP 绕围栏的行为本身要记录并升级，只挡不记会让规避者无限重试", "Chainalysis"], ["误伤与漏放分测", "误伤率与漏放率分开度量分别调优，只报总拦截率会掩盖漏放受制裁用户的致命风险", "Elliptic"]]]]],
+ ["d8", "交易监控规则库", "Transaction Monitoring Rules", "成熟", "大额、可疑、结构化拆分等交易模式的规则库与阈值管理，把链上资金流变成可执法的风险信号。", [["阈值规则", [["大额阈值聚合", "1 万美元/24h 阈值监控要含等值法币与跨币种聚合，只看单笔金额会被拆单轻松绕过", "Chainalysis"], ["三层聚合口径", "按钱包、按客户、按关联账户三层聚合，只按客户聚合会漏掉其控制的数十个钱包", "TRM Labs"], ["换算时点", "币种换算取交易时点价格而非日报价，波动日两者差 8% 以上直接跨过阈值", "Elliptic"], ["阈值版本化", "阈值调整走版本化并回放验证，拍脑袋调阈值会让历史 SAR 标准前后不一", "NICE Actimize"]]], ["行为模式规则", [["结构化拆分检测", "多笔刚好低于报告阈值的交易是结构化洗钱教科书模式，不检测等于给洗钱者开绿灯", "FinCEN"], ["快进快出检测", "充提间隔与金额匹配的快进快出是跑分网络特征，T+1 批量检测会错过拦截窗口", "Chainalysis"], ["新账户异常活跃", "注册后立即高额定投是盗币资金入场特征，泊松分布检测可机械化识别肉鸡账户", "TRM Labs"], ["混币器与桥触达", "直接或二跳触达混币器与高风险桥即升级审查，混币后追踪准确率从 89% 掉到 11%，窗口只有一次", "Elliptic"]]], ["规则运维", [["命中率看板", "每条规则的命中率与贡献度持续监控，长期零命中的死规则既耗性能又给审计留形式合规把柄", "NICE Actimize"], ["规则漂移检测", "客户结构变化导致规则失效要自动预警，监管环境变了规则没变是惯性问题", "ComplyAdvantage"], ["案例反哺", "SAR 结案结论回流规则库形成闭环，没有反哺的规则库第一年有效第三年失灵", "Chainalysis"], ["显式编排", "串行过滤、并行评分、升级链路显式编排，规则间隐式依赖会让命中结果不可复现", "Drools"]]]]],
+ ["d9", "实体风险评分", "Entity Risk Scoring", "成长", "把图谱关系与行为信号压缩成可解释的风险分，让有限的调查人力优先命中真正危险的实体。", [["评分模型", [["多信号融合", "链上行为、地理、名单、舆情多源融合评分，单源评分对 99.2% 无实名关联地址基本失明", "Chainalysis"], ["可解释分项", "总分必须拆成可解释分项，黑箱分在监管问询与客户申诉时都无法自证", "ComplyAdvantage"], ["动态阈值", "波动率超 8% 自动降权、OFAC 更新瞬时收紧至 0.1 跳，静态阈值在极端行情与制裁更新时全部失效", "TRM Labs"], ["评分时间一致性", "回测与实时用同一版本模型，事后重算分数与当时判定不一致会动摇全部历史证据", "NICE Actimize"]]], ["图谱特征", [["跳数与聚集", "到高风险实体的跳数与资金聚集度是核心图谱特征，只用直连一跳会漏掉二跳洗钱网络", "Elliptic"], ["跨链亲密度", "跨链资金时空对齐 ±30 秒与金额特征匹配构建亲密度，跨链桥 5 分钟可穿透 7 条公链，逐链分析必漏", "TRM Labs"], ["实体解析", "多链地址、交易所账户、法人的实体解析做不好，同一洗钱者会被当成数百个低风险客户", "Chainalysis"], ["风险传播", "风险沿控制关系传播而非均摊，简单平均会让 57 个关联账户的单个分数全部低于阈值", "Elliptic"]]], ["评分生命周期", [["入会前预筛", "开户前先过名单与链上历史预筛，先开户后筛查会让被制裁用户先完成入金", "Sumsub"], ["持续复评", "风险分持续重估而非开户定终身，好客户账号被入侵后风险已变而系统仍按旧分放行", "Chainalysis"], ["分级处置", "降限额、升级审查、清退的分级动作自动化，只有拉黑一级会逼走可管理的边缘风险客户", "ComplyAdvantage"], ["申诉通道", "客户申诉与人工复核通道必须存在，纯自动封禁在消费者保护法规下有法律风险", "TRM Labs"]]]]],
+ ["d10", "冲突校验与死锁检测", "Conflict & Deadlock Detection", "成长", "多辖区规则叠加时对冲突、环路与死锁的显式建模与仲裁，是判定系统不卡死、不误判的稳定性防线。", [["冲突类型学", [["辖区间冲突建模", "美冻结/新加坡披露/韩拒绝的三态冲突要显式建模而非报错，把冲突当异常处理会让系统反复挂起", "NICE Actimize"], ["互斥检测", "同笔交易同时命中必须阻断与必须放行的互斥规则要在上线前扫出，运行时才发现已造成资金滞留", "Drools"], ["版本切换窗口", "规则版本切换窗口内新旧规则对同一交易结论不同，未定义窗口语义会产生判定黑洞", "TRM Labs"], ["跨域仲裁", "KYC 通过但制裁命中的跨域冲突要有优先级仲裁，域间各自为政是死锁最主要来源", "ComplyAdvantage"]]], ["死锁治理", [["依赖图检测环", "规则与数据依赖建成有向图并检测环，环上交易永远停在待处理并堆积成合规死锁", "NICE Actimize"], ["超时仲裁出口", "待处理交易必须有时限与人工仲裁出口，无出口的死锁在审计里就是未处理的合规事件", "Chainalysis"], ["死锁指标监控", "死锁率与平均滞留时长进核心指标，看不到死锁指标等于死锁静默发生", "TRM Labs"], ["仲裁结论固化", "人工仲裁结论固化为新规则，同样冲突每次都靠人工是成本与不一致双重风险", "Elliptic"]]], ["一致性保障", [["判定幂等", "同一交易重复判定结果必须一致，非幂等判定让重试产生不同结论直接动摇审计可信度", "NICE Actimize"], ["数据快照绑定", "判定绑定数据版本快照，名单事后更新导致重查结论反转时能说清当时依据", "Chainalysis"], ["跨辖区状态同步", "同一客户多辖区状态变更要同步传播，不同步会出现 A 辖区已清退 B 辖区仍在放行", "Elliptic"], ["时序一致性", "并发下判定顺序与交易到达顺序的一致性要有保证，乱序判定让先到先审承诺失效", "TRM Labs"]]]]],
+ ["d11", "监管报告自动化", "Regulatory Report Automation", "核心", "把大额交易报告、SAR/STR 与监管报表变成可溯源、按时限、可复现的自动化流水线。", [["报告生成", [["大额报告自动生成", "阈值命中自动生成报告草稿而非人工汇总，人工流程在量上来后必然漏报", "FinCEN"], ["字段溯源", "报告每个字段回链到源交易与判定记录，字段无法溯源的报告被抽查时直接判无效", "Chainalysis"], ["多辖区报文适配", "同一事件按 FinCEN SAR/欧盟/MAS 模板分别渲染，一套报文走天下会被各国逐一退回", "Notabene"], ["提交状态机", "报告的草稿-复核-提交-回执状态机完整管理，邮箱提交无法证明按时提交了", "NICE Actimize"]]], ["时效管理", [["法定时限倒计时", "SAR 30 天等法定时限自动倒计时，超时提交本身就是违规事项", "FinCEN"], ["积压预警", "待报队列积压阈值预警，Block 1.2 亿美元罚款的直接原因就是 SARs 积压", "NICE Actimize"], ["队列优先级", "按执法风险与时限紧迫排序报告队列，先来先报会让高危事件排在一堆低危后面", "ComplyAdvantage"], ["合并申报口径", "同一主体同案多笔交易的合并申报口径要统一，拆散申报会被质疑漏报", "TRM Labs"]]], ["质量保障", [["提交前预检", "报文字段完整性、逻辑一致性机器预检，被退回重报一次就消耗数天时限", "NICE Actimize"], ["历史可复现", "任意历史报告按当时数据版本重新生成且一致，不可复现即无法应对监管复查", "Elliptic"], ["报告指标看板", "报告量、及时率、退回率进管理看板，没有指标的报告团队对积压无感知", "Chainalysis"], ["机密性隔离", "报告内容严格最小知悉隔离，SAR 泄露给被报告主体在多国构成刑事犯罪", "FinCEN"]]]]],
+ ["d12", "Travel Rule 数据交换", "Travel Rule Interchange", "核心", "FATF 建议 16 下发送方/受益方信息交换的协议适配、对手方管理与合规证据全流程。", [["协议互通", [["IVMS 101 完备性", "发起方/受益方信息按 IVMS 101 全量字段准备，字段缺失会被对端拒收导致交易卡单", "Notabene"], ["多协议适配", "TRP、TRISA、Sygna 等协议互通适配，只支持单一协议会连不通一半对端", "Notabene"], ["未托管方策略", "对手方为非 VASP 或无回应时的放行/拒绝/上报策略按辖区预配置，默认放行直接违反 MiCA 全量识别", "Elliptic"], ["sunrise 问题", "对端辖区尚未实施 Travel Rule 时的单向义务处理策略，误判对端义务会大量错杀正常交易", "TRM Labs"]]], ["对手方管理", [["VASP 目录", "全球 VASP 名录与辖区、牌照、地址归属持续维护，对手方识别错误会把用户信息发给假交易所", "Notabene"], ["回应率监控", "各对端 VASP 回应率与时效监控，低回应率对端要升级为业务风险而非默默承受卡单", "TRM Labs"], ["数据最小化", "仅交换法定必需字段并加密传输，全量打包发送个人信息违反数据最小化原则", "Sumsub"], ["超时兜底", "交换超时的暂扣/上报降级路径显式定义，静默失败等于 Travel Rule 形同虚设", "Chainalysis"]]], ["合规证据", [["交换全留痕", "每笔交换的请求、回应、超时全留痕，无法自证已尽义务在检查时视同未做", "Notabene"], ["自托管验证", "自托管钱包所有权验证（微支付/签名）流程产品化，对自托管一刀切拒绝会流失大量合规用户", "Elliptic"], ["跨境数据合规", "Travel Rule 数据跨境传输要满足个人数据保护要求，EU 数据出境无保障机制即违规", "ComplyAdvantage"], ["交换运营指标", "交换成功率、平均时长、拒收原因分布进运营看板，无指标的交换系统坏了都不知道", "TRM Labs"]]]]],
+ ["d13", "SAR 管理与审计留痕", "SAR Management & Audit Trail", "成熟", "可疑活动报告全流程与规则版本、数据版本双留痕，是合规体系在监管复查中的终极防线。", [["案件管理", [["告警分诊", "告警按风险自动分诊定优先级，平铺队列让分析员先看简单的而不是危险的", "NICE Actimize"], ["调查工作台", "交易溯源、图谱展开、客户档案一屏聚合，切五个系统拼证据的效率撑不住告警量", "Chainalysis"], ["升级与豁免留痕", "升级为 SAR 或豁免的每个决定记录理由与审批人，当时没人知道在处罚认定中不被接受", "FinCEN"], ["SLA 监控", "案件处理时限与积压监控，积压到 30 天法定线才预警为时已晚", "ComplyAdvantage"]]], ["审计留痕", [["规则+数据双留痕", "每次判定绑定当时的规则版本与数据版本，只留结果不留依据的审计在复查时无法自证", "NICE Actimize"], ["分级保留策略", "合规记录 5–7 年按热/温/冷/冰分级管理，一律热存成本爆炸、一律冷存无法应对复查", "AWS S3 Glacier"], ["不可篡改日志", "留痕写入 WORM/哈希链存储，可被内部修改的日志在法庭上无证明力", "S3 Object Lock"], ["访问审计", "谁在何时查看客户合规档案本身要留痕，合规数据滥用是二级风险源", "Sumsub"]]], ["监管协作", [["执法调证响应", "调证请求的响应流程与模板化，临时翻数据常常超期且口径不一", "Chainalysis"], ["SAR 保密硬控制", "SAR 内容不得向被报告方披露的操作硬控制，误披露构成刑事违规", "FinCEN"], ["情报共享边界", "与 FIU 及同业信息共享的合规边界管理，过度共享违反保密义务、不足共享错失联防", "TRM Labs"], ["整改闭环", "监管检查发现项到整改闭环的追踪，整改无闭环下次检查重复扣分", "NICE Actimize"]]]]],
+ ["d14", "影响分析沙盒", "Impact Simulation Sandbox", "成长", "新规则上线前的历史回放、假设情景与影响面量化，把每次规则变更从赌博变成实验。", [["回放模拟", [["历史回放", "新规则对历史 30–90 天交易的命中回放，不回放直接上线等于用生产客户做灰度实验", "NICE Actimize"], ["假设情景构造", "构造若 OFAC 明日新增某实体的情景预演影响，等名单真更新才手忙脚乱", "Chainalysis"], ["影响面量化", "输出命中客户数、资金量、预期告警量给决策者，只给规则对错不给业务影响无法排期", "Elliptic"], ["沙盒隔离", "回放用脱敏数据与独立算力，用生产数据直接跑实验有数据安全与性能事故双重风险", "ComplyAdvantage"]]], ["上线决策", [["误报漏报权衡", "同一规则多组参数的误报漏报对比呈现，单参数上线错过最优权衡点", "TRM Labs"], ["审批门禁", "影响面超阈值自动升级审批层级，小改动大影响与改个阈值而已的心态是事故温床", "NICE Actimize"], ["回滚预案必填", "上线单必须附回滚条件与预案，没有回滚预案的变更出事只能硬扛", "Drools"], ["上线后复盘", "上线 7 天自动复盘命中质量，不复盘的规则库只会单调变臃肿", "Chainalysis"]]], ["压力与边界", [["极端行情压测", "暴跌日交易量数倍放大下的引擎压测，压测缺失的引擎在极端行情最需要它时最先倒下", "Hyperliquid"], ["规则爆炸测试", "规则数逼近千条时的冲突组合爆炸测试，组合数平方级增长会让校验耗时失控", "NICE Actimize"], ["矩阵空白测试", "新资产类型、新链接入时的矩阵空白格测试，空白格默认放行是最大隐性风险", "Elliptic"], ["情景库复用", "维护主要辖区政策变化情景库供复用，每次从零构造情景的成本高到没人做", "ComplyAdvantage"]]]]],
+ ["d15", "监管情报融合", "Regulatory Intelligence Fusion", "成长", "政策更新、执法案例、制裁名单与社区暗网信号的实时汇聚与自动路由，让规则库自我更新。", [["情报源接入", [["官方源直连", "监管机构官网公报结构化订阅而非转载媒体，二手转载慢且常漏关键细节", "ComplyAdvantage"], ["执法案例库", "全球执法与和解案例结构化入库（处罚金额、违规类型、条款依据），案例是规则解释的最佳教材", "Chainalysis"], ["多名单并行", "OFAC/UN/EU/UK/HK 多名单并行管理且记录互引，单一名单源在国际业务中必然漏筛", "TRM Labs"], ["社区信号分级", "推特/Discord/暗网情报融合时标注可信度，不分级会把谣言当情报驱动风控", "Elliptic"]]], ["情报处理", [["去重关联", "同一事件多来源报道自动去重合并，重复情报会重复触发误报", "NICE Actimize"], ["影响自动路由", "情报按涉及辖区/业务自动路由到规则与牌照模块，情报躺新闻页里等于没接", "TRM Labs"], ["可信度分级", "情报按来源权威性与交叉验证分级，低可信情报只能进观察不能直接触发阻断", "Chainalysis"], ["时效标注", "情报带发布时间与失效时间，陈旧情报参与实时判定会系统性偏差", "ComplyAdvantage"]]], ["情报运营", [["转化 SLA", "高优先级情报到规则生效的转化时效承诺，DPRK 45 天洗钱周期里慢一步就追不回", "TRM Labs"], ["简报产品化", "按业务线自动生成监管周报，靠人工汇编的情报覆盖随人员流动崩塌", "Elliptic"], ["来源健康监控", "各情报源可用性断流告警，关键名单源静默断更一周是灾难级隐患", "NICE Actimize"], ["反馈闭环", "业务端误报漏报反哺情报权重，无反馈的情报权重永远拍脑袋", "Chainalysis"]]]]],
+ ["d16", "AI 调查协作", "Agentic Investigation", "成熟", "多智能体协作调查与可解释监管语言生成，把调查人力从重复溯源中解放到判断与决策。", [["多智能体调查", [["任务编排", "初步溯源、关联扩展、报告起草分派给不同智能体协作，单体大模型一把梭的调查质量不可控", "TRM Labs"], ["人工签发门禁", "智能体结论只能建议，阻断与 SAR 决策必须人工签发，AI 直接决定处罚缺乏法律基础", "ComplyAdvantage"], ["轨迹可回放", "智能体每步操作与引用证据全留痕可回放，不可回放的 AI 调查在监管问询中等于黑箱", "NICE Actimize"], ["幻觉控制", "结论必须绑定图谱实证节点，无实证绑定的自由生成会把不存在的关联写进 SAR", "Chainalysis"]]], ["可解释生成", [["监管语言逻辑链", "自动生成事实-规则-结论逻辑链供分析员核验，直接输出结论不给推理过程无法过合规审查", "TRM Labs"], ["多语言报告", "同一案件按辖区语言规范生成报告，翻译腔报告在本地监管处专业度存疑", "Elliptic"], ["引用完整性", "生成文本中每条事实带图谱引用，引用缺失或错误一次就摧毁分析员对工具的信任", "ComplyAdvantage"], ["法定字段模板化", "报告固定法定字段与自由叙述分区生成，让模型自由发挥法定字段会引入口径漂移", "NICE Actimize"]]], ["人机协作", [["置信度分工", "高置信度案件智能体起草人工快审、低置信度人工主导，不分工要么浪费人力要么放大错误", "Chainalysis"], ["反馈微调", "分析员修改被记录为微调信号，无反馈的模型永远重复同一类错误", "TRM Labs"], ["能力边界声明", "系统明确声明不能做什么（如法律意见），被当法律顾问使用是产品责任风险", "ComplyAdvantage"], ["训练数据隔离", "客户案件数据不得跨客户用于训练，合规数据的二次使用违反保密承诺与合同", "Sumsub"]]]]],
+ ["d17", "误报治理与规则调优", "False Positive Governance", "成熟", "false_positive_rate 的多维追踪与规则调优闭环，决定合规体系是越用越准还是越用越钝。", [["误报度量", [["多维拆解追踪", "false_positive_rate 要按规则/客群/时段多维拆解追踪（0.002 级目标），只看总误报率找不到治理抓手", "NICE Actimize"], ["误报成本核算", "每条规则误报折算人工成本，不计成本的规则库最终会被调查积压压垮", "Chainalysis"], ["漏报代理指标", "用回溯案例与红队注入估计漏报，只优化误报的系统是在向漏报漂移", "TRM Labs"], ["根因分类", "阈值过高/数据缺失/规则过时分类统计，不分类的治理是无效治理", "ComplyAdvantage"]]], ["调优闭环", [["A/B 调参", "阈值调整以 A/B 或影子模式验证误报漏报权衡，直接改生产阈值等于盲调", "Elliptic"], ["结案结论回流", "人工结案理由结构化回流调优，结案只点按钮不留理由则回流无料", "NICE Actimize"], ["规则退出机制", "连续低效规则自动下线评审，只进不出的规则库规则数失控且互相干扰", "Chainalysis"], ["事件模式预设", "牛市/暴跌/空投季流量模式不同要预设调整，用常量阈值硬扛事件流量误报会爆炸", "TRM Labs"]]], ["质量文化", [["调优权限治理", "调优权限限定双人复核，风控绩效不该由单方可悄悄放松的阈值决定", "ComplyAdvantage"], ["透明看板", "误报漏报趋势对管理层透明，粉饰误报率的团队会把风险攒成大雷", "NICE Actimize"], ["红队注入", "定期注入已知洗钱模式样本验证召回，只看线上命中的系统对漏报无感知", "Chainalysis"], ["基线冻结期", "重大上线后冻结基线对比效果，频繁并行调整会让归因混乱", "Elliptic"]]]]],
+ ["d18", "合规即服务 API", "Compliance-as-a-Service API", "成熟", "把图谱与判定能力以 API/私有化双轨交付给交易所、银行与钱包，是知识资产商业化的出口。", [["API 产品化", [["筛查评分 API", "地址筛查与风险评分毫秒级 API 化，批处理 T+1 交付满足不了 100ms 合规判定需求", "Chainalysis"], ["图谱查询 API", "资金溯源与关联展开的图查询 API，只有报告没有 API 的产品进不了客户实时链路", "Elliptic"], ["事件订阅", "名单更新、命中事件 webhook 推送，纯轮询集成让客户错过分钟级阻断窗口", "TRM Labs"], ["沙箱与 SDK", "完整沙箱环境与多语言 SDK，集成摩擦大是合规 API 流失客户的第一原因", "ComplyAdvantage"]]], ["交付形态", [["双轨交付", "受监管大客户要求私有化部署图谱子集，纯 SaaS 在银行客群卖不动", "NICE Actimize"], ["数据驻留", "欧盟客户数据驻留欧盟的区域化部署，无 residency 方案在 GDPR 与 DORA 下丢单", "AWS"], ["版本兼容承诺", "API 版本化与弃用提前期承诺，随意 breaking change 会破坏客户合规流程连续性", "Stripe"], ["SLA 与审计开放", "可用性 SLA 与 SOC 2 审计报告对客开放，合规厂商自身过不了合规审计是致命反讽", "Chainalysis"]]], ["生态", [["伙伴预集成", "与 KYC、核心系统、云厂商的预集成目录，每家客户都从零对接的市场做不大", "Sumsub"], ["数据权属边界", "图谱数据的再分发与转售边界合同化清晰，数据权属纠纷在合规行业是存亡问题", "Elliptic"], ["计费模型", "按调用量/地址数/案件数的分层计费与突发扩容，纯年度包在流量爆发时成本倒挂", "TRM Labs"], ["标准参与", "参与 FATF/TRP/IVMS 等标准制定与开源工具，标准话语权决定长期生态位", "Notabene"]]]]]
+];
+const FRONTIER = [
+ ["跨辖区三态判定引擎", "live", "同一笔跨国资金在美国冻结/新加坡披露/韩国拒绝的判定已有跨境交易所付费案例", "以三态结论+条款引用的旗舰 API 切入跨境业务"],
+ ["实时制裁名单阻断", "live", "OFAC 名单分钟级生效与 rule_id 硬阻断是成熟刚需", "卖名单时效 SLA 与阻断证据留痕"],
+ ["Travel Rule 自动交换", "live", "Notabene/Sygna 等已有规模化商业网络", "做高回应率中立枢纽与自托管钱包验证"],
+ ["监管报告自动化", "live", "SAR/大额报告自动化在银行与交易所均成熟商用", "按时限 SLA 与按件计费的报告工厂"],
+ ["地理围栏多源融合", "live", "IP+VPN+GPS 融合置信度方案已在主流交易所落地", "卖置信度建模与规避对抗能力"],
+ ["规则即代码 CI/CD", "pilot", "规则变更走版本化、审批、灰度、回滚路径明确但未普及", "以规则 DevOps 工具链切入自研引擎客户"],
+ ["影响分析沙盒", "pilot", "历史回放与影响面测算路径清晰，规模化案例少", "回放即服务，按模拟次数计费"],
+ ["GNN 图谱风险传播", "pilot", "图神经网络风险传播有实战验证但依赖标注质量", "以二跳洗钱网络检出率为卖点"],
+ ["Agentic 调查协作", "pilot", "多智能体起草+人工复核在头部厂商试点，人机分工路径明确", "调查副驾按案件计费，人力成本替代逻辑清晰"],
+ ["监管情报实时融合", "pilot", "推特/暗网/官方公告实时融合已在头部落地但可信度治理未解", "按业务线自动简报与影响路由"],
+ ["误报治理闭环", "pilot", "false_positive_rate 拆解与 A/B 调参方法论成熟但执行普及率低", "先卖误报诊断再上治理工具"],
+ ["合规死锁检测", "pilot", "死锁率作为新指标刚被提出，检测工具缺位", "以死锁率度量教育市场"],
+ ["ZK 合规证明", "explore", "证明合规而不披露数据的 ZK 方案技术与监管均在成形", "机构间「我合规但无可奉告」的互通协议"],
+ ["监管 API 直连", "explore", "各国 FIU 数字化接口进度不一，标准未统一", "提前布局报文适配抢占直连通道"],
+ ["LLM 立法追踪", "explore", "LLM 读新法自动产规则草案可行但幻觉与责任未解", "人审前置的规则草案生成器"],
+ ["跨链实时监管图谱", "explore", "跨链桥 5 分钟穿透 7 条公链的现实倒逼实时图谱", "跨链亲密度图谱的实时化版本"],
+ ["可验证计算判定", "explore", "合规判定的可验证外包技术与标准成形中", "把判定外包给第三方且可审计验证"],
+ ["合规数字孪生", "explore", "全机构合规体系模拟沙盒概念先行、工程复杂度高", "面向大型集团的合规压力测试"],
+ ["DID 合规互通", "explore", "VC+ZK 的合规证明与可复用 KYC 标准在演进", "「人类轨道高隐私、机器轨道高可审计」双轨基础设施"],
+ ["实时合并磁带监管报告", "explore", "监管直连实时数据流（合并磁带）仅在个别辖区试点", "从定期报表转向流式监管报送的新形态"]
+];
+const MIDS = [
+ ["图谱数据中台", "维护法规与链上双图谱的采集、结构化与版本化", "本体建模、增量更新、图谱存储与图查询性能调优"],
+ ["规则工程中心", "把法规翻译成可执行规则并维护全生命周期", "规则 DSL 设计、版本管理、CI/CD 与回滚"],
+ ["判定服务中台", "对外提供毫秒级合规判定与筛查服务", "预编译决策表、内存缓存、流式预计算、降级编排"],
+ ["地理围栏中心", "多源地理信号融合与访问阻断", "IP 库、VPN/代理识别、GPS 佐证、置信度建模"],
+ ["制裁合规中心", "OFAC/UN/EU 名单管理与阻断执行", "50% 规则、名单时效、豁免治理、处罚案例研究"],
+ ["交易监控中心", "交易模式规则库与阈值管理", "结构化拆分检测、聚合口径、规则编排"],
+ ["调查运营中心", "告警分诊与案件调查", "溯源工作台、图谱展开、SLA 与积压管理"],
+ ["报告工厂", "监管报告的生成、校验与提交", "多辖区报文适配、时限日历、提交状态机"],
+ ["Travel Rule 交换中心", "跨机构身份信息交换运营", "IVMS 101、多协议适配、对端目录与回应率管理"],
+ ["牌照与准入中心", "牌照数据库与业务准入判定", "牌照要素结构化、护照化权益、维护义务日历"],
+ ["监管情报中心", "全球监管动态的采集、分级与分发", "官方源直连、可信度分级、影响自动路由"],
+ ["质量治理中心", "误报漏报度量与规则调优闭环", "false_positive_rate 拆解、A/B 调参、红队注入"],
+ ["模拟沙盒中心", "新规回放与影响分析", "历史回放、情景构造、影响面量化"],
+ ["AI 研究中心", "智能体调查与可解释生成", "任务编排、幻觉控制、引用完整性"],
+ ["安全与隐私中心", "数据最小化、加密与跨境合规", "字段级加密、数据驻留、隐私影响评估"],
+ ["审计留痕中心", "判定与操作的全量不可抵赖留痕", "WORM 存储、规则+数据双版本绑定、访问审计"],
+ ["客户集成中心", "API/SDK/私有化交付与伙伴生态", "SDK、沙箱、SLA 承诺、SOC 2 审计"],
+ ["监管关系中心", "与监管机构沟通与执法响应", "调证响应、检查应对、整改闭环追踪"]
+];
+const RULES = [
+ ["OFAC 制裁命中不可人工放行", "可绕过的制裁阻断在处罚认定中视同未做，Block/Cash App 因制裁筛查失效承担 1.2 亿美元罚金；典型场景是名单更新窗口期放行受制裁地址"],
+ ["规则变更必须版本化留痕", "覆盖式更新让历史判定失据，SAR 复核说不清当时为什么放过即构成管理失效；典型场景是监管复查去年放行的可疑交易"],
+ ["Travel Rule 全量身份识别不可默认放行", "欧盟 MiCA 下未完成对手方识别即放行直接违规；典型场景是对端 VASP 无回应时系统默认放行"],
+ ["SAR 30 天法定时限", "超期提交本身是违规事项且是罚款直接事由；典型场景是告警积压数万件无人分诊（Block 案）"],
+ ["规则引擎加载性能预算", "75% 损耗在加载与冲突校验，不预编译则 100ms 判定目标崩溃；典型场景是行情洪峰判定超时触发混乱降级放行"],
+ ["多辖区并存必须最严者胜", "取宽松规则会在最严辖区直接违规；典型场景是跨境业务统一套用宽松 KYC 阈值"],
+ ["制裁筛查必须穿透 50% 规则", "只筛名单主体会漏掉受控实体网络；典型场景是被制裁基金新设子公司开户无人拦截"],
+ ["地理围栏必须多源置信度", "单靠 IP 的围栏被住宅代理一穿就破；典型场景是禁运区用户用 VPN 加代理池注册并交易"],
+ ["误报率失控即业务死亡", "false_positive_rate 失控让调查积压、真实风险被淹没；典型场景是新规则全量切换一夜产生十万级告警"],
+ ["合规死锁必须留人工仲裁出口", "无超时仲裁的死锁让资金无限期滞留并堆积成审计事件；典型场景是规则 A 要求阻断而规则 B 要求披露的循环依赖"],
+ ["SAR 机密性不可向被报告方泄露", "泄露在多国构成刑事犯罪；典型场景是客服误告用户你的交易已被上报"],
+ ["判定必须可解释并留规则链", "不可解释的判定无法应对监管问询与客户申诉；典型场景是只能回答模型说的"],
+ ["合规记录 5–7 年分级保留不可缺", "复查窗口期内数据丢失即无法自证清白；典型场景是两年前的判定记录已被覆盖无法还原"],
+ ["牌照必须先行于业务上线", "无牌展业是执法第一抓点且和解金额巨大；典型场景是新业务上线三个月后才补牌照申请"],
+ ["规则下线与调低阈值同样要审批留痕", "静默关闭规则等于内部后门且是内控失效证据；典型场景是绩效压力下单人悄悄调高阈值"],
+ ["AI 结论不得自动执行阻断冻结", "无人工签发的自动处罚缺乏法律基础且错误被放大；典型场景是智能体误判后自动冻结无辜账户"]
+];
+const KPIS = [
+ ["合规有效性", "制裁拦截率、漏报代理指标、SAR 质量抽查通过率——衡量拦没拦住，误报治理不能以漏报为代价"],
+ ["判定性能", "100ms 合规判定达成率、规则引擎加载耗时占比、冲突校验耗时"],
+ ["误报治理", "false_positive_rate（0.002 级目标）、每规则命中质量、调查积压量与平均处理时长"],
+ ["覆盖度", "辖区规则覆盖率、规则矩阵空白格数、名单与情报源可用性"],
+ ["时效性", "名单更新到生效分钟数、新规到规则转化时长、监管报告及时率"],
+ ["证据完备性", "判定可复现率、留痕完整率、审计发现项闭环率"],
+ ["稳定性", "合规死锁率、待处理交易平均滞留时长、降级触发次数"],
+ ["商业健康", "API 调用量与增长率、客户续约率、单位调用量成本"]
+];
+const LIC_CN = [
+ ["大陆禁止加密资产交易业务", "不可为境内加密交易所提供展业支持或交易合规服务", "产品定位限于研究与数据服务，书面隔离涉币业务"],
+ ["《反洗钱法》（2025 修订，虚拟资产纳入）", "可面向金融机构与支付机构提供反洗钱技术支持", "需配合人民银行反洗钱监测分析要求"],
+ ["《数据安全法》+《网络安全法》", "区块链数据分析与合规科技服务可面向监管与执法机构开展", "数据分级分类管理，重要数据出境需安全评估"],
+ ["《个人信息保护法》", "链上地址与自然人身份关联处理需合法性基础", "匿名化与最小必要，禁止超范围收集"],
+ ["网络安全等级保护 2.0", "平台需完成等保测评方可服务政企客户", "三级等保是服务监管机构的常见门槛"],
+ ["《互联网信息服务算法推荐管理规定》+生成式 AI 管理办法", "法规情报 LLM 服务需完成备案", "生成内容与训练数据合规审查"],
+ ["《区块链信息服务管理规定》", "区块链信息服务视性质需备案", "链上数据服务提供商需履行备案义务"],
+ ["《促进和规范数据跨境流动规定》", "境外客户使用境内数据服务受限", "个人信息与重要数据出境需安全评估或标准合同"],
+ ["人民银行与外汇监管口径", "不可开展虚拟货币兑换相关合规通道服务", "境外涉币业务需与大陆实体防火墙隔离"],
+ ["《网络安全审查办法》", "关键信息基础设施运营者采购与赴境外上市或触发审查", "引入外资架构前做网络安全审查预评估"],
+ ["地方金融监管条例", "不可为境内虚拟货币交易炒作提供金融类支持", "业务边界书面化，避免连带责任"],
+ ["《反电信网络诈骗法》", "协助反诈资金链路分析可开展", "与公安反诈平台对接需相应资质与授权"],
+ ["测绘与地理信息法规", "一般不涉及", "地理围栏所用地图数据需使用合规底图，避免触碰测绘敏感数据"],
+ ["出口管制与技术进出口条例", "合规筛查技术的跨境输出受管制约束", "不向被制裁实体提供技术或数据服务"],
+ ["香港持牌子公司路径", "经香港持牌实体（SFC VATP 及 1/7/9 号牌）可服务虚拟资产合规场景", "大陆与香港实体间人员、数据、系统三隔离"]
+];
+const LIC_INTL = [
+ ["欧盟 MiCA（CASP 许可）", "可在欧盟 27 国提供托管、交易、转让服务合规支持", "最低资本 5–15 万欧元、DORA 韧性、Travel Rule 全量身份识别"],
+ ["美国 FinCEN MSB 注册", "可开展货币传输相关合规服务", "BSA 报告义务、3000 美元记录阈值、州级 MTL 叠加"],
+ ["纽约 BitLicense", "纽约州虚拟资产业务", "独立于联邦的州牌照，持续报告义务重"],
+ ["新加坡 MAS MPI/DTSP", "支付服务法下数字支付代币服务", "DTSP 监管收紧、AML/CFT 审查严格"],
+ ["香港 SFC VATP 发牌", "虚拟资产交易平台服务", "证券型+非证券型双牌照、穿透式监管"],
+ ["迪拜 VARA", "VASP 全类业务", "规则集按活动细分、营销与推广规则严格"],
+ ["日本 FSA 注册/JVCEA 自律", "加密资产交易业", "资金决済法约束、冷钱包隔离与自律规则严格"],
+ ["韩国 VAUPA（ISMS-P 认证）", "虚拟资产服务提供者", "实名账户体系、ISMS-P 认证为前置条件"],
+ ["英国 FCA 注册（MLR 2017）", "加密资产服务商注册", "金融促销规则、Travel Rule 已实施"]
+];
+const OPPS = [
+ ["跨辖区三态判定即服务", "现有产品多为单辖区规则，跨境交易所缺统一判定层", "以一笔资金三态结论加条款引用的旗舰 API 切入"],
+ ["规则引擎性能外包", "多数自研引擎加载损耗大、冲突校验慢", "用预编译决策表加影子模式对比切入存量替换"],
+ ["合规死锁检测工具", "死锁与环路普遍存在但无人专门度量", "以死锁率新指标教育市场并配套检测工具"],
+ ["误报治理诊断+产品", "0.002 级误报治理闭环能力稀缺", "先卖误报诊断报告建立信任再上治理工具"],
+ ["牌照地图订阅", "牌照信息散落律所网页且时效差", "结构化加时效追踪的订阅型数据产品"],
+ ["Travel Rule 中立枢纽", "对端回应率低是普遍痛点", "做高回应率中立枢纽与自托管钱包验证服务"],
+ ["监管报告工厂", "报告积压是罚款直接原因", "按时限 SLA 的报告自动化，按件计费快速起量"],
+ ["规则变更影响沙盒", "新规上线影响面靠拍脑袋", "回放即服务，按模拟次数计费"],
+ ["中文双语监管情报", "中英双语监管情报覆盖不足", "面向华语合规团队的情报简报与影响路由"],
+ ["香港新加坡双枢纽合规套件", "华人区项目出海合规需求集中", "MiCA/MAS/VATP 预置规则包加牌照地图"],
+ ["执法机构图谱服务", "公安与 FIU 图谱化办案需求真实存在", "取证级溯源报告加本地化部署"],
+ ["Agentic 调查副驾", "调查人力占合规预算最大头", "智能体起草加人工复核的人机协作，按案件计费"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：监管图谱平台 / 法规知识图谱 / 规则引擎 / Travel Rule / OFAC 制裁筛查 / 地理围栏 / MiCA 合规`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>

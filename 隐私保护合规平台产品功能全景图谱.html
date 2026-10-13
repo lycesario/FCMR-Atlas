@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隐私保护合规平台产品功能全景图谱</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#ffffff;--ink:#14181f;--ink-2:#414b5a;--ink-3:#6b7684;
+  --line:#e3e7ec;--line-2:#eef1f5;--brand:#1b4d8f;--brand-2:#2f7fd1;--brand-soft:#eef5fd;
+  --teal:#0f7b74;--teal-soft:#e9f6f4;--amber:#9a6412;--amber-soft:#fdf4e3;
+  --rose:#a8324b;--rose-soft:#fdeef1;--violet:#5b46a8;--violet-soft:#f0edfb;
+  --slate-soft:#f1f3f7;--radius:10px;--mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{display:flex;align-items:flex-start;max-width:1520px;margin:0 auto}
+.side{width:250px;flex:0 0 250px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:22px 0 60px}
+.side-brand{padding:0 20px 16px;border-bottom:1px solid var(--line-2);margin-bottom:12px}
+.side-brand b{display:block;font-size:15px;letter-spacing:.2px}
+.side-brand span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase;margin-top:3px}
+.side-search{padding:0 16px 12px}
+.side-search input{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;background:var(--bg);color:var(--ink);outline:none;font-family:inherit}
+.side-search input:focus{border-color:var(--brand-2);background:#fff}
+.side nav a{display:block;padding:6px 20px;font-size:13px;color:var(--ink-2);border-left:2px solid transparent}
+.side nav a:hover{background:var(--brand-soft);color:var(--brand);text-decoration:none}
+.side nav a.on{border-left-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{flex:1;min-width:0;padding:0 40px 100px}
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;color:var(--brand-2);text-transform:uppercase;font-weight:600}
+.hero h1{font-size:33px;line-height:1.24;margin:12px 0 14px;letter-spacing:-.5px}
+.hero p{margin:0;max-width:800px;color:var(--ink-2);font-size:14.5px}
+.hero .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:11.5px;padding:3px 10px;border-radius:20px;background:var(--slate-soft);color:var(--ink-2);border:1px solid var(--line)}
+.pill.b{background:var(--brand-soft);color:var(--brand);border-color:#d3e4f7}
+.pill.t{background:var(--teal-soft);color:var(--teal);border-color:#cfe9e5}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:#f2e0bd}
+.pill.v{background:var(--violet-soft);color:var(--violet);border-color:#ddd6f5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:28px 0 0}
+.stat{background:var(--panel);padding:14px 16px}
+.stat b{display:block;font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-1px;color:var(--brand)}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line-2)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.3px;scroll-margin-top:20px}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--brand-2);margin-right:9px;vertical-align:2px}
+.lead{color:var(--ink-2);margin:0 0 22px;max-width:830px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:14px 0 18px;overflow:hidden}
+.card-h{padding:14px 18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;background:#fcfcfd}
+.card-h b{font-size:15.5px}
+.card-h em{font-style:normal;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.3px}
+.card-h .sp{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.card-d{padding:12px 18px 0;color:var(--ink-2);font-size:13px}
+.card-b{padding:6px 18px 16px}
+.cluster{margin:14px 0 0}
+.cluster>h4{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px dashed var(--line);color:var(--brand);font-size:13px;font-weight:650}
+.cluster>h4::before{content:"";width:3px;height:13px;background:var(--brand-2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:520;width:24%}
+td:nth-child(2){width:56%}
+td:last-child{width:20%;color:var(--ink-3);font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:16px 0 8px}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:3px solid var(--brand-2)}
+.f.live{border-top-color:var(--teal)}
+.f.pilot{border-top-color:var(--amber)}
+.f.explore{border-top-color:var(--violet)}
+.f h4{font-size:13.5px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f h4 s{text-decoration:none;font-size:10px;font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+.f p{margin:0 0 7px;font-size:12.4px;color:var(--ink-2);line-height:1.6}
+.f .opp{font-size:12px;color:var(--teal);border-top:1px dashed var(--line);padding-top:7px}
+.f .opp b{color:var(--teal)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1180px){.grid2{grid-template-columns:1fr}}
+.note{background:var(--brand-soft);border-left:3px solid var(--brand-2);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.warn{background:var(--amber-soft);border-left:3px solid var(--amber);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+.danger{background:var(--rose-soft);border-left:3px solid var(--rose);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--ink-2);margin:16px 0}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:3px 0;color:var(--ink-2);font-size:13px}
+code{font-family:var(--mono);font-size:12px;background:var(--slate-soft);padding:1px 5px;border-radius:4px;color:var(--brand)}
+.hidden{display:none!important}
+.nores{padding:40px;text-align:center;color:var(--ink-3);font-size:13.5px}
+footer{padding:34px 0 0;color:var(--ink-3);font-size:12px}
+@media(max-width:900px){.side{display:none}.main{padding:0 20px 80px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="side-brand">
+    <b>隐私保护合规平台全景</b>
+    <span>隐私保护合规平台 Atlas</span>
+  </div>
+  <div class="side-search"><input id="q" type="search" placeholder="搜索功能点 / 关键词…"></div>
+  <nav id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div class="eyebrow">Product Landscape · 2026</div>
+    <h1>隐私保护合规平台产品功能全景图谱</h1>
+    <p>隐私保护合规平台是让数据「可用不可见」的合规基础设施：用 <b>18</b> 类隐私增强技术，在 <b>54</b> 的合规约束下，支撑 <b>234</b> 类身份与数据场景。</p>
+    <div class="meta"><span class="pill b">18 个功能域</span><span class="pill t">22 个前沿方向</span><span class="pill a">18 类中台能力</span><span class="pill v">16 条业务规则</span><span class="pill">生成日期 2026-09-18</span></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="s0">
+    <h2><span class="num">00</span>怎么读这份图谱</h2>
+    <p class="lead">这套产品的本质是「在保护隐私的同时满足合规」：以零知识证明、安全多方计算、自主主权身份等技术，让持证方只披露必要属性，验证方只验证不囤积。它不是单点工具，而是一套覆盖身份、计算、存储、监管的数据可用不可见基础设施。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>四层结构</h4>
+      <table>
+        <thead><tr><th style="width:22%">层级</th><th style="width:46%">这一层包含什么</th><th>产品本质</th></tr></thead>
+        <tbody><tr><td>第1层（d1–d5）身份与证明基础</td><td>零知识身份声明、可验证凭证与选择性披露、自主主权身份、安全多方计算、隐私数据治理</td><td>解决「证明你是你」而不暴露你：把身份与PII从明文托管转向声明与分片</td></tr>
+<tr><td>第2层（d6–d9）隐私计算与最小披露</td><td>差分隐私、联邦学习、可信执行环境、数据最小化与最小披露</td><td>解决「用数据却不拿数据」：计算与统计在密态或加噪下进行，默认只取最少</td></tr>
+<tr><td>第3层（d10–d15）存储治理与合规桥接</td><td>加密存储与密钥管理、留存删除与遗忘权、泄露检测响应、PETs中间件、合规审计认证、监管报送与旅行规则</td><td>解决「存得安全、删得干净、说得清楚」：把隐私能力接进KMS、留存与AML报送</td></tr>
+<tr><td>第4层（d16–d18）前沿与互操作</td><td>交易隐私与混币、AI驱动隐私合规自动化、跨链隐私互操作</td><td>解决「隐私不孤岛、合规可演进」：在AML张力下做交易隐私、AI自动化与跨链互通</td></tr></tbody>
+      </table>
+    </div></div></div>
+    <div class="note">三条先决判断：<br>1. <b>真实KYC底座必须先于ZK声明存在</b>，否则ZK变成造假护盾；<br>2. <b>密钥与数据的分片/隔离能力必须先于上线</b>，单点完整副本即失败；<br>3. <b>合规解密与报送通道必须先于隐私功能</b>，否则在AML辖区无法落地。</div>
+    <div class="danger">最易被误当成成功信号的是「用户量暴涨」：隐私协议若靠匿名性吸量，往往伴随非法用途与监管禁令，<b>增长越快被封风险越高</b>，真正的信号是「拿到合规牌照/认证且AML可审计」。</div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">01</span>产业地图与平台形态</h2>
+    <p class="lead">同一套能力，在不同形态下商业本质完全不同。入场前先选形态，再谈功能。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>平台形态对照</h4>
+      <table id="t-players">
+        <thead><tr><th style="width:19%">平台形态</th><th style="width:25%">全球代表</th><th style="width:25%">中国代表</th><th>商业本质</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div></div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>功能全景（当下主流）</h2>
+    <p class="lead">18 个功能域按四层排序。每条功能点都带关键规则与对标产品，搜索框可直接定位。</p>
+    <div id="domains"></div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>前沿与未来</h2>
+    <p class="lead">按落地程度分三档：已落地（live）有成熟商业案例，试点中（pilot）路径明确但未规模化，探索期（explore）技术与标准仍在成形。</p>
+    <div class="fg" id="frontier"></div>
+    <div class="warn">前沿方向落地的优先级标准：先选「有真实监管对话空间」的方向（如ZK-KYC、PETs中间件），再碰「与AML结构性冲突」的方向（如混币）；explore级方向须先证明合规路径，否则只做技术储备。</div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>平台化能力矩阵</h2>
+    <p class="lead">单点功能拼不成平台。下面是横切所有功能域的中台能力，以及最不能出错的六个核心对象。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>通用中台中心</h4>
+      <table id="t-mid">
+        <thead><tr><th style="width:19%">中心</th><th style="width:33%">核心职责</th><th>关键能力</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>六个核心对象</h4>
+      <table>
+        <thead><tr><th style="width:18%">对象</th><th style="width:40%">定义</th><th>为什么不能错</th></tr></thead>
+        <tbody><tr><td>ZK声明</td><td>不披露原文、只证明布尔属性为真的零知识证明</td><td>错把源数据当声明输出，最小化原则破产且可被跨服务追踪</td></tr>
+<tr><td>VC可验证凭证</td><td>签发方签名的、可选择性披露的凭证</td><td>签发密钥泄露即批量伪造，撤销缺失则黑名单失效</td></tr>
+<tr><td>MPC分片</td><td>密钥/生物特征的分片，单点不还原明文</td><td>任一分片节点见全明文即方案失败，DKG前生成完整密钥即泄露</td></tr>
+<tr><td>PII数据资产</td><td>含个人信息的数据与字段全集</td><td>发现不全则保护缺口，泄露即违反个保法且被罚</td></tr>
+<tr><td>留存与删除记录</td><td>按策略留存并在到期/请求时删除的痕迹</td><td>留存超期为负债，删除不可验证则审计不采信</td></tr>
+<tr><td>合规报送证据</td><td>KYC/制裁筛查/旅行规则的留痕与报告</td><td>缺失则无法自证已尽责，被认定规避AML</td></tr></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心业务规则（暗礁）</h2>
+    <p class="lead">这一领域的致命规则大多与「不可逆的信任或资金损失」有关。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十六条暗礁</h4>
+      <table id="t-rules"></table>
+    </div></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>指标体系</h2>
+    <p class="lead">指标设计的核心原则：所有质量指标必须能拆到可归因、可举证的一层，否则都是自嗨数字。</p>
+    <div class="grid2" id="kpis"></div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>资质与监管地图</h2>
+    <p class="lead">该领域的监管域组合：个人数据保护（GDPR/个保法）、反洗钱（FATF旅行规则/AML）、加密资产监管（MiCA/VATP）、行业数据合规（金融/医疗/征信）四域在此交汇，任一域失衡即整体不可行。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>中国大陆</h4>
+      <table id="t-lic-cn"></table>
+    </div></div>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>国际市场</h4>
+      <table id="t-lic-intl"></table>
+    </div></div>
+    <div class="warn">三条最常被低估的合规红线：<br>1. <b>ZK声明脱离真实KYC底座</b>会被认定为协助规避AML；<br>2. <b>大陆禁止加密资产交易业务</b>，隐私协议在境内只能做数据合规与隐私计算，不得涉代币与交易；<br>3. <b>旅行规则与制裁筛查不可因隐私而省略</b>，超阈值不交换信息即违规。</div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>市场空白与产品机会点</h2>
+    <p class="lead">机会集中在客户最愿意为确定性付费、而现有方案最不可信的地带。</p>
+    <div class="card"><div class="card-b"><div class="cluster">
+      <h4>十二个机会点</h4>
+      <table id="t-opps"></table>
+    </div></div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>如果要做，从哪开始</h2>
+    <p class="lead">链路长、环节多，冷启动的关键是用一个场景把主线跑通，再放大。</p>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><b>收敛步骤</b></div><div class="card-d"><ul class="tight"><li>第一步：锚定真实KYC底座，做客户尽调与制裁筛查</li><li>第二步：选定PETs技术栈（ZK/MPC/TEE）并做形式化审计</li><li>第三步：以数据最小化默认上线采集与披露</li><li>第四步：打通密钥管理、留存删除与泄露响应</li><li>第五步：接入监管报送与旅行规则的可审计通道</li></ul></div></div>
+      <div class="card"><div class="card-h"><b>候选路径</b></div><div class="card-d"><ul class="tight"><li>路径A：ZK-KYC声明市场（面向交易所/DeFi准入）</li><li>路径B：企业PII治理+隐私计算（面向金融/医疗）</li><li>路径C：PETs中间件与SDK（面向开发者）</li><li>路径D：合规可解密的隐私交易（前沿，需监管对话）</li></ul></div></div>
+    </div>
+    <div class="note">四条路径的共同点是「第一资产」：都必须先拥有一份<b>真实、可审计的KYC主数据</b>作为所有隐私声明的信任锚；没有它，隐私只是规避的伪装。</div>
+  </section>
+
+  <footer>
+    <p>隐私保护合规平台产品功能全景图谱 · 生成于 2026-09-22 · 共 <span id="fcount">—</span> 条功能点 · 用于产品规划与竞品对标，不构成投资或法律意见</p>
+  </footer>
+</main>
+</div>
+
+<script>
+/* ================= 数据层（由 factory 注入） ================= */
+const SECTIONS = [
+ ["s0", "本质主线：数据可用不可见"],
+ ["s1", "平台形态与生态格局"],
+ ["s2", "功能域全景（十八域）"],
+ ["s3", "前沿方向与技术成熟度"],
+ ["s4", "核心对象与不可错前提"],
+ ["s5", "能力中心与组织职责"],
+ ["s6", "致命规则与典型事故"],
+ ["s7", "监管合规与资质边界"],
+ ["s8", "指标体系与度量口径"],
+ ["s9", "落地路径与四轨选择"]
+];
+const PLAYERS = [
+ ["零知识身份声明平台", "zkPass / Aztec / StarkWare", "摩斯MORSE（蚂蚁链）", "用零知识证明输出“成年/非美国人/合格投资者”布尔声明而不暴露原始证件"],
+ ["MPC密钥分片托管", "Fireblocks / Sepior / Curv", "矩链（微众FATE延伸）", "私钥分片分散保管，无单点持有完整副本，单点被攻破不泄密"],
+ ["自主主权身份SSI", "Privado ID / Polygon ID / Spruce", "腾讯云DID / 微信开源DID", "用户自持身份，选择性披露，机构不囤积PII"],
+ ["差分隐私数据协作", "Google DP / OpenMined", "华控清交（多方安全计算延伸）", "在统计结果注入噪声，使单条记录不可反推"],
+ ["联邦学习平台", "FATE（开源）/ TensorFlow Federated", "微众银行FATE / 富数科技", "模型在本地训练，原始数据不出域"],
+ ["可信执行环境TEE", "Oasis / Secret Network / Phala", "百度安全TEE / 蚂蚁TEE", "在加密飞地内计算，明文不出硬件边界"],
+ ["隐私交易与混币协议", "Railgun / Aztec Connect / Tornado替代", "（大陆不可开展）", "交易图不可追踪，AML与隐私结构性冲突"],
+ ["选择性披露VC", "Sismo / Disco / Polygon ID", "魔身份（上海CA）", "持证方只出示必要属性，证明“我知道/我拥有”不亮全文"],
+ ["隐私数据治理平台", "OneTrust / BigID / Securiti", "派拉软件 / 美亚柏科", "PII发现、分类分级、加密存储、留存删除一体化"],
+ ["密态计算中间件", "Inpher / Duality / Daffine", "洞见科技 / 同态科技", "跨机构密文直接计算，结果可解密"],
+ ["隐私合规认证与审计", "Halborn / ZK审计机构 / Schelling", "（国内等保与数据合规审计）", "对PETs实现做形式化验证与渗透测试"],
+ ["监管报送与旅行规则", "Chainalysis / TRM / Elliptic", "数研所 / 金融机构合规系统", "把“隐私保护”与“可审计报送”桥接"]
+];
+const DOMAINS = [
+ ["d1", "零知识身份声明", "ZK-KYC / ZK Attestation", "核心", "以零知识证明让持证方在不透露原始证件的前提下，向验证方证明某个布尔属性为真", [["布尔属性证明（成年/非美/合格投资者）", [["成年声明证明", "证明“已满18岁”若直接返回出生日期，验证方即可推算精确年龄并跨服务追踪用户；应只输出布尔真值", "zkPass"], ["非美国人认证", "金融合规常需排除美国人身份；若把国籍字段明文传递，既违反最小化又可能被监管追溯", "Aztec"], ["合格投资者判定", "证明资产/收入达标而不披露金额；披露具体净值会被竞争对手或钓鱼方利用", "StarkWare"], ["3P-TLS数据来源证明", "需证明声明源自真实HTTPS会话（如银行登录）而非本地伪造；伪造源会让整个ZK-KYC失信", "zkPass"], ["证明撤销与过期", "凭证过期后仍被接受会让黑名单失效；不提供撤销机制等于永久可信", "Polygon ID"]]], ["证明生成与验证管线", [["客户端证明生成", "证明在用户设备本地生成可防服务端窥探；若上传原始证件到服务端再生成，最小化原则破产", "zkPass"], ["验证方零知识校验", "验证方只校验证明有效性不接触源数据；若缓存源数据等于重新囤积PII", "Sismo"], ["可复用证明凭证化", "一次生成多处复用可降摩擦；但复用凭证若绑定设备指纹会被用于跨站关联", "Privado ID"], ["证明元数据脱敏", "证明文件附带的时戳/网络信息若未脱敏会泄露用户行为时段", "Aztec"], ["抗重放与非交互", "非交互式证明需含nonce防重放；缺nonce攻击者可用旧证明冒用身份", "StarkWare"]]], ["合规桥接与边界", [["与KYC主数据的绑定", "ZK声明需可回溯到一次真实KYC；完全脱离KYC主数据会变成伪造身份的护盾", "Sumsub"], ["监管可审计视图", "监管需能验证“平台确实做了KYC”而不看个体明文；缺审计视图会被认定为规避AML", "Chainalysis"], ["跨司法辖区适配", "不同辖区对“合格投资者”口径不同；硬编码单辖区规则会让他国用户被错误拒绝", "Quadrata"], ["拒绝场景的最小披露", "被拒用户不应得知命中了哪条规则（防规则枚举）；全量反馈等于泄露风控模型", "Civic"], ["证明与交易的原子性", "在DeFi中证明需与交易原子执行；先验证后交易存在竞态可被插入虚假状态", "Aztec Connect"]]]]],
+ ["d2", "可验证凭证与选择性披露", "Verifiable Credentials & Selective Disclosure", "核心", "颁发方签名的凭证，持证方可裁剪字段、只披露验证所需的最小属性集", [["凭证签发与信任锚", [["签发方密钥托管", "VC签名密钥若被盗，攻击者能批量伪造凭证；需HSM+多签保护根密钥", "Privado ID"], ["凭证schema标准化", "字段语义不统一会导致跨平台凭证无法互认；自定义schema等于重新造孤岛", "W3C VC"], ["撤销列表机制", "无撤销机制时吊销的凭证仍有效；应在状态列表或链上登记撤销", "Polygon ID"], ["凭证有效期绑定", "长期凭证过期不更新会变成僵尸身份；需明确续期路径", "Spruce"], ["根信任锚去中心化", "单点信任锚被攻破全链凭证失效；多锚或DID锚更抗单点故障", "Sismo"]]], ["选择性披露实现", [["字段级披露粒度", "披露粒度粗（如整本护照）会过度泄露；需支持字段与谓词级披露", "Polygon ID"], ["零知识谓词证明", "“工资>阈值”应证明不等式而非数值；返回数值即最小化失败", "zkPass"], ["披露上下文绑定", "披露需绑定用途nonce防截屏复用；无绑定的披露可被转作他途", "Disco"], ["多凭证组合证明", "“居住+收入”组合证明需防部分伪造；组合校验缺失会接受拼凑凭证", "Civic"], ["披露留痕与可撤回", "用户应能看到历史披露并向应用撤回授权；无撤回等于永久授权", "Spruce"]]], ["凭证验证与互操作", [["验证方签名校验", "验证方若不校验签发方签名链，接受自签名凭证等于无验证", "Privado ID"], ["跨域凭证映射", "不同域同名属性含义不同（地址邮编vs坐标）；映射错误导致误判", "Galxe"], ["链上链下验证统一", "同一凭证链上链下验证逻辑必须一致；逻辑分歧会被套利", "Worldcoin"], ["可验证呈现的可移植", "呈现格式需跨钱包可读；私有格式锁定用户", "Polygon ID"], ["撤销状态实时查询", "验证时未实时查撤销状态会接受已吊销凭证", "Status List 2021"]]]]],
+ ["d3", "自主主权身份", "Self-Sovereign Identity (SSI)", "成熟", "用户自持标识符与凭证钱包，身份不依赖任何中心化发行方长期托管", [["DID标识与文档", [["去中心化标识符解析", "DID解析失败会让用户无法登录；依赖中心化解析器等于回到托管模式", "Spruce"], ["DID文档密钥轮转", "长期不轮转的密钥泄露即身份被盗；需平滑轮转且不丢历史签名", "Privado ID"], ["方法碎片化兼容", "Polygon ID与Fractal互不兼容会让用户需多套身份；需桥接层", "Fractal ID"], ["恢复与社交恢复", "丢失密钥无恢复机制则身份永久丢失；纯自管对普通用户过苛", "Worldcoin"]]], ["身份钱包与自持", [["私钥本地保管", "私钥上传服务端即违背SSI初衷；需安全enclave保管", "Spruce"], ["凭证多设备同步", "跨设备不同步会让用户在手机丢失后失联；同步须端到端加密", "Polygon ID"], ["撤销与冻结能力", "设备丢失需能远程冻结身份；无冻结则丢设备=丢身份", "Civic"], ["离线可验证", "无网环境也应能出示凭证；纯在线验证在弱网场景失效", "Disco"]]], ["互操作与女巫防御", [["女巫攻击抵抗", "免费空投身份会被批量女巫；需cost或声誉门槛", "Gitcoin Passport"], ["AI深伪对抗", "深伪人脸可冒充持有者；需活体+设备绑定", "Worldcoin"], ["跨生态声誉迁移", "声誉应可携带而非锁定单平台；锁定削弱用户主权", "Galxe Passport"], ["撤销机制全局一致", "撤销在某生态生效却在另一生态仍有效会制造双身份", "Privado ID"]]]]],
+ ["d4", "安全多方计算", "Secure Multi-Party Computation (MPC)", "核心", "多方各自持密钥分片协同计算，任一分片单独无法还原明文或私钥", [["密钥分片生成", [["分布式密钥生成DKG", "密钥从不在单点完整出现；若先生成完整密钥再分片，分片前已泄露", "Fireblocks"], ["阈值方案选择", "t-of-n阈值设错（如1-of-2）等于无保护；需按风险定阈值", "Sequoia"], ["分片零知识证明", "分片需证明自己合法而不泄露内容；无证明会被注入假分片", "MPC Alliance"], ["分片备份与恢复", "分片丢失超阈值则资产/数据永久不可恢复；恢复流程须防共谋", "Curv"], ["分片生命周期销毁", "废弃分片未安全销毁会留后门；需可验证销毁", "Sepior"]]], ["协同签名与计算", [["无单点明文", "任一分片节点只见自身分片；任一节点见全明文即方案失败", "Fireblocks"], ["在线阈值签名", "签名需t个分片在线协同；可用性不足会导致交易卡单", "Curv"], ["抗拜占庭分片", "恶意分片作伪会被多数分片否决；无拜占庭容错则易被劫持", "Sequoia"], ["审计可追溯", "协同过程需留痕供审计；无留痕无法证明合规执行", "Fireblocks"], ["性能与延迟", "多方往返签名延迟高会影响高频场景；需预处理nonce提速", "MPC Alliance"]]], ["生物特征分片", [["生物模板分片", "人脸/指纹模板分片存储，重建需多片；单库泄露不还原biometric", "Keyless"], ["活体绑定分片", "分片须与活体绑定防重放录屏；无活体则分片可被录屏复用", "Worldcoin"], ["跨机构分片协同", "银行与运营商各持一片可实现联合认证；任一方独有能力不足", "微众FATE"], ["分片泄露监测", "某分片疑似泄露需告警并触发轮转；静默泄露长期无害化", "Keyless"], ["合规可解释", "分片方案需能向监管解释“为何无单点”；说不清会被认定不合规", "Fireblocks"]]]]],
+ ["d5", "隐私数据治理", "PII Governance", "核心", "对PII做发现、分类分级、加密、留存与删除的全生命周期管控", [["PII发现与分类", [["全量数据扫描", "未扫描的影子数据库是泄露重灾区；只扫主库会漏掉备份与日志", "BigID"], ["敏感字段识别", "识别错“生日”非敏感会漏保护；误判非敏感导致错配加密", "Securiti"], ["分类分级口径", "分级口径不一会让同字段在两地保护不同；需统一字典", "OneTrust"], ["数据血缘追踪", "不知PII从哪来就难做删除；无血缘则遗忘权无法落地", "BigID"]]], ["加密与访问控制", [["字段级加密", "整库加密不如字段级精细；粗粒度加密让无关字段也被锁死或全开", "Vault"], ["最小权限访问", "访问未按角色收敛会扩大泄露面；超权账号是头号风险", "Okta"], ["动态脱敏", "客服场景需脱敏展示；原样展示等于把PII交到一线", "Protegrity"], ["密钥与数据分离", "密钥与数据同库则加密形同虚设；需独立KMS", "AWS KMS"]]], ["留存与处置", [["留存策略绑定", "无留存策略数据无限堆积；堆得越久风险面越大", "OneTrust"], ["到期自动删除", "到期不删变成合规负债；人工删除必漏", "Securiti"], ["删除可验证", "删除需出证明；口说已删在审计中不被采信", "BigID"], ["备份中PII清理", "备份含PII且长期留存会绕过删除；需备份脱敏", "Veeam"]]]]],
+ ["d6", "差分隐私", "Differential Privacy", "成长", "向查询/聚合结果注入可控噪声，使任何单条记录的存在与否不可被反推", [["噪声机制与预算", [["epsilon预算控制", "epsilon过大隐私损失不可接受；过小则结果不可用需权衡", "Google DP"], ["噪声注入时机", "在查询层而非展示层加噪可防旁路；展示层加噪易被差分攻破", "OpenMined"], ["组合查询爆炸", "多次查询叠加泄露隐私；需消耗同一预算上限", "TensorFlow Privacy"], ["敏感度校准", "敏感度估错噪声失效；低估会让个体可被识别", "SmartNoise"]]], ["聚合与发布", [["分组统计保护", "小群体统计易被反推；需抑制或并组", "US Census"], ["时空序列加噪", "按时间发布的序列可被关联去噪；需相关性约束", "Apple DP"], ["重标识防御", "发布前需做重标识测试；不做测试等于盲发", "OpenMined"], ["合成数据保真", "合成数据需保统计特性；失真则失去分析价值", "Gretel"]]], ["工程化落地", [["本地化差分隐私", "端侧加噪省去可信服务器；但端侧实现错则全局失效", "RAPPOR"], ["可信聚合器", "集中式需可信聚合；聚合器作恶即单点泄露", "Google DP"], ["预算审计日志", "每次消耗预算须记录；无日志无法证明合规", "OpenMined"], ["与K匿名权衡", "纯K匿名易被孤岛攻击；DP更稳但需接受误差", "SmartNoise"]]]]],
+ ["d7", "联邦学习", "Federated Learning", "成长", "模型下发到数据持有方本地训练，仅回传梯度/参数，原始数据不出域", [["训练架构", [["横向纵向切分", "数据按样本或特征切分方式错会泄露对齐信息；需选对联邦类型", "微众FATE"], ["梯度加密传输", "明文梯度可被反推样本；需同态或安全聚合", "TensorFlow Federated"], ["安全聚合协议", "聚合方见单方可反推；需多方安全聚合", "OpenMined"], ["通信压缩权衡", "过度压缩梯度损害模型；压缩需保收敛", "FATE"]]], ["数据不出域保障", [["本地数据隔离", "训练时原始数据出域即违约；需严格边界校验", "微众FATE"], ["投毒防御", "恶意参与方投毒污染全局模型；需鲁棒聚合", "FATE"], ["成员推断防御", "模型可能泄露是否含某样本；需差分隐私加固", "TensorFlow Privacy"], ["设备掉线处理", "掉线方数据缺失会偏置；需容错采样", "FATE"]]], ["合规与治理", [["数据权属确认", "训练前需确认数据权属；权属不清会引发合规纠纷", "富数科技"], ["模型可追溯", "模型需记录参与方与版本；不可追溯难定责", "FATE"], ["退出与遗忘", "参与方退出需能移除其贡献；无遗忘则绑定过死", "OpenMined"], ["跨境训练合规", "跨境联邦需满足数据出境规则；违规出境即违法", "微众FATE"]]]]],
+ ["d8", "可信执行环境", "Trusted Execution Environment (TEE)", "成长", "在硬件加密飞地内运行敏感计算，飞地外只见密文与结果", [["飞地构建", [["远程证明", "未做远程证明无法确认代码真在飞地跑；跳过证明等于裸跑", "Oasis"], ["飞地完整性校验", "镜像被篡改飞地仍运行会泄密；需启动度量", "Secret Network"], ["侧信道防御", "飞地对外信道若未隔离会被侧信道攻破；需内存加密", "Phala"], ["密钥密封存储", "密钥封入飞地防提取；封得松等于明文存", "Intel SGX"]]], ["可信计算", [["明文不出飞地", "计算明文若落盘即泄露；需内存内计算", "Oasis"], ["输入加密递交", "输入明文传到飞地前需加密；传输中泄露前功尽弃", "Secret Network"], ["结果可验证", "输出需带飞地签名供验证；无签名结果不可信", "Phala"], ["多飞地协同", "多飞地协作需互证；互不证会引入不可信方", "Oasis"]]], ["运维与风险", [["硬件漏洞应对", "如Spectre类漏洞会破飞地；需补丁与降级方案", "Intel SGX"], ["供应商锁定", "绑定单一TEE厂商难迁移；需抽象层", "Phala"], ["成本与性能", "飞地计算开销大影响吞吐；需评估性价比", "Secret Network"], ["合规可解释", "需向监管说明飞地如何保隐私；说不清难过审", "Oasis"]]]]],
+ ["d9", "数据最小化与最小披露", "Data Minimization & Least Disclosure", "核心", "默认只收集与目的相称的最少数据，验证只出示必要属性", [["采集最小化", [["目的限定采集", "超目的采集会在泄露时扩大伤害；需目的绑定字段", "OneTrust"], ["默认关闭收集", "默认开收集违反最小化；需默认关、显式开", "Apple ATT"], ["字段必要性论证", "每字段须证明必要；无论证则易被滥用", "Securiti"], ["第三方共享收敛", "向第三方透传超需数据放大风险；需共享最小化", "OneTrust"], ["埋点瘦身", "过度埋点积累行为画像；需定期清理埋点", "Mixpanel"]]], ["披露最小化", [["属性级披露", "只披露验证所需属性；披露全量等于放弃隐私", "Sismo"], ["谓词级证明", "用“大于/属于”代替数值；返回数值即泄露", "zkPass"], ["用途绑定nonce", "披露绑定用途防复用；无绑定被截屏转用", "Disco"], ["拒答不泄露原因", "被拒不告知命中规则防枚举；全反馈泄露模型", "Civic"], ["最小披露默认值", "系统默认取最小披露；默认宽松会过度暴露", "Privado ID"]]], ["最小化治理", [["最小化审计", "定期审计采集是否超需；不审计会膨胀", "BigID"], ["数据主体控制权", "用户应能撤回授权与删除；无控制等于强制让渡", "Spruce"], ["过度收集告警", "检测到超范围采集需告警；静默收集持续违规", "OneTrust"], ["最小化KPI", "把最小化纳入考核；不考核则业务倾向多收", "Securiti"], ["法规对齐", "对齐GDPR/个保法最小必要；偏离即违法", "监管基线"]]]]],
+ ["d10", "加密存储与密钥管理", "Encrypted Storage & KMS", "成熟", "静默与传输加密、密钥轮换与分片保管，密钥丢失即数据不可恢复", [["加密基础", [["静态加密", "未加密落盘一旦脱库全裸；需全量静态加密", "AWS KMS"], ["传输加密", "传输明文被中间人截获即泄露；需TLS+证书钉扎", "Vault"], ["算法与密钥分离", "用同一密钥加密所有数据风险集中；需按类分密钥", "AWS KMS"], ["前向保密", "无前向保密历史流量可被回溯解密；需ECDH", "TLS1.3"]]], ["密钥管理", [["密钥轮换", "长期不轮换泄露窗口无限；需定期轮换", "HashiCorp Vault"], ["密钥分片托管", "单密钥托管者被攻破全盘泄；需分片或HSM", "Fireblocks"], ["根密钥保护", "根密钥落地即信任崩塌；需HSM硬件保护", "Thales HSM"], ["密钥销毁可验证", "销毁需出证明；口头销毁审计不认", "Vault"]]], ["可用性与灾难", [["密钥丢失恢复", "密钥丢失数据永久不可恢复；需受控备份", "AWS KMS"], ["信封加密", "用数据密钥包数据、主密钥包数据密钥；直存主密钥风险高", "S3 SSE"], ["访问审计", "密钥使用须全留痕；无留痕难溯泄露源", "CloudTrail"], ["跨域密钥同步", "多区域需密钥同步一致；不一致致解密失败", "AWS KMS"]]]]],
+ ["d11", "留存、删除与遗忘权", "Retention, Deletion & Erasure", "成熟", "按保留策略到期删除，响应被遗忘权，留存超期即合规负债", [["留存策略", [["法定留存期", "金融数据须留5-7年；过短违法、过长增风险", "合规基线"], ["留存到期触发", "到期不自动触发删除会累积负债；需自动触发", "OneTrust"], ["不同类差异留存", "交易与营销数据留存期不同；混同会要么违法要么过留", "Securiti"], ["留存位置收敛", "数据散落多处难统一删除；需集中编目", "BigID"]]], ["删除执行", [["逻辑删除验证", "仅标记删除仍可恢复；需物理销毁证明", "Veeam"], ["备份删除同步", "备份未删等于没删；需备份脱敏或同步删", "Veeam"], ["级联删除", "关联表未级联删除留孤儿PII；需级联", "数据库治理"], ["删除可审计", "删除动作需留痕供监管查；无痕不可信", "OneTrust"]]], ["被遗忘权", [["主体删除请求", "收到删除请求须按期执行；拖延违反GDPR/个保法", "Securiti"], ["第三方传导删除", "已共享给第三方需传导删除；不传导留尾", "OneTrust"], ["不可删例外处理", "法定义务数据可拒删但须说明；无说明引发投诉", "合规基线"], ["删除后验证", "删除后需验证确无残留；验证缺失等于没删", "BigID"]]]]],
+ ["d12", "泄露检测与响应", "Breach Detection & Response", "成熟", "监测异常访问与脱库，泄露后按法定时限通报并止损", [["监测", [["异常访问检测", "异常批量下载是脱库前兆；无监测会事后才知", "Securiti"], ["数据外发监控", "PII外发至私人邮箱需告警；静默外发是内鬼通道", "DLP"], ["暗网泄露扫描", "监控暗网是否出现本机构数据；早发可早止损", "Recorded Future"], ["误报抑制", "告警过多被忽略会漏真警；需降噪调优", "DLP"]]], ["响应", [["法定通报时限", "GDPR要求72小时通报；超时被重罚", "合规基线"], ["containment", "发现泄露先隔离再查；不隔离扩大损失", "事件响应"], ["影响面评估", "不清影响面无法定通报范围；估错漏报", "IR"], ["证据保全", "响应同时保全日志；日志丢则无法定责", "取证"]]], ["恢复与改进", [["口令重置与通知", "泄露后强制重置并通知用户；不通知用户自担风险", "IR"], ["根因修复", "只堵表面漏洞会再犯；需根因修复", "IR"], ["监管报告模板", "报告须符合辖区格式；格式错被退回延误", "合规基线"], ["复盘与演练", "不演练响应会手忙脚乱；定期演练保熟稔", "IR"]]]]],
+ ["d13", "隐私增强计算中间件", "Privacy-Enhancing Computation Middleware", "成长", "封装ZK/MPC/HE的SDK与运行时，让业务方无密码学背景也能调用", [["抽象与SDK", [["密码学原语封装", "业务直接调ZK/MPC门槛高；封装错会引入漏洞", "Inpher"], ["无密码学背景调用", "让应用方不必懂底层；接口错则安全属性丢失", "Duality"], ["统一API跨PETs", "同一API适配ZK/MPC/HE；割裂API增加集成成本", "Daffine"], ["安全默认值", "默认参数须安全；默认弱参数被误用致泄", "Inpher"], ["版本与兼容性", "底层库升级需向后兼容；不兼容致业务断裂", "Duality"]]], ["运行时与性能", [["证明生成性能", "ZK证明耗时长卡前端；需服务端/并行加速", "Inpher"], ["密态计算吞吐", "MPC/HE吞吐低限制规模；需硬件加速", "Duality"], ["资源隔离", "多租户共享运行时需隔离；串味致跨租户泄露", "Daffine"], ["可观测性", "中间件须暴露指标供排障；黑盒难定位", "Inpher"], ["降级与回退", "PETs不可用时需安全降级；硬依赖致不可用", "Duality"]]], ["集成与治理", [["与现有系统集成", "需对接KMS/日志/审计；旁路集成留盲区", "Daffine"], ["密钥生命周期托管", "中间件代管密钥须合规；代管不当转嫁风险", "Inpher"], ["合规可审计", "中间件须出合规证据；不可审计难采购", "Duality"], ["审计日志不可篡改", "日志可被改则证据失效；需防篡改", "Daffine"], ["供应商安全评估", "引入中间件需做安全评估；未评估引入新风险", "Inpher"]]]]],
+ ["d14", "合规审计与认证", "Compliance Audit & Certification", "成熟", "对PETs实现做审计、渗透与形式化验证，输出可采信报告", [["审计范围", [["实现审计而非纸面", "只审文档不审代码会放过实现缺陷；需代码级审计", "Halborn"], ["形式化验证", "关键证明电路需形式化验证；手动审易漏边角", "Certora"], ["渗透与红队", "PETs需红队对抗；不做对抗难知真实强度", "ZK审计"], ["依赖项审计", "第三方库漏洞会拖垮整体；需供应链审计", "Snyk"]]], ["认证体系", [["隐私认证对标", "对标ISO27701/等保；无认证难获大客户", "ISO 27701"], ["ZK电路正确认证", "证明电路正确性需独立认证；自证不被采信", "ZK认证机构"], ["持续合规监控", "一次性认证会过期失效；需持续监控", "持续合规"], ["跨境认证互认", "跨国业务需认证互认；不互认重复认证", "APEC CBPR"]]], ["报告与信任", [["可采信报告", "报告需含方法与范围；含糊报告无价值", "Halborn"], ["缺陷修复闭环", "发现缺陷须跟踪修复；不闭环审计白做", "Halborn"], ["公开透明度", "适当公开增强信任；全黑箱引发怀疑", "ZK审计"], ["监管沟通口径", "向监管解释认证结果须一致；口径乱引质疑", "合规基线"]]]]],
+ ["d15", "监管报送与旅行规则", "Regulatory Reporting & Travel Rule", "成熟", "在保护隐私的同时满足AML/KYC报送与交易对手信息交换", [["KYC主数据", [["真实KYC底座", "ZK声明须锚定真实KYC；脱离KYC变造假护盾", "Sumsub"], ["客户尽调分级", "按风险分级尽调；统一高成本或低漏检", "Sumsub"], ["制裁名单筛查", "实时筛查OFAC/UN名单；漏筛即违法", "Chainalysis"], ["PEP识别", "政治公众人物需加强审查；漏识PEP放大风险", "WorldCheck"]]], ["旅行规则", [["交易对手信息交换", "超阈值需交换双方信息；不交换违反旅行规则", "Notabene"], ["阈值与辖区适配", "不同辖区阈值不同；硬编码错致漏报", "TRM"], ["VASP间安全通道", "信息交换需加密通道；明文交换泄露PII", "Notabene"], ["去匿名化边界", "隐私协议下仍需可合规解密；无后门难满足AML", "Travel Rule"]]], ["报送与留痕", [["可疑交易报告SAR", "可疑须报SAR；不报被认定共犯", "FinCEN"], ["报送数据质量", "报送字段错致监管误判；需校验", "TRM"], ["7年留存", "报送与筛查记录留7年；缺失则无法自证", "合规基线"], ["监管可审计视图", "监管需看“已尽责”证据；无视图被认定规避", "Chainalysis"]]]]],
+ ["d16", "交易隐私与混币", "Transactional Privacy & Mixing", "成长", "通过零知识或混币打破资金溯源图，与AML义务形成结构性张力", [["隐私机制", [["零知识交易", "用ZK隐藏收发与金额；实现错会泄露图结构", "Aztec"], ["混币不可追踪", "混币后追踪准确率应降至极低；弱混币仍可被聚类", "Railgun"], ["地址关联打破", "需打破入出地址聚类；关联未破等于假隐私", "Tornado替代"], ["金额混淆", "固定面额易聚类；需任意金额混淆", "Railgun"]]], ["AML张力", [["合规可解密后门", "监管要求可合规解密；纯不可解密难获牌照", "监管博弈"], ["制裁地址拦截", "混币前需拦截制裁地址；不拦截助长洗钱", "Chainalysis"], ["Railgun替代案例", "Tornado替代品47+个，追踪准确率89%→11%；须正视现实", "Elliptic"], ["隐私认证路径", "获隐私认证vs AML义务需平衡；单边皆不可行", "合规创新"]]], ["风险与边界", [["非法用途牵连", "隐私协议易被非法利用；需使用条款与筛查", "协议治理"], ["监管禁令风险", "部分辖区禁混币；需地理围栏", "合规基线"], ["可审计额度", "设合规额度上限；无限额放大洗钱", "Railgun"], ["链上可解释", "向监管解释隐私如何不助恶；说不清被禁", "Elliptic"]]]]],
+ ["d17", "AI驱动隐私合规自动化", "AI-Driven Privacy Compliance", "成长", "用AI做PII自动发现、策略推荐、风险研判与可解释合规决策", [["PII智能发现", [["AI自动分类", "AI比正则更准识别PII；漏识导致保护缺口", "BigID"], ["上下文语义识别", "同词不同义需语义判断；纯规则误判", "Securiti"], ["非结构化抽取", "合同/图片中PII需OCR+模型；漏抽致隐性泄露", "AWS Macie"], ["持续学习更新", "新PII类型需模型演进；静态模型过时", "BigID"], ["误报抑制", "误报淹没真风险；需置信度调优", "Securiti"]]], ["策略与决策", [["策略自动推荐", "AI推荐留存/加密策略；错推致过度或不足", "OneTrust"], ["可解释决策", "监管要逻辑链不可黑箱；不可解释难采信", "可解释AI"], ["风险研判融合", "融合暗网/舆情情报；单源误判", "TRM"], ["异常行为推理", "用图推理发现异常关联；无推理漏网络", "Elliptic"], ["人类在环确认", "高风险动作需人确认；全自动易误操作", "合规基线"]]], ["Agent化合规", [["多智能体协作", "多Agent分角色调查；单Agent难覆盖", "Agentic AI"], ["合规语言生成", "自动生成监管报送语言；错语致退回", "AI生成"], ["实时情报融合", "实时融合推特/暗网/Discord；滞后失机", "TRM"], ["双轨身份治理", "人类高隐私机器高可审计；混轨致矛盾", "Agentic设计"], ["审计轨迹自证", "AI动作须留可审计轨迹；无迹难定责", "合规基线"]]]]],
+ ["d18", "跨链隐私互操作", "Cross-Chain Privacy Interop", "成长", "让隐私身份与凭证在不同链/不同PETs间可验证迁移而不重复托管", [["身份跨链", [["凭证跨链验证", "同一VC需跨链可验；各链验法不同致失效", "Polygon ID"], ["DID跨链解析", "DID需跨链解析一致；解析分歧制造双身份", "Spruce"], ["跨链撤销同步", "撤销需跨链同步；一链撤另一链仍有效", "Privado ID"], ["桥接信任锚", "跨链桥需可信锚；弱锚被伪造凭证", "LayerZero"]]], ["凭证互操作", [["schema跨链映射", "属性语义跨链映射；错映致误判", "W3C VC"], ["证明格式统一", "证明格式需互通；私有格式锁死", "Polygon ID"], ["零知识跨链证明", "跨链证明仍须ZK；明文跨链泄隐私", "zkBridge"], ["声誉跨链携带", "声誉应可携带；锁链削弱主权", "Galxe"]]], ["安全与治理", [["跨链消息验证", "跨链消息须验证来源；伪造消息注入假身份", "LayerZero"], ["桥合约安全", "桥合约漏洞致资产/身份失窃；需审计", "Certora"], ["跨域合规对齐", "跨链涉多辖区合规；对齐错致违法", "合规基线"], ["故障隔离", "一链故障不波及他链；无隔离连锁失效", "跨链治理"]]]]]
+];
+const FRONTIER = [
+ ["ZK-KYC规模化落地", "live", "zkPass/Aztec已在交易与空投场景跑通布尔声明验证", "把“成年/非美/合格投资者”做成标准化声明市场"],
+ ["MPC机构托管", "live", "Fireblocks类MPC托管已成机构标配", "向生物特征分片与联合认证延展"],
+ ["SSI自主身份钱包", "live", "Polygon ID/Privado ID已用于空投与登录", "做跨生态声誉与凭证聚合钱包"],
+ ["PII治理平台", "live", "OneTrust/BigID服务大量企业", "向加密资产行业定制留存删除闭环"],
+ ["差分隐私统计发布", "live", "美国普查与苹果已规模应用", "为合规数据协作提供可证隐私预算"],
+ ["联邦学习跨机构", "pilot", "金融与医疗纵向联邦在试点", "做跨境/跨机构隐私建模平台"],
+ ["TEE隐私计算", "pilot", "Oasis/Secret已上线智能合约隐私", "向通用机密计算云演进"],
+ ["选择性披露VC", "live", "Sismo/Disco用于声誉证明", "做最小披露登录与准入"],
+ ["隐私增强中间件", "pilot", "Inpher/Duality服务企业密态计算", "封装ZK/MPC/HE的统一SDK降低门槛"],
+ ["AI自动PII发现", "pilot", "BigID/Securiti引入大模型分类", "做实时PII发现与策略自推荐"],
+ ["合规审计认证", "live", "ISO27701与ZK电路审计已可行", "建PETs专项认证服务"],
+ ["监管报送桥接", "live", "Notabene/TRM已做旅行规则", "把隐私协议接入合规解密通道"],
+ ["Agentic合规调查", "explore", "2026被视为Agent接管合规元年", "多智能体协作调查+可解释决策"],
+ ["跨链隐私互操作", "explore", "zkBridge等探索跨链ZK", "统一凭证跨链验证标准"],
+ ["零知识ML推断", "explore", "ZK证明模型推断正确性研究中", "隐私保护的AI推理服务"],
+ ["全同态加密实用化", "explore", "FHE仍受性能制约", "做硬件加速的密态计算"],
+ ["隐私数据空间", "pilot", "类数据空间/数据交易所兴起", "建合规可审计的隐私数据流通市场"],
+ ["可验证延迟与公平", "explore", "VDF用于公平排序研究", "抗MEV的隐私排序服务"],
+ ["去中心化撤销注册", "pilot", "Status List等标准化撤销", "做跨域统一撤销网络"],
+ ["隐私评分与认证", "explore", "对协议做隐私强度评级构想", "第三方隐私认证打分服务"],
+ ["合成数据训练集", "pilot", "Gretel等生成隐私合成数据", "为模型训练供合规数据"],
+ ["合规可解释AI决策", "explore", "监管呼吁可解释合规", "把AI决策转监管语言逻辑链"]
+];
+const MIDS = [
+ ["密码学研究中心", "研发ZK/MPC/HE原语与电路", "形式化验证、性能优化、侧信道防御"],
+ ["身份治理中心", "管理DID/VC签发、撤销与信任锚", "schema标准化、跨域映射、撤销网络"],
+ ["数据治理中心", "PII发现、分级、留存与删除", "全量扫描、血缘追踪、自动删除"],
+ ["密钥管理中心", "密钥生成、分片、轮换与销毁", "HSM、DKG、可验证销毁"],
+ ["隐私计算中心", "运行MPC/TEE/联邦训练", "密态计算、资源隔离、性能优化"],
+ ["合规审计中心", "审计实现、渗透与认证", "代码级审计、红队、持续监控"],
+ ["监管报送中心", "KYC底座、制裁筛查与报送", "旅行规则、SAR、7年留存"],
+ ["风险研判中心", "情报融合与异常推理", "图推理、暗网监测、AI研判"],
+ ["泄露响应中心", "监测、通报与处置", "异常检测、法定时限、证据保全"],
+ ["产品化中心", "把PETs封装为可调用服务", "SDK、运行时、安全默认"],
+ ["互操作中心", "跨链跨域凭证互通", "桥接、格式统一、信任锚"],
+ ["AI自动化中心", "PII发现与策略自推荐", "大模型分类、可解释决策、人类在环"],
+ ["法务与政策中心", "对齐GDPR/个保法/AML", "辖区适配、合规口径、监管沟通"],
+ ["安全运营中心", "监测平台整体安全态势", "SIEM、威胁情报、演练"],
+ ["客户成功中心", "助客户落地最小披露", "接入咨询、培训、验收"],
+ ["标准与生态中心", "参与标准与互认", "W3C/ISO对接、生态合作"],
+ ["数据主体服务中心", "处理查阅删除与授权", "主体权利响应、授权管理"],
+ ["财务管理中心", "隐私投入与合规成本度量", "ROI、预算、风险成本"]
+];
+const RULES = [
+ ["ZK声明必须锚定真实KYC", "脱离真实KYC的ZK声明会变成伪造身份的护盾，监管可据此认定平台协助规避AML并处罚；某平台用自签ZK绕过KYC被认定为共犯"],
+ ["最小化是默认而非选项", "默认宽松收集会在泄露时扩大伤害面，且直接违反个保法最小必要原则被罚；某App超范围采集被监管约谈并整改"],
+ ["密钥分片绝不在单点完整", "任一分片节点见全明文即方案失败，完整密钥短暂出现也会被快照窃取；DKG前先生成完整密钥被内鬼快照致资产失窃"],
+ ["撤销机制不可缺失", "无撤销时吊销凭证仍有效，黑名单失效让违规者继续通行；离职员工旧凭证未撤仍登入系统"],
+ ["旅行规则超阈值必交换", "不交换交易对手信息违反旅行规则，监管可认定未尽AML义务重罚；某VASP漏报被罚数千万"],
+ ["制裁名单须实时筛查", "名单更新后未即时收紧，违规地址仍可交易，构成制裁规避；OFAC更新后未瞬时收紧致受制裁地址成交"],
+ ["留存超期即合规负债", "数据留超过法定期限增加泄露面且无业务价值，被查即违规；某机构留营销数据超7年被审计追责"],
+ ["删除须物理且可验证", "仅逻辑删除可被恢复，口头已删审计不采信，泄露后仍担责；标删未物理删致备份中PII外泄"],
+ ["泄露须72小时通报", "超GDPR时限通报被加重处罚，且用户无法及时自保；某企业延迟通报被处高额罚款"],
+ ["AI决策须可解释", "黑箱合规决策监管不采信且难定责，误判无法追溯；自动拒贷无解释被投诉并监管介入"],
+ ["密态计算须防侧信道", "飞地侧信道未隔离可被攻破提取明文，等同于无保护；SGX侧信道攻击提取密钥"],
+ ["跨链凭证须跨链撤销", "一链撤销另一链仍有效制造双身份，被用作套利或规避；跨链身份在一链被封另一链仍活跃"],
+ ["第三方共享须最小化", "向第三方透传超需数据放大泄露面且违背最小化，连带担责；数据违规共享给合作方致连锁泄露"],
+ ["联邦梯度须加密", "明文梯度可被反推训练样本，成员推断攻击泄露隐私；明文梯度被反推出行业敏感样本"],
+ ["隐私协议须有合规解密", "纯不可解密难获牌照且被禁，需在隐私与AML间留合规后门；某混币协议因无合规路径被辖区封禁"],
+ ["备份中的PII须脱敏", "备份长期留存含PII会绕过删除与留存策略，成为隐形泄露源；备份库未脱敏被盗致历史PII全量泄露"]
+];
+const KPIS = [
+ ["隐私强度指标", "ZK证明安全性/噪声预算epsilon/分片阈值等衡量隐私保护强度"],
+ ["最小化合规指标", "采集字段与目的匹配度、默认关闭率、过度收集告警数"],
+ ["密钥安全指标", "密钥轮换及时率、分片完整性、HSM覆盖率、销毁可验证率"],
+ ["留存合规指标", "到期删除执行率、备份脱敏率、留存超期数"],
+ ["泄露响应指标", "平均检测时间MTTD、平均响应时间MTTR、72小时通报达成率"],
+ ["互操作指标", "跨链/跨域凭证验证成功率、schema映射准确率"],
+ ["合规报送指标", "旅行规则交换率、制裁筛查命中处置率、SAR及时率、7年留存完整率"],
+ ["AI自动化指标", "PII发现召回率/精确率、策略推荐采纳率、误报抑制比"]
+];
+const LIC_CN = [
+ ["数据安全法/个人信息保护法", "面向企业的PII治理、分类分级、留存删除服务", "不得违规收集，跨境需通过安全评估，加密存储默认开启"],
+ ["网络安全等级保护（等保2.0）", "隐私计算平台、KMS等做等保备案与测评", "核心系统须三级以上，日志留痕可追溯"],
+ ["密码法", "商用密码产品用于加密存储与签名", "须用合规密码算法，商用密码需检测认证"],
+ ["数据出境安全评估办法", "符合条件的企业数据出境合规通道", "敏感PII出境须申报，超阈值须安全评估"],
+ ["区块链信息服务管理规定", "联盟链存证、VC签发与验证（非代币）", "不得发行代币，不得开展加密资产交易"],
+ ["个人信息出境标准合同", "与境外接收方签SCC开展跨境", "须备案，限定目的与最小范围"],
+ ["金融科技/监管沙盒", "金融机构隐私计算试点", "仅限持牌机构在沙盒内，不得涉加密资产"],
+ ["征信业务管理规定", "经批准的征信机构开展信用相关", "未获批不得从事征信，隐私计算须授权"],
+ ["关键信息基础设施保护", "关基运营者强化数据保护", "达关基须更严审计与本地化"],
+ ["医疗数据合规（人类遗传资源等）", "脱敏后科研协作", "遗传资源出境严控，须审批"],
+ ["人工智能法/生成式AI合规", "AI做PII发现与策略推荐", "训练数据须合法，可解释与人工把关"],
+ ["反洗钱法（修订）", "金融机构客户尽调与报送", "非加密资产场景，须真实身份识别"],
+ ["企业数据合规审计资质", "第三方合规审计与认证服务", "审计机构须具备资质，结论可采信"],
+ ["隐私计算互联互通标准", "跨机构密态计算协作", "须符合国标与行业标准，防数据出域"],
+ ["APP违法违规收集整治", "移动端最小必要采集整改", "超范围采集将被下架与处罚"],
+ ["数据交易场所合规", "场内数据流通（脱敏/隐私计算）", "不得交易个人敏感原始数据"]
+];
+const LIC_INTL = [
+ ["EU MiCA（2025全面生效）", "CASPs在欧提供加密服务", "最低资本5-15万欧元、DORA韧性、旅行规则全量识别"],
+ ["FATF旅行规则/建议15-16", "VASP间交换交易对手信息", "超阈值须收发双方身份，违规被灰名单"],
+ ["US FinCEN BSA/MSB", "美国货币服务业务注册与SAR", "3000美元阈值、OFAC制裁筛查"],
+ ["US GENIUS Act（稳定币）", "联邦稳定币发行与储备", "须合规储备与审计，禁止规避KYC"],
+ ["Singapore MAS PS Act/DTSP", "新加坡数字支付与托管", "须持牌，DTSP覆盖海外服务"],
+ ["Hong Kong SFC VATP", "香港虚拟资产交易平台双牌照", "穿透式监管，散户保护要求"],
+ ["ISO 27701隐私信息管理体系", "隐私合规认证", "可作大客户准入前提"],
+ ["APEC CBPR跨境隐私", "亚太跨境隐私认证互认", "互认减重复认证"],
+ ["EU GDPR/数据保护法", "个保与遗忘权、72小时通报", "重罚，跨境须充分性认定"]
+];
+const OPPS = [
+ ["ZK-KYC声明市场", "缺少标准化的“成年/非美/合格投资者”声明目录", "做声明schema市场+验证SDK"],
+ ["隐私增强中间件", "企业难直接调用ZK/MPC/HE", "统一SDK与运行时降低门槛"],
+ ["AI自动PII治理", "PII发现仍靠人工规则", "大模型+语义抽取做实时发现与策略"],
+ ["跨链隐私互操作", "凭证难跨链验证与撤销", "建跨链验证与统一撤销网络"],
+ ["合规可解密通道", "隐私协议与AML难兼顾", "在ZK外包合规解密后门给监管"],
+ ["PII治理行业版", "通用治理产品不懂加密资产", "做加密资产行业定制留存删除"],
+ ["隐私认证服务", "PETs缺专项认证", "建ZK电路与实现专项审计认证"],
+ ["Agentic合规调查", "合规调查仍人工", "多智能体协作+可解释决策自动化"],
+ ["数据主体权利中心", "用户难管理授权与删除", "做授权管理与遗忘权自助"],
+ ["隐私评分与认证", "市场缺隐私强度评级", "第三方隐私认证打分服务"],
+ ["合成数据供给", "训练缺合规数据", "生成隐私合成数据集供模型"],
+ ["监管报送桥接", "隐私协议难接旅行规则", "接入Notabene/TRM类合规通道"]
+];
+
+/* ================= 渲染层 ================= */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const $ = s => document.querySelector(s);
+
+function countDomain(d){let n=0;d[5].forEach(c=>n+=c[1].length);return n;}
+let TOTAL_FN=0, TOTAL_CL=0;
+DOMAINS.forEach(d=>{TOTAL_FN+=countDomain(d);TOTAL_CL+=d[5].length;});
+const _fc=document.getElementById("fcount"); if(_fc) _fc.textContent=TOTAL_FN;
+
+const nav=$("#nav");
+nav.innerHTML = SECTIONS.map(([id,t])=>`<a href="#${id}" data-t="${id}">${esc(t)}</a>`).join("");
+
+$("#stats").innerHTML = [
+ [DOMAINS.length,"功能域"],
+ [TOTAL_FN,"功能点"],
+ [TOTAL_CL,"功能簇"],
+ [FRONTIER.length,"前沿方向"],
+ [MIDS.length,"中台中心"],
+ [PLAYERS.length,"细分赛道"]
+].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+$("#t-players tbody").innerHTML = PLAYERS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("");
+
+$("#domains").innerHTML = DOMAINS.map(d=>{
+  const [id,cn,en,mat,desc,clusters]=d;
+  const n=countDomain(d);
+  const badge = mat==="前沿" ? "pill v" : (mat==="成长" ? "pill a" : (mat==="矩阵" ? "pill b" : "pill t"));
+  return `<div class="card" data-dom="${id}">
+    <div class="card-h"><b>${esc(cn)}</b><em>${esc(en)}</em>
+      <span class="${badge}">${esc(mat)}</span>
+      <span class="sp">${clusters.length} 簇 · ${n} 点</span></div>
+    <div class="card-d">${esc(desc)}</div>
+    <div class="card-b">${clusters.map(c=>`
+      <div class="cluster"><h4>${esc(c[0])}</h4>
+        <table><thead><tr><th>功能点</th><th>关键规则 / 说明</th><th>对标产品</th></tr></thead>
+        <tbody>${c[1].map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody>
+        </table></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+const LBL={live:"已落地",pilot:"试点中",explore:"探索期"};
+$("#frontier").innerHTML = FRONTIER.map(f=>
+ `<div class="f ${f[1]}"><h4><span>${esc(f[0])}</span><s>${LBL[f[1]]}</s></h4>
+   <p>${esc(f[2])}</p>
+   <div class="opp"><b>产品化机会 · </b>${esc(f[3])}</div></div>`).join("");
+
+$("#t-mid tbody").innerHTML = MIDS.map(r=>
+ `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+$("#t-rules").innerHTML = `<thead><tr><th>规则</th><th>为什么致命</th></tr></thead><tbody>` +
+ RULES.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("") + "</tbody>";
+
+$("#kpis").innerHTML = KPIS.map(k=>
+ `<div class="card"><div class="card-h"><b>${esc(k[0])}</b></div>
+   <div class="card-d" style="padding-bottom:16px">${esc(k[1])}</div></div>`).join("");
+
+const licTable = arr => `<thead><tr><th>资质 / 法规</th><th>可开展业务</th><th>产品约束</th></tr></thead><tbody>`+
+ arr.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+$("#t-lic-cn").innerHTML = licTable(LIC_CN);
+$("#t-lic-intl").innerHTML = licTable(LIC_INTL);
+
+$("#t-opps").innerHTML = `<thead><tr><th>机会点</th><th>缺口</th><th>切入点建议</th></tr></thead><tbody>`+
+ OPPS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")+"</tbody>";
+
+const q=$("#q");
+let emptyEl=null;
+q.addEventListener("input",()=>{
+  const v=q.value.trim().toLowerCase();
+  const cards=[...document.querySelectorAll("#domains .card")];
+  let vis=0;
+  cards.forEach(card=>{
+    const clusters=[...card.querySelectorAll(".cluster")];
+    clusters.forEach(cl=>{
+      const rows=[...cl.querySelectorAll("tbody tr")];
+      let rv=0;
+      rows.forEach(tr=>{
+        const hit=!v||tr.textContent.toLowerCase().includes(v);
+        tr.classList.toggle("hidden",!hit);
+        if(hit)rv++;
+      });
+      cl.classList.toggle("hidden",rv===0);
+    });
+    const any=clusters.some(cl=>!cl.classList.contains("hidden"));
+    card.classList.toggle("hidden",!any);
+    if(any)vis++;
+  });
+  if(v&&vis===0){
+    if(!emptyEl){emptyEl=document.createElement("div");emptyEl.className="nores";$("#domains").appendChild(emptyEl);}
+    emptyEl.textContent=`没有匹配「${q.value}」的功能点。试试：ZK-KYC / 零知识证明KYC / 隐私增强技术PETs / 数据可用不可见 / 选择性披露 / 自主主权身份SSI / MPC密钥分片 / 差分隐私 / 联邦学习 / 可信执行环境TEE / GDPR个保法合规 / 数据最小化`;
+    emptyEl.classList.remove("hidden");
+  }else if(emptyEl){emptyEl.classList.add("hidden");}
+});
+
+const links=[...nav.querySelectorAll("a")];
+if(typeof IntersectionObserver==="function"){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle("on",a.dataset.t===e.target.id));
+      }
+    });
+  },{rootMargin:"-10% 0px -80% 0px"});
+  SECTIONS.forEach(([id])=>{const el=document.getElementById(id);if(el)io.observe(el);});
+}else{
+  links[0]&&links[0].classList.add("on");
+}
+
+</script>
+</body>
+</html>
